@@ -40,6 +40,15 @@ NS_ASSUME_NONNULL_BEGIN
 - (instancetype)initWithConfig:(OBADataSourceConfig*)config;
 
 /**
+ Builds a URL that can communicate with this data source from the specified path and params.
+
+ @param path The URL path
+ @param params Optional parameters
+ @return A fully-qualified URL
+ */
+- (NSURL*)constructURLFromPath:(NSString*)path params:(nullable NSDictionary*)params;
+
+/**
  Creates an URL request based upon the supplied path and HTTP method, configuring other parameters, like a GZIP header.
 
  @param path The URL path to load. The full URL will be constructed from the config object passed in at init-time.

@@ -21,7 +21,6 @@
 #import <OBAKit/OBAMacros.h>
 #import <OBAKit/OBASphericalGeometryLibrary.h>
 #import <OBAKit/OBASearchResult.h>
-#import <OBAKit/OBARegionalAlert.h>
 
 static const CLLocationAccuracy kSearchRadius = 400;
 static const CLLocationAccuracy kBigSearchRadius = 15000;

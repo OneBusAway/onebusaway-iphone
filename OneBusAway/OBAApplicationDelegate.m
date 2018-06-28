@@ -143,7 +143,6 @@ static NSString * const OBALastRegionRefreshDateUserDefaultsKey = @"OBALastRegio
 
     [self.application.locationManager startUpdatingLocation];
     [self.application startReachabilityNotifier];
-    [self.application.regionalAlertsManager update];
 
     [self.applicationUI applicationDidBecomeActive];
 
@@ -176,8 +175,6 @@ static NSString * const OBALastRegionRefreshDateUserDefaultsKey = @"OBALastRegio
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(invalidRegionNotification:) name:OBARegionServerInvalidNotification object:nil];
 
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(recentStopsChanged:) name:OBAMostRecentStopsChangedNotification object:nil];
-
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(highPriorityRegionalAlertReceived:) name:OBARegionalAlertsManager.highPriorityRegionalAlertReceivedNotification object:nil];
 }
 
 - (void)invalidRegionNotification:(NSNotification*)note {
@@ -188,20 +185,6 @@ static NSString * const OBALastRegionRefreshDateUserDefaultsKey = @"OBALastRegio
 
 - (void)recentStopsChanged:(NSNotification*)note {
     [self updateShortcutItemsForRecentStops];
-}
-
-- (void)highPriorityRegionalAlertReceived:(NSNotification*)note {
-    OBARegionalAlert *alert = note.userInfo[OBARegionalAlertsManager.highPriorityRegionalAlertUserInfoKey];
-
-    UIAlertController *alertController = [UIAlertController alertControllerWithTitle:alert.title message:alert.summary preferredStyle:UIAlertControllerStyleAlert];
-
-    [alertController addAction:[UIAlertAction actionWithTitle:OBAStrings.dismiss style:UIAlertActionStyleCancel handler:nil]];
-    [alertController addAction:[UIAlertAction actionWithTitle:OBAStrings.readMore style:UIAlertActionStyleDefault handler:^(UIAlertAction *action) {
-        OBANavigationTarget *regionalAlertTarget = [OBANavigationTarget navigationTargetForRegionalAlert:alert];
-        [self navigateToTarget:regionalAlertTarget];
-    }]];
-
-    [self.topViewController presentViewController:alertController animated:YES completion:nil];
 }
 
 #pragma mark - OBANavigator

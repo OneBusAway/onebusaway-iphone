@@ -68,12 +68,16 @@
 
 #pragma mark - Public Methods
 
+- (NSURL*)constructURLFromPath:(NSString*)path params:(nullable NSDictionary*)params {
+    return [self.config constructURL:path withArgs:params];
+}
+
 - (OBAURLRequest*)buildGETRequestWithPath:(NSString*)path queryParameters:(nullable NSDictionary*)queryParameters {
     return [self buildRequestWithPath:path HTTPMethod:@"GET" queryParameters:queryParameters formBody:nil];
 }
 
 - (OBAURLRequest*)buildRequestWithPath:(NSString*)path HTTPMethod:(NSString*)httpMethod queryParameters:(nullable NSDictionary*)queryParameters formBody:(nullable NSDictionary*)formBody {
-    return [self buildRequestWithURL:[self.config constructURL:path withArgs:queryParameters] HTTPMethod:httpMethod formBody:formBody];
+    return [self buildRequestWithURL:[self constructURLFromPath:path params:queryParameters] HTTPMethod:httpMethod formBody:formBody];
 }
 
 - (OBAURLRequest*)buildRequestWithURL:(NSURL*)URL HTTPMethod:(NSString*)httpMethod formBody:(nullable NSDictionary*)formBody {

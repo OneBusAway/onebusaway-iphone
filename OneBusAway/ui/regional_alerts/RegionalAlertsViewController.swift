@@ -10,100 +10,109 @@ import Foundation
 import OBAKit
 import SafariServices
 
+@objc(OBARegionalAlertsViewController)
 class RegionalAlertsViewController: OBAStaticTableViewController {
 
-    var focusedAlert: OBARegionalAlert?
-    var regionalAlertsManager: RegionalAlertsManager
-    let refreshControl = UIRefreshControl.init()
+    private var agencyAlerts: [AgencyAlert] = []
 
-    @objc convenience init(regionalAlertsManager: RegionalAlertsManager) {
-        self.init(regionalAlertsManager: regionalAlertsManager, focusedAlert: nil)
-    }
+    private lazy var refreshControl: UIRefreshControl = {
+        let refresh = UIRefreshControl.init()
+        refresh.addTarget(self, action: #selector(reloadServerData), for: .valueChanged)
+        return refresh
+    }()
 
-    @objc init(regionalAlertsManager: RegionalAlertsManager, focusedAlert: OBARegionalAlert?) {
-        self.regionalAlertsManager = regionalAlertsManager
-        self.focusedAlert = focusedAlert
+    private let application: OBAApplication
+
+    private let language = "en" // abxoxo - todo FIXME
+
+    @objc init(application: OBAApplication) {
+        self.application = application
 
         super.init(nibName: nil, bundle: nil)
 
-        self.hidesBottomBarWhenPushed = true
+        hidesBottomBarWhenPushed = true
         let spacer = UIBarButtonItem.init(barButtonSystemItem: .flexibleSpace, target: nil, action: nil)
         let markReadButton = UIBarButtonItem.init(title:  NSLocalizedString("regional_alerts_controller.mark_all_as_read", comment: "Mark All as Read toolbar button title"), style: .plain, target: self, action: #selector(markAllAsRead))
-        self.toolbarItems = [spacer, markReadButton]
+        toolbarItems = [spacer, markReadButton]
     }
 
-    required init?(coder aDecoder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
-    }
+    required init?(coder aDecoder: NSCoder) { fatalError("init(coder:) has not been implemented") }
 
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        self.refreshControl.addTarget(self, action: #selector(reloadServerData), for: .valueChanged)
-        self.tableView.addSubview(self.refreshControl)
+        tableView.addSubview(refreshControl)
 
-        self.emptyDataSetDescription = NSLocalizedString("regional_alerts_controller.empty_description", comment: "Empty data set description for regional alerts controller")
+        emptyDataSetDescription = NSLocalizedString("regional_alerts_controller.empty_description", comment: "Empty data set description for regional alerts controller")
 
-        if let regionName = self.regionalAlertsManager.region?.regionName {
+        if let regionName = application.modelDao.currentRegion?.regionName {
             let titleFormat = NSLocalizedString("regional_alerts_controller.title_format", comment: "Alerts for <REGION NAME>")
-            self.title = String.init(format: titleFormat, regionName)
+            title = String.init(format: titleFormat, regionName)
         }
 
-        self.reloadData()
-
-        NotificationCenter.default.addObserver(self, selector: #selector(reloadData), name: RegionalAlertsManager.regionalAlertsUpdatedNotification, object: nil)
+        reloadServerData()
     }
 
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        self.navigationController?.setToolbarHidden(false, animated: true)
-    }
-
-    override func viewDidAppear(_ animated: Bool) {
-        super.viewDidAppear(animated)
-
-        if let focusedAlert = self.focusedAlert {
-            self.focusedAlert = nil
-            self.presentAlert(focusedAlert)
-        }
+        navigationController?.setToolbarHidden(false, animated: true)
     }
 
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
-        self.navigationController?.setToolbarHidden(true, animated: true)
+        navigationController?.setToolbarHidden(true, animated: true)
     }
 
     // MARK: - Actions
 
-    private func presentAlert(_ alert: OBARegionalAlert) {
-        let safari = SFSafariViewController.init(url: alert.url)
-        self.navigationController?.pushViewController(safari, animated: true)
-        self.regionalAlertsManager.markRead(alert)
+    private func presentAlert(_ alert: AgencyAlert) {
+
+        if let url = alert.url(language: language) {
+            let safari = SFSafariViewController.init(url: url)
+            navigationController?.pushViewController(safari, animated: true)
+            // abxoxo - todo mark as read.
+        }
+        else {
+            let alert = UIAlertController.init(title: alert.title(language: language), message: alert.body(language: language), preferredStyle: .alert)
+            alert.addAction(UIAlertAction.init(title: OBAStrings.dismiss, style: .default, handler: nil))
+            present(alert, animated: true, completion: nil)
+        }
+
         self.reloadData()
     }
 
     @objc private func markAllAsRead() {
-        self.regionalAlertsManager.markAllAsRead()
-        self.reloadData()
+        // abxoxo - todo
+//        self.regionalAlertsManager.markAllAsRead()
+//        self.reloadData()
     }
 
     // MARK: - Data Loading
 
     @objc private func reloadServerData() {
-        self.regionalAlertsManager.update()
+        application.modelService.requestRegionalAlerts().then { alerts -> Void in
+            self.agencyAlerts = alerts
+            self.reloadData()
+        }.catch { error in
+            // abxoxo - todo
+            print("error \(error)")
+        }.always {
+            // abxoxo - todo
+            print("done!")
+        }
     }
 
     @objc private func reloadData() {
-        let rows = self.regionalAlertsManager.regionalAlerts.map { alert -> OBAMessageRow in
-            let tableRow = OBAMessageRow.init(action: { (row) in
-                self.presentAlert(alert)
-            })
+        let rows = agencyAlerts.map { alert -> OBAMessageRow in
+            let tableRow = OBAMessageRow.init { _ in self.presentAlert(alert) }
             tableRow.accessoryType = .disclosureIndicator
-            tableRow.date = alert.publishedAt
-            tableRow.sender = alert.feedName
-            tableRow.subject = alert.title
-            tableRow.unread = alert.unread
-            tableRow.highPriority = alert.priority == .high
+            tableRow.sender = alert.agencyID
+            if let subject = alert.title(language: language) {
+                tableRow.subject = subject
+            }
+
+            // abxoxo todo!
+//            tableRow.unread = alert.unread
 
             return tableRow
         }

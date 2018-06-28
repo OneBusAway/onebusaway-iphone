@@ -81,51 +81,6 @@ import Mantle
     }
 }
 
-// MARK: - Regional Alerts
-@objc extension PromisedModelService {
-    /// Retrieves a list of alert messages for the specified `region` since `date`. The completion block's responseData is [OBARegionalAlert]
-    ///
-    /// - Parameters:
-    ///   - region: The region from which alerts are desired.
-    ///   - date: The last date that alerts were requested. Specify nil for all time.
-    /// - Returns: A promise wrapper that resolves to [OBARegionalAlert]
-    @objc func requestAlerts(for region: OBARegionV2, since date: Date?) -> PromiseWrapper {
-        let request = buildURLRequestForRegionalAlerts(region: region, since: date)
-        let wrapper = PromiseWrapper.init(request: request)
-
-        wrapper.promise = wrapper.promise.then { networkResponse -> NetworkResponse in
-            let alerts = try self.decodeRegionalAlerts(json: networkResponse.object as! [Any])
-            return NetworkResponse.init(object: alerts, URLResponse: networkResponse.URLResponse, urlRequest: networkResponse.urlRequest)
-        }
-
-        return wrapper
-    }
-
-    @nonobjc private func buildURLRequestForRegionalAlerts(region: OBARegionV2, since date: Date?) -> OBAURLRequest {
-        var params = ["since": 0]
-
-        if let date = date {
-            params["since"] = Int(date.timeIntervalSince1970)
-        }
-
-        let path = "/regions/\(region.identifier)/alert_feed_items"
-
-        return self.obacoJsonDataSource.buildGETRequest(withPath: path, queryParameters: params)
-    }
-
-    @nonobjc private func decodeRegionalAlerts(json: [Any]) throws -> [OBARegionalAlert] {
-        let models: [OBARegionalAlert] = try MTLJSONAdapter.models(of: OBARegionalAlert.self, fromJSONArray: json) as! [OBARegionalAlert]
-
-        // Mark all alerts older than one day as 'read' automatically.
-        return models.map {
-            if let published = $0.publishedAt {
-                $0.unread = abs(published.timeIntervalSinceNow) < 86400 // Number of seconds in 1 day.
-            }
-            return $0
-        }
-    }
-}
-
 // MARK: - Weather
 @objc extension PromisedModelService {
 
@@ -285,17 +240,18 @@ extension PromisedModelService {
     public func requestRegionalAlerts() -> Promise<[AgencyAlert]> {
         return requestAgenciesWithCoverage().promise.then { networkResponse -> Promise<[AgencyAlert]> in
             let agencies = networkResponse.object as! [OBAAgencyWithCoverageV2]
-            let promises = agencies.map { agency -> Promise<[TransitRealtime_FeedEntity]> in
-                let request = self.buildRequest(agency: agency)
+            var requests = agencies.map { self.buildRequest(agency: $0) }
+
+            let obacoRequest = self.buildObacoRequest(region: self.modelDao.currentRegion!)
+            requests.append(obacoRequest)
+
+            let promises = requests.map { request -> Promise<[TransitRealtime_FeedEntity]> in
                 return CancellablePromise.go(request: request).then { networkResponse -> Promise<[TransitRealtime_FeedEntity]> in
                     let data = networkResponse.object as! Data
                     let message = try TransitRealtime_FeedMessage(serializedData: data)
                     return Promise(value: message.entity)
                 }
             }
-
-            // abxoxo - todo: add promise for loading GTFS-RT compliant
-            // alert feed from obaco!
 
             return when(fulfilled: promises).then { nestedEntities in
                 let allAlerts: [AgencyAlert] = nestedEntities.reduce(into: [], { (acc, entities) in
@@ -307,6 +263,12 @@ extension PromisedModelService {
                 return Promise.init(value: allAlerts)
             }
         }
+    }
+
+    private func buildObacoRequest(region: OBARegionV2) -> OBAURLRequest {
+        let url = obacoJsonDataSource.constructURL(fromPath: "/api/v1/regions/\(region.identifier)/alerts.pb", params: nil)
+        let obacoRequest = OBAURLRequest.init(url: url, cachePolicy: .useProtocolCachePolicy, timeoutInterval: 10)
+        return obacoRequest
     }
 
     private func buildRequest(agency: OBAAgencyWithCoverageV2) -> OBAURLRequest {

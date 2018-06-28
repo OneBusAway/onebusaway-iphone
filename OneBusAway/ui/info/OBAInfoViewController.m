@@ -115,10 +115,7 @@ static NSString * const kPrivacyURLString = @"http://onebusaway.org/privacy/";
         [sections addObject:[self debugTableSection]];
     }
 
-    // Only show the alerts section if this region supports it.
-    if ([OBAApplication sharedApplication].regionalAlertsManager.regionalAlerts.count > 0) {
-        [sections addObject:[self alertsTableSection]];
-    }
+    [sections addObject:[self alertsTableSection]];
 
     [sections addObjectsFromArray:@[[self settingsTableSection],
                                     [self contactTableSection],
@@ -131,10 +128,13 @@ static NSString * const kPrivacyURLString = @"http://onebusaway.org/privacy/";
 - (OBATableSection*)alertsTableSection {
     NSString *rowTitle = [NSString stringWithFormat:NSLocalizedString(@"info_controller.updates_alerts_row_format", @"Title for Updates & Alerts row. e.g. Alerts for <Region Name>"), self.modelDAO.currentRegion.regionName];
     OBATableRow *row = [[OBATableRow alloc] initWithTitle:rowTitle action:^(OBABaseRow *r2) {
-        RegionalAlertsViewController *alertsController = [[RegionalAlertsViewController alloc] initWithRegionalAlertsManager:[OBAApplication sharedApplication].regionalAlertsManager];
+        OBARegionalAlertsViewController *alertsController = [[OBARegionalAlertsViewController alloc] initWithApplication:[OBAApplication sharedApplication]];
         [self.navigationController pushViewController:alertsController animated:YES];
     }];
-    NSUInteger unreadCount = [OBAApplication sharedApplication].regionalAlertsManager.unreadCount;
+
+    // abxoxo - todo fixme!
+    NSUInteger unreadCount = 0;
+//    NSUInteger unreadCount = [OBAApplication sharedApplication].regionalAlertsManager.unreadCount;
 
     if (unreadCount > 0) {
         row.subtitle = [NSString stringWithFormat:@"%@", @(unreadCount)];
@@ -311,10 +311,7 @@ static NSString * const kPrivacyURLString = @"http://onebusaway.org/privacy/";
 }
 
 - (void)setNavigationTarget:(OBANavigationTarget *)navigationTarget {
-    if (navigationTarget.searchType == OBASearchTypeRegionalAlert) {
-        RegionalAlertsViewController *alertsController = [[RegionalAlertsViewController alloc] initWithRegionalAlertsManager:[OBAApplication sharedApplication].regionalAlertsManager focusedAlert:navigationTarget.searchArgument];
-        [self.navigationController pushViewController:alertsController animated:YES];
-    }
+    // abxoxo - ???? - can i just delete this?
 }
 
 #pragma mark - Private
