@@ -120,7 +120,6 @@ FOUNDATION_EXPORT const unsigned char OBAKitVersionString[];
 #import <OBAKit/OBAStopSearchNavigationTarget.h>
 
 // Categories
-#import <OBAKit/CLLocationManager+AnyPromise.h>
 #import <OBAKit/NSArray+OBAAdditions.h>
 #import <OBAKit/NSCoder+OBAAdditions.h>
 #import <OBAKit/NSDate+DateTools.h>
@@ -136,6 +135,8 @@ FOUNDATION_EXPORT const unsigned char OBAKitVersionString[];
 #import <OBAKit/FBShimmering.h>
 #import <OBAKit/FBShimmeringLayer.h>
 #import <OBAKit/FBShimmeringView.h>
+#import <OBAKit/CLLocationManager+AnyPromise.h>
+#import <OBAKit/MKMapSnapshotter+AnyPromise.h>
 
 // MVVM
 #import <OBAKit/OBABaseRow.h>
