@@ -313,4 +313,13 @@ static UIFont *_italicFootnoteFont = nil;
     return self.defaultEdgeInsets;
 }
 
++ (CGFloat)preferredPopoverWidth {
+    if (UIScreen.mainScreen.traitCollection.horizontalSizeClass == UIUserInterfaceSizeClassRegular) {
+        return 320.f;
+    }
+    else {
+        return CGFLOAT_MAX;
+    }
+}
+
 @end

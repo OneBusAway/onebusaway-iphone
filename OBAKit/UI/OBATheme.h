@@ -268,4 +268,6 @@
  */
 @property(class,nonatomic,assign,readonly) UIEdgeInsets hoverBarImageInsets;
 
+@property(class,nonatomic,assign,readonly) CGFloat preferredPopoverWidth;
+
 @end
