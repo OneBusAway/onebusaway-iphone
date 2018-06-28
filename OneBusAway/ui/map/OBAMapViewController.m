@@ -478,7 +478,7 @@ static const double kStopsInRegionRefreshDelayOnDrag = 0.1;
     stopController.embedDelegate = self;
     stopController.inEmbedMode = YES;
 
-    [self oba_presentPopoverViewController:stopController fromView:view popoverSize:CGSizeMake(320, 225) hideNavigationBar:NO];
+    [self oba_presentPopoverViewController:stopController fromView:view popoverSize:CGSizeMake(OBATheme.preferredPopoverWidth, 225) hideNavigationBar:NO];
 }
 
 - (void)mapView:(MKMapView *)mapView annotationView:(MKAnnotationView *)view calloutAccessoryControlTapped:(UIControl *)control {
