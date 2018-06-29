@@ -414,3 +414,10 @@ extension MapTableViewController: MapSearchDelegate, UISearchControllerDelegate,
         OBAAnalytics.reportEvent(withCategory: OBAAnalyticsCategoryUIAction, action: "button_press", label: "Search box selected", value: nil)
     }
 }
+
+// MARK: - Miscellaneous Public Methods
+extension MapTableViewController {
+    public func recenterMap() {
+        mapController.recenterMap()
+    }
+}
