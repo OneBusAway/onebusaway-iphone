@@ -146,4 +146,21 @@ extension DrawerApplicationUI: UITabBarControllerDelegate {
     func tabBarController(_ tabBarController: UITabBarController, didSelect viewController: UIViewController) {
         application.userDefaults.set(tabBarController.selectedIndex, forKey: DrawerApplicationUI.kOBASelectedTabIndexDefaultsKey)
     }
+
+    func tabBarController(_ tabBarController: UITabBarController, shouldSelect viewController: UIViewController) -> Bool {
+        guard
+            let selectedController = tabBarController.selectedViewController,
+            let controllers = tabBarController.viewControllers else {
+                return true
+        }
+
+        let oldIndex = controllers.index(of: selectedController)
+        let newIndex = controllers.index(of: viewController)
+
+        if newIndex == 0 && oldIndex == 0 {
+            mapController.recenterMap()
+        }
+
+        return true
+    }
 }
