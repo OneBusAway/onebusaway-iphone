@@ -35,7 +35,15 @@ class MapTableViewController: UIViewController {
 
     var stops: [OBAStopV2]? {
         didSet {
-            adapter.performUpdates(animated: false)
+            if oldValue == nil && stops == [] {
+                // nop.
+            }
+            else if oldValue == stops {
+                // nop.
+            }
+            else {
+                adapter.performUpdates(animated: false)
+            }
         }
     }
 
@@ -51,14 +59,14 @@ class MapTableViewController: UIViewController {
     // MARK: - Service Alerts
     fileprivate var agencyAlerts: [AgencyAlert] = [] {
         didSet {
-            adapter.performUpdates(animated: true)
+            adapter.performUpdates(animated: false)
         }
     }
 
     // MARK: - Weather
     var weatherForecast: WeatherForecast? {
         didSet {
-            self.adapter.performUpdates(animated: true)
+            self.adapter.performUpdates(animated: false)
         }
     }
 
@@ -265,21 +273,27 @@ extension MapTableViewController: ListAdapterDataSource {
 
         // Nearby Stops
 
-        if stops == nil {
-            sections.append(LoadingSection())
-        }
-        else {
+        if
+            let stops = stops,
+            stops.count > 0
+        {
             sections.append(SectionHeader(text: NSLocalizedString("msg_nearby_stops", comment: "Nearby Stops text")))
 
-            let stopViewModels: [StopViewModel] = stops!.map {
+            let stopViewModels: [StopViewModel] = Array(stops.prefix(3)).map {
                 StopViewModel.init(name: $0.name, stopID: $0.stopId, direction: $0.direction, routeNames: $0.routeNamesAsString())
             }
+
             sections.append(contentsOf: stopViewModels)
+
+            // Appending this on iOS 10 when there aren't any stop view models
+            // was crashing the app. Therefore, we only append the Sweep when
+            // there are stop view models to include, too.
+            sections.append(Sweep(collectionViewBounds: view.bounds))
         }
-
-        // Bottom Sweep
-
-        sections.append(Sweep(collectionViewBounds: view.bounds))
+        else {
+            // this is crashing the app on iOS 10
+//            sections.append(LoadingSection())
+        }
 
         return sections
     }
@@ -303,6 +317,11 @@ extension MapTableViewController: ListAdapterDataSource {
         case is WeatherForecast: return ForecastSectionController()
         default:
             fatalError()
+
+        // handy utilities for debugging:
+        //        default:
+        //            return LabelSectionController()
+        //        case is String: return LabelSectionController()
         }
     }
 
