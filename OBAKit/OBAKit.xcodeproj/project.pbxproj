@@ -265,10 +265,11 @@
 		93B282C91DC68892005013D7 /* NSURLQueryItem+OBAAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = 93B282C71DC68892005013D7 /* NSURLQueryItem+OBAAdditions.m */; };
 		93BC49F21FB8D68E008B710D /* CocoaLumberjackSwift.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 93BC49F01FB8D68E008B710D /* CocoaLumberjackSwift.framework */; };
 		93BC49F31FB8D68E008B710D /* CocoaLumberjack.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 93BC49F11FB8D68E008B710D /* CocoaLumberjack.framework */; };
-		93BC49F81FB8D697008B710D /* PMKMapKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 93BC49F51FB8D697008B710D /* PMKMapKit.framework */; };
 		93BC49FB1FB8D6A3008B710D /* PromiseKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 93BC49FA1FB8D6A3008B710D /* PromiseKit.framework */; };
 		93BC49FD1FB8D6F4008B710D /* Mantle.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 93BC49FC1FB8D6F4008B710D /* Mantle.framework */; };
 		93D5F3671FF1900700800132 /* OBAURLRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 93D5F3661FF1900700800132 /* OBAURLRequest.swift */; };
+		93DCEF6E20E54EAF0004E087 /* MKMapSnapshotter+AnyPromise.h in Headers */ = {isa = PBXBuildFile; fileRef = 93DCEF6C20E54EAF0004E087 /* MKMapSnapshotter+AnyPromise.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		93DCEF6F20E54EAF0004E087 /* MKMapSnapshotter+AnyPromise.m in Sources */ = {isa = PBXBuildFile; fileRef = 93DCEF6D20E54EAF0004E087 /* MKMapSnapshotter+AnyPromise.m */; };
 		93E592931F8CA6260079A2D8 /* OBATableRow.h in Headers */ = {isa = PBXBuildFile; fileRef = 93E592911F8CA6260079A2D8 /* OBATableRow.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		93E592941F8CA6260079A2D8 /* OBATableRow.m in Sources */ = {isa = PBXBuildFile; fileRef = 93E592921F8CA6260079A2D8 /* OBATableRow.m */; };
 		93E592971F8CA6870079A2D8 /* OBATableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 93E592951F8CA6870079A2D8 /* OBATableViewCell.m */; };
@@ -586,6 +587,8 @@
 		93BC49FA1FB8D6A3008B710D /* PromiseKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = PromiseKit.framework; path = ../Carthage/Build/iOS/PromiseKit.framework; sourceTree = "<group>"; };
 		93BC49FC1FB8D6F4008B710D /* Mantle.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Mantle.framework; path = ../Carthage/Build/iOS/Mantle.framework; sourceTree = "<group>"; };
 		93D5F3661FF1900700800132 /* OBAURLRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OBAURLRequest.swift; sourceTree = "<group>"; };
+		93DCEF6C20E54EAF0004E087 /* MKMapSnapshotter+AnyPromise.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "MKMapSnapshotter+AnyPromise.h"; sourceTree = "<group>"; };
+		93DCEF6D20E54EAF0004E087 /* MKMapSnapshotter+AnyPromise.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "MKMapSnapshotter+AnyPromise.m"; sourceTree = "<group>"; };
 		93E592911F8CA6260079A2D8 /* OBATableRow.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OBATableRow.h; sourceTree = "<group>"; };
 		93E592921F8CA6260079A2D8 /* OBATableRow.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OBATableRow.m; sourceTree = "<group>"; };
 		93E592951F8CA6870079A2D8 /* OBATableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OBATableViewCell.m; sourceTree = "<group>"; };
@@ -640,7 +643,6 @@
 				93BC49FB1FB8D6A3008B710D /* PromiseKit.framework in Frameworks */,
 				93BC49F21FB8D68E008B710D /* CocoaLumberjackSwift.framework in Frameworks */,
 				93BC49F31FB8D68E008B710D /* CocoaLumberjack.framework in Frameworks */,
-				93BC49F81FB8D697008B710D /* PMKMapKit.framework in Frameworks */,
 				93302B4E20CB595E003699C6 /* SwiftProtobuf.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -780,6 +782,8 @@
 				93F35C402058FE9C00F46F80 /* UIView+OBAAdditions.m */,
 				930EFFE320C87F0C00A2AE1F /* CLLocationManager+AnyPromise.h */,
 				930EFFE420C87F0C00A2AE1F /* CLLocationManager+AnyPromise.m */,
+				93DCEF6C20E54EAF0004E087 /* MKMapSnapshotter+AnyPromise.h */,
+				93DCEF6D20E54EAF0004E087 /* MKMapSnapshotter+AnyPromise.m */,
 			);
 			path = Categories;
 			sourceTree = "<group>";
@@ -1257,6 +1261,7 @@
 				93089DA01F87E6B900694A90 /* OBABaseRow.h in Headers */,
 				934196781DB0B099004BBBB7 /* OBAServiceAlertsModel.h in Headers */,
 				934196671DB0B099004BBBB7 /* OBAReferencesV2.h in Headers */,
+				93DCEF6E20E54EAF0004E087 /* MKMapSnapshotter+AnyPromise.h in Headers */,
 				9341961C1DB0B099004BBBB7 /* OBALocationManager.h in Headers */,
 				9358CDAE1DEA1AB000132CDE /* OBADepartureCellHelpers.h in Headers */,
 				9341968C1DB0B099004BBBB7 /* OBATripStatusV2.h in Headers */,
@@ -1547,6 +1552,7 @@
 				93EBB9BA20B271E100B31DA8 /* OBAWeatherForecast.m in Sources */,
 				934196341DB0B099004BBBB7 /* OBACallMethodJsonDigesterRule.m in Sources */,
 				9341962F1DB0B099004BBBB7 /* OBAModelDAO.m in Sources */,
+				93DCEF6F20E54EAF0004E087 /* MKMapSnapshotter+AnyPromise.m in Sources */,
 				934196061DB0B099004BBBB7 /* OBADateHelpers.m in Sources */,
 				93EA5A58203F368700CE6CAC /* OBAStopSearchNavigationTarget.m in Sources */,
 				934196771DB0B099004BBBB7 /* OBASearchResult.m in Sources */,

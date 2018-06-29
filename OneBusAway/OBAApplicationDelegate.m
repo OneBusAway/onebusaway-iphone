@@ -150,6 +150,7 @@ static NSString * const OBALastRegionRefreshDateUserDefaultsKey = @"OBALastRegio
     [GAI sharedInstance].optOut = ![OBAApplication.sharedApplication.userDefaults boolForKey:OBAOptInToTrackingDefaultsKey];
 
     NSString *label = [NSString stringWithFormat:@"API Region: %@", self.application.modelDao.currentRegion.regionName];
+    DDLogInfo(@"Region: %@", self.application.modelDao.currentRegion.regionName);
 
     [OBAAnalytics reportEventWithCategory:OBAAnalyticsCategoryAppSettings action:@"configured_region" label:label value:nil];
 

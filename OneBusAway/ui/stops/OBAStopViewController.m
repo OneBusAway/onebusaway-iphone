@@ -9,7 +9,6 @@
 #import "OBAStopViewController.h"
 @import OBAKit;
 @import PromiseKit;
-@import PMKMapKit;
 @import SVProgressHUD;
 #import "OneBusAway-Swift.h"
 #import "OBASeparatorSectionView.h"

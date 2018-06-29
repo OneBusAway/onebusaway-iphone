@@ -197,7 +197,6 @@
 		93BC49D91FB8D5EB008B710D /* SnapKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 93BC49D81FB8D5EB008B710D /* SnapKit.framework */; };
 		93BC49DC1FB8D5FB008B710D /* CocoaLumberjackSwift.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 93BC49DA1FB8D5FB008B710D /* CocoaLumberjackSwift.framework */; };
 		93BC49DD1FB8D5FB008B710D /* CocoaLumberjack.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 93BC49DB1FB8D5FB008B710D /* CocoaLumberjack.framework */; };
-		93BC49E21FB8D606008B710D /* PMKMapKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 93BC49DF1FB8D606008B710D /* PMKMapKit.framework */; };
 		93BC49E51FB8D60F008B710D /* PromiseKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 93BC49E41FB8D60F008B710D /* PromiseKit.framework */; };
 		93BC49E81FB8D61D008B710D /* Masonry.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 93BC49E61FB8D61C008B710D /* Masonry.framework */; };
 		93BC49E91FB8D61D008B710D /* SwiftMessages.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 93BC49E71FB8D61D008B710D /* SwiftMessages.framework */; };
@@ -564,7 +563,6 @@
 		93BC49D81FB8D5EB008B710D /* SnapKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SnapKit.framework; path = Carthage/Build/iOS/SnapKit.framework; sourceTree = "<group>"; };
 		93BC49DA1FB8D5FB008B710D /* CocoaLumberjackSwift.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CocoaLumberjackSwift.framework; path = Carthage/Build/iOS/CocoaLumberjackSwift.framework; sourceTree = "<group>"; };
 		93BC49DB1FB8D5FB008B710D /* CocoaLumberjack.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CocoaLumberjack.framework; path = Carthage/Build/iOS/CocoaLumberjack.framework; sourceTree = "<group>"; };
-		93BC49DF1FB8D606008B710D /* PMKMapKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = PMKMapKit.framework; path = Carthage/Build/iOS/PMKMapKit.framework; sourceTree = "<group>"; };
 		93BC49E41FB8D60F008B710D /* PromiseKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = PromiseKit.framework; path = Carthage/Build/iOS/PromiseKit.framework; sourceTree = "<group>"; };
 		93BC49E61FB8D61C008B710D /* Masonry.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Masonry.framework; path = Carthage/Build/iOS/Masonry.framework; sourceTree = "<group>"; };
 		93BC49E71FB8D61D008B710D /* SwiftMessages.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SwiftMessages.framework; path = Carthage/Build/iOS/SwiftMessages.framework; sourceTree = "<group>"; };
@@ -608,7 +606,6 @@
 				93528AAE1C8D50D200783E9A /* MapKit.framework in Frameworks */,
 				93BC49E91FB8D61D008B710D /* SwiftMessages.framework in Frameworks */,
 				93BC49D71FB8D5E0008B710D /* OneSignal.framework in Frameworks */,
-				93BC49E21FB8D606008B710D /* PMKMapKit.framework in Frameworks */,
 				93BC49DD1FB8D5FB008B710D /* CocoaLumberjack.framework in Frameworks */,
 				93BBB3F91DB4B3C100694940 /* OBAKit.framework in Frameworks */,
 				93414D76207361E7001D1892 /* Fabric.framework in Frameworks */,
@@ -695,7 +692,6 @@
 				93BC49E61FB8D61C008B710D /* Masonry.framework */,
 				93BC49E71FB8D61D008B710D /* SwiftMessages.framework */,
 				93BC49E41FB8D60F008B710D /* PromiseKit.framework */,
-				93BC49DF1FB8D606008B710D /* PMKMapKit.framework */,
 				93BC49DB1FB8D5FB008B710D /* CocoaLumberjack.framework */,
 				93BC49DA1FB8D5FB008B710D /* CocoaLumberjackSwift.framework */,
 				93BC49D81FB8D5EB008B710D /* SnapKit.framework */,
@@ -1505,17 +1501,6 @@
 			path = map;
 			sourceTree = "<group>";
 		};
-		93D4CFEC20DF285A00789526 /* Recovered References */ = {
-			isa = PBXGroup;
-			children = (
-				93EFFFB120B93CD100B84DF4 /* RecentStopWithStopID.plist */,
-				93EFFFAE20B938F000B84DF4 /* RecentStopWithStopIDs.plist */,
-				930EFFD220C6088300A2AE1F /* alert_feed_items.json */,
-				93EBB9BF20B28A3800B31DA8 /* weather.json */,
-			);
-			name = "Recovered References";
-			sourceTree = "<group>";
-		};
 		93F3F88C1E7A7B160025FC78 /* regional_alerts */ = {
 			isa = PBXGroup;
 			children = (
@@ -1786,7 +1771,6 @@
 			);
 			inputPaths = (
 				"$(SRCROOT)/Carthage/Build/iOS/GoogleAnalytics.framework",
-				"$(SRCROOT)/Carthage/Build/iOS/PMKMapKit.framework",
 				"$(SRCROOT)/Carthage/Build/iOS/PromiseKit.framework",
 				"$(SRCROOT)/Carthage/Build/iOS/SVProgressHUD.framework",
 				"$(SRCROOT)/Carthage/Build/iOS/SwiftMessages.framework",
