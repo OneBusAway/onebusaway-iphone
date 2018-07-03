@@ -17,7 +17,7 @@
 
 - (void)testSimpleAPIConstruction {
     NSURL *URL = [NSURL URLWithString:@"http://api.pugetsound.onebusaway.org"];
-    OBADataSourceConfig *config = [[OBADataSourceConfig alloc] initWithURL:URL args:nil];
+    OBADataSourceConfig *config = [[OBADataSourceConfig alloc] initWithBaseURL:URL userID:nil checkStatusCodeInBody:NO];
     NSURL *fooURL = [config constructURL:@"/foo.json" withArgs:nil];
 
     XCTAssertEqualObjects([NSURL URLWithString:@"http://api.pugetsound.onebusaway.org/foo.json?"], fooURL);
@@ -54,17 +54,6 @@
 
     XCTAssertEqualObjects(constructedURL, goodURL);
     XCTAssertEqualObjects([NSSet setWithArray:constructedQueryItems], [NSSet setWithArray:goodQueryItems]);
-}
-
-- (void)testDefaultParameters {
-    OBADataSourceConfig *googleMapsDataSourceConfig = [[OBADataSourceConfig alloc] initWithURL:[NSURL URLWithString:@"https://maps.googleapis.com"] args:@{@"sensor": @"true"}];
-
-    NSURL *testURL = [googleMapsDataSourceConfig constructURL:@"/something-goes-here.json" withArgs:@{@"hello": @"world", @"foo": @"bar"}];
-
-    BOOL nonDeterminismSucks = ([testURL.absoluteString isEqual:@"https://maps.googleapis.com/something-goes-here.json?sensor=true&foo=bar&hello=world"] ||
-                                [testURL.absoluteString isEqual:@"https://maps.googleapis.com/something-goes-here.json?sensor=true&hello=world&foo=bar"]);
-
-    XCTAssert(nonDeterminismSucks);
 }
 
 #pragma mark - Helpers
