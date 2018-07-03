@@ -392,8 +392,17 @@ static NSUInteger const kDefaultMinutesAfter = 35;
     OBABaseRow *nextRow = [self rowAtIndexPath:[NSIndexPath indexPathForRow:indexPath.row+1 inSection:indexPath.section]];
     CGRect bounds = tableView.bounds;
 
+    static UIEdgeInsets regularInsets;
+    static dispatch_once_t onceToken;
+    dispatch_once(&onceToken, ^{
+        regularInsets = cell.separatorInset;
+    });
+
     if ([row isKindOfClass:[OBAWalkableRow class]] || [nextRow isKindOfClass:[OBAWalkableRow class]]) {
         cell.separatorInset = UIEdgeInsetsMake(0, CGRectGetWidth(bounds)/2.f, 0, CGRectGetWidth(bounds)/2.f);
+    }
+    else {
+        cell.separatorInset = regularInsets;
     }
 }
 
