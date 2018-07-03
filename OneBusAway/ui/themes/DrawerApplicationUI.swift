@@ -98,13 +98,12 @@ extension DrawerApplicationUI: OBAApplicationUI {
     func navigate(toTargetInternal navigationTarget: OBANavigationTarget) {
         mapNavigationController.popViewController(animated: false)
 
-        var viewController: (UIViewController & OBANavigationTargetAware)?
-        var navController: UINavigationController?
+        let viewController: (UIViewController & OBANavigationTargetAware)
+        let navController: UINavigationController
 
         switch navigationTarget.target {
         case .map, .searchResults:
-            // abxoxo
-//            viewController = mapController
+            viewController = mapController
             navController = mapNavigationController
         case .recentStops:
             viewController = recentsController
@@ -119,15 +118,11 @@ extension DrawerApplicationUI: OBAApplicationUI {
             fallthrough
         default:
             DDLogError("Unhandled target in #file #line: \(navigationTarget.target)")
+            return
         }
 
-        if let navController = navController {
-            tabBarController.selectedViewController = navController
-        }
-
-        if let viewController = viewController {
-            viewController.setNavigationTarget!(navigationTarget)
-        }
+        tabBarController.selectedViewController = navController
+        viewController.setNavigationTarget(navigationTarget)
 
         if navigationTarget.parameters["stop"] != nil, let stopID = navigationTarget.parameters["stopID"] as? String {
             let vc = StopViewController.init(stopID: stopID)
