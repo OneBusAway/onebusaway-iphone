@@ -399,10 +399,8 @@ extension MapTableViewController: MapSearchDelegate, UISearchControllerDelegate,
 
     func mapSearch(_ mapSearch: MapSearchViewController, selectedNavigationTarget target: OBANavigationTarget) {
         OBAAnalytics.reportEvent(withCategory: OBAAnalyticsCategoryUIAction, action: "button_press", label: "Search button clicked", value: nil)
-
-        // abxoxo - todo!
-//        NSString *analyticsLabel = [NSString stringWithFormat:@"Search: %@", NSStringFromOBASearchType(target.searchType)];
-//        [OBAAnalytics reportEventWithCategory:OBAAnalyticsCategoryUIAction action:@"button_press" label:analyticsLabel value:nil];
+        let analyticsLabel = "Search: \(NSStringFromOBASearchType(target.searchType) ?? "Unknown")"
+        OBAAnalytics.reportEvent(withCategory: OBAAnalyticsCategoryUIAction, action: "button_press", label: analyticsLabel, value: nil)
 
         searchController.dismiss(animated: true) { [weak self] in
             // abxoxo - TODO: figure out how to unify -navigateToTarget, this method, and -setNavigationTarget.
@@ -437,5 +435,14 @@ extension MapTableViewController: MapSearchDelegate, UISearchControllerDelegate,
 extension MapTableViewController {
     public func recenterMap() {
         mapController.recenterMap()
+    }
+}
+
+// MARK: - OBANavigationTargetAware
+extension MapTableViewController: OBANavigationTargetAware {
+    func setNavigationTarget(_ navigationTarget: OBANavigationTarget) {
+        // TODO: this controllers should handle setNavigationTarget(),
+        // not the underlying map controller :-\
+        mapController.setNavigationTarget(navigationTarget)
     }
 }

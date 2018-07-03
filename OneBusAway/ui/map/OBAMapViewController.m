@@ -261,15 +261,6 @@ static const double kStopsInRegionRefreshDelayOnDrag = 0.1;
 
 #pragma mark - OBANavigationTargetAware
 
-- (OBANavigationTarget *)navigationTarget {
-    if (OBASearchTypeRegion == self.mapDataLoader.searchType) {
-        return [OBANavigationTarget navigationTargetForSearchLocationRegion:self.mapView.region];
-    }
-    else {
-        return self.mapDataLoader.searchTarget;
-    }
-}
-
 - (void)setNavigationTarget:(OBANavigationTarget *)target {
     if (OBASearchTypeRegion == target.searchType) {
         [self.mapDataLoader searchPending];

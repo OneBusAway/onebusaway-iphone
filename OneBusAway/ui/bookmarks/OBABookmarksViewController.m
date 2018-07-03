@@ -142,8 +142,8 @@ static NSString * const OBABookmarkSortUserDefaultsKey = @"OBABookmarkSortUserDe
 
 #pragma mark - OBANavigationTargetAware
 
-- (OBANavigationTarget*)navigationTarget {
-    return [OBANavigationTarget navigationTarget:OBANavigationTargetTypeBookmarks];
+- (void)setNavigationTarget:(OBANavigationTarget *)navigationTarget {
+    // abxoxo - todo!
 }
 
 #pragma mark - Notifications

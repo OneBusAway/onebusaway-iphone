@@ -310,10 +310,6 @@ static NSString * const kPrivacyURLString = @"http://onebusaway.org/privacy/";
 
 #pragma mark - OBANavigationTargetAware
 
-- (OBANavigationTarget *)navigationTarget {
-    return [OBANavigationTarget navigationTarget:OBANavigationTargetTypeContactUs];
-}
-
 - (void)setNavigationTarget:(OBANavigationTarget *)navigationTarget {
     // abxoxo - ???? - can i just delete this?
 }

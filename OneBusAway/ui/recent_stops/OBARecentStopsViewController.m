@@ -222,10 +222,6 @@
 
 #pragma mark - OBANavigationTargetAware
 
-- (OBANavigationTarget *)navigationTarget {
-    return [OBANavigationTarget navigationTarget:OBANavigationTargetTypeRecentStops];
-}
-
 - (void)setNavigationTarget:(OBANavigationTarget *)target {
     if ([target isKindOfClass:OBADeepLinkNavigationTarget.class]) {
         OBADeepLinkNavigationTarget *t = (OBADeepLinkNavigationTarget *)target;
