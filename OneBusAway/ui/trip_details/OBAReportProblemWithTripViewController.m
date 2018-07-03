@@ -381,7 +381,7 @@ typedef NS_ENUM (NSInteger, OBASectionType) {
     switch (indexPath.row) {
         case 0: {
             OBALabelAndSwitchTableViewCell *cell = [OBALabelAndSwitchTableViewCell getOrCreateCellForTableView:tableView];
-            cell.label.text = [NSString stringWithFormat:@"%@ %@?", NSLocalizedString(@"msg_on_this", @"cell.label.text"), [_vehicleType capitalizedString]];
+            cell.label.text = [NSString stringWithFormat:@"%@ %@?", NSLocalizedString(@"msg_on_this", @"cell.label.text"), _vehicleType];
             cell.label.font = [OBATheme bodyFont];
             [cell.toggleSwitch setOn:_onVehicle];
             [cell.toggleSwitch addTarget:self action:@selector(setOnVehicle:) forControlEvents:UIControlEventValueChanged];
@@ -390,7 +390,7 @@ typedef NS_ENUM (NSInteger, OBASectionType) {
 
         case 1: {
             OBALabelAndTextFieldTableViewCell *cell = [OBALabelAndTextFieldTableViewCell getOrCreateCellForTableView:tableView];
-            cell.label.text = [NSString stringWithFormat:@"%@ %@", [_vehicleType capitalizedString], NSLocalizedString(@"msg_number", @"cell.label.text")];
+            cell.label.text = [NSString stringWithFormat:@"%@ %@", _vehicleType, NSLocalizedString(@"msg_number", @"cell.label.text")];
             cell.label.font = [OBATheme bodyFont];
             cell.textField.text = _vehicleNumber;
             cell.textField.delegate = self;
