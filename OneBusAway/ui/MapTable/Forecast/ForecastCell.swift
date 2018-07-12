@@ -25,7 +25,7 @@ class ForecastCell: SelfSizingCollectionCell {
         let outerWrapper = topStack.oba_embedInWrapper()
         contentView.addSubview(outerWrapper)
         outerWrapper.snp.makeConstraints { make in
-            make.top.trailing.bottom.equalToSuperview().inset(UIEdgeInsetsMake(0, 0, OBATheme.compactPadding, OBATheme.defaultPadding))
+            make.top.trailing.bottom.equalToSuperview().inset(UIEdgeInsets(top: 0, left: 0, bottom: OBATheme.compactPadding, right: OBATheme.defaultPadding))
         }
 
         weatherImageView.tintColor = foregroundColor

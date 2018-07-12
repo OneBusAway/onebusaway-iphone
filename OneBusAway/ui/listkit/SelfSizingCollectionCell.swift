@@ -43,8 +43,7 @@ class SelfSizingCollectionCell: UICollectionViewCell {
 
     required init?(coder aDecoder: NSCoder) { fatalError("init(coder:) has not been implemented") }
 
-//    public static let insets = UIEdgeInsets(top: 8, left: 15, bottom: 8, right: 15)
     public static let insets = UIEdgeInsets.zero
 
-    public static let leftRightInsets = UIEdgeInsetsMake(0, OBATheme.defaultPadding, 0, OBATheme.defaultPadding)
+    public static let leftRightInsets = UIEdgeInsets(top: 0, left: OBATheme.defaultPadding, bottom: 0, right: OBATheme.defaultPadding)
 }

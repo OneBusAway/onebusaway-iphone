@@ -193,7 +193,7 @@ extension MapTableViewController {
         let tabBarHeight:CGFloat = 44.0 // abxoxo - fix this for iPhone X.
         mapContainer.frame = CGRect(x: 0, y: 0, width: view.bounds.width, height: view.bounds.height - tabBarHeight)
 
-        collectionView.contentInset = UIEdgeInsetsMake(view.bounds.height - Sweep.collectionViewContentInset, 0, 0, 0)
+        collectionView.contentInset = UIEdgeInsets(top: view.bounds.height - Sweep.collectionViewContentInset, left: 0, bottom: 0, right: 0)
         collectionView.frame = CGRect(x: 0, y: 0, width: view.bounds.width, height: view.bounds.height)
     }
 

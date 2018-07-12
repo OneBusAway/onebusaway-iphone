@@ -31,11 +31,12 @@
 #import "ISHHoverBar.h"
 #import "OBAToastView.h"
 #import "OBAApplicationDelegate.h"
+#import "OBAArrivalAndDepartureViewController.h"
 
 static const NSUInteger kShowNClosestStops = 4;
 static const double kStopsInRegionRefreshDelayOnDrag = 0.1;
 
-@interface OBAMapViewController ()<MKMapViewDelegate, UISearchBarDelegate, UISearchControllerDelegate, MapSearchDelegate, OBANavigator, OBAMapRegionDelegate, OBAEmbeddedStopDelegate>
+@interface OBAMapViewController ()<MKMapViewDelegate, UISearchBarDelegate, UISearchControllerDelegate, MapSearchDelegate, OBANavigator, OBAMapRegionDelegate, OBAEmbeddedStopDelegate, OBAVehicleDisambiguationDelegate>
 
 // Map UI
 @property(nonatomic,strong) MKMapView *mapView;
@@ -268,6 +269,33 @@ static const double kStopsInRegionRefreshDelayOnDrag = 0.1;
     }
     else if (OBASearchTypeStopId == target.searchType) {
         [self displayStopControllerForStopID:target.searchArgument];
+    }
+    else if ([target isKindOfClass:OBAVehicleIDNavigationTarget.class]) {
+        [SVProgressHUD show];
+        OBAVehicleIDNavigationTarget *vehicleNavTarget = (OBAVehicleIDNavigationTarget*)target;
+        PromiseWrapper *wrapper = [self.modelService requestVehiclesMatching:vehicleNavTarget.query in:self.modelDAO.currentRegion];
+        wrapper.anyPromise.then(^(NetworkResponse *response) {
+            NSArray<OBAMatchingAgencyVehicle*> *matchingVehicles = response.object;
+
+            if (matchingVehicles.count == 1) {
+                return [self.modelService requestVehicleTrip:matchingVehicles.firstObject.vehicleID].anyPromise;
+            }
+            else {
+                // pop up a disambiguation UI.
+                [self disambiguateMatchingVehicles:matchingVehicles];
+                return [AnyPromise promiseWithValue:nil];
+            }
+        }).then(^(NetworkResponse *response) {
+            if (response) {
+                OBATripDetailsV2 *tripDetails = (OBATripDetailsV2 *)response.object;
+                OBAArrivalAndDepartureViewController *controller = [[OBAArrivalAndDepartureViewController alloc] initWithTripInstance:tripDetails.tripInstance];
+                [self.navigationController pushViewController:controller animated:YES];
+            }
+        }).catch(^(NSError *error) {
+            [AlertPresenter showError:error presentingController:self];
+        }).always(^{
+            [SVProgressHUD dismiss];
+        });
     }
     else {
         [self.mapDataLoader searchWithTarget:target];
@@ -987,6 +1015,34 @@ static const double kStopsInRegionRefreshDelayOnDrag = 0.1;
     }
 
     return NO;
+}
+
+#pragma mark - Vehicle Search
+
+- (void)disambiguateMatchingVehicles:(NSArray<OBAMatchingAgencyVehicle*>*)matchingVehicles {
+    OBAVehicleDisambiguationViewController *d = [[OBAVehicleDisambiguationViewController alloc] initWithMatchingVehicles:matchingVehicles delegate:self];
+    UINavigationController *nav = [[UINavigationController alloc] initWithRootViewController:d];
+
+    [self presentViewController:nav animated:YES completion:nil];
+}
+
+- (void)disambiguator:(OBAVehicleDisambiguationViewController *)viewController didSelect:(OBAMatchingAgencyVehicle *)matchingVehicle {
+    [viewController dismissViewControllerAnimated:YES completion:^{
+        [SVProgressHUD show];
+
+        // abxoxo - todo - add this wrapper to a 'disposal bag' or something that can be cancelled
+        // if the user exits this view controller before this operation finishes.
+        PromiseWrapper *wrapper = [self.modelService requestVehicleTrip:matchingVehicle.vehicleID];
+        wrapper.anyPromise.then(^(NetworkResponse *response){
+            OBATripDetailsV2 *tripDetails = (OBATripDetailsV2 *)response.object;
+            OBAArrivalAndDepartureViewController *controller = [[OBAArrivalAndDepartureViewController alloc] initWithTripInstance:tripDetails.tripInstance];
+            [self.navigationController pushViewController:controller animated:YES];
+        }).catch(^(NSError *error) {
+            [AlertPresenter showError:error presentingController:self];
+        }).always(^{
+            [SVProgressHUD dismiss];
+        });
+    }];
 }
 
 #pragma mark - UI Configuration

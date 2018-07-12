@@ -67,6 +67,10 @@
     return list.values;
 }
 
++ (OBADataSourceConfig*)dataSourceConfigWithURL:(NSURL*)URL {
+    return [[OBADataSourceConfig alloc] initWithBaseURL:URL userID:@"8F97F623-B527-4E99-9268-42AC6F27DCA5" checkStatusCodeInBody:YES apiKey:@"org.onebusaway.iphone" bundleVersion:@"20160920.00" apiVersion:@"2"];
+}
+
 #pragma mark - Time and Time Zones
 
 // this is the number of seconds that Seattle is behind GMT during DST.

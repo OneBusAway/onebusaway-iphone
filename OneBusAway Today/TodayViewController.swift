@@ -98,7 +98,7 @@ class TodayViewController: UIViewController {
 
         self.view.addSubview(outerStackView)
         outerStackView.snp.makeConstraints { (make) in
-            let inset = UIEdgeInsetsMake(OBATheme.compactPadding, 10, OBATheme.compactPadding, 10)
+            let inset = UIEdgeInsets(top: OBATheme.compactPadding, left: 10, bottom: OBATheme.compactPadding, right: 10)
             make.leading.top.trailing.equalToSuperview().inset(inset)
         }
 

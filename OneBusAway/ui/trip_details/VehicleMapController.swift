@@ -313,8 +313,9 @@ extension VehicleMapController {
 
         hoverBar.items = [recenterMapButton, toggleBarButton]
         self.view.addSubview(hoverBar)
-        hoverBar.snp.makeConstraints { (make) in
-           make.trailing.bottom.equalToSuperview().inset(UIEdgeInsetsMake(0, 0, OBATheme.defaultPadding, OBATheme.defaultPadding))
+        hoverBar.snp.makeConstraints { make in
+            let insets = UIEdgeInsets(top: 0, left: 0, bottom: OBATheme.defaultPadding, right: OBATheme.defaultPadding)
+            make.trailing.bottom.equalToSuperview().inset(insets)
         }
     }
 }

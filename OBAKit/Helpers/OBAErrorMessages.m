@@ -63,6 +63,10 @@
     return [NSError errorWithDomain:NSURLErrorDomain code:404 userInfo:@{NSLocalizedDescriptionKey: OBALocalized(@"mgs_stop_not_found", @"code == 404")}];
 }
 
++ (NSError*)vehicleNotFoundError {
+    return [NSError errorWithDomain:OBAErrorDomain code:404 userInfo:@{NSLocalizedDescriptionKey: OBALocalized(@"error_messages.vehicle_not_found", @"Search for Vehicle ID produced no results.")}];
+}
+
 + (NSError*)connectionError:(NSHTTPURLResponse*)response {
     NSString *message = OBALocalized(@"msg_error_connecting", @"code != 404");
     return [NSError errorWithDomain:NSURLErrorDomain code:response.statusCode userInfo:@{NSLocalizedDescriptionKey: message}];

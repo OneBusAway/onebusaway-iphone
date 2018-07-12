@@ -31,6 +31,7 @@
 NS_ASSUME_NONNULL_BEGIN
 
 @class OBARegionV2;
+@class OABDataSouceConfig;
 
 @interface OBATestHelpers : NSObject
 
@@ -89,6 +90,8 @@ NS_ASSUME_NONNULL_BEGIN
  @return The unarchived object
  */
 + (id)unarchiveBundledTestFile:(NSString*)fileName;
+
++ (OBADataSourceConfig*)dataSourceConfigWithURL:(NSURL*)URL;
 
 // Fixture Helpers
 

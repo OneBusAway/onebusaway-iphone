@@ -18,4 +18,8 @@ import Foundation
         self.URLResponse = URLResponse
         self.urlRequest = urlRequest
     }
+
+    convenience init(object: Any, response: NetworkResponse) {
+        self.init(object: object, URLResponse: response.URLResponse, urlRequest: response.urlRequest)
+    }
 }

@@ -10,46 +10,70 @@ import Foundation
 import PromiseKit
 
 @objc public class PromiseWrapper: NSObject {
+
+    public enum DataDecodingStrategy {
+        case noStrategy, parseJSON
+    }
+    public private(set) var dataDecodingStrategy: DataDecodingStrategy
+
     private let cancellablePromise: CancellablePromise
     public var promise: Promise<NetworkResponse>
 
-    @objc init(request: OBAURLRequest) {
+    @objc convenience init(request: OBAURLRequest) {
+        self.init(request: request, dataDecodingStrategy: .parseJSON)
+    }
+
+    init(request: OBAURLRequest, dataDecodingStrategy: DataDecodingStrategy) {
+        self.dataDecodingStrategy = dataDecodingStrategy
         self.cancellablePromise = CancellablePromise.go(request: request)
         self.promise = self.cancellablePromise.then { response -> NetworkResponse in
-            let checkCode = response.urlRequest.checkStatusCodeInBody // abxoxo - can all this stuff be replaced with request.checkStatusCodeInBody?
-            var jsonObject: AnyObject
-
-            do {
-                jsonObject = try JSONSerialization.jsonObject(with: (response.object as! Data), options: []) as AnyObject
-            }
-            catch {
-                DDLogError("Unable to parse response body for request: \(response.urlRequest)")
-                throw OBAErrorMessages.error(fromHttpResponse: response.URLResponse) ?? OBAErrorMessages.unknownError(from: response.URLResponse)
-            }
-
+            var jsonObject: AnyObject?
+            let checkCode = response.urlRequest.checkStatusCodeInBody
             var httpResponse = response.URLResponse
 
-            // pre-munge
-            if let error = OBAErrorMessages.error(fromHttpResponse: httpResponse) {
-                throw error
+            if dataDecodingStrategy == .parseJSON {
+                jsonObject = try PromiseWrapper.parseJSON(response: response)
+
+                if checkCode,
+                   let outerJSON = jsonObject,
+                   outerJSON.responds(to: #selector(self.value(forKey:))) {
+                     let statusCode = (outerJSON.value(forKey: "code") as! NSNumber).intValue
+                     httpResponse = HTTPURLResponse.init(url: httpResponse.url!, statusCode: statusCode, httpVersion: nil, headerFields: httpResponse.allHeaderFields as? [String : String])!
+                     jsonObject = outerJSON.value(forKey: "data") as AnyObject
+                }
+
+                // post-munge
+                if let error = OBAErrorMessages.error(fromHttpResponse: httpResponse) {
+                    throw error
+                }
             }
 
-            if checkCode && jsonObject.responds(to: #selector(self.value(forKey:))) {
-                let statusCode = (jsonObject.value(forKey: "code") as! NSNumber).intValue
-                httpResponse = HTTPURLResponse.init(url: httpResponse.url!, statusCode: statusCode, httpVersion: nil, headerFields: httpResponse.allHeaderFields as? [String : String])!
-                jsonObject = jsonObject.value(forKey: "data") as AnyObject
-            }
-
-            // post-munge
-            if let error = OBAErrorMessages.error(fromHttpResponse: httpResponse) {
-                throw error
-            }
-
-            return NetworkResponse.init(object: jsonObject, URLResponse: httpResponse, urlRequest: response.urlRequest)
+            return NetworkResponse.init(object: jsonObject ?? response.object, URLResponse: httpResponse, urlRequest: response.urlRequest)
         }
     }
 
-    @objc func anyPromise() -> AnyPromise {
+    private static func parseJSON(response: NetworkResponse) throws -> AnyObject {
+        var jsonObject: AnyObject
+
+        do {
+            jsonObject = try JSONSerialization.jsonObject(with: (response.object as! Data), options: []) as AnyObject
+        }
+        catch {
+            DDLogError("Unable to parse response body for request: \(response.urlRequest)")
+            throw OBAErrorMessages.error(fromHttpResponse: response.URLResponse) ?? OBAErrorMessages.unknownError(from: response.URLResponse)
+        }
+
+        // pre-munge
+        if let error = OBAErrorMessages.error(fromHttpResponse: response.URLResponse) {
+            throw error
+        }
+
+        return jsonObject
+    }
+
+    // MARK: - Public Helpers
+
+    @objc public var anyPromise: AnyPromise {
         return AnyPromise(self.promise)
     }
 

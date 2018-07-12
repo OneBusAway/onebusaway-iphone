@@ -53,11 +53,4 @@
     XCTAssertEqualObjects(@"Downtown Seattle - 15TH", dep.tripHeadsign);
 }
 
-- (void)testAllCapsHeadsign {
-    OBAArrivalAndDepartureV2 *dep = [[OBAArrivalAndDepartureV2 alloc] init];
-    dep.tripHeadsign = @"DOWNTOWN SEATTLE - 15TH";
-
-    XCTAssertEqualObjects(@"Downtown Seattle - 15Th", dep.tripHeadsign);
-}
-
 @end

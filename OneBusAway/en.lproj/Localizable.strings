@@ -819,11 +819,17 @@
 /* Formatted string for Search for Stop Number: */
 "map_search.search_for_stop_number" = "Stop Number:";
 
+/* Vehicle ID: <VEHICLE ID> */
+"map_search.search_for_vehicle_id" = "Vehicle ID:";
+
 /* Map Search: Recent Stops section title */
 "map_search.recent_stops_section_title" = "Recent Stops";
 
 /* Map Search: Bookmarks section title */
 "map_search.bookmarks_section_title" = "Bookmarks";
+
+/* Title of the Vehicle Search disambiguator view controller */
+"vehicle_disambiguator.title" = "Choose a Vehicle";
 
 /* Clear Search button text */
 "toast_view.clear_search" = "Clear Search";

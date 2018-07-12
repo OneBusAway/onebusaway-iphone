@@ -206,13 +206,13 @@
 		93C3936D1D8A3A530080F370 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 93C3936C1D8A3A530080F370 /* Foundation.framework */; };
 		93C48E492096EF0F001FB95C /* MapTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 93C48E482096EF0F001FB95C /* MapTableViewController.swift */; };
 		93D5480520B778F700334939 /* SectionHeaderCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 93D5480420B778F700334939 /* SectionHeaderCell.swift */; };
+		93DB91ED20F743570028A7BF /* VehicleDisambiguationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 93DB91EC20F743570028A7BF /* VehicleDisambiguationViewController.swift */; };
 		93DCEF7220E5AF2F0004E087 /* LabelSectionController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 93DCEF7120E5AF2F0004E087 /* LabelSectionController.swift */; };
 		93EBB9BC20B283F900B31DA8 /* OBAWeatherForecast_Tests.m in Sources */ = {isa = PBXBuildFile; fileRef = 93EBB9BB20B283F900B31DA8 /* OBAWeatherForecast_Tests.m */; };
 		93F1C26020BCD34B00B5032B /* LoadingCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 93F1C25F20BCD34B00B5032B /* LoadingCell.swift */; };
 		93F1C26320BCDCCF00B5032B /* OfflineSection.swift in Sources */ = {isa = PBXBuildFile; fileRef = 93F1C26220BCDCCF00B5032B /* OfflineSection.swift */; };
 		93F3F88E1E7A7B2D0025FC78 /* RegionalAlertsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 93F3F88D1E7A7B2D0025FC78 /* RegionalAlertsViewController.swift */; };
 		93F3F8971E7AEE560025FC78 /* Mantle.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 93F3F8961E7AEE560025FC78 /* Mantle.framework */; };
-		93F3F89F1E7BAC510025FC78 /* OBARegionalAlert_Tests.m in Sources */ = {isa = PBXBuildFile; fileRef = 93F3F89E1E7BAC510025FC78 /* OBARegionalAlert_Tests.m */; };
 		93F9574A1E9AFB020022586B /* UIWindow+OBAAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = 93F957491E9AFB020022586B /* UIWindow+OBAAdditions.m */; };
 		93FE60261E0B2F34006EC9FB /* SVPulsingAnnotationView.m in Sources */ = {isa = PBXBuildFile; fileRef = 93FE60251E0B2F34006EC9FB /* SVPulsingAnnotationView.m */; };
 		D6575AEC0FEE13CF00D6D987 /* Entitlements.plist in Resources */ = {isa = PBXBuildFile; fileRef = D6575AEB0FEE13CF00D6D987 /* Entitlements.plist */; };
@@ -573,6 +573,7 @@
 		93C3936C1D8A3A530080F370 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		93C48E482096EF0F001FB95C /* MapTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapTableViewController.swift; sourceTree = "<group>"; };
 		93D5480420B778F700334939 /* SectionHeaderCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SectionHeaderCell.swift; sourceTree = "<group>"; };
+		93DB91EC20F743570028A7BF /* VehicleDisambiguationViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VehicleDisambiguationViewController.swift; sourceTree = "<group>"; };
 		93DCEF7120E5AF2F0004E087 /* LabelSectionController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LabelSectionController.swift; sourceTree = "<group>"; };
 		93E4A7611CE65B2100E769B0 /* atlanta.gpx */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = atlanta.gpx; sourceTree = "<group>"; };
 		93EBB9BB20B283F900B31DA8 /* OBAWeatherForecast_Tests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = OBAWeatherForecast_Tests.m; sourceTree = "<group>"; };
@@ -580,7 +581,6 @@
 		93F1C26220BCDCCF00B5032B /* OfflineSection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OfflineSection.swift; sourceTree = "<group>"; };
 		93F3F88D1E7A7B2D0025FC78 /* RegionalAlertsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RegionalAlertsViewController.swift; sourceTree = "<group>"; };
 		93F3F8961E7AEE560025FC78 /* Mantle.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Mantle.framework; path = Carthage/Build/iOS/Mantle.framework; sourceTree = "<group>"; };
-		93F3F89E1E7BAC510025FC78 /* OBARegionalAlert_Tests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OBARegionalAlert_Tests.m; sourceTree = "<group>"; };
 		93F5CF8E1DA820A4003947A8 /* boston.gpx */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = boston.gpx; sourceTree = "<group>"; };
 		93F957481E9AFB020022586B /* UIWindow+OBAAdditions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIWindow+OBAAdditions.h"; sourceTree = "<group>"; };
 		93F957491E9AFB020022586B /* UIWindow+OBAAdditions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIWindow+OBAAdditions.m"; sourceTree = "<group>"; };
@@ -918,6 +918,7 @@
 			isa = PBXGroup;
 			children = (
 				930E41A11E5ECAA60040CEB5 /* MapSearchViewController.swift */,
+				93DB91EC20F743570028A7BF /* VehicleDisambiguationViewController.swift */,
 			);
 			path = search;
 			sourceTree = "<group>";
@@ -1323,7 +1324,6 @@
 				9341987B1DB0C219004BBBB7 /* OBATripStopTimeV2_Tests.m */,
 				9341987C1DB0C219004BBBB7 /* OBATripV2_Tests.m */,
 				9341987D1DB0C219004BBBB7 /* OBAVehicleStatusV2_Tests.m */,
-				93F3F89E1E7BAC510025FC78 /* OBARegionalAlert_Tests.m */,
 				9373E70E1EA4084C0019C7CB /* OBATripDeepLink_Tests.swift */,
 				93EBB9BB20B283F900B31DA8 /* OBAWeatherForecast_Tests.m */,
 			);
@@ -1881,6 +1881,7 @@
 				93A637E120A2CDA60005248C /* EmbeddedSectionController.swift in Sources */,
 				934197B21DB0C140004BBBB7 /* OBAStopViewController.m in Sources */,
 				934197B51DB0C140004BBBB7 /* OBAClassicApplicationUI.m in Sources */,
+				93DB91ED20F743570028A7BF /* VehicleDisambiguationViewController.swift in Sources */,
 				934197971DB0C140004BBBB7 /* OBASegmentedControlCell.m in Sources */,
 				93B781AD1E64BAC900F2C38D /* OBAMapViewController.m in Sources */,
 				934197A91DB0C140004BBBB7 /* OBAReportProblemWithStopViewController.m in Sources */,
@@ -1947,7 +1948,6 @@
 				934198A51DB0C219004BBBB7 /* OBARouteV2_Tests.m in Sources */,
 				9373E70F1EA4084C0019C7CB /* OBATripDeepLink_Tests.swift in Sources */,
 				934198981DB0C219004BBBB7 /* OBAEntryWithReferencesV2_Tests.m in Sources */,
-				93F3F89F1E7BAC510025FC78 /* OBARegionalAlert_Tests.m in Sources */,
 				934198B31DB0C219004BBBB7 /* OBATripStopTimeV2_Tests.m in Sources */,
 				934198951DB0C219004BBBB7 /* OBABookmarkGroup_Tests.m in Sources */,
 				934198911DB0C219004BBBB7 /* OBAAgencyWithCoverageV2_Tests.m in Sources */,

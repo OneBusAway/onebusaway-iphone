@@ -29,6 +29,8 @@ typedef NS_ENUM(NSUInteger, OBADataSourceContentType) {
 
 - (instancetype)initWithBaseURL:(NSURL*)URL userID:(nullable NSString*)userID checkStatusCodeInBody:(BOOL)checkStatusCodeInBody;
 
+- (instancetype)initWithBaseURL:(NSURL*)URL userID:(nullable NSString*)userID checkStatusCodeInBody:(BOOL)checkStatusCodeInBody apiKey:(nullable NSString*)apiKey bundleVersion:(nullable NSString*)bundleVersion apiVersion:(nullable NSString*)apiVersion;
+
 - (nullable NSURL*)constructURL:(NSString*)path withArgs:(nullable NSDictionary*)args;
 @end
 
