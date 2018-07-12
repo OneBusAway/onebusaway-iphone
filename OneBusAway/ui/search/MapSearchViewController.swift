@@ -28,7 +28,6 @@ class MapSearchViewController: OBAStaticTableViewController, UISearchResultsUpda
         super.viewDidLoad()
 
         let image = UIImage(named: "search_placeholder")
-        self.emptyDataSetVerticalOffset = -125.0
         self.emptyDataSetImage = image
         self.emptyDataSetTitle = NSLocalizedString("map_search.empty_data_set_description", comment: "The empty data set description for the search controller")
     }
@@ -102,6 +101,7 @@ class MapSearchViewController: OBAStaticTableViewController, UISearchResultsUpda
 
     private func buildQuickLookupSection(searchText: String) -> OBATableSection {
 
+        // Route
         let routeText = MapSearchViewController.quickLookupRowText(title: NSLocalizedString("map_search.search_for_route", comment: "Route Number: <ROUTE NUMBER>"), searchText: searchText)
         let routeRow = OBATableRow.init(attributedTitle: routeText) { _ in
             let target = OBANavigationTarget(forSearchRoute: searchText)
@@ -125,7 +125,15 @@ class MapSearchViewController: OBAStaticTableViewController, UISearchResultsUpda
         }
         stopNumberRow.accessoryType = .disclosureIndicator
 
-        return OBATableSection.init(title: NSLocalizedString("map_search.quick_lookup_section_title", comment: "Map Search: Quick Lookup Table Section"), rows: [routeRow, addressRow, stopNumberRow])
+        // Vehicle ID
+        let vehicleText = MapSearchViewController.quickLookupRowText(title: NSLocalizedString("map_search.search_for_vehicle_id", comment: "Vehicle ID: <VEHICLE ID>"), searchText: searchText)
+        let vehicleIDRow = OBATableRow.init(attributedTitle: vehicleText) { _ in
+            let target = OBAVehicleIDNavigationTarget.init(query: searchText)
+            self.delegate?.mapSearch(self, selectedNavigationTarget: target)
+        }
+        vehicleIDRow.accessoryType = .disclosureIndicator
+
+        return OBATableSection.init(title: NSLocalizedString("map_search.quick_lookup_section_title", comment: "Map Search: Quick Lookup Table Section"), rows: [routeRow, addressRow, stopNumberRow, vehicleIDRow])
     }
 
     private func buildRecentsSection(searchText: String) -> OBATableSection? {

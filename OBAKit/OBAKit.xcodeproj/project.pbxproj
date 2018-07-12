@@ -229,6 +229,7 @@
 		935BB9F11F745E1E00062E31 /* CoreTelephony.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 935BB9F01F745E1E00062E31 /* CoreTelephony.framework */; };
 		935C39191F772CE300737DC4 /* NSString+OBAAdditions.h in Headers */ = {isa = PBXBuildFile; fileRef = 935C39171F772CE300737DC4 /* NSString+OBAAdditions.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		935C391A1F772CE300737DC4 /* NSString+OBAAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = 935C39181F772CE300737DC4 /* NSString+OBAAdditions.m */; };
+		9363B6D420F50EE400F515CB /* MatchingAgencyVehicle.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9363B6D320F50EE400F515CB /* MatchingAgencyVehicle.swift */; };
 		936EB1B61E91746400F4F3A7 /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 936EB1B51E91746400F4F3A7 /* SystemConfiguration.framework */; };
 		936EB1B91E91A83700F4F3A7 /* OBARegionStorage.h in Headers */ = {isa = PBXBuildFile; fileRef = 936EB1B71E91A83700F4F3A7 /* OBARegionStorage.h */; };
 		936EB1BA1E91A83700F4F3A7 /* OBARegionStorage.m in Sources */ = {isa = PBXBuildFile; fileRef = 936EB1B81E91A83700F4F3A7 /* OBARegionStorage.m */; };
@@ -303,6 +304,10 @@
 		93F3F8A21E7BCA8C0025FC78 /* FileHelpers.swift in Sources */ = {isa = PBXBuildFile; fileRef = 93F3F8A11E7BCA8C0025FC78 /* FileHelpers.swift */; };
 		93FF1AB11EC39270006C883D /* OBALogging.h in Headers */ = {isa = PBXBuildFile; fileRef = 93FF1AAF1EC39270006C883D /* OBALogging.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		93FF1AB21EC39270006C883D /* OBALogging.m in Sources */ = {isa = PBXBuildFile; fileRef = 93FF1AB01EC39270006C883D /* OBALogging.m */; };
+		93FF488320EF51C9009CFF13 /* OBAVehicleIDNavigationTarget.h in Headers */ = {isa = PBXBuildFile; fileRef = 93FF488120EF51C9009CFF13 /* OBAVehicleIDNavigationTarget.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		93FF488420EF51C9009CFF13 /* OBAVehicleIDNavigationTarget.m in Sources */ = {isa = PBXBuildFile; fileRef = 93FF488220EF51C9009CFF13 /* OBAVehicleIDNavigationTarget.m */; };
+		93FF488720EF53C4009CFF13 /* OBAGenericNavigationTarget.h in Headers */ = {isa = PBXBuildFile; fileRef = 93FF488520EF53C4009CFF13 /* OBAGenericNavigationTarget.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		93FF488820EF53C4009CFF13 /* OBAGenericNavigationTarget.m in Sources */ = {isa = PBXBuildFile; fileRef = 93FF488620EF53C4009CFF13 /* OBAGenericNavigationTarget.m */; };
 		93FFA5FA1F88305300EA8008 /* OBAArrivalAndDepartureSectionBuilder.h in Headers */ = {isa = PBXBuildFile; fileRef = 93FFA5F81F88305300EA8008 /* OBAArrivalAndDepartureSectionBuilder.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		93FFA5FB1F88305300EA8008 /* OBAArrivalAndDepartureSectionBuilder.m in Sources */ = {isa = PBXBuildFile; fileRef = 93FFA5F91F88305300EA8008 /* OBAArrivalAndDepartureSectionBuilder.m */; };
 		CCD30CFB1E30564600080EFF /* OBAHandoff.swift in Sources */ = {isa = PBXBuildFile; fileRef = CCD30CFA1E30564600080EFF /* OBAHandoff.swift */; };
@@ -547,6 +552,7 @@
 		935BB9F01F745E1E00062E31 /* CoreTelephony.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreTelephony.framework; path = System/Library/Frameworks/CoreTelephony.framework; sourceTree = SDKROOT; };
 		935C39171F772CE300737DC4 /* NSString+OBAAdditions.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "NSString+OBAAdditions.h"; sourceTree = "<group>"; };
 		935C39181F772CE300737DC4 /* NSString+OBAAdditions.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "NSString+OBAAdditions.m"; sourceTree = "<group>"; };
+		9363B6D320F50EE400F515CB /* MatchingAgencyVehicle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MatchingAgencyVehicle.swift; sourceTree = "<group>"; };
 		936EB1B51E91746400F4F3A7 /* SystemConfiguration.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SystemConfiguration.framework; path = System/Library/Frameworks/SystemConfiguration.framework; sourceTree = SDKROOT; };
 		936EB1B71E91A83700F4F3A7 /* OBARegionStorage.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OBARegionStorage.h; sourceTree = "<group>"; };
 		936EB1B81E91A83700F4F3A7 /* OBARegionStorage.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OBARegionStorage.m; sourceTree = "<group>"; };
@@ -623,6 +629,10 @@
 		93F3F8A11E7BCA8C0025FC78 /* FileHelpers.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FileHelpers.swift; sourceTree = "<group>"; };
 		93FF1AAF1EC39270006C883D /* OBALogging.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OBALogging.h; sourceTree = "<group>"; };
 		93FF1AB01EC39270006C883D /* OBALogging.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OBALogging.m; sourceTree = "<group>"; };
+		93FF488120EF51C9009CFF13 /* OBAVehicleIDNavigationTarget.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = OBAVehicleIDNavigationTarget.h; sourceTree = "<group>"; };
+		93FF488220EF51C9009CFF13 /* OBAVehicleIDNavigationTarget.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = OBAVehicleIDNavigationTarget.m; sourceTree = "<group>"; };
+		93FF488520EF53C4009CFF13 /* OBAGenericNavigationTarget.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = OBAGenericNavigationTarget.h; sourceTree = "<group>"; };
+		93FF488620EF53C4009CFF13 /* OBAGenericNavigationTarget.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = OBAGenericNavigationTarget.m; sourceTree = "<group>"; };
 		93FFA5F81F88305300EA8008 /* OBAArrivalAndDepartureSectionBuilder.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OBAArrivalAndDepartureSectionBuilder.h; sourceTree = "<group>"; };
 		93FFA5F91F88305300EA8008 /* OBAArrivalAndDepartureSectionBuilder.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OBAArrivalAndDepartureSectionBuilder.m; sourceTree = "<group>"; };
 		CCD30CFA1E30564600080EFF /* OBAHandoff.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OBAHandoff.swift; sourceTree = "<group>"; };
@@ -633,16 +643,16 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				93BC49F31FB8D68E008B710D /* CocoaLumberjack.framework in Frameworks */,
+				93BC49F21FB8D68E008B710D /* CocoaLumberjackSwift.framework in Frameworks */,
 				930EFFD620C6F28500A2AE1F /* Contacts.framework in Frameworks */,
+				9356803C1EAC379100BEC077 /* CoreLocation.framework in Frameworks */,
 				935BB9F11F745E1E00062E31 /* CoreTelephony.framework in Frameworks */,
+				93BC49FD1FB8D6F4008B710D /* Mantle.framework in Frameworks */,
 				9356803E1EAC379700BEC077 /* MapKit.framework in Frameworks */,
 				9325DB501FCB569B00EDB0E8 /* Masonry.framework in Frameworks */,
-				9356803C1EAC379100BEC077 /* CoreLocation.framework in Frameworks */,
-				936EB1B61E91746400F4F3A7 /* SystemConfiguration.framework in Frameworks */,
-				93BC49FD1FB8D6F4008B710D /* Mantle.framework in Frameworks */,
 				93BC49FB1FB8D6A3008B710D /* PromiseKit.framework in Frameworks */,
-				93BC49F21FB8D68E008B710D /* CocoaLumberjackSwift.framework in Frameworks */,
-				93BC49F31FB8D68E008B710D /* CocoaLumberjack.framework in Frameworks */,
+				936EB1B61E91746400F4F3A7 /* SystemConfiguration.framework in Frameworks */,
 				93302B4E20CB595E003699C6 /* SwiftProtobuf.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -993,6 +1003,7 @@
 				9387F0F81FDDD9F50033A922 /* NetworkResponse.swift */,
 				93EBB9B720B271E100B31DA8 /* OBAWeatherForecast.h */,
 				93EBB9B820B271E100B31DA8 /* OBAWeatherForecast.m */,
+				9363B6D320F50EE400F515CB /* MatchingAgencyVehicle.swift */,
 			);
 			path = unmanaged;
 			sourceTree = "<group>";
@@ -1163,6 +1174,10 @@
 				93EA5A3E203DF41B00CE6CAC /* OBAAlarmNavigationTarget.m */,
 				93EA5A55203F368700CE6CAC /* OBAStopSearchNavigationTarget.h */,
 				93EA5A56203F368700CE6CAC /* OBAStopSearchNavigationTarget.m */,
+				93FF488120EF51C9009CFF13 /* OBAVehicleIDNavigationTarget.h */,
+				93FF488220EF51C9009CFF13 /* OBAVehicleIDNavigationTarget.m */,
+				93FF488520EF53C4009CFF13 /* OBAGenericNavigationTarget.h */,
+				93FF488620EF53C4009CFF13 /* OBAGenericNavigationTarget.m */,
 			);
 			path = navigation;
 			sourceTree = "<group>";
@@ -1251,7 +1266,9 @@
 				93E592B11F8D3C600079A2D8 /* OBABookmarkedRouteCell.h in Headers */,
 				93E5929B1F8CAA9C0079A2D8 /* OBATableSection.h in Headers */,
 				933BC22E2033CC0E00267965 /* OBAMapDataLoader.h in Headers */,
+				93FF488720EF53C4009CFF13 /* OBAGenericNavigationTarget.h in Headers */,
 				934196141DB0B099004BBBB7 /* OBAStopIconFactory.h in Headers */,
+				93FF488320EF51C9009CFF13 /* OBAVehicleIDNavigationTarget.h in Headers */,
 				93E592AA1F8D38070079A2D8 /* UIScrollView+EmptyDataSet.h in Headers */,
 				93FFA5FA1F88305300EA8008 /* OBAArrivalAndDepartureSectionBuilder.h in Headers */,
 				934196201DB0B099004BBBB7 /* OBARegionChangeRequest.h in Headers */,
@@ -1513,6 +1530,7 @@
 				934196171DB0B099004BBBB7 /* OBAStrings.m in Sources */,
 				930653F51E71D704005AF0C9 /* OBADeepLinkRouter.m in Sources */,
 				934C50961E2A1FB500DFDCA0 /* NSCoder+OBAAdditions.m in Sources */,
+				93FF488420EF51C9009CFF13 /* OBAVehicleIDNavigationTarget.m in Sources */,
 				934196401DB0B099004BBBB7 /* OBASetLocationPropertyJsonDigesterRule.m in Sources */,
 				934196B91DB0B0AF004BBBB7 /* OBATheme.m in Sources */,
 				93A73BFB1F87622600F213D4 /* OBAAnimation.m in Sources */,
@@ -1545,6 +1563,7 @@
 				93E592941F8CA6260079A2D8 /* OBATableRow.m in Sources */,
 				934196B11DB0B0AF004BBBB7 /* OBAJsonDataSource.m in Sources */,
 				93EA5A3C203DF21800CE6CAC /* OBADeepLinkNavigationTarget.m in Sources */,
+				93FF488820EF53C4009CFF13 /* OBAGenericNavigationTarget.m in Sources */,
 				934196481DB0B099004BBBB7 /* OBAAgencyV2.m in Sources */,
 				9358CDAF1DEA1AB000132CDE /* OBADepartureCellHelpers.m in Sources */,
 				9388C2A51FFDF7C90068041F /* OBAPlaceholderView.m in Sources */,
@@ -1573,6 +1592,7 @@
 				930EFFE620C87F0C00A2AE1F /* CLLocationManager+AnyPromise.m in Sources */,
 				9388C29E1FFDBAEA0068041F /* FBShimmeringLayer.m in Sources */,
 				934196641DB0B099004BBBB7 /* OBAPlacemark.m in Sources */,
+				9363B6D420F50EE400F515CB /* MatchingAgencyVehicle.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
