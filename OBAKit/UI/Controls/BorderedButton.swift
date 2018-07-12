@@ -45,7 +45,6 @@ public class BorderedButton: UIButton {
         self.layer.borderWidth = 1.0
         self.layer.cornerRadius = 4
         self.setTitleColor(self.borderColor, for: .normal)
-        self.titleEdgeInsets = UIEdgeInsetsMake(0, 4, 0, 4)
+        self.titleEdgeInsets = UIEdgeInsets(top: 0, left: 4, bottom: 0, right: 4)
     }
-
 }

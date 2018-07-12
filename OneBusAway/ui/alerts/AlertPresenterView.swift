@@ -41,7 +41,8 @@ class AlertPresenterView: MessageView {
         let labelStackWrapper = UIView.init()
         labelStackWrapper.addSubview(labelStack)
         labelStack.snp.makeConstraints { (make) in
-            make.edges.equalToSuperview().inset(UIEdgeInsetsMake(OBATheme.defaultMargin, OBATheme.defaultMargin, 0, OBATheme.defaultMargin))
+            let inset = UIEdgeInsets(top: OBATheme.defaultMargin, left: OBATheme.defaultMargin, bottom: 0, right: OBATheme.defaultMargin)
+            make.edges.equalToSuperview().inset(inset)
         }
 
         let spacer = UIView.init()
@@ -67,12 +68,15 @@ class AlertPresenterView: MessageView {
         if theme == .error {
             self.backgroundColor = OBATheme.color(withRed: 255, green: 90, blue: 69, alpha: 0.8)
         }
-    
-        self.button?.backgroundColor = self.backgroundColor
-        self.button?.setTitleColor(self.titleLabel?.textColor, for: .normal)
-        self.button?.contentEdgeInsets = UIEdgeInsetsMake(7.0, 7.0, 7.0, 7.0)
-        self.button?.contentEdgeInsets = .zero
-        self.button?.layer.cornerRadius = 0
+
+        if let button = self.button {
+            button.backgroundColor = self.backgroundColor
+            button.setTitleColor(self.titleLabel?.textColor, for: .normal)
+
+            button.contentEdgeInsets = UIEdgeInsets(top: 7.0, left: 7.0, bottom: 7.0, right: 7.0)
+            button.contentEdgeInsets = .zero
+            button.layer.cornerRadius = 0
+        }
 
         self.configureDropShadow()
     }

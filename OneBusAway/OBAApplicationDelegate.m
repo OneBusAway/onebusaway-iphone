@@ -277,7 +277,13 @@ static NSString * const OBALastRegionRefreshDateUserDefaultsKey = @"OBALastRegio
     return deepLinkRouter;
 }
 
-- (BOOL)application:(UIApplication *)application continueUserActivity:(NSUserActivity *)userActivity restorationHandler:(void (^)(NSArray *))restorationHandler {
+// TODO: Remove me after Xcode 10/iOS 12 SDK ship.
+// The signature of this method changed in the iOS 12 SDK, and Xcode gets grumpy when you try using one in the other.
+#if __IPHONE_OS_VERSION_MAX_ALLOWED >= 120000
+- (BOOL)application:(UIApplication *)application continueUserActivity:(NSUserActivity *)userActivity restorationHandler:(void (^)(NSArray<id<UIUserActivityRestoring>> * _Nullable))restorationHandler {
+#else
+- (BOOL)application:(UIApplication *)application continueUserActivity:(NSUserActivity *)userActivity restorationHandler:(void (^)(NSArray * _Nullable))restorationHandler {
+#endif
     NSInteger regionID = [userActivity.userInfo[OBAHandoff.regionIDKey] integerValue];
 
     NSURL *URL = userActivity.webpageURL;

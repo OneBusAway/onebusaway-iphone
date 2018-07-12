@@ -48,7 +48,7 @@ final class Sweep: NSObject, ListDiffable {
     }
 
     func isEqual(toDiffableObject object: ListDiffable?) -> Bool {
-        return self.isEqual(toDiffableObject: object)
+        return object is Sweep
     }
 
     /// Returns true when running on iPhone X-like devices... i.e. ones without home buttons.
