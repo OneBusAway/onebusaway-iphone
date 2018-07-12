@@ -58,10 +58,10 @@ github "OneSignal/OneSignal-iOS-SDK" ~>2.8.1
 ###################
 
 # https://github.com/Quick/Quick/releases
-github "Quick/Quick" ~>1.2.0
+github "Quick/Quick" ~>1.3.0
 
 # https://github.com/Quick/Nimble/releases
-github "Quick/Nimble" ~>7.0.3
+github "Quick/Nimble" ~>7.1.3
 
 # https://github.com/AliSoftware/OHHTTPStubs/releases
 github "AliSoftware/OHHTTPStubs" ~>6.1.0

@@ -212,7 +212,6 @@
 		93F1C26320BCDCCF00B5032B /* OfflineSection.swift in Sources */ = {isa = PBXBuildFile; fileRef = 93F1C26220BCDCCF00B5032B /* OfflineSection.swift */; };
 		93F3F88E1E7A7B2D0025FC78 /* RegionalAlertsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 93F3F88D1E7A7B2D0025FC78 /* RegionalAlertsViewController.swift */; };
 		93F3F8971E7AEE560025FC78 /* Mantle.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 93F3F8961E7AEE560025FC78 /* Mantle.framework */; };
-		93F3F89F1E7BAC510025FC78 /* OBARegionalAlert_Tests.m in Sources */ = {isa = PBXBuildFile; fileRef = 93F3F89E1E7BAC510025FC78 /* OBARegionalAlert_Tests.m */; };
 		93F9574A1E9AFB020022586B /* UIWindow+OBAAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = 93F957491E9AFB020022586B /* UIWindow+OBAAdditions.m */; };
 		93FE60261E0B2F34006EC9FB /* SVPulsingAnnotationView.m in Sources */ = {isa = PBXBuildFile; fileRef = 93FE60251E0B2F34006EC9FB /* SVPulsingAnnotationView.m */; };
 		D6575AEC0FEE13CF00D6D987 /* Entitlements.plist in Resources */ = {isa = PBXBuildFile; fileRef = D6575AEB0FEE13CF00D6D987 /* Entitlements.plist */; };
@@ -580,7 +579,6 @@
 		93F1C26220BCDCCF00B5032B /* OfflineSection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OfflineSection.swift; sourceTree = "<group>"; };
 		93F3F88D1E7A7B2D0025FC78 /* RegionalAlertsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RegionalAlertsViewController.swift; sourceTree = "<group>"; };
 		93F3F8961E7AEE560025FC78 /* Mantle.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Mantle.framework; path = Carthage/Build/iOS/Mantle.framework; sourceTree = "<group>"; };
-		93F3F89E1E7BAC510025FC78 /* OBARegionalAlert_Tests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OBARegionalAlert_Tests.m; sourceTree = "<group>"; };
 		93F5CF8E1DA820A4003947A8 /* boston.gpx */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = boston.gpx; sourceTree = "<group>"; };
 		93F957481E9AFB020022586B /* UIWindow+OBAAdditions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIWindow+OBAAdditions.h"; sourceTree = "<group>"; };
 		93F957491E9AFB020022586B /* UIWindow+OBAAdditions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIWindow+OBAAdditions.m"; sourceTree = "<group>"; };
@@ -1323,7 +1321,6 @@
 				9341987B1DB0C219004BBBB7 /* OBATripStopTimeV2_Tests.m */,
 				9341987C1DB0C219004BBBB7 /* OBATripV2_Tests.m */,
 				9341987D1DB0C219004BBBB7 /* OBAVehicleStatusV2_Tests.m */,
-				93F3F89E1E7BAC510025FC78 /* OBARegionalAlert_Tests.m */,
 				9373E70E1EA4084C0019C7CB /* OBATripDeepLink_Tests.swift */,
 				93EBB9BB20B283F900B31DA8 /* OBAWeatherForecast_Tests.m */,
 			);
@@ -1947,7 +1944,6 @@
 				934198A51DB0C219004BBBB7 /* OBARouteV2_Tests.m in Sources */,
 				9373E70F1EA4084C0019C7CB /* OBATripDeepLink_Tests.swift in Sources */,
 				934198981DB0C219004BBBB7 /* OBAEntryWithReferencesV2_Tests.m in Sources */,
-				93F3F89F1E7BAC510025FC78 /* OBARegionalAlert_Tests.m in Sources */,
 				934198B31DB0C219004BBBB7 /* OBATripStopTimeV2_Tests.m in Sources */,
 				934198951DB0C219004BBBB7 /* OBABookmarkGroup_Tests.m in Sources */,
 				934198911DB0C219004BBBB7 /* OBAAgencyWithCoverageV2_Tests.m in Sources */,

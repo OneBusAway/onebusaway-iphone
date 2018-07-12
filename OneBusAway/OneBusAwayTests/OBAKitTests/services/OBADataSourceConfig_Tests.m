@@ -8,6 +8,7 @@
 
 #import <XCTest/XCTest.h>
 @import OBAKit;
+#import "OBATestHelpers.h"
 
 @interface OBADataSourceConfig_Tests : XCTestCase
 
@@ -17,10 +18,11 @@
 
 - (void)testSimpleAPIConstruction {
     NSURL *URL = [NSURL URLWithString:@"http://api.pugetsound.onebusaway.org"];
-    OBADataSourceConfig *config = [[OBADataSourceConfig alloc] initWithBaseURL:URL userID:nil checkStatusCodeInBody:NO];
-    NSURL *fooURL = [config constructURL:@"/foo.json" withArgs:nil];
+    OBADataSourceConfig *config = [OBATestHelpers dataSourceConfigWithURL:URL];
 
-    XCTAssertEqualObjects([NSURL URLWithString:@"http://api.pugetsound.onebusaway.org/foo.json?"], fooURL);
+   NSURL *fooURL = [config constructURL:@"/foo.json" withArgs:nil];
+
+    XCTAssertEqualObjects([NSURL URLWithString:@"http://api.pugetsound.onebusaway.org/foo.json?key=org.onebusaway.iphone&app_uid=8F97F623-B527-4E99-9268-42AC6F27DCA5&app_ver=20160920.00&version=2"], fooURL);
 }
 
 - (void)testTampaConstruction {
@@ -59,13 +61,8 @@
 #pragma mark - Helpers
 
 - (OBADataSourceConfig*)buildTampaConfig {
-    return [[OBADataSourceConfig alloc] initWithURL:[NSURL URLWithString:@"http://api.tampa.onebusaway.org/api/"]
-                                               args:@{
-                                                      @"app_uid": @"8F97F623-B527-4E99-9268-42AC6F27DCA5",
-                                                      @"app_ver": @"20160920.00",
-                                                      @"key": @"org.onebusaway.iphone",
-                                                      @"version": @2
-                                                      }];
+    NSURL *URL = [NSURL URLWithString:@"http://api.tampa.onebusaway.org/api/"];
+    return [OBATestHelpers dataSourceConfigWithURL:URL];
 }
 
 @end

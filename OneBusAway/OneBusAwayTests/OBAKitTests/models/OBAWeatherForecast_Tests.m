@@ -33,11 +33,11 @@
     XCTAssertEqual(forecast.longitude, -122.6953125);
     XCTAssertEqual(forecast.regionIdentifier, 1);
     XCTAssertEqualObjects(forecast.regionName, @"Puget Sound");
-    XCTAssertEqualObjects(forecast.forecastRetrievedAt, [NSDate dateWithTimeIntervalSince1970:1526882190]);
-    XCTAssertEqualObjects(forecast.currentSummary, @"Mostly Cloudy");
-    XCTAssertEqualObjects(forecast.currentSummaryIconName, @"partly-cloudy-night");
+    XCTAssertEqualObjects(forecast.forecastRetrievedAt, [NSDate dateWithTimeIntervalSince1970:1531262074]);
+    XCTAssertEqualObjects(forecast.todaySummary, @"Partly cloudy until this evening.");
+    XCTAssertEqualObjects(forecast.currentForecastIconName, @"partly-cloudy-day");
     XCTAssertEqual(forecast.currentPrecipProbability, 0);
-    XCTAssertEqual(forecast.currentTemperature, 54.09);
+    XCTAssertEqual(forecast.currentTemperature, 72.5);
 }
 
 @end

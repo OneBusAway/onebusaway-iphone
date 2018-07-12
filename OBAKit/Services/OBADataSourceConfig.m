@@ -28,30 +28,37 @@
 @implementation OBADataSourceConfig
 
 - (instancetype)initWithBaseURL:(NSURL*)URL userID:(nullable NSString*)userID checkStatusCodeInBody:(BOOL)checkStatusCodeInBody {
+    return [self initWithBaseURL:URL userID:userID checkStatusCodeInBody:checkStatusCodeInBody apiKey:nil bundleVersion:nil apiVersion:nil];
+}
+
+- (instancetype)initWithBaseURL:(NSURL*)URL userID:(nullable NSString*)userID checkStatusCodeInBody:(BOOL)checkStatusCodeInBody apiKey:(nullable NSString*)apiKey bundleVersion:(nullable NSString*)bundleVersion apiVersion:(nullable NSString*)apiVersion {
     self = [super init];
 
     if (self) {
         _baseURL = [URL copy];
         _checkStatusCodeInBody = checkStatusCodeInBody;
         _basePath = [[NSURLComponents componentsWithURL:_baseURL resolvingAgainstBaseURL:NO] percentEncodedPath];
-        _defaultArgs = [OBADataSourceConfig defaultArgsWithUserID:userID];
+        _defaultArgs = [OBADataSourceConfig defaultArgsWithUserID:userID apiKey:apiKey bundleVersion:bundleVersion apiVersion:apiVersion];
         _contentType = OBADataSourceContentTypeJSON;
     }
+
     return self;
 }
 
-+ (NSArray<NSURLQueryItem*>*)defaultArgsWithUserID:(nullable NSString*)userID {
++ (NSArray<NSURLQueryItem*>*)defaultArgsWithUserID:(nullable NSString*)userID apiKey:(nullable NSString*)apiKey bundleVersion:(nullable NSString*)bundleVersion apiVersion:(nullable NSString*)apiVersion {
     NSMutableArray *args = [[NSMutableArray alloc] init];
 
-    [args addObject:[NSURLQueryItem queryItemWithName:@"key" value:@"org.onebusaway.iphone"]];
+    [args addObject:[NSURLQueryItem queryItemWithName:@"key" value:apiKey ?: @"org.onebusaway.iphone"]];
 
     if (userID.length > 0) {
         [args addObject:[NSURLQueryItem queryItemWithName:@"app_uid" value:userID]];
     }
 
-    [args addObject:[NSURLQueryItem queryItemWithName:@"app_ver" value:[NSBundle.mainBundle objectForInfoDictionaryKey:@"CFBundleVersion"]]];
+    bundleVersion = bundleVersion ?: [NSBundle.mainBundle objectForInfoDictionaryKey:@"CFBundleVersion"];
+    [args addObject:[NSURLQueryItem queryItemWithName:@"app_ver" value:bundleVersion]];
 
-    [args addObject:[NSURLQueryItem queryItemWithName:@"version" value:@"2"]];
+    apiVersion = apiVersion ?: @"2";
+    [args addObject:[NSURLQueryItem queryItemWithName:@"version" value:apiVersion]];
 
     return [NSArray arrayWithArray:args];
 }
