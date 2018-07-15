@@ -7,7 +7,6 @@
 //
 
 import PromiseKit
-import Mantle
 
 // MARK: Stop -> OBAArrivalAndDepartureV2
 @objc public class PromisedModelService: OBAModelService {
@@ -92,20 +91,19 @@ import Mantle
     /// - Returns: A promise wrapper that resolves to a WeatherForecast object.
     @objc public func requestWeather(in region: OBARegionV2, location: CLLocation?) -> PromiseWrapper {
         let request = buildURLRequestForWeather(in: region, location: location)
-        let wrapper = PromiseWrapper.init(request: request)
+        let wrapper = PromiseWrapper(request: request, dataDecodingStrategy: .noStrategy)
 
         wrapper.promise = wrapper.promise.then { networkResponse -> NetworkResponse in
-            let forecast = try self.decodeWeather(json: networkResponse.object as! [AnyHashable : Any])
+            let forecast = try self.decodeWeather(data: networkResponse.object as! Data)
             return NetworkResponse.init(object: forecast, URLResponse: networkResponse.URLResponse, urlRequest: networkResponse.urlRequest)
         }
 
         return wrapper
     }
 
-    @nonobjc private func decodeWeather(json: [AnyHashable: Any]) throws -> WeatherForecast {
-        let model = try MTLJSONAdapter.model(of: WeatherForecast.self, fromJSONDictionary: json)
-
-        return model as! WeatherForecast
+    @nonobjc private func decodeWeather(data: Data) throws -> WeatherForecast {
+        let forecast = try WeatherForecast.decoder.decode(WeatherForecast.self, from: data)
+        return forecast
     }
 
     @nonobjc private func buildURLRequestForWeather(in region: OBARegionV2, location: CLLocation?) -> OBAURLRequest {

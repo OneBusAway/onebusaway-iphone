@@ -44,9 +44,6 @@ github "jspahrsummers/libextobjc" ~>0.5.0
 ###### Data #######
 ###################
 
-# https://github.com/mantle/mantle/releases
-github "mantle/mantle" ~>2.1.0
-
 # https://github.com/apple/swift-protobuf/releases
 github "apple/swift-protobuf" ~>1.0.3
 

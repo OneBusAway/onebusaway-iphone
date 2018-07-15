@@ -28,9 +28,15 @@
     return [NSString stringWithContentsOfFile:[self pathToTestFile:fileName] encoding:NSUTF8StringEncoding error:nil];
 }
 
-+ (id)jsonObjectFromFile:(NSString*)fileName {
++ (NSData*)dataFromFile:(NSString*)fileName {
     NSString *filePath = [OBATestHelpers pathToTestFile:fileName];
     NSData *data = [[NSData alloc] initWithContentsOfFile:filePath];
+
+    return data;
+}
+
++ (id)jsonObjectFromFile:(NSString*)fileName {
+    NSData *data = [self dataFromFile:fileName];
     assert(data.length > 0);
     return [NSJSONSerialization JSONObjectWithData:data options:(NSJSONReadingOptions)0 error:nil];
 }
