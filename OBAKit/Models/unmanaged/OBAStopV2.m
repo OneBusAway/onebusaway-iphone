@@ -125,10 +125,26 @@
 #pragma mark - Public Helpers
 
 - (OBARouteType)firstAvailableRouteTypeForStop {
-    for (OBARouteV2 *route in self.routes) {
-        if (route.routeType) {
-            return route.routeType.integerValue;
-        }
+    NSSet<NSNumber*> *values = [NSSet setWithArray:[self.routes valueForKey:@"routeType"]];
+
+    if ([values containsObject:@(OBARouteTypeFerry)]) {
+        return OBARouteTypeFerry;
+    }
+
+    if ([values containsObject:@(OBARouteTypeLightRail)]) {
+        return OBARouteTypeLightRail;
+    }
+
+    if ([values containsObject:@(OBARouteTypeTrain)]) {
+        return OBARouteTypeTrain;
+    }
+
+    if ([values containsObject:@(OBARouteTypeMetro)]) {
+        return OBARouteTypeMetro;
+    }
+
+    if ([values containsObject:@(OBARouteTypeBus)]) {
+        return OBARouteTypeBus;
     }
 
     return OBARouteTypeUnknown;
