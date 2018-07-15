@@ -47,9 +47,9 @@ class ForecastCell: SelfSizingCollectionCell {
             guard let forecast = forecast else {
                 return
             }
-            let truncatedTemperature = Int(forecast.currentTemperature)
+            let truncatedTemperature = Int(forecast.currentForecast.temperature)
             temperatureLabel.text = "\(truncatedTemperature)º"
-            weatherImageView.image = UIImage(named: forecast.currentForecastIconName)
+            weatherImageView.image = UIImage(named: forecast.currentForecast.icon)
         }
     }
 

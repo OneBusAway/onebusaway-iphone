@@ -10,6 +10,7 @@
 		576BBECD1F963C5E008DCACF /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 5B7C4A5C1DB96E6A00853DD5 /* Localizable.strings */; };
 		5B7C4A5A1DB96E6A00853DD5 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 5B7C4A5C1DB96E6A00853DD5 /* Localizable.strings */; };
 		6B24C8761EC7F99E00A1F7B7 /* OBANavigationTitleView.m in Sources */ = {isa = PBXBuildFile; fileRef = 6B24C8751EC7F99E00A1F7B7 /* OBANavigationTitleView.m */; };
+		9300CF7320F88F4A006AB268 /* WeatherForecast_Tests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9300CF7220F88F4A006AB268 /* WeatherForecast_Tests.swift */; };
 		930653D71E6DE293005AF0C9 /* OBAToastView.m in Sources */ = {isa = PBXBuildFile; fileRef = 930653D61E6DE293005AF0C9 /* OBAToastView.m */; };
 		93089DB61F88056700694A90 /* regions-v3.json in Resources */ = {isa = PBXBuildFile; fileRef = 934198351DB0C1E9004BBBB7 /* regions-v3.json */; };
 		930AFE8C1DD04D2F0092AE82 /* OBAStopTableHeaderView.m in Sources */ = {isa = PBXBuildFile; fileRef = 930AFE861DD04D2F0092AE82 /* OBAStopTableHeaderView.m */; };
@@ -208,7 +209,6 @@
 		93D5480520B778F700334939 /* SectionHeaderCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 93D5480420B778F700334939 /* SectionHeaderCell.swift */; };
 		93DB91ED20F743570028A7BF /* VehicleDisambiguationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 93DB91EC20F743570028A7BF /* VehicleDisambiguationViewController.swift */; };
 		93DCEF7220E5AF2F0004E087 /* LabelSectionController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 93DCEF7120E5AF2F0004E087 /* LabelSectionController.swift */; };
-		93EBB9BC20B283F900B31DA8 /* OBAWeatherForecast_Tests.m in Sources */ = {isa = PBXBuildFile; fileRef = 93EBB9BB20B283F900B31DA8 /* OBAWeatherForecast_Tests.m */; };
 		93F1C26020BCD34B00B5032B /* LoadingCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 93F1C25F20BCD34B00B5032B /* LoadingCell.swift */; };
 		93F1C26320BCDCCF00B5032B /* OfflineSection.swift in Sources */ = {isa = PBXBuildFile; fileRef = 93F1C26220BCDCCF00B5032B /* OfflineSection.swift */; };
 		93F3F88E1E7A7B2D0025FC78 /* RegionalAlertsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 93F3F88D1E7A7B2D0025FC78 /* RegionalAlertsViewController.swift */; };
@@ -295,6 +295,7 @@
 		6B24C8741EC7F99E00A1F7B7 /* OBANavigationTitleView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OBANavigationTitleView.h; sourceTree = "<group>"; };
 		6B24C8751EC7F99E00A1F7B7 /* OBANavigationTitleView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OBANavigationTitleView.m; sourceTree = "<group>"; };
 		6B24C87C1EC821A900A1F7B7 /* zh-Hant */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hant"; path = "zh-Hant.lproj/Localizable.strings"; sourceTree = "<group>"; };
+		9300CF7220F88F4A006AB268 /* WeatherForecast_Tests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeatherForecast_Tests.swift; sourceTree = "<group>"; };
 		930653D51E6DE293005AF0C9 /* OBAToastView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OBAToastView.h; sourceTree = "<group>"; };
 		930653D61E6DE293005AF0C9 /* OBAToastView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OBAToastView.m; sourceTree = "<group>"; };
 		930AFE851DD04D2F0092AE82 /* OBAStopTableHeaderView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OBAStopTableHeaderView.h; sourceTree = "<group>"; };
@@ -576,7 +577,6 @@
 		93DB91EC20F743570028A7BF /* VehicleDisambiguationViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VehicleDisambiguationViewController.swift; sourceTree = "<group>"; };
 		93DCEF7120E5AF2F0004E087 /* LabelSectionController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LabelSectionController.swift; sourceTree = "<group>"; };
 		93E4A7611CE65B2100E769B0 /* atlanta.gpx */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = atlanta.gpx; sourceTree = "<group>"; };
-		93EBB9BB20B283F900B31DA8 /* OBAWeatherForecast_Tests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = OBAWeatherForecast_Tests.m; sourceTree = "<group>"; };
 		93F1C25F20BCD34B00B5032B /* LoadingCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoadingCell.swift; sourceTree = "<group>"; };
 		93F1C26220BCDCCF00B5032B /* OfflineSection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OfflineSection.swift; sourceTree = "<group>"; };
 		93F3F88D1E7A7B2D0025FC78 /* RegionalAlertsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RegionalAlertsViewController.swift; sourceTree = "<group>"; };
@@ -1325,7 +1325,7 @@
 				9341987C1DB0C219004BBBB7 /* OBATripV2_Tests.m */,
 				9341987D1DB0C219004BBBB7 /* OBAVehicleStatusV2_Tests.m */,
 				9373E70E1EA4084C0019C7CB /* OBATripDeepLink_Tests.swift */,
-				93EBB9BB20B283F900B31DA8 /* OBAWeatherForecast_Tests.m */,
+				9300CF7220F88F4A006AB268 /* WeatherForecast_Tests.swift */,
 			);
 			path = models;
 			sourceTree = "<group>";
@@ -1956,8 +1956,8 @@
 				934198AD1DB0C219004BBBB7 /* OBAStopsForRouteV2_Tests.m in Sources */,
 				934198921DB0C219004BBBB7 /* OBAArrivalAndDepartureInstanceRef_Tests.m in Sources */,
 				934198A91DB0C219004BBBB7 /* OBASituationConsequenceV2_Tests.m in Sources */,
-				93EBB9BC20B283F900B31DA8 /* OBAWeatherForecast_Tests.m in Sources */,
 				934198A11DB0C219004BBBB7 /* OBARegionBoundsV2_Tests.m in Sources */,
+				9300CF7320F88F4A006AB268 /* WeatherForecast_Tests.swift in Sources */,
 				934198971DB0C219004BBBB7 /* OBACoordinateBounds_Tests.m in Sources */,
 				934198B01DB0C219004BBBB7 /* OBATripInstanceRef_Tests.m in Sources */,
 				934198A01DB0C219004BBBB7 /* OBAReferencesV2_Tests.m in Sources */,

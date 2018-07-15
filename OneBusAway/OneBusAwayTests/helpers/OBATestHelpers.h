@@ -64,6 +64,8 @@ NS_ASSUME_NONNULL_BEGIN
  */
 + (NSString*)contentsOfTestFile:(NSString*)fileName;
 
++ (NSData*)dataFromFile:(NSString*)fileName;
+
 /**
  Returns the deserialized object from the JSON file specified.
  */
