@@ -269,6 +269,7 @@ extension TodayViewController {
 
         let promiseWrapper = app.modelService.requestStopArrivalsAndDepartures(withID: bookmark.stopId, minutesBefore: 0, minutesAfter: kMinutes)
         return promiseWrapper.promise.then { networkResponse -> Void in
+            // swiftlint:disable force_cast
             let departures: [OBAArrivalAndDepartureV2] = bookmark.matchingArrivalsAndDepartures(forStop: networkResponse.object as! OBAArrivalsAndDeparturesForStopV2)
                 view.departures = departures
                 view.loadingState = .complete

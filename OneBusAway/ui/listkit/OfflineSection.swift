@@ -40,7 +40,6 @@ class OfflineCell: SelfSizingCollectionCell {
     }
 }
 
-
 final class OfflineSectionController: ListSectionController {
     var data: OfflineSection?
 

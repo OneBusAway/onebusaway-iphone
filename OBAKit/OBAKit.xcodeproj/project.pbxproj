@@ -230,6 +230,7 @@
 		935BB9F11F745E1E00062E31 /* CoreTelephony.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 935BB9F01F745E1E00062E31 /* CoreTelephony.framework */; };
 		935C39191F772CE300737DC4 /* NSString+OBAAdditions.h in Headers */ = {isa = PBXBuildFile; fileRef = 935C39171F772CE300737DC4 /* NSString+OBAAdditions.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		935C391A1F772CE300737DC4 /* NSString+OBAAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = 935C39181F772CE300737DC4 /* NSString+OBAAdditions.m */; };
+		935F91FD20F7EFB2003571EB /* Models+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 935F91FC20F7EFB2003571EB /* Models+Extensions.swift */; };
 		9363B6D420F50EE400F515CB /* MatchingAgencyVehicle.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9363B6D320F50EE400F515CB /* MatchingAgencyVehicle.swift */; };
 		936EB1B61E91746400F4F3A7 /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 936EB1B51E91746400F4F3A7 /* SystemConfiguration.framework */; };
 		936EB1B91E91A83700F4F3A7 /* OBARegionStorage.h in Headers */ = {isa = PBXBuildFile; fileRef = 936EB1B71E91A83700F4F3A7 /* OBARegionStorage.h */; };
@@ -551,6 +552,7 @@
 		935BB9F01F745E1E00062E31 /* CoreTelephony.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreTelephony.framework; path = System/Library/Frameworks/CoreTelephony.framework; sourceTree = SDKROOT; };
 		935C39171F772CE300737DC4 /* NSString+OBAAdditions.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "NSString+OBAAdditions.h"; sourceTree = "<group>"; };
 		935C39181F772CE300737DC4 /* NSString+OBAAdditions.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "NSString+OBAAdditions.m"; sourceTree = "<group>"; };
+		935F91FC20F7EFB2003571EB /* Models+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Models+Extensions.swift"; sourceTree = "<group>"; };
 		9363B6D320F50EE400F515CB /* MatchingAgencyVehicle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MatchingAgencyVehicle.swift; sourceTree = "<group>"; };
 		936EB1B51E91746400F4F3A7 /* SystemConfiguration.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SystemConfiguration.framework; path = System/Library/Frameworks/SystemConfiguration.framework; sourceTree = SDKROOT; };
 		936EB1B71E91A83700F4F3A7 /* OBARegionStorage.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OBARegionStorage.h; sourceTree = "<group>"; };
@@ -854,6 +856,7 @@
 		934195841DB0B099004BBBB7 /* Models */ = {
 			isa = PBXGroup;
 			children = (
+				935F91FB20F7EF94003571EB /* extensions */,
 				93302B4F20CB5A36003699C6 /* protobuf */,
 				93EA5A38203DF1DC00CE6CAC /* navigation */,
 				934195851DB0B099004BBBB7 /* annotations */,
@@ -1095,6 +1098,14 @@
 				9358CDAD1DEA1AB000132CDE /* OBADepartureCellHelpers.m */,
 			);
 			path = Departures;
+			sourceTree = "<group>";
+		};
+		935F91FB20F7EF94003571EB /* extensions */ = {
+			isa = PBXGroup;
+			children = (
+				935F91FC20F7EFB2003571EB /* Models+Extensions.swift */,
+			);
+			path = extensions;
 			sourceTree = "<group>";
 		};
 		9377DD511EE4682300134AE8 /* Controls */ = {
@@ -1487,6 +1498,7 @@
 				93A73BF71F87613A00F213D4 /* OBADepartureTimeLabel.m in Sources */,
 				93089DA41F87E6E600694A90 /* OBAViewModelRegistry.m in Sources */,
 				934196681DB0B099004BBBB7 /* OBAReferencesV2.m in Sources */,
+				935F91FD20F7EFB2003571EB /* Models+Extensions.swift in Sources */,
 				934196521DB0B099004BBBB7 /* OBABookmarkGroup.m in Sources */,
 				9341964C1DB0B099004BBBB7 /* OBAArrivalAndDepartureInstanceRef.m in Sources */,
 				9341960F1DB0B099004BBBB7 /* OBAMapHelpers.m in Sources */,

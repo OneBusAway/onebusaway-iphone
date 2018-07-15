@@ -45,7 +45,6 @@ class LoadingCell: SelfSizingCollectionCell {
     }
 }
 
-
 final class LoadingSectionController: ListSectionController {
     var data: LoadingSection?
 

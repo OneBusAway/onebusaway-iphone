@@ -190,7 +190,7 @@ extension MapTableViewController {
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
 
-        let tabBarHeight:CGFloat = 44.0 // abxoxo - fix this for iPhone X.
+        let tabBarHeight: CGFloat = 44.0
         mapContainer.frame = CGRect(x: 0, y: 0, width: view.bounds.width, height: view.bounds.height - tabBarHeight)
 
         collectionView.contentInset = UIEdgeInsets(top: view.bounds.height - Sweep.collectionViewContentInset, left: 0, bottom: 0, right: 0)
@@ -234,6 +234,7 @@ extension MapTableViewController {
 
         let wrapper = modelService.requestWeather(in: region, location: self.locationManager.currentLocation)
         wrapper.promise.then { networkResponse -> Void in
+            // swiftlint:disable force_cast
             let forecast = networkResponse.object as! WeatherForecast
             self.weatherForecast = forecast
         }.catch { error in
@@ -256,7 +257,7 @@ extension MapTableViewController: ListAdapterDataSource {
             sections.append(forecast)
         }
 
-        // abxoxo: todo add horizontal scrolling!
+        // Agency Alerts
         if agencyAlerts.count > 0 {
             let first = agencyAlerts[0]
             let viewModel = RegionalAlert.init(alertIdentifier: first.id, title: first.title(language: "en"), summary: first.body(language: "en"), url: first.url(language: "en"))
@@ -362,21 +363,9 @@ extension MapTableViewController {
 // MARK: - Map Data Loader
 extension MapTableViewController: OBAMapDataLoaderDelegate {
     func mapDataLoader(_ mapDataLoader: OBAMapDataLoader, didUpdate searchResult: OBASearchResult) {
+        //swiftlint:disable force_cast
         let unsortedStops = searchResult.values.filter { $0 is OBAStopV2 } as! [OBAStopV2]
-        stops = sort(stops: unsortedStops, byDistanceTo: centerCoordinate)
-    }
-
-    // TODO: DRY me up with identical function in NearbyStopsViewController
-    fileprivate func sort(stops: [OBAStopV2], byDistanceTo coordinate: CLLocationCoordinate2D?) -> [OBAStopV2] {
-        guard let coordinate = coordinate else {
-            return stops
-        }
-
-        return stops.sorted { (s1, s2) -> Bool in
-            let distance1 = OBAMapHelpers.getDistanceFrom(s1.coordinate, to: coordinate)
-            let distance2 = OBAMapHelpers.getDistanceFrom(s2.coordinate, to: coordinate)
-            return distance1 < distance2
-        }
+        stops = unsortedStops.sortByDistance(coordinate: centerCoordinate)
     }
 }
 
@@ -403,8 +392,6 @@ extension MapTableViewController: MapSearchDelegate, UISearchControllerDelegate,
         OBAAnalytics.reportEvent(withCategory: OBAAnalyticsCategoryUIAction, action: "button_press", label: analyticsLabel, value: nil)
 
         searchController.dismiss(animated: true) { [weak self] in
-            // abxoxo - TODO: figure out how to unify -navigateToTarget, this method, and -setNavigationTarget.
-            // abxoxo this is ugly and janky. fix it.
             if let visibleRegion = self?.mapController.visibleMapRegion {
                 self?.mapDataLoader.searchRegion = visibleRegion
                 self?.mapController.setNavigationTarget(target)
@@ -441,8 +428,6 @@ extension MapTableViewController {
 // MARK: - OBANavigationTargetAware
 extension MapTableViewController: OBANavigationTargetAware {
     func setNavigationTarget(_ navigationTarget: OBANavigationTarget) {
-        // TODO: this controllers should handle setNavigationTarget(),
-        // not the underlying map controller :-\
         mapController.setNavigationTarget(navigationTarget)
     }
 }

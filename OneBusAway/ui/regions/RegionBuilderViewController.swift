@@ -108,7 +108,7 @@ extension RegionBuilderViewController {
         super.viewDidAppear(animated)
 
         let indexPath = self.indexPath(for: self.baseURLRow)
-        if let cell: OBATextFieldCell = self.tableView.cellForRow(at: indexPath!) as! OBATextFieldCell? {
+        if let cell = self.tableView.cellForRow(at: indexPath!) as? OBATextFieldCell {
             cell.textField.becomeFirstResponder()
         }
     }
@@ -143,10 +143,11 @@ extension RegionBuilderViewController {
 
         let wrapper = modelService.requestAgenciesWithCoverage()
         wrapper.promise.then { networkResponse -> Void in
-            let agencies = networkResponse.object as! [OBAAgencyWithCoverageV2]
-            agencies.forEach { a in
-                if let bounds = a.regionBounds {
-                    self.region.addBound(bounds)
+            if let agencies = networkResponse.object as? [OBAAgencyWithCoverageV2] {
+                agencies.forEach { a in
+                    if let bounds = a.regionBounds {
+                        self.region.addBound(bounds)
+                    }
                 }
             }
 
@@ -176,22 +177,22 @@ extension RegionBuilderViewController {
 
     fileprivate func loadDataIntoRegion() {
         // Required Fields
-        if let text = self.userDataModel[self.baseURLRow.dataKey!] {
-            self.region.obaBaseUrl = text as! String
+        if let text = self.userDataModel[self.baseURLRow.dataKey!] as? String {
+            self.region.obaBaseUrl = text
         }
 
-        if let text = self.userDataModel[self.nameRow.dataKey!] {
-            self.region.regionName = text as! String
+        if let text = self.userDataModel[self.nameRow.dataKey!] as? String {
+            self.region.regionName = text
         }
 
         // Optional Fields
         self.region.contactEmail = self.userDataModel[self.contactEmailRow.dataKey!] as? String
 
-        if let val = self.userDataModel[self.obaRealTimeRow.dataKey!] as! Bool? {
+        if let val = self.userDataModel[self.obaRealTimeRow.dataKey!] as? Bool {
             self.region.supportsObaRealtimeApis = val
         }
 
-        if let val = self.userDataModel[self.isActiveRow.dataKey!] as! Bool? {
+        if let val = self.userDataModel[self.isActiveRow.dataKey!] as? Bool {
             self.region.active = val
         }
     }

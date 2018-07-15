@@ -1529,6 +1529,7 @@
 				938B84231D8686B800DB0AF0 /* Carthage Integration */,
 				93BB1EDE1E3004E2008A88BA /* Fabric */,
 				93AD17C51F86C14C00E730D7 /* Embed App Extensions */,
+				935F91F920F7E33F003571EB /* Swiftlint */,
 			);
 			buildRules = (
 			);
@@ -1760,6 +1761,20 @@
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
 			shellScript = "./Fabric.framework/run c84d1b759118d7506fea035b497a567d26a1c67b 27ddab734af739718fae5fb6f522d5b6a14873fbc58fddc62a8e14374815db58";
+		};
+		935F91F920F7E33F003571EB /* Swiftlint */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = Swiftlint;
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "if which swiftlint >/dev/null; then\n    swiftlint\nelse\n    echo \"warning: SwiftLint not installed, download from https://github.com/realm/SwiftLint\"\nfi";
 		};
 		938B84231D8686B800DB0AF0 /* Carthage Integration */ = {
 			isa = PBXShellScriptBuildPhase;

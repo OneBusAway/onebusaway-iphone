@@ -8,6 +8,8 @@
 
 import PromiseKit
 
+// swiftlint:disable force_cast
+
 // MARK: Stop -> OBAArrivalAndDepartureV2
 @objc public class PromisedModelService: OBAModelService {
     @objc public func requestStopArrivalsAndDepartures(withID stopID: String, minutesBefore: UInt, minutesAfter: UInt) -> PromiseWrapper {
@@ -22,8 +24,6 @@ import PromiseKit
         return promiseWrapper
     }
 
-    // TODO: extract this URL generation code into a new, separate class somewhere that is
-    // solely focused on URL generation.
     @objc public func buildURLRequestForStopArrivalsAndDepartures(withID stopID: String, minutesBefore: UInt, minutesAfter: UInt) -> OBAURLRequest {
         let args = ["minutesBefore": minutesBefore, "minutesAfter": minutesAfter]
         let escapedStopID = OBAURLHelpers.escapePathVariable(stopID)
@@ -35,7 +35,7 @@ import PromiseKit
     private func decodeStopArrivals(json: Any) throws -> OBAArrivalsAndDeparturesForStopV2 {
         var error: NSError?
 
-        let modelObjects = self.modelFactory.getArrivalsAndDeparturesForStopV2(fromJSON: json as! [AnyHashable : Any], error: &error)
+        let modelObjects = self.modelFactory.getArrivalsAndDeparturesForStopV2(fromJSON: json as! [AnyHashable: Any], error: &error)
         if let error = error {
             throw error
         }
@@ -132,7 +132,7 @@ import PromiseKit
         let wrapper = PromiseWrapper.init(request: request)
 
         wrapper.promise = wrapper.promise.then { networkResponse -> NetworkResponse in
-            let dict = networkResponse.object as! Dictionary<String, Any>
+            let dict = networkResponse.object as! [String: Any]
             let url = URL.init(string: dict["url"] as! String)!
 
             return NetworkResponse.init(object: url, URLResponse: networkResponse.URLResponse, urlRequest: networkResponse.urlRequest)
@@ -144,12 +144,12 @@ import PromiseKit
     @nonobjc private func createAlarmRequest(_ alarm: OBAAlarm, userPushNotificationID: String) -> OBAURLRequest {
         let params: [String: Any] = [
             "seconds_before": alarm.timeIntervalBeforeDeparture,
-            "stop_id":        alarm.stopID,
-            "trip_id":        alarm.tripID,
-            "service_date":   alarm.serviceDate,
-            "vehicle_id":     alarm.vehicleID,
-            "stop_sequence":  alarm.stopSequence,
-            "user_push_id":   userPushNotificationID
+            "stop_id": alarm.stopID,
+            "trip_id": alarm.tripID,
+            "service_date": alarm.serviceDate,
+            "vehicle_id": alarm.vehicleID,
+            "stop_sequence": alarm.stopSequence,
+            "user_push_id": userPushNotificationID
         ]
 
         return self.obacoJsonDataSource.buildRequest(withPath: "/api/v1/regions/\(alarm.regionIdentifier)/alarms", httpMethod: "POST", queryParameters: nil, formBody: params)
@@ -167,7 +167,7 @@ import PromiseKit
         let wrapper = PromiseWrapper.init(request: request)
 
         wrapper.promise = wrapper.promise.then { networkResponse -> NetworkResponse in
-            let tripDetails = try self.decodeTripDetails(json: networkResponse.object as! [AnyHashable : Any])
+            let tripDetails = try self.decodeTripDetails(json: networkResponse.object as! [AnyHashable: Any])
             return NetworkResponse.init(object: tripDetails, URLResponse: networkResponse.URLResponse, urlRequest: networkResponse.urlRequest)
         }
 
@@ -209,7 +209,7 @@ import PromiseKit
         let wrapper = PromiseWrapper.init(request: request)
 
         wrapper.promise = wrapper.promise.then { networkResponse -> NetworkResponse in
-            let agencies = try self.decodeData(json: networkResponse.object as! [AnyHashable : Any])
+            let agencies = try self.decodeData(json: networkResponse.object as! [AnyHashable: Any])
             return NetworkResponse.init(object: agencies, URLResponse: networkResponse.URLResponse, urlRequest: networkResponse.urlRequest)
         }
 
@@ -293,7 +293,7 @@ extension PromisedModelService {
             let objects = try decoder.decode([MatchingAgencyVehicle].self, from: networkResponse.object as! Data)
 
             if objects.count == 0 {
-                throw OBAErrorMessages.vehicleNotFoundError;
+                throw OBAErrorMessages.vehicleNotFoundError
             }
 
             return NetworkResponse.init(object: objects, URLResponse: networkResponse.URLResponse, urlRequest: networkResponse.urlRequest)
@@ -304,7 +304,7 @@ extension PromisedModelService {
 
     private func buildVehicleListRequest(matching: String, region: OBARegionV2) -> OBAURLRequest {
         let path = "/api/v1/regions/\(region.identifier)/vehicles"
-        let url = obacoJsonDataSource.constructURL(fromPath:path, params: ["query": matching])
+        let url = obacoJsonDataSource.constructURL(fromPath: path, params: ["query": matching])
         let obacoRequest = OBAURLRequest.init(url: url, cachePolicy: .useProtocolCachePolicy, timeoutInterval: 10)
         return obacoRequest
     }

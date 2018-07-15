@@ -9,7 +9,7 @@
 import UIKit
 
 @objc(OBAVehicleDisambiguationDelegate) protocol VehicleDisambiguationDelegate {
-    func disambiguator(_ viewController :VehicleDisambiguationViewController, didSelect matchingVehicle: MatchingAgencyVehicle)
+    func disambiguator(_ viewController: VehicleDisambiguationViewController, didSelect matchingVehicle: MatchingAgencyVehicle)
 }
 
 @objc(OBAVehicleDisambiguationViewController)
@@ -35,7 +35,7 @@ final class VehicleDisambiguationViewController: OBAStaticTableViewController {
         navigationItem.leftBarButtonItem = UIBarButtonItem(barButtonSystemItem: .cancel, target: self, action: #selector(cancel))
 
         let rows = matchingVehicles.map { agencyVehicle -> OBATableRow in
-            let row = OBATableRow(title: agencyVehicle.userFriendlyVehicleID) { row in
+            let row = OBATableRow(title: agencyVehicle.userFriendlyVehicleID) { _ in
                 self.delegate?.disambiguator(self, didSelect: agencyVehicle)
             }
             row.accessoryType = .disclosureIndicator

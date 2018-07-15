@@ -18,10 +18,8 @@ import Foundation
     @objc public let agencyID: String
 
     private static func findAgencyInList(list: [TransitRealtime_EntitySelector]) -> TransitRealtime_EntitySelector? {
-        for sel in list {
-            if sel.hasAgencyID {
-                return sel
-            }
+        for sel in list where sel.hasAgencyID {
+            return sel
         }
         return nil
     }
@@ -154,10 +152,8 @@ extension AgencyAlert {
 // MARK: - Static Helpers
 extension AgencyAlert {
     static func isAgencyWideAlert(alert: TransitRealtime_Alert) -> Bool {
-        for sel in alert.informedEntity {
-            if sel.hasAgencyID {
-                return true
-            }
+        for sel in alert.informedEntity where sel.hasAgencyID {
+            return true
         }
 
         return false

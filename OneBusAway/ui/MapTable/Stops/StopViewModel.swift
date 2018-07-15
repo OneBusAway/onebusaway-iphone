@@ -26,13 +26,11 @@ class StopViewModel: NSObject {
 // MARK: - Helpers
 extension StopViewModel {
     var nameWithDirection: String {
-        get {
-            if let dir = direction {
-                return "\(name) (\(dir))"
-            }
-            else {
-                return name
-            }
+        if let dir = direction {
+            return "\(name) (\(dir))"
+        }
+        else {
+            return name
         }
     }
 }

@@ -6,6 +6,8 @@
 //  Copyright © 2017 OneBusAway. All rights reserved.
 //
 
+// swiftlint:disable force_cast
+
 import Foundation
 import PromiseKit
 
@@ -38,7 +40,7 @@ import PromiseKit
                    let outerJSON = jsonObject,
                    outerJSON.responds(to: #selector(self.value(forKey:))) {
                      let statusCode = (outerJSON.value(forKey: "code") as! NSNumber).intValue
-                     httpResponse = HTTPURLResponse.init(url: httpResponse.url!, statusCode: statusCode, httpVersion: nil, headerFields: httpResponse.allHeaderFields as? [String : String])!
+                     httpResponse = HTTPURLResponse.init(url: httpResponse.url!, statusCode: statusCode, httpVersion: nil, headerFields: httpResponse.allHeaderFields as? [String: String])!
                      jsonObject = outerJSON.value(forKey: "data") as AnyObject
                 }
 

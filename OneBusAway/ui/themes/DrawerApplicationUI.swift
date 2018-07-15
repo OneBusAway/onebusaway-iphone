@@ -54,9 +54,7 @@ extension DrawerApplicationUI: OBAApplicationUI {
     private static let kOBASelectedTabIndexDefaultsKey = "OBASelectedTabIndexDefaultsKey"
 
     public var rootViewController: UIViewController {
-        get {
-            return tabBarController
-        }
+        return tabBarController
     }
 
     func performAction(for shortcutItem: UIApplicationShortcutItem, completionHandler: @escaping (Bool) -> Void) {
@@ -115,7 +113,9 @@ extension DrawerApplicationUI: OBAApplicationUI {
             viewController = infoController
             navController = infoNavigation
         case .undefined:
+            // swiftlint:disable no_fallthrough_only fallthrough
             fallthrough
+            // swiftlint:enable no_fallthrough_only fallthrough
         default:
             DDLogError("Unhandled target in #file #line: \(navigationTarget.target)")
             return

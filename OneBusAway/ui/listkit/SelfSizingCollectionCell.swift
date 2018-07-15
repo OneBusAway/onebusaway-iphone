@@ -8,14 +8,6 @@
 
 import UIKit
 
-/*
-
- abxoxo TODO: replumb this with `systemLayoutSizeFitting` :(
-
- https://gist.github.com/dhavalcue/4b081e65ded5c261d301beddbd2ddfcb
-
- */
-
 class SelfSizingCollectionCell: UICollectionViewCell {
 
     override func preferredLayoutAttributesFitting(_ layoutAttributes: UICollectionViewLayoutAttributes) -> UICollectionViewLayoutAttributes {

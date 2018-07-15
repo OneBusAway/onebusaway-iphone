@@ -108,14 +108,14 @@ class RegionListViewController: OBAStaticTableViewController, RegionBuilderDeleg
 
         // Only regions that were created in-app can be edited.
         if !region.custom {
-            return nil;
+            return nil
         }
 
-        let edit = UITableViewRowAction.init(style: .normal, title: OBAStrings.edit) { (action, indexPath) in
+        let edit = UITableViewRowAction.init(style: .normal, title: OBAStrings.edit) { _, _ in
             self.buildRegion(region)
         }
 
-        let delete = UITableViewRowAction.init(style: .destructive, title: OBAStrings.delete) { (action, indexPath) in
+        let delete = UITableViewRowAction.init(style: .destructive, title: OBAStrings.delete) { (_, indexPath) in
             self.deleteRow(at: indexPath)
         }
 
@@ -153,10 +153,10 @@ class RegionListViewController: OBAStaticTableViewController, RegionBuilderDeleg
         let activeRows = tableRowsFromRegions(acceptableRegions.filter { !$0.experimental })
         let experimentalRows = tableRowsFromRegions(acceptableRegions.filter { $0.experimental })
 
-        let autoSelectRow = OBASwitchRow.init(title: NSLocalizedString("msg_automatically_select_region", comment: ""), action: { row in
+        let autoSelectRow = OBASwitchRow.init(title: NSLocalizedString("msg_automatically_select_region", comment: ""), action: { _ in
             self.modelDAO.automaticallySelectRegion = !self.modelDAO.automaticallySelectRegion
 
-            if (self.modelDAO.automaticallySelectRegion) {
+            if self.modelDAO.automaticallySelectRegion {
                 if let refresh = OBAApplication.shared().regionHelper.refreshData() {
                     SVProgressHUD.show()
                     refresh.then { _ -> Void in
@@ -217,18 +217,18 @@ class RegionListViewController: OBAStaticTableViewController, RegionBuilderDeleg
             row.deleteModel = { row in
                 let alert = UIAlertController.init(title: NSLocalizedString("msg_ask_delete_region", comment: ""), message: nil, preferredStyle: .alert)
                 alert.addAction(UIAlertAction.init(title: OBAStrings.cancel, style: .cancel, handler: nil))
-                alert.addAction(UIAlertAction.init(title: OBAStrings.delete, style: .destructive, handler: { action in
+                alert.addAction(UIAlertAction.init(title: OBAStrings.delete, style: .destructive, handler: { _ in
                     self.modelDAO.removeCustomRegion(region)
                 }))
                 self.present(alert, animated: true, completion: nil)
             }
 
-            if (autoSelect) {
+            if autoSelect {
                 row.titleColor = OBATheme.darkDisabledColor
                 row.selectionStyle = .none
             }
 
-            if (self.modelDAO.currentRegion == region) {
+            if self.modelDAO.currentRegion == region {
                 row.accessoryType = .checkmark
             }
 
