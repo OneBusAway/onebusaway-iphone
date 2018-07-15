@@ -268,7 +268,6 @@
 		93BC49F21FB8D68E008B710D /* CocoaLumberjackSwift.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 93BC49F01FB8D68E008B710D /* CocoaLumberjackSwift.framework */; };
 		93BC49F31FB8D68E008B710D /* CocoaLumberjack.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 93BC49F11FB8D68E008B710D /* CocoaLumberjack.framework */; };
 		93BC49FB1FB8D6A3008B710D /* PromiseKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 93BC49FA1FB8D6A3008B710D /* PromiseKit.framework */; };
-		93BC49FD1FB8D6F4008B710D /* Mantle.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 93BC49FC1FB8D6F4008B710D /* Mantle.framework */; };
 		93D5F3671FF1900700800132 /* OBAURLRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 93D5F3661FF1900700800132 /* OBAURLRequest.swift */; };
 		93DCEF6E20E54EAF0004E087 /* MKMapSnapshotter+AnyPromise.h in Headers */ = {isa = PBXBuildFile; fileRef = 93DCEF6C20E54EAF0004E087 /* MKMapSnapshotter+AnyPromise.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		93DCEF6F20E54EAF0004E087 /* MKMapSnapshotter+AnyPromise.m in Sources */ = {isa = PBXBuildFile; fileRef = 93DCEF6D20E54EAF0004E087 /* MKMapSnapshotter+AnyPromise.m */; };
@@ -591,7 +590,6 @@
 		93BC49F11FB8D68E008B710D /* CocoaLumberjack.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CocoaLumberjack.framework; path = ../Carthage/Build/iOS/CocoaLumberjack.framework; sourceTree = "<group>"; };
 		93BC49F51FB8D697008B710D /* PMKMapKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = PMKMapKit.framework; path = ../Carthage/Build/iOS/PMKMapKit.framework; sourceTree = "<group>"; };
 		93BC49FA1FB8D6A3008B710D /* PromiseKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = PromiseKit.framework; path = ../Carthage/Build/iOS/PromiseKit.framework; sourceTree = "<group>"; };
-		93BC49FC1FB8D6F4008B710D /* Mantle.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Mantle.framework; path = ../Carthage/Build/iOS/Mantle.framework; sourceTree = "<group>"; };
 		93D5F3661FF1900700800132 /* OBAURLRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OBAURLRequest.swift; sourceTree = "<group>"; };
 		93DCEF6C20E54EAF0004E087 /* MKMapSnapshotter+AnyPromise.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "MKMapSnapshotter+AnyPromise.h"; sourceTree = "<group>"; };
 		93DCEF6D20E54EAF0004E087 /* MKMapSnapshotter+AnyPromise.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "MKMapSnapshotter+AnyPromise.m"; sourceTree = "<group>"; };
@@ -646,7 +644,6 @@
 				930EFFD620C6F28500A2AE1F /* Contacts.framework in Frameworks */,
 				9356803C1EAC379100BEC077 /* CoreLocation.framework in Frameworks */,
 				935BB9F11F745E1E00062E31 /* CoreTelephony.framework in Frameworks */,
-				93BC49FD1FB8D6F4008B710D /* Mantle.framework in Frameworks */,
 				9356803E1EAC379700BEC077 /* MapKit.framework in Frameworks */,
 				9325DB501FCB569B00EDB0E8 /* Masonry.framework in Frameworks */,
 				93BC49FB1FB8D6A3008B710D /* PromiseKit.framework in Frameworks */,
@@ -1061,7 +1058,6 @@
 				93302B4D20CB594C003699C6 /* SwiftProtobuf.framework */,
 				930EFFD520C6F28400A2AE1F /* Contacts.framework */,
 				9325DB4F1FCB569B00EDB0E8 /* Masonry.framework */,
-				93BC49FC1FB8D6F4008B710D /* Mantle.framework */,
 				93BC49FA1FB8D6A3008B710D /* PromiseKit.framework */,
 				93BC49F51FB8D697008B710D /* PMKMapKit.framework */,
 				93BC49F11FB8D68E008B710D /* CocoaLumberjack.framework */,
