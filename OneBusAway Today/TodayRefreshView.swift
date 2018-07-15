@@ -117,4 +117,3 @@ extension TodayRefreshView {
         refreshLabel.text = OBAStrings.refresh
     }
 }
-

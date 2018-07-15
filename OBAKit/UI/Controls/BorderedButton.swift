@@ -13,13 +13,11 @@ public class BorderedButton: UIButton {
     var borderColor: UIColor = UIColor.black
 
     public override var intrinsicContentSize: CGSize {
-        get {
-            var sz = super.intrinsicContentSize
-            sz.width += self.titleEdgeInsets.left + self.titleEdgeInsets.right
-            sz.height += self.titleEdgeInsets.top + self.titleEdgeInsets.bottom
+        var sz = super.intrinsicContentSize
+        sz.width += self.titleEdgeInsets.left + self.titleEdgeInsets.right
+        sz.height += self.titleEdgeInsets.top + self.titleEdgeInsets.bottom
 
-            return sz
-        }
+        return sz
     }
 
     @objc public convenience init(borderColor: UIColor, title: String) {

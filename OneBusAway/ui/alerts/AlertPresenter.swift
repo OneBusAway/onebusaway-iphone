@@ -89,16 +89,15 @@ import SafariServices
 
     private class func errorMessage(from error: NSError, referenceID: String?) -> String {
         let wifiName = OBAReachability.wifiNetworkName
-        
-        var message: String
 
-        if (errorPotentiallyFromWifiCaptivePortal(error) && wifiName != nil) {
+        var message: String
+        if errorPotentiallyFromWifiCaptivePortal(error) && wifiName != nil {
             message = NSLocalizedString("alert_presenter.captive_wifi_portal_error_message", comment: "Error message displayed when the user is connecting to a Wi-Fi captive portal landing page.")
         }
         else {
             message = error.localizedDescription
         }
-        
+
         // If the error includes an URL, append the SHA-1 hash
         // value of that URL to the error for legibility's sake.
         if let referenceID = referenceID {
@@ -106,7 +105,7 @@ import SafariServices
             let referenceLine = String.init(format: formatString, referenceID)
             message = "\(message)\r\n\r\n\(referenceLine)"
         }
-        
+
         return message
     }
 

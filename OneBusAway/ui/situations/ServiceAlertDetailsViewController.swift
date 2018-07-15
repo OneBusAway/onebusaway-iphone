@@ -77,9 +77,13 @@ class ServiceAlertDetailsViewController: UIViewController, UITextViewDelegate {
     }
 
     @objc func viewReroute() {
-        let diversionController = OBADiversionViewController.load(fromNibWithappDelegate: UIApplication.shared.delegate as! OBAApplicationDelegate)
+        guard let appDelegate = UIApplication.shared.delegate as? OBAApplicationDelegate else {
+            return
+        }
+
+        let diversionController = OBADiversionViewController.load(fromNibWithappDelegate: appDelegate)
         diversionController.diversionPath = (self.serviceAlert.diversionPath)!
-        self.navigationController?.pushViewController(diversionController, animated: true)
+        navigationController?.pushViewController(diversionController, animated: true)
     }
 
     // MARK: - UITextViewDelegate

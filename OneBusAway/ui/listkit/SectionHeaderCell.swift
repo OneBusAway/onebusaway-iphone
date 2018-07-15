@@ -61,7 +61,6 @@ class SectionHeaderCell: SelfSizingCollectionCell {
     }
 }
 
-
 final class SectionHeaderSectionController: ListSectionController {
     var data: SectionHeader?
 

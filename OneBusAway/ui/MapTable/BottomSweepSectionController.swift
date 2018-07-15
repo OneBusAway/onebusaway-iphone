@@ -6,7 +6,6 @@
 //  Copyright © 2018 OneBusAway. All rights reserved.
 //
 
-
 import IGListKit
 import OBAKit
 import UIKit
@@ -82,6 +81,7 @@ final class BottomSweepSectionController: ListSectionController {
 
     override func didUpdate(to object: Any) {
         precondition(object is Sweep)
+        // swiftlint:disable force_cast
         sweep = object as! Sweep
     }
 }

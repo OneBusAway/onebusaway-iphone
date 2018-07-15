@@ -1,0 +1,11 @@
+disabled_rules:
+    - file_length
+    - identifier_name
+    - line_length
+    - shorthand_operator
+    - type_body_length
+    - statement_position
+    - type_name
+function_body_length: 70
+excluded:
+  - Carthage

@@ -32,7 +32,7 @@ class RegionalAlertsViewController: OBAStaticTableViewController {
 
         hidesBottomBarWhenPushed = true
         let spacer = UIBarButtonItem.init(barButtonSystemItem: .flexibleSpace, target: nil, action: nil)
-        let markReadButton = UIBarButtonItem.init(title:  NSLocalizedString("regional_alerts_controller.mark_all_as_read", comment: "Mark All as Read toolbar button title"), style: .plain, target: self, action: #selector(markAllAsRead))
+        let markReadButton = UIBarButtonItem.init(title: NSLocalizedString("regional_alerts_controller.mark_all_as_read", comment: "Mark All as Read toolbar button title"), style: .plain, target: self, action: #selector(markAllAsRead))
         toolbarItems = [spacer, markReadButton]
     }
 

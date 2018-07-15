@@ -9,6 +9,8 @@
 import UIKit
 import OBAKit
 
+// swiftlint:disable force_cast
+
 class UserDefaultsBrowserViewController: OBAStaticTableViewController {
 
     override func viewDidLoad() {

@@ -85,6 +85,5 @@ class StopCell: SelfSizingCollectionCell {
         separator.frame = CGRect(x: sideInset, y: bounds.height - height, width: bounds.width - (2 * sideInset), height: height)
     }
 
-
     required init?(coder aDecoder: NSCoder) { fatalError("init(coder:) has not been implemented") }
 }

@@ -18,7 +18,9 @@ class WeatherForecast_Tests: QuickSpec {
             var weatherForecast: WeatherForecast!
             beforeEach {
                 let decoder = WeatherForecast.decoder
+                // swiftlint:disable force_try
                 weatherForecast = try! decoder.decode(WeatherForecast.self, from: data)
+                // swiftlint:enable force_try
             }
 
             describe("deserialization") {
