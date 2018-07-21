@@ -174,7 +174,7 @@
 
     if (result && result.searchType == OBASearchTypeStops) {
         for (NSString *polylineString in result.additionalValues) {
-            MKPolyline *polyline = [OBASphericalGeometryLibrary decodePolylineStringAsMKPolyline:polylineString];
+            MKPolyline *polyline = [OBASphericalGeometryLibrary polylineFromEncodedShape:polylineString];
             [mapView addOverlay:polyline];
         }
     }

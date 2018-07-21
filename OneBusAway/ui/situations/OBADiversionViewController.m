@@ -18,7 +18,7 @@
 @import OBAKit;
 #import "EXTScope.h"
 
-@interface OBADiversionViewController ()
+@interface OBADiversionViewController () <MKMapViewDelegate>
 @property (nonatomic, strong) NSString *tripEncodedPolyline;
 
 @property (nonatomic, strong) MKPolyline *routePolyline;
@@ -45,17 +45,14 @@
 
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
-    MKMapView *mv = [self mapView];
-    NSArray *points = [OBASphericalGeometryLibrary decodePolylineString:self.diversionPath];
 
-    _reroutePolyline = [OBASphericalGeometryLibrary createMKPolylineFromLocations:points];
+    self.reroutePolyline = [OBASphericalGeometryLibrary polylineFromEncodedShape:self.diversionPath];
+    [self.mapView addOverlay:self.reroutePolyline];
 
-    [mv addOverlay:_reroutePolyline];
-
-    OBACoordinateBounds *bounds = [OBASphericalGeometryLibrary boundsForLocations:points];
+    OBACoordinateBounds *bounds = [OBASphericalGeometryLibrary coordinateBoundsFromPolylineString:self.diversionPath];
 
     if (![bounds empty]) {
-        [mv setRegion:bounds.region];
+        [self.mapView setRegion:bounds.region];
     }
 
     NSString *shapeId = [[self.args[@"arrivalAndDeparture"] trip] shapeId];
@@ -78,26 +75,15 @@
 
 - (void)requestShapeForID:(NSString *)shapeId {
     @weakify(self);
-    self.request = [self.modelService requestShapeForId:shapeId completionBlock:^(id jsonData, NSHTTPURLResponse *response, NSError *error) {
+    self.request = [self.modelService requestShapeForId:shapeId completionBlock:^(NSString *tripEncodedPolyline, NSHTTPURLResponse *response, NSError *error) {
         @strongify(self);
 
-        if (!jsonData) {
+        if (!tripEncodedPolyline) {
             return;
         }
 
-        self.tripEncodedPolyline = jsonData;
-        NSArray *points = [OBASphericalGeometryLibrary decodePolylineString:self.tripEncodedPolyline];
-
-        CLLocationCoordinate2D *pointArr = malloc(sizeof(CLLocationCoordinate2D) * points.count);
-
-        for (NSInteger i = 0; i < points.count; i++) {
-            CLLocation *location = points[i];
-            CLLocationCoordinate2D p = location.coordinate;
-            pointArr[i] = p;
-        }
-
-        self.routePolyline = [MKPolyline polylineWithCoordinates:pointArr count:points.count];
-        free(pointArr);
+        self.tripEncodedPolyline = tripEncodedPolyline;
+        self.routePolyline = [OBASphericalGeometryLibrary polylineFromEncodedShape:self.tripEncodedPolyline];
         [self.mapView addOverlay:self.routePolyline];
     }];
 }
@@ -121,6 +107,7 @@
 }
 
 - (void)mapView:(MKMapView *)mapView annotationView:(MKAnnotationView *)view calloutAccessoryControlTapped:(UIControl *)control {
+    // nop?
 }
 
 - (MKOverlayRenderer *)mapView:(MKMapView *)mapView rendererForOverlay:(id<MKOverlay>)overlay {
