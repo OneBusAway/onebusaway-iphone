@@ -97,7 +97,7 @@ static const CLLocationAccuracy kRegionalRadius = 40000;
     return [AnyPromise promiseWithResolverBlock:^(PMKResolver resolve) {
         [self requestShapeForId:shapeID completionBlock:^(NSString *polylineString, NSHTTPURLResponse *response, NSError *error) {
             if (polylineString) {
-                resolve([OBASphericalGeometryLibrary decodePolylineStringAsMKPolyline:polylineString]);
+                resolve([OBASphericalGeometryLibrary polylineFromEncodedShape:polylineString]);
             }
             else {
                 resolve(error);

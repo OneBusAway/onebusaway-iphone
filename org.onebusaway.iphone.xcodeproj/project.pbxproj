@@ -169,6 +169,8 @@
 		9368E5C01DB1584900C329D0 /* OBAEmptyDataSetSource.m in Sources */ = {isa = PBXBuildFile; fileRef = 9368E5BF1DB1584900C329D0 /* OBAEmptyDataSetSource.m */; };
 		936EB1C11E92F30C00F4F3A7 /* OnboardingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 936EB1BF1E92F30C00F4F3A7 /* OnboardingViewController.swift */; };
 		9373E70F1EA4084C0019C7CB /* OBATripDeepLink_Tests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9373E70E1EA4084C0019C7CB /* OBATripDeepLink_Tests.swift */; };
+		937B0B7C21027C79001C4CF9 /* shape_1_40046045.json in Resources */ = {isa = PBXBuildFile; fileRef = 937B0B7A21027C78001C4CF9 /* shape_1_40046045.json */; };
+		937B0B7E21027D1B001C4CF9 /* Diversions_Tests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 937B0B7D21027D1B001C4CF9 /* Diversions_Tests.swift */; };
 		9383FCB020AF6FEA007347B2 /* BottomSweepSectionController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9383FCAF20AF6FEA007347B2 /* BottomSweepSectionController.swift */; };
 		9385EC3B1DCF14C60020CCB2 /* OBASettingsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9385EC3A1DCF14C60020CCB2 /* OBASettingsViewController.m */; };
 		9385EC401DCF1D910020CCB2 /* ServiceAlertDetailsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9385EC3F1DCF1D910020CCB2 /* ServiceAlertDetailsViewController.swift */; };
@@ -525,6 +527,8 @@
 		936F45D91C78D06600C61656 /* OneBusAwayTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = OneBusAwayTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		9373E70E1EA4084C0019C7CB /* OBATripDeepLink_Tests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OBATripDeepLink_Tests.swift; sourceTree = "<group>"; };
 		9373E7101EA4087A0019C7CB /* OneBusAwayTests-Bridging-Header.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "OneBusAwayTests-Bridging-Header.h"; sourceTree = "<group>"; };
+		937B0B7A21027C78001C4CF9 /* shape_1_40046045.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = shape_1_40046045.json; sourceTree = "<group>"; };
+		937B0B7D21027D1B001C4CF9 /* Diversions_Tests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Diversions_Tests.swift; sourceTree = "<group>"; };
 		9383FCAF20AF6FEA007347B2 /* BottomSweepSectionController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BottomSweepSectionController.swift; sourceTree = "<group>"; };
 		9385EC391DCF14C60020CCB2 /* OBASettingsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OBASettingsViewController.h; sourceTree = "<group>"; };
 		9385EC3A1DCF14C60020CCB2 /* OBASettingsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OBASettingsViewController.m; sourceTree = "<group>"; };
@@ -1204,6 +1208,7 @@
 		934198451DB0C218004BBBB7 /* Fixtures */ = {
 			isa = PBXGroup;
 			children = (
+				937B0B7921027C78001C4CF9 /* Shapes */,
 				93302B4420CB185F003699C6 /* RecentStops */,
 				93302B4120CB183C003699C6 /* Weather */,
 				93302B3E20CB181C003699C6 /* Alerts */,
@@ -1320,6 +1325,7 @@
 				9341987D1DB0C219004BBBB7 /* OBAVehicleStatusV2_Tests.m */,
 				9373E70E1EA4084C0019C7CB /* OBATripDeepLink_Tests.swift */,
 				9300CF7220F88F4A006AB268 /* WeatherForecast_Tests.swift */,
+				937B0B7D21027D1B001C4CF9 /* Diversions_Tests.swift */,
 			);
 			path = models;
 			sourceTree = "<group>";
@@ -1436,6 +1442,14 @@
 				936EB1BF1E92F30C00F4F3A7 /* OnboardingViewController.swift */,
 			);
 			path = onboarding;
+			sourceTree = "<group>";
+		};
+		937B0B7921027C78001C4CF9 /* Shapes */ = {
+			isa = PBXGroup;
+			children = (
+				937B0B7A21027C78001C4CF9 /* shape_1_40046045.json */,
+			);
+			path = Shapes;
 			sourceTree = "<group>";
 		};
 		93A1C68620B3F0D200E176DE /* MapTable */ = {
@@ -1703,6 +1717,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				937B0B7C21027C79001C4CF9 /* shape_1_40046045.json in Resources */,
 				93302B4720CB185F003699C6 /* RecentStopWithStopIDs.plist in Resources */,
 				9341988B1DB0C219004BBBB7 /* SEA_4thPike_East.json in Resources */,
 				93302B4020CB181C003699C6 /* alert_feed_items.json in Resources */,
@@ -1948,6 +1963,7 @@
 				9358CDA41DEA19BA00132CDE /* OBATestHarnessPersistenceLayer.m in Sources */,
 				934198AA1DB0C219004BBBB7 /* OBASituationV2_Tests.m in Sources */,
 				9341988F1DB0C219004BBBB7 /* OBARegionHelper_Tests.m in Sources */,
+				937B0B7E21027D1B001C4CF9 /* Diversions_Tests.swift in Sources */,
 				934198AF1DB0C219004BBBB7 /* OBATripDetailsV2_Tests.m in Sources */,
 				9341989A1DB0C219004BBBB7 /* OBAHasReferencesV2_Tests.m in Sources */,
 				934198A41DB0C219004BBBB7 /* OBAReportProblemWithTripV2_Tests.m in Sources */,
