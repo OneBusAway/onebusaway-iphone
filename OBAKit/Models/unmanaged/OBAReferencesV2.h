@@ -27,7 +27,7 @@ NS_ASSUME_NONNULL_BEGIN
 @interface OBAReferencesV2 : NSObject
 - (void)addAgency:(OBAAgencyV2*)agency;
 - (nullable OBAAgencyV2*)getAgencyForId:(NSString*)agencyId;
-- (NSDictionary*) getAllAgencies;
+@property(nonatomic,strong,readonly) NSDictionary *agencies;
 
 - (void)addRoute:(OBARouteV2*)route;
 - (nullable OBARouteV2*)getRouteForId:(NSString*)routeId;

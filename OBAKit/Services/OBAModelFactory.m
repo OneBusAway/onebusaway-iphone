@@ -31,7 +31,6 @@ static NSString * const kReferences = @"references";
 
 @interface OBAModelFactory ()
 @property(nonatomic,strong,readwrite) OBAReferencesV2 *references;
-@property(nonatomic,strong) NSMutableDictionary *entityIdMappings;
 @end
 
 @interface OBAModelFactory (Private)
@@ -81,31 +80,14 @@ static NSString * const kReferences = @"references";
 - (instancetype)initWithReferences:(OBAReferencesV2*)references {
     self = [super init];
     
-    if( self ) {
+    if (self) {
         _references = references;
-        _entityIdMappings = [[NSMutableDictionary alloc] init];
     }
     return self;
 }
 
-+ (instancetype)modelFactory {
-
-    OBAModelFactory *modelFactory = [[OBAModelFactory alloc] initWithReferences:[[OBAReferencesV2 alloc] init]];
-    return modelFactory;
-}
-
-- (OBAEntryWithReferencesV2*) getStopFromJSON:(NSDictionary*)jsonDictionary error:(NSError**)error {
-    
-    OBAEntryWithReferencesV2 * entry = [[OBAEntryWithReferencesV2 alloc] initWithReferences:_references];
-    
-    OBAJsonDigester * digester = [[OBAJsonDigester alloc] init];
-    [digester addReferencesRulesWithPrefix:@"/references"];
-    [digester addStopV2RulesWithPrefix:@"/entry"];
-    [digester addSetNext:@selector(setEntry:) forPrefix:@"/entry"];
-    
-    [digester parse:jsonDictionary withRoot:entry parameters:[self getDigesterParameters] error:error];
-    
-    return entry;
+- (instancetype)init {
+    return [self initWithReferences:[[OBAReferencesV2 alloc] init]];
 }
 
 - (OBAListWithRangeAndReferencesV2*) getStopsV2FromJSON:(NSDictionary*)jsonDictionary error:(NSError**)error {
@@ -541,9 +523,7 @@ static NSString * const kReferences = @"references";
     OBAReferencesV2 * refs = [context getParameterForKey:kReferences];
     [refs addSituation:situation];
     situation.references = refs;
-    
 }
-                                        
 
 - (void) setReferencesForContext:(id<OBAJsonDigesterContext>)context name:(NSString*)name value:(id)value {
     OBAHasReferencesV2 * top = [context peek:0];

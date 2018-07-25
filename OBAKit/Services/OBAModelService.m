@@ -41,7 +41,7 @@ static const CLLocationAccuracy kRegionalRadius = 40000;
 
 + (instancetype)modelServiceWithBaseURL:(NSURL*)URL {
     OBAModelService *service = [[self.class alloc] init];
-    OBAModelFactory *modelFactory = [OBAModelFactory modelFactory];
+    OBAModelFactory *modelFactory = [[OBAModelFactory alloc] init];
     service.modelFactory = modelFactory;
     service.references = modelFactory.references;
     service.obaJsonDataSource = [OBAJsonDataSource JSONDataSourceWithBaseURL:URL userID:@"test"];

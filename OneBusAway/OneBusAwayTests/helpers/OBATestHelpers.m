@@ -41,6 +41,10 @@
     return [NSJSONSerialization JSONObjectWithData:data options:(NSJSONReadingOptions)0 error:nil];
 }
 
++ (NSDictionary<NSString*, id>*)jsonDictionaryFromFile:(NSString*)file {
+    return [self jsonObjectFromFile:file];
+}
+
 + (id)jsonObjectFromString:(NSString*)string {
     NSData *data = [string dataUsingEncoding:NSUTF8StringEncoding];
     return [NSJSONSerialization JSONObjectWithData:data options:(NSJSONReadingOptions)0 error:nil];

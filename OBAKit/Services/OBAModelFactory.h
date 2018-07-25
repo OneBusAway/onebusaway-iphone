@@ -25,16 +25,10 @@ NS_ASSUME_NONNULL_BEGIN
 @interface OBAModelFactory : NSObject
 @property(nonatomic,strong,readonly) OBAReferencesV2 *references;
 
-- (instancetype)initWithReferences:(OBAReferencesV2*)references;
-
-/**
- Convenience initializer with `references` plumbed in.
- */
-+ (instancetype)modelFactory;
+- (instancetype)initWithReferences:(OBAReferencesV2*)references NS_DESIGNATED_INITIALIZER;
 
 - (OBAListWithRangeAndReferencesV2*) getRoutesV2FromJSON:(NSDictionary*)jsonArray error:(NSError**)error;
 
-- (OBAEntryWithReferencesV2*) getStopFromJSON:(NSDictionary*)jsonDictionary error:(NSError**)error;
 - (OBAListWithRangeAndReferencesV2*) getStopsV2FromJSON:(NSDictionary*)jsonDictionary error:(NSError**)error;
 
 - (OBAStopsForRouteV2*) getStopsForRouteV2FromJSON:(NSDictionary*)jsonDictionary error:(NSError**)error;
