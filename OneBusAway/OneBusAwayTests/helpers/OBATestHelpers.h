@@ -72,6 +72,11 @@ NS_ASSUME_NONNULL_BEGIN
 + (id)jsonObjectFromFile:(NSString*)fileName;
 
 /**
+ Returns the deserialized dictionary from the JSON file specified.
+ */
++ (NSDictionary<NSString*, id>*)jsonDictionaryFromFile:(NSString*)file;
+
+/**
  Creates a deserialized object from the specified string.
  */
 + (id)jsonObjectFromString:(NSString*)string;

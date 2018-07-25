@@ -16,6 +16,7 @@
 
 #import <OBAKit/OBAAgencyV2.h>
 #import <OBAKit/NSCoder+OBAAdditions.h>
+#import <OBAKit/NSObject+OBADescription.h>
 
 @implementation OBAAgencyV2
 
@@ -36,6 +37,10 @@
     [aCoder oba_encodeObject:_agencyId forSelector:@selector(agencyId)];
     [aCoder oba_encodeObject:_url forSelector:@selector(url)];
     [aCoder oba_encodeObject:_name forSelector:@selector(name)];
+}
+
+- (NSString*)description {
+    return [self oba_description:@[@"agencyId", @"url", @"name"]];
 }
 
 #pragma mark - NSCopying

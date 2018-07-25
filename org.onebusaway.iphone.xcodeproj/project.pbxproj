@@ -13,6 +13,8 @@
 		9300CF7320F88F4A006AB268 /* WeatherForecast_Tests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9300CF7220F88F4A006AB268 /* WeatherForecast_Tests.swift */; };
 		930653D71E6DE293005AF0C9 /* OBAToastView.m in Sources */ = {isa = PBXBuildFile; fileRef = 930653D61E6DE293005AF0C9 /* OBAToastView.m */; };
 		93089DB61F88056700694A90 /* regions-v3.json in Resources */ = {isa = PBXBuildFile; fileRef = 934198351DB0C1E9004BBBB7 /* regions-v3.json */; };
+		930A50842107DF810068C694 /* ModelFactory_Tests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 930A50832107DF810068C694 /* ModelFactory_Tests.swift */; };
+		930A50882107E3040068C694 /* agencies_with_coverage.json in Resources */ = {isa = PBXBuildFile; fileRef = 930A50872107E3030068C694 /* agencies_with_coverage.json */; };
 		930AFE8C1DD04D2F0092AE82 /* OBAStopTableHeaderView.m in Sources */ = {isa = PBXBuildFile; fileRef = 930AFE861DD04D2F0092AE82 /* OBAStopTableHeaderView.m */; };
 		930AFE8E1DD04D3D0092AE82 /* NearbyStopsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 930AFE8D1DD04D3D0092AE82 /* NearbyStopsViewController.swift */; };
 		930AFE961DD11ECB0092AE82 /* OBAWalkableRow.m in Sources */ = {isa = PBXBuildFile; fileRef = 930AFE951DD11ECB0092AE82 /* OBAWalkableRow.m */; };
@@ -298,6 +300,8 @@
 		9300CF7220F88F4A006AB268 /* WeatherForecast_Tests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeatherForecast_Tests.swift; sourceTree = "<group>"; };
 		930653D51E6DE293005AF0C9 /* OBAToastView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OBAToastView.h; sourceTree = "<group>"; };
 		930653D61E6DE293005AF0C9 /* OBAToastView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OBAToastView.m; sourceTree = "<group>"; };
+		930A50832107DF810068C694 /* ModelFactory_Tests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ModelFactory_Tests.swift; sourceTree = "<group>"; };
+		930A50872107E3030068C694 /* agencies_with_coverage.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = agencies_with_coverage.json; sourceTree = "<group>"; };
 		930AFE851DD04D2F0092AE82 /* OBAStopTableHeaderView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OBAStopTableHeaderView.h; sourceTree = "<group>"; };
 		930AFE861DD04D2F0092AE82 /* OBAStopTableHeaderView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OBAStopTableHeaderView.m; sourceTree = "<group>"; };
 		930AFE8D1DD04D3D0092AE82 /* NearbyStopsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NearbyStopsViewController.swift; sourceTree = "<group>"; };
@@ -708,6 +712,14 @@
 				93AD17B31F86C14C00E730D7 /* NotificationCenter.framework */,
 			);
 			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		930A50862107E3030068C694 /* Agencies */ = {
+			isa = PBXGroup;
+			children = (
+				930A50872107E3030068C694 /* agencies_with_coverage.json */,
+			);
+			path = Agencies;
 			sourceTree = "<group>";
 		};
 		930AFE731DD04CCA0092AE82 /* viewmodels */ = {
@@ -1208,6 +1220,7 @@
 		934198451DB0C218004BBBB7 /* Fixtures */ = {
 			isa = PBXGroup;
 			children = (
+				930A50862107E3030068C694 /* Agencies */,
 				937B0B7921027C78001C4CF9 /* Shapes */,
 				93302B4420CB185F003699C6 /* RecentStops */,
 				93302B4120CB183C003699C6 /* Weather */,
@@ -1335,6 +1348,7 @@
 			children = (
 				9341987F1DB0C219004BBBB7 /* OBADataSourceConfig_Tests.m */,
 				9359D1271DB92B4200CABFBD /* OBAModelService_Tests.m */,
+				930A50832107DF810068C694 /* ModelFactory_Tests.swift */,
 			);
 			path = services;
 			sourceTree = "<group>";
@@ -1726,6 +1740,7 @@
 				934198881DB0C219004BBBB7 /* bookmark_without_region_identifier.plist in Resources */,
 				93302B4820CB185F003699C6 /* RecentStopWithStopID.plist in Resources */,
 				934198891DB0C219004BBBB7 /* testMessageBodyForModelDAO.html in Resources */,
+				930A50882107E3040068C694 /* agencies_with_coverage.json in Resources */,
 				934198861DB0C219004BBBB7 /* bookmark_with_region_identifier.plist in Resources */,
 				934198871DB0C219004BBBB7 /* bookmark_with_stopids_array.plist in Resources */,
 				93302B4320CB183C003699C6 /* weather.json in Resources */,
@@ -1978,6 +1993,7 @@
 				9359D1281DB92B4200CABFBD /* OBAModelService_Tests.m in Sources */,
 				934198901DB0C219004BBBB7 /* OBAAgencyV2_Tests.m in Sources */,
 				934198AD1DB0C219004BBBB7 /* OBAStopsForRouteV2_Tests.m in Sources */,
+				930A50842107DF810068C694 /* ModelFactory_Tests.swift in Sources */,
 				934198921DB0C219004BBBB7 /* OBAArrivalAndDepartureInstanceRef_Tests.m in Sources */,
 				934198A91DB0C219004BBBB7 /* OBASituationConsequenceV2_Tests.m in Sources */,
 				934198A11DB0C219004BBBB7 /* OBARegionBoundsV2_Tests.m in Sources */,

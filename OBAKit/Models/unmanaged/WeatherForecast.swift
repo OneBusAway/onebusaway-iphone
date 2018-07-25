@@ -9,7 +9,6 @@
 import Foundation
 import IGListKit
 
-@objc(OBAWeatherForecast)
 public class WeatherForecast: NSObject, Codable {
 
     public static let decoder: JSONDecoder = {
