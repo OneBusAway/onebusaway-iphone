@@ -458,20 +458,17 @@ static const double kStopsInRegionRefreshDelayOnDrag = 0.1;
 }
 
 - (MKAnnotationView *)mapView:(MKMapView *)mapView viewForAnnotation:(id<MKAnnotation>)annotation {
-    if ([annotation isKindOfClass:[MKUserLocation class]]) {
+    if ([annotation isKindOfClass:MKUserLocation.class]) {
         [self buildUserLocationAnnotationViewForAnnotation:annotation heading:self.locationManager.currentHeading];
         return self.userLocationAnnotationView;
     }
-    else if ([annotation isKindOfClass:[OBAStopV2 class]]) {
-        return [OBAMapAnnotationViewBuilder mapView:mapView annotationViewForStop:(OBAStopV2*)annotation withSearchType:self.mapDataLoader.result.searchType];
+    else if ([annotation isKindOfClass:OBAStopV2.class] || [annotation isKindOfClass:OBABookmarkV2.class]) {
+        return [OBAMapAnnotationViewBuilder viewForAnnotation:annotation forMapView:mapView];
     }
-    else if ([annotation isKindOfClass:[OBABookmarkV2 class]]) {
-        return [OBAMapAnnotationViewBuilder mapView:mapView annotationViewForBookmark:(OBABookmarkV2*)annotation];
-    }
-    else if ([annotation isKindOfClass:[OBAPlacemark class]]) {
+    else if ([annotation isKindOfClass:OBAPlacemark.class]) {
         return [OBAMapAnnotationViewBuilder mapView:mapView viewForPlacemark:(OBAPlacemark*)annotation withSearchType:self.mapDataLoader.result.searchType];
     }
-    else if ([annotation isKindOfClass:[OBANavigationTargetAnnotation class]]) {
+    else if ([annotation isKindOfClass:OBANavigationTargetAnnotation.class]) {
         return [OBAMapAnnotationViewBuilder mapView:mapView viewForNavigationTarget:annotation];
     }
 
@@ -503,10 +500,7 @@ static const double kStopsInRegionRefreshDelayOnDrag = 0.1;
 - (void)mapView:(MKMapView *)mapView annotationView:(MKAnnotationView *)view calloutAccessoryControlTapped:(UIControl *)control {
     id annotation = view.annotation;
 
-    if ([annotation respondsToSelector:@selector(stopId)]) {
-        [self displayStopControllerForStopID:[annotation stopId]];
-    }
-    else if ([annotation isKindOfClass:[OBAPlacemark class]]) {
+    if ([annotation isKindOfClass:[OBAPlacemark class]]) {
         OBAPlacemark *placemark = annotation;
         OBANavigationTarget *target = [OBANavigationTarget navigationTargetForSearchPlacemark:placemark];
         [self.mapDataLoader searchWithTarget:target];

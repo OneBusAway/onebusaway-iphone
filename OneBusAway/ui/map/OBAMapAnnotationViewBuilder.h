@@ -9,12 +9,14 @@
 @import MapKit;
 @import OBAKit;
 
+NS_ASSUME_NONNULL_BEGIN
+
 @interface OBAMapAnnotationViewBuilder : NSObject
 + (MKAnnotationView*)viewForAnnotation:(id<MKAnnotation>)annotation forMapView:(MKMapView*)mapView;
-+ (MKAnnotationView*)mapView:(MKMapView*)mapView annotationViewForStop:(OBAStopV2*)stop withSearchType:(OBASearchType)searchType;
-+ (MKAnnotationView*)mapView:(MKMapView*)mapView annotationViewForBookmark:(OBABookmarkV2*)bookmark;
 + (MKAnnotationView*)mapView:(MKMapView *)mapView viewForPlacemark:(OBAPlacemark*)placemark withSearchType:(OBASearchType)searchType;
 + (MKAnnotationView*)mapView:(MKMapView *)mapView viewForNavigationTarget:(OBANavigationTargetAnnotation*)annotation;
 + (void)updateAnnotationsOnMapView:(MKMapView*)mapView fromSearchResult:(OBASearchResult*)result bookmarkAnnotations:(NSArray*)bookmarks;
 + (void)setOverlaysOnMapView:(MKMapView*)mapView fromSearchResult:(OBASearchResult*)result;
 @end
+
+NS_ASSUME_NONNULL_END
