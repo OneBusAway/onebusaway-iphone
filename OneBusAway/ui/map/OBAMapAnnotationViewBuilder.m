@@ -7,81 +7,25 @@
 //
 
 #import "OBAMapAnnotationViewBuilder.h"
+#import "OneBusAway-Swift.h"
 
 @implementation OBAMapAnnotationViewBuilder
 
 + (MKAnnotationView*)viewForAnnotation:(id<MKAnnotation>)annotation forMapView:(MKMapView*)mapView {
+    NSString *reuseIdentifier = NSStringFromClass(annotation.class);
 
-    NSString *reuseIdentifier = NSStringFromClass([annotation class]);
-
-    MKAnnotationView *view = [mapView dequeueReusableAnnotationViewWithIdentifier:reuseIdentifier];
-
-    if (!view) {
-        view = [[MKAnnotationView alloc] initWithAnnotation:annotation reuseIdentifier:reuseIdentifier];
-    }
-
-    view.canShowCallout = NO;
-    view.rightCalloutAccessoryView = ({
-        UIButton *rightCalloutButton = [UIButton buttonWithType:UIButtonTypeDetailDisclosure];
-        [rightCalloutButton setImage:[UIImage imageNamed:@"chevron"] forState:UIControlStateNormal];
-        if ([OBATheme useHighContrastUI]) {
-            rightCalloutButton.tintColor = [UIColor blackColor];
-        }
-        else {
-            rightCalloutButton.tintColor = [OBATheme OBAGreen];
-        }
-        rightCalloutButton;
-    });
-
-    return view;
-}
-
-+ (MKAnnotationView*)mapView:(MKMapView*)mapView annotationViewForStop:(OBAStopV2*)stop withSearchType:(OBASearchType)searchType {
-    MKAnnotationView *view = [OBAMapAnnotationViewBuilder viewForAnnotation:stop forMapView:mapView];
-    view.image = [OBAStopIconFactory getIconForStop:stop];
-
-    return view;
-}
-
-+ (MKAnnotationView*)mapView:(MKMapView*)mapView annotationViewForBookmark:(OBABookmarkV2*)bookmark {
-    MKAnnotationView *view = [self.class viewForAnnotation:bookmark forMapView:mapView];
-
-    UIImage *stopImage = nil;
-
-    if (bookmark.stop) {
-        stopImage = [OBAStopIconFactory getIconForStop:bookmark.stop];
-        stopImage = [OBAImageHelpers colorizeImage:stopImage withColor:[OBATheme mapBookmarkTintColor]];
-    }
-    else {
-        stopImage = [UIImage imageNamed:@"Bookmarks"];
-    }
-
-    view.image = stopImage;
-
-    return view;
-}
-
-+ (MKAnnotationView*)mapView:(MKMapView *)mapView viewForPlacemark:(OBAPlacemark*)placemark withSearchType:(OBASearchType)searchType {
-    static NSString *viewId = @"NavigationTargetView";
-    MKPinAnnotationView *view = (MKPinAnnotationView *)[mapView dequeueReusableAnnotationViewWithIdentifier:viewId];
+    OBAStopAnnotationView *view = (OBAStopAnnotationView*)[mapView dequeueReusableAnnotationViewWithIdentifier:reuseIdentifier];
 
     if (!view) {
-        view = [[MKPinAnnotationView alloc] initWithAnnotation:placemark reuseIdentifier:viewId];
+        view = [[OBAStopAnnotationView alloc] initWithAnnotation:annotation reuseIdentifier:reuseIdentifier];
     }
 
-    view.canShowCallout = YES;
-
-    if (OBASearchTypeAddress == searchType) {
-        view.rightCalloutAccessoryView = [UIButton buttonWithType:UIButtonTypeDetailDisclosure];
-    }
-    else {
-        view.rightCalloutAccessoryView = nil;
-    }
+    view.annotation = annotation;
 
     return view;
 }
 
-+ (MKAnnotationView*)mapView:(MKMapView *)mapView viewForNavigationTarget:(OBANavigationTargetAnnotation*)annotation {
++ (MKPinAnnotationView*)navigationTargetAnnotationViewWithAnnotation:(id<MKAnnotation>)annotation mapView:(MKMapView*)mapView {
     static NSString *viewId = @"NavigationTargetView";
     MKPinAnnotationView *view = (MKPinAnnotationView *)[mapView dequeueReusableAnnotationViewWithIdentifier:viewId];
 
@@ -89,18 +33,32 @@
         view = [[MKPinAnnotationView alloc] initWithAnnotation:annotation reuseIdentifier:viewId];
     }
 
-    OBANavigationTargetAnnotation *nav = annotation;
+    view.annotation = annotation;
 
+    view.rightCalloutAccessoryView = nil;
     view.canShowCallout = YES;
 
-    if (nav.target) {
-        view.rightCalloutAccessoryView = [UIButton buttonWithType:UIButtonTypeDetailDisclosure];
-    }
-    else {
-        view.rightCalloutAccessoryView = nil;
-    }
-    
     return view;
+}
+
++ (MKAnnotationView*)mapView:(MKMapView *)mapView viewForPlacemark:(OBAPlacemark*)placemark withSearchType:(OBASearchType)searchType {
+    MKPinAnnotationView *annotationView = [self navigationTargetAnnotationViewWithAnnotation:placemark mapView:mapView];
+
+    if (OBASearchTypeAddress == searchType) {
+        annotationView.rightCalloutAccessoryView = [UIButton buttonWithType:UIButtonTypeDetailDisclosure];
+    }
+
+    return annotationView;
+}
+
++ (MKAnnotationView*)mapView:(MKMapView *)mapView viewForNavigationTarget:(OBANavigationTargetAnnotation*)annotation {
+    MKPinAnnotationView *annotationView = [self navigationTargetAnnotationViewWithAnnotation:annotation mapView:mapView];
+
+    if (annotation.target) {
+        annotationView.rightCalloutAccessoryView = [UIButton buttonWithType:UIButtonTypeDetailDisclosure];
+    }
+
+    return annotationView;
 }
 
 /* I feel like 2/3's of this method could be replaced
@@ -109,14 +67,11 @@
 + (void)updateAnnotationsOnMapView:(MKMapView*)mapView fromSearchResult:(OBASearchResult*)result bookmarkAnnotations:(NSArray*)bookmarks {
     NSMutableArray *allCurrentAnnotations = [[NSMutableArray alloc] init];
 
-    NSSet *bookmarkStopIDs = nil;
+    NSSet *bookmarkStopIDs = [NSSet set];
 
     if (result.searchType != OBASearchTypeStopIdSearch && result.searchType != OBASearchTypeRoute) {
         [allCurrentAnnotations addObjectsFromArray:bookmarks];
         bookmarkStopIDs = [NSSet setWithArray:[bookmarks valueForKey:@"stopId"]];
-    }
-    else {
-        bookmarkStopIDs = [NSSet set];
     }
 
     // prospectiveAnnotation *should* be an OBAStopV2, but there are some indications that this

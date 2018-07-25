@@ -168,6 +168,7 @@
 		935C39151F7707FF00737DC4 /* AlertPresenterView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 935C39141F7707FF00737DC4 /* AlertPresenterView.swift */; };
 		9362C5B72047EF9A00C2C164 /* TodayRowView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9362C5B62047EF9A00C2C164 /* TodayRowView.swift */; };
 		93631E4C1604F96800CB7209 /* OBAApplicationDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 93631E4B1604F96800CB7209 /* OBAApplicationDelegate.m */; };
+		93656B852105388A009A3524 /* StopAnnotationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 93656B842105388A009A3524 /* StopAnnotationView.swift */; };
 		9368E5C01DB1584900C329D0 /* OBAEmptyDataSetSource.m in Sources */ = {isa = PBXBuildFile; fileRef = 9368E5BF1DB1584900C329D0 /* OBAEmptyDataSetSource.m */; };
 		936EB1C11E92F30C00F4F3A7 /* OnboardingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 936EB1BF1E92F30C00F4F3A7 /* OnboardingViewController.swift */; };
 		9373E70F1EA4084C0019C7CB /* OBATripDeepLink_Tests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9373E70E1EA4084C0019C7CB /* OBATripDeepLink_Tests.swift */; };
@@ -525,6 +526,7 @@
 		9363D58F1D6ADE6600A7021A /* tampa.gpx */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = tampa.gpx; sourceTree = "<group>"; };
 		9363D5901D6ADE6600A7021A /* washingtondc.gpx */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = washingtondc.gpx; sourceTree = "<group>"; };
 		9363D5911D6ADE6600A7021A /* yorkca.gpx */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = yorkca.gpx; sourceTree = "<group>"; };
+		93656B842105388A009A3524 /* StopAnnotationView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StopAnnotationView.swift; sourceTree = "<group>"; };
 		9368E5BE1DB1584900C329D0 /* OBAEmptyDataSetSource.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OBAEmptyDataSetSource.h; sourceTree = "<group>"; };
 		9368E5BF1DB1584900C329D0 /* OBAEmptyDataSetSource.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OBAEmptyDataSetSource.m; sourceTree = "<group>"; };
 		936EB1BF1E92F30C00F4F3A7 /* OnboardingViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OnboardingViewController.swift; sourceTree = "<group>"; };
@@ -1522,6 +1524,7 @@
 				93B781AA1E64BAC900F2C38D /* OBAMapViewController.m */,
 				93876DF91E68AD3900B4343F /* OBAMapAnnotationViewBuilder.h */,
 				93876DFA1E68AD3900B4343F /* OBAMapAnnotationViewBuilder.m */,
+				93656B842105388A009A3524 /* StopAnnotationView.swift */,
 			);
 			path = map;
 			sourceTree = "<group>";
@@ -1863,6 +1866,7 @@
 				9341978C1DB0C140004BBBB7 /* RegionBuilderViewController.swift in Sources */,
 				933546DD1E834ABE00D83519 /* OBAMessageRow.m in Sources */,
 				9341B82420B66FB0006450FC /* StopCell.swift in Sources */,
+				93656B852105388A009A3524 /* StopAnnotationView.swift in Sources */,
 				934197871DB0C140004BBBB7 /* OBACreditsViewController.m in Sources */,
 				934197921DB0C140004BBBB7 /* OBADiversionViewController.m in Sources */,
 				9341B82220B65DF9006450FC /* SelfSizingCollectionCell.swift in Sources */,
