@@ -6,6 +6,9 @@ disabled_rules:
     - type_body_length
     - statement_position
     - type_name
+    - todo
 function_body_length: 70
 excluded:
   - Carthage
+  - Carthage_10
+  - Carthage_941

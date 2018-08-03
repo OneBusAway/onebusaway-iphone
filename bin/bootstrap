@@ -1,0 +1,7 @@
+#!/bin/bash
+
+if [[ $1 == "--no-use-binaries" ]]; then
+    carthage bootstrap --platform iOS --no-use-binaries
+else
+    carthage bootstrap --platform iOS
+fi

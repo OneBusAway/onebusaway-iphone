@@ -37,6 +37,8 @@ Carthage/Checkouts
 Carthage/Build/Mac
 Carthage/Build/tvOS
 Carthage/Build/watchOS
+Carthage_10
+Carthage_941
 
 # fastlane
 #
