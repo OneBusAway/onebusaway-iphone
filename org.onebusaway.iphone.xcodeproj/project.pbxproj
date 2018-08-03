@@ -11,10 +11,13 @@
 		5B7C4A5A1DB96E6A00853DD5 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 5B7C4A5C1DB96E6A00853DD5 /* Localizable.strings */; };
 		6B24C8761EC7F99E00A1F7B7 /* OBANavigationTitleView.m in Sources */ = {isa = PBXBuildFile; fileRef = 6B24C8751EC7F99E00A1F7B7 /* OBANavigationTitleView.m */; };
 		9300CF7320F88F4A006AB268 /* WeatherForecast_Tests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9300CF7220F88F4A006AB268 /* WeatherForecast_Tests.swift */; };
+		9300CF7D20FA70BB006AB268 /* PulleyViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9300CF7920FA70BB006AB268 /* PulleyViewController.swift */; };
+		9300CF7E20FA70BB006AB268 /* UIViewController+PulleyViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9300CF7A20FA70BB006AB268 /* UIViewController+PulleyViewController.swift */; };
+		9300CF7F20FA70BB006AB268 /* PulleyPassthroughScrollView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9300CF7B20FA70BB006AB268 /* PulleyPassthroughScrollView.swift */; };
+		9300CF8020FA70BB006AB268 /* UIView+constrainToParent.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9300CF7C20FA70BB006AB268 /* UIView+constrainToParent.swift */; };
 		930653D71E6DE293005AF0C9 /* OBAToastView.m in Sources */ = {isa = PBXBuildFile; fileRef = 930653D61E6DE293005AF0C9 /* OBAToastView.m */; };
 		93089DB61F88056700694A90 /* regions-v3.json in Resources */ = {isa = PBXBuildFile; fileRef = 934198351DB0C1E9004BBBB7 /* regions-v3.json */; };
 		930A50842107DF810068C694 /* ModelFactory_Tests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 930A50832107DF810068C694 /* ModelFactory_Tests.swift */; };
-		930A50882107E3040068C694 /* agencies_with_coverage.json in Resources */ = {isa = PBXBuildFile; fileRef = 930A50872107E3030068C694 /* agencies_with_coverage.json */; };
 		930AFE8C1DD04D2F0092AE82 /* OBAStopTableHeaderView.m in Sources */ = {isa = PBXBuildFile; fileRef = 930AFE861DD04D2F0092AE82 /* OBAStopTableHeaderView.m */; };
 		930AFE8E1DD04D3D0092AE82 /* NearbyStopsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 930AFE8D1DD04D3D0092AE82 /* NearbyStopsViewController.swift */; };
 		930AFE961DD11ECB0092AE82 /* OBAWalkableRow.m in Sources */ = {isa = PBXBuildFile; fileRef = 930AFE951DD11ECB0092AE82 /* OBAWalkableRow.m */; };
@@ -213,6 +216,7 @@
 		93D5480520B778F700334939 /* SectionHeaderCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 93D5480420B778F700334939 /* SectionHeaderCell.swift */; };
 		93DB91ED20F743570028A7BF /* VehicleDisambiguationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 93DB91EC20F743570028A7BF /* VehicleDisambiguationViewController.swift */; };
 		93DCEF7220E5AF2F0004E087 /* LabelSectionController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 93DCEF7120E5AF2F0004E087 /* LabelSectionController.swift */; };
+		93E48CD22108D1B700BFD534 /* agencies_with_coverage.json in Resources */ = {isa = PBXBuildFile; fileRef = 93E48CD12108D1B700BFD534 /* agencies_with_coverage.json */; };
 		93F1C26020BCD34B00B5032B /* LoadingCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 93F1C25F20BCD34B00B5032B /* LoadingCell.swift */; };
 		93F1C26320BCDCCF00B5032B /* OfflineSection.swift in Sources */ = {isa = PBXBuildFile; fileRef = 93F1C26220BCDCCF00B5032B /* OfflineSection.swift */; };
 		93F3F88E1E7A7B2D0025FC78 /* RegionalAlertsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 93F3F88D1E7A7B2D0025FC78 /* RegionalAlertsViewController.swift */; };
@@ -299,10 +303,13 @@
 		6B24C8751EC7F99E00A1F7B7 /* OBANavigationTitleView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OBANavigationTitleView.m; sourceTree = "<group>"; };
 		6B24C87C1EC821A900A1F7B7 /* zh-Hant */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hant"; path = "zh-Hant.lproj/Localizable.strings"; sourceTree = "<group>"; };
 		9300CF7220F88F4A006AB268 /* WeatherForecast_Tests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeatherForecast_Tests.swift; sourceTree = "<group>"; };
+		9300CF7920FA70BB006AB268 /* PulleyViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PulleyViewController.swift; sourceTree = "<group>"; };
+		9300CF7A20FA70BB006AB268 /* UIViewController+PulleyViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIViewController+PulleyViewController.swift"; sourceTree = "<group>"; };
+		9300CF7B20FA70BB006AB268 /* PulleyPassthroughScrollView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PulleyPassthroughScrollView.swift; sourceTree = "<group>"; };
+		9300CF7C20FA70BB006AB268 /* UIView+constrainToParent.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIView+constrainToParent.swift"; sourceTree = "<group>"; };
 		930653D51E6DE293005AF0C9 /* OBAToastView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OBAToastView.h; sourceTree = "<group>"; };
 		930653D61E6DE293005AF0C9 /* OBAToastView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OBAToastView.m; sourceTree = "<group>"; };
 		930A50832107DF810068C694 /* ModelFactory_Tests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ModelFactory_Tests.swift; sourceTree = "<group>"; };
-		930A50872107E3030068C694 /* agencies_with_coverage.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = agencies_with_coverage.json; sourceTree = "<group>"; };
 		930AFE851DD04D2F0092AE82 /* OBAStopTableHeaderView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OBAStopTableHeaderView.h; sourceTree = "<group>"; };
 		930AFE861DD04D2F0092AE82 /* OBAStopTableHeaderView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OBAStopTableHeaderView.m; sourceTree = "<group>"; };
 		930AFE8D1DD04D3D0092AE82 /* NearbyStopsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NearbyStopsViewController.swift; sourceTree = "<group>"; };
@@ -584,6 +591,7 @@
 		93D5480420B778F700334939 /* SectionHeaderCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SectionHeaderCell.swift; sourceTree = "<group>"; };
 		93DB91EC20F743570028A7BF /* VehicleDisambiguationViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VehicleDisambiguationViewController.swift; sourceTree = "<group>"; };
 		93DCEF7120E5AF2F0004E087 /* LabelSectionController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LabelSectionController.swift; sourceTree = "<group>"; };
+		93E48CD12108D1B700BFD534 /* agencies_with_coverage.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = agencies_with_coverage.json; sourceTree = "<group>"; };
 		93E4A7611CE65B2100E769B0 /* atlanta.gpx */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = atlanta.gpx; sourceTree = "<group>"; };
 		93F1C25F20BCD34B00B5032B /* LoadingCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoadingCell.swift; sourceTree = "<group>"; };
 		93F1C26220BCDCCF00B5032B /* OfflineSection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OfflineSection.swift; sourceTree = "<group>"; };
@@ -716,12 +724,15 @@
 			name = Frameworks;
 			sourceTree = "<group>";
 		};
-		930A50862107E3030068C694 /* Agencies */ = {
+		9300CF7820FA70BB006AB268 /* PulleyLib */ = {
 			isa = PBXGroup;
 			children = (
-				930A50872107E3030068C694 /* agencies_with_coverage.json */,
+				9300CF7920FA70BB006AB268 /* PulleyViewController.swift */,
+				9300CF7A20FA70BB006AB268 /* UIViewController+PulleyViewController.swift */,
+				9300CF7B20FA70BB006AB268 /* PulleyPassthroughScrollView.swift */,
+				9300CF7C20FA70BB006AB268 /* UIView+constrainToParent.swift */,
 			);
-			path = Agencies;
+			path = PulleyLib;
 			sourceTree = "<group>";
 		};
 		930AFE731DD04CCA0092AE82 /* viewmodels */ = {
@@ -1069,6 +1080,7 @@
 		934197BF1DB0C14C004BBBB7 /* externals */ = {
 			isa = PBXGroup;
 			children = (
+				9300CF7820FA70BB006AB268 /* PulleyLib */,
 				93A6E5211E6CB23500BEFECE /* ISHHoverBar */,
 				934C509B1E2B69E300DFDCA0 /* GKActionSheetPicker */,
 				93FE60231E0B2F34006EC9FB /* SVPulsingAnnotationView */,
@@ -1222,7 +1234,7 @@
 		934198451DB0C218004BBBB7 /* Fixtures */ = {
 			isa = PBXGroup;
 			children = (
-				930A50862107E3030068C694 /* Agencies */,
+				93E48CD02108D1B700BFD534 /* Agencies */,
 				937B0B7921027C78001C4CF9 /* Shapes */,
 				93302B4420CB185F003699C6 /* RecentStops */,
 				93302B4120CB183C003699C6 /* Weather */,
@@ -1529,6 +1541,14 @@
 			path = map;
 			sourceTree = "<group>";
 		};
+		93E48CD02108D1B700BFD534 /* Agencies */ = {
+			isa = PBXGroup;
+			children = (
+				93E48CD12108D1B700BFD534 /* agencies_with_coverage.json */,
+			);
+			path = Agencies;
+			sourceTree = "<group>";
+		};
 		93F3F88C1E7A7B160025FC78 /* regional_alerts */ = {
 			isa = PBXGroup;
 			children = (
@@ -1743,7 +1763,7 @@
 				934198881DB0C219004BBBB7 /* bookmark_without_region_identifier.plist in Resources */,
 				93302B4820CB185F003699C6 /* RecentStopWithStopID.plist in Resources */,
 				934198891DB0C219004BBBB7 /* testMessageBodyForModelDAO.html in Resources */,
-				930A50882107E3040068C694 /* agencies_with_coverage.json in Resources */,
+				93E48CD22108D1B700BFD534 /* agencies_with_coverage.json in Resources */,
 				934198861DB0C219004BBBB7 /* bookmark_with_region_identifier.plist in Resources */,
 				934198871DB0C219004BBBB7 /* bookmark_with_stopids_array.plist in Resources */,
 				93302B4320CB183C003699C6 /* weather.json in Resources */,
@@ -1857,6 +1877,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				934197EE1DB0C14C004BBBB7 /* SMFloatingLabelTextField.m in Sources */,
+				9300CF8020FA70BB006AB268 /* UIView+constrainToParent.swift in Sources */,
 				930653D71E6DE293005AF0C9 /* OBAToastView.m in Sources */,
 				9327DEFC1E023BE400502F06 /* OBAArrivalDepartureCell.m in Sources */,
 				93A637E520A2CDE50005248C /* LabelCell.swift in Sources */,
@@ -1940,6 +1961,7 @@
 				93A637E320A2CDDC0005248C /* CenterLabelCell.swift in Sources */,
 				934196E21DB0C124004BBBB7 /* MKMapView+oba_Additions.m in Sources */,
 				9341B82920B683A5006450FC /* StopViewModel.swift in Sources */,
+				9300CF7F20FA70BB006AB268 /* PulleyPassthroughScrollView.swift in Sources */,
 				9383FCB020AF6FEA007347B2 /* BottomSweepSectionController.swift in Sources */,
 				934198171DB0C1BA004BBBB7 /* OBARotatingButton.m in Sources */,
 				930CE4DB1E9BFB590073F04D /* UserDefaultsBrowserViewController.swift in Sources */,
@@ -1955,11 +1977,13 @@
 				9368E5C01DB1584900C329D0 /* OBAEmptyDataSetSource.m in Sources */,
 				934198241DB0C1BA004BBBB7 /* OBATextEditViewController.m in Sources */,
 				93F1C26020BCD34B00B5032B /* LoadingCell.swift in Sources */,
+				9300CF7E20FA70BB006AB268 /* UIViewController+PulleyViewController.swift in Sources */,
 				93F9574A1E9AFB020022586B /* UIWindow+OBAAdditions.m in Sources */,
 				93A6E5241E6CB23500BEFECE /* ISHHoverBar.m in Sources */,
 				9341977F1DB0C140004BBBB7 /* OBABookmarkGroupsViewController.m in Sources */,
 				9341979F1DB0C140004BBBB7 /* OBASeparatorSectionView.m in Sources */,
 				9341979D1DB0C140004BBBB7 /* OBACollapsingHeaderView.m in Sources */,
+				9300CF7D20FA70BB006AB268 /* PulleyViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
