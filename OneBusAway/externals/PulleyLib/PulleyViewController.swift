@@ -557,23 +557,6 @@ public final class PulleyViewController: UIViewController, PulleyDrawerViewContr
         super.init(coder: aDecoder)
     }
 
-    // MARK: - Feedback Generator
-
-    /// The feedback generator to use for drawer position changes.
-    private var feedbackGenerator: UIImpactFeedbackGenerator?
-
-    public func prepareFeedbackGenerator() {
-        if feedbackGenerator == nil {
-            feedbackGenerator = UIImpactFeedbackGenerator(style: UIImpactFeedbackStyle.medium)
-        }
-
-        feedbackGenerator?.prepare()
-    }
-
-    public func triggerFeedbackGenerator() {
-        feedbackGenerator?.impactOccurred()
-    }
-
     /// Bounce the drawer to get user attention. Note: Only works in .bottomDrawer display mode and when the drawer is in .collapsed or .partiallyRevealed position.
     ///
     /// - Parameters:
@@ -765,12 +748,6 @@ extension PulleyViewController {
         super.viewDidAppear(animated)
 
         setNeedsSupportedDrawerPositionsUpdate()
-    }
-
-    override public func viewDidDisappear(_ animated: Bool) {
-        super.viewDidDisappear(animated)
-
-        feedbackGenerator = nil
     }
 
     override open func viewDidLayoutSubviews() {
@@ -1085,14 +1062,10 @@ extension PulleyViewController {
             return
         }
 
-        prepareFeedbackGenerator()
-
         drawerPosition = position
 
         let stopToMoveTo = calculateStopToMoveTo(drawerPosition: drawerPosition)
         let lowestStop = getStopList().min() ?? 0
-
-        triggerFeedbackGenerator()
 
         if animated && view.window != nil {
             isAnimatingDrawerPosition = true

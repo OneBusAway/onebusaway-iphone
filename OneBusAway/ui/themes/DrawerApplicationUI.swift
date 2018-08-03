@@ -105,21 +105,21 @@ extension DrawerApplicationUI: OBAApplicationUI {
         mapNavigationController.popViewController(animated: false)
 
         let viewController: (UIViewController & OBANavigationTargetAware)
-        let navController: UINavigationController
+        let topController: UIViewController
 
         switch navigationTarget.target {
         case .map, .searchResults:
             viewController = mapController
-            navController = mapNavigationController
+            topController = mapPulley
         case .recentStops:
             viewController = recentsController
-            navController = recentsNavigation
+            topController = recentsNavigation
         case .bookmarks:
             viewController = bookmarksController
-            navController = bookmarksNavigation
+            topController = bookmarksNavigation
         case .contactUs:
             viewController = infoController
-            navController = infoNavigation
+            topController = infoNavigation
         case .undefined:
             // swiftlint:disable no_fallthrough_only fallthrough
             fallthrough
@@ -129,7 +129,7 @@ extension DrawerApplicationUI: OBAApplicationUI {
             return
         }
 
-        tabBarController.selectedViewController = navController
+        tabBarController.selectedViewController = topController
         viewController.setNavigationTarget(navigationTarget)
 
         if navigationTarget.parameters["stop"] != nil, let stopID = navigationTarget.parameters["stopID"] as? String {

@@ -49,14 +49,14 @@ genstrings -s OBALocalized
 
 #### Bundle Version Numbers
 
-The bundle version number should be updated upon every release to TestFlight or the App Store. Run the script `./update-version.sh` to update the bundle version number. These are the values that take the form `20171021.17`.
+The bundle version number should be updated upon every release to TestFlight or the App Store. Run the script `bin/version` to update the bundle version number. These are the values that take the form `20171021.17`.
 
 #### App Version Numbers
 
-The bundle version number should be updated upon every release to the App Store. Run the script `./update-version.sh <VERSION_NUMBER>` to update the app version number. For instance, if you are preparing to release version 17.10.0 of the app, you would use the command:
+The bundle version number should be updated upon every release to the App Store. Run the script `bin/version <VERSION_NUMBER>` to update the app version number. For instance, if you are preparing to release version 17.10.0 of the app, you would use the command:
 
 ```
-./update-version.sh 17.10.0
+bin/version 17.10.0
 ```
 
 ### Frequently Asked Questions
