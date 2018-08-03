@@ -15,6 +15,9 @@ class StopAnnotationView: MKAnnotationView {
     private let myImageView: UIImageView = {
         let img = UIImageView(frame: .zero)
         img.contentMode = .scaleAspectFit
+        img.layer.shadowColor = UIColor.black.cgColor
+        img.layer.shadowRadius = 4.0
+        img.layer.shadowOffset = .zero
         return img
     }()
 
@@ -25,8 +28,7 @@ class StopAnnotationView: MKAnnotationView {
 
         addSubview(myImageView)
 
-        let size = 54
-        bounds = CGRect(x: 0, y: 0, width: size, height: size)
+        bounds = CGRect(x: 0, y: 0, width: OBADefaultAnnotationSize, height: OBADefaultAnnotationSize)
 
         canShowCallout = false
     }
@@ -91,5 +93,19 @@ extension StopAnnotationView {
 extension StopAnnotationView {
     override func setSelected(_ selected: Bool, animated: Bool) {
         super.setSelected(selected, animated: animated)
+
+        OBAAnimation.perform(animated: animated) {
+            self.updateShadow()
+            self.updateTransform()
+        }
+    }
+
+    private func updateShadow() {
+        let opacity: Float = isSelected ? 0.3 : 0.0
+        self.myImageView.layer.shadowOpacity = opacity
+    }
+
+    private func updateTransform() {
+        transform = isSelected ? CGAffineTransform.init(scaleX: 1.1, y: 1.1) : .identity
     }
 }
