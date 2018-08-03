@@ -16,6 +16,7 @@ import OBAKit
     // MARK: - Map Tab
     var mapController: MapTableViewController
     var mapNavigationController: UINavigationController
+    var mapPulley: PulleyViewController
 
     // MARK: - Recents Tab
     let recentsController = OBARecentStopsViewController.init()
@@ -41,10 +42,17 @@ import OBAKit
 
         mapController = MapTableViewController.init(application: application)
         mapNavigationController = UINavigationController.init(rootViewController: mapController)
+        mapPulley = PulleyViewController(contentViewController: mapNavigationController, drawerViewController: UIViewController())
+        mapPulley.setDrawerPosition(position: .closed, animated: false)
+        mapPulley.defaultCollapsedHeight = 120.0
+
+        mapPulley.title = mapController.title
+        mapPulley.tabBarItem.image = mapController.tabBarItem.image
+        mapPulley.tabBarItem.selectedImage = mapController.tabBarItem.selectedImage
 
         super.init()
 
-        tabBarController.viewControllers = [mapNavigationController, recentsNavigation, bookmarksNavigation, infoNavigation]
+        tabBarController.viewControllers = [mapPulley, recentsNavigation, bookmarksNavigation, infoNavigation]
         tabBarController.delegate = self
     }
 }

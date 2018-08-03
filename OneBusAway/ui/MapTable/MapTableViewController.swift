@@ -128,6 +128,8 @@ class MapTableViewController: UIViewController {
 
         super.init(nibName: nil, bundle: nil)
 
+        self.mapController.delegate = self
+
         self.mapDataLoader.add(self)
         self.mapRegionManager.add(delegate: self)
 
@@ -175,6 +177,12 @@ extension MapTableViewController {
         adapter.scrollViewDelegate = self
 
         configureSearchUI()
+    }
+
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+
+        pulleyViewController?.setDrawerPosition(position: .closed, animated: false)
     }
 
     override func viewDidAppear(_ animated: Bool) {
@@ -250,6 +258,10 @@ extension MapTableViewController: ListAdapterDataSource {
             return [OfflineSection(), Sweep(collectionViewBounds: view.bounds)]
         }
 
+        guard pulleyViewController?.drawerPosition == .closed else {
+            return []
+        }
+
         var sections: [ListDiffable] = []
 
         // Forecast
@@ -265,7 +277,7 @@ extension MapTableViewController: ListAdapterDataSource {
         }
 
         // Recent Stops
-        let recentNearbyStops = buildNearbyRecentStopViewModels()
+        let recentNearbyStops = buildNearbyRecentStopViewModels(pick: 2)
         if recentNearbyStops.count > 0 {
             sections.append(SectionHeader(text: NSLocalizedString("map_search.recent_stops_section_title", comment: "Recent Stops")))
             sections.append(contentsOf: recentNearbyStops)
@@ -291,7 +303,7 @@ extension MapTableViewController: ListAdapterDataSource {
             sections.append(Sweep(collectionViewBounds: view.bounds))
         }
         else {
-            // this is crashing the app on iOS 10
+            // abxoxo - this is crashing the app on iOS 10
 //            sections.append(LoadingSection())
         }
 
@@ -376,8 +388,60 @@ extension MapTableViewController: OBAMapRegionDelegate {
     }
 }
 
-// MARK: - Search
+// MARK: - Map Controller Delegate
+extension MapTableViewController: MapControllerDelegate {
+    func mapController(_ controller: OBAMapViewController, displayStopWithID stopID: String) {
+        let stopController = StopViewController.init(stopID: stopID)
 
+        guard let pulleyViewController = pulleyViewController else {
+            navigationController?.pushViewController(stopController, animated: true)
+            return
+        }
+
+        stopController.embedDelegate = self
+        stopController.inEmbedMode = true
+
+        let navigation = UINavigationController.init(rootViewController: stopController)
+
+        pulleyViewController.setDrawerContentViewController(controller: navigation, animated: true)
+        pulleyViewController.setDrawerPosition(position: .partiallyRevealed, animated: true)
+
+        adapter.reloadData()
+    }
+
+    func mapController(_ controller: OBAMapViewController, deselectedAnnotation annotation: MKAnnotation) {
+        guard
+            let stop = annotation as? OBAStopV2,
+            let nav = pulleyViewController?.drawerContentViewController as? UINavigationController,
+            let stopController = nav.topViewController as? StopViewController
+        else {
+            return
+        }
+
+        if stopController.stopID == stop.stopId {
+            pulleyViewController?.setDrawerPosition(position: .closed, animated: true)
+        }
+    }
+}
+
+// MARK: - EmbeddedStopDelegate
+extension MapTableViewController: EmbeddedStopDelegate {
+    func embeddedStop(_ stopController: StopViewController, push viewController: UIViewController, animated: Bool) {
+        mapController.deselectSelectedAnnotationView()
+        pulleyViewController?.setDrawerPosition(position: .closed, animated: true) { _ in
+            self.navigationController?.pushViewController(viewController, animated: animated)
+        }
+    }
+
+    func embeddedStopControllerClosePane(_ stopController: StopViewController) {
+        mapController.deselectSelectedAnnotationView()
+        pulleyViewController?.setDrawerPosition(position: .closed, animated: true) { _ in
+            self.adapter.performUpdates(animated: false)
+        }
+    }
+}
+
+// MARK: - Search
 extension MapTableViewController: MapSearchDelegate, UISearchControllerDelegate, UISearchBarDelegate {
 
     fileprivate func configureSearchUI() {

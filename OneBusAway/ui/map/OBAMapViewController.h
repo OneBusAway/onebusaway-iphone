@@ -21,6 +21,14 @@ NS_ASSUME_NONNULL_BEGIN
 
 @class OBAModelDAO;
 
+@class OBAMapViewController;
+
+NS_SWIFT_NAME(MapControllerDelegate)
+@protocol OBAMapControllerDelegate
+- (void)mapController:(OBAMapViewController*)controller displayStopWithID:(NSString*)stopID;
+- (void)mapController:(OBAMapViewController*)controller deselectedAnnotation:(id<MKAnnotation>)annotation;
+@end
+
 @interface OBAMapViewController : UIViewController <OBANavigationTargetAware, OBAMapDataLoaderDelegate>
 INIT_NIB_UNAVAILABLE;
 INIT_CODER_UNAVAILABLE;
@@ -28,6 +36,7 @@ INIT_CODER_UNAVAILABLE;
 @property(nonatomic,strong) OBAModelDAO *modelDAO;
 @property(nonatomic,strong) PromisedModelService *modelService;
 @property(nonatomic,strong) OBALocationManager *locationManager;
+@property(nonatomic,weak) id<OBAMapControllerDelegate> delegate;
 
 /**
  When the view controller is in standalone mode, it will display toolbars. Defaults to true.
@@ -40,6 +49,8 @@ INIT_CODER_UNAVAILABLE;
 - (instancetype)initWithMapDataLoader:(OBAMapDataLoader*)mapDataLoader mapRegionManager:(OBAMapRegionManager*)mapRegionManager NS_DESIGNATED_INITIALIZER;
 
 - (void)recenterMap;
+
+- (void)deselectSelectedAnnotationView;
 @end
 
 NS_ASSUME_NONNULL_END

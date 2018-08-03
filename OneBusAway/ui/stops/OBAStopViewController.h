@@ -11,9 +11,11 @@
 NS_ASSUME_NONNULL_BEGIN
 
 @class OBAStopViewController;
+NS_SWIFT_NAME(EmbeddedStopDelegate)
 @protocol OBAEmbeddedStopDelegate<NSObject>
-- (void)embeddedStopController:(OBAStopViewController*)stopController showStop:(NSString*)stopID;
 - (void)embeddedStopController:(OBAStopViewController*)stopController pushViewController:(UIViewController*)viewController animated:(BOOL)animated;
+
+- (void)embeddedStopControllerClosePane:(OBAStopViewController*)stopController;
 @end
 
 NS_SWIFT_NAME(StopViewController)
