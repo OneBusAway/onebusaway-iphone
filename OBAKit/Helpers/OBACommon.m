@@ -26,7 +26,6 @@ NSString * const kApplicationShortcutMap = @"org.onebusaway.iphone.shortcut.map"
 NSString * const kApplicationShortcutRecents = @"org.onebusaway.iphone.shortcut.recents";
 NSString * const kApplicationShortcutBookmarks = @"org.onebusaway.iphone.shortcut.bookmarks";
 
-NSString * const OBAExperimentalUseDrawerUIDefaultsKey = @"OBAExperimentalUseDrawerUIDefaultsKey";
 NSString * const OBADisplayUserHeadingOnMapDefaultsKey = @"OBADisplayUserHeadingOnMapDefaultsKey";
 NSString * const OBAOptInToTrackingDefaultsKey = @"OBAOptInToTrackingDefaultsKey";
 NSString * const OBAOptInToCrashReportingDefaultsKey = @"OBAOptInToCrashReportingDefaultsKey";

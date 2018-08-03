@@ -19,6 +19,8 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
+extern CGFloat const OBADefaultAnnotationSize;
+
 @interface OBAStopIconFactory : NSObject
 
 + (UIImage*)getIconForStop:(OBAStopV2 *)stop;

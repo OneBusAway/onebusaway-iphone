@@ -20,6 +20,9 @@
 #import <OBAKit/OBATheme.h>
 #import <OBAKit/OBAMacros.h>
 
+// For the simple getIconForStop call, here are the default dimensions
+CGFloat const OBADefaultAnnotationSize = 54.f;
+
 @implementation OBAStopIconFactory
 
 // . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .
@@ -58,10 +61,6 @@
 #define ChevronWidthPercentage      0.25f   // Width of chevron, relative to overall size (assuming N chevron)
 #define ChevronHeightPercentage     0.15f   // Height of chevron, relative to overall size (assuming N chevron)
 
-// For the simple getIconForStop call, here are the default dimensions
-#define StopIconDefaultWidth        54
-#define StopIconDefaultHeight       54
-
 // . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .
 
 static NSDictionary *rotationAngles = nil;
@@ -75,7 +74,7 @@ static NSString *stopLabelText = nil;
 static NSCache *iconCache = nil;
 
 + (UIImage *)getIconForStop:(OBAStopV2 *)stop {
-    return [self getIconForStop:stop withSize:CGSizeMake(StopIconDefaultWidth, StopIconDefaultHeight)];
+    return [self getIconForStop:stop withSize:CGSizeMake(OBADefaultAnnotationSize, OBADefaultAnnotationSize)];
 }
 
 + (UIImage *)getIconForStop:(OBAStopV2 *)stop withSize:(CGSize)size {

@@ -586,6 +586,9 @@
 
 "stops_controller.cell.add_bookmark_title" = "Favorito";
 
+/* Formatted string for a list of routes - Routes: %@ */
+"stops_controller.routes_list_fmt" = "Rutas: %@";
+
 /* cell.statusLabel.text */
 "msg_mayus_vehicle" = "Vehículo";
 

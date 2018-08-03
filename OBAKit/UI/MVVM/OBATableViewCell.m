@@ -26,6 +26,7 @@
     [super prepareForReuse];
 
     self.textLabel.font = nil;
+    self.detailTextLabel.font = nil;
     self.textLabel.text = nil;
     self.textLabel.textColor = nil;
     self.detailTextLabel.text = nil;
@@ -43,6 +44,7 @@
     _tableRow = [tableRow copy];
 
     self.textLabel.font = [self tableDataRow].titleFont;
+    self.detailTextLabel.font = [self tableDataRow].subtitleFont;
 
     if ([self tableDataRow].attributedTitle) {
         self.textLabel.attributedText = [self tableDataRow].attributedTitle;

@@ -36,12 +36,11 @@
 static const NSUInteger kShowNClosestStops = 4;
 static const double kStopsInRegionRefreshDelayOnDrag = 0.1;
 
-@interface OBAMapViewController ()<MKMapViewDelegate, UISearchBarDelegate, UISearchControllerDelegate, MapSearchDelegate, OBANavigator, OBAMapRegionDelegate, OBAEmbeddedStopDelegate, OBAVehicleDisambiguationDelegate>
+@interface OBAMapViewController ()<MKMapViewDelegate, UISearchBarDelegate, UISearchControllerDelegate, MapSearchDelegate, OBANavigator, OBAMapRegionDelegate, OBAVehicleDisambiguationDelegate>
 
 // Map UI
 @property(nonatomic,strong) MKMapView *mapView;
 @property(nonatomic,strong) ISHHoverBar *locationHoverBar;
-@property(nonatomic,strong) ISHHoverBar *secondaryHoverBar;
 @property(nonatomic,strong) OBAToastView *toastView;
 @property(nonatomic,strong) UIImageView *mapCenterImage;
 
@@ -51,7 +50,6 @@ static const double kStopsInRegionRefreshDelayOnDrag = 0.1;
 
 // Programmatic UI
 @property(nonatomic,strong) OBAMapActivityIndicatorView *mapActivityIndicatorView;
-@property(nonatomic,strong) UIBarButtonItem *listBarButtonItem;
 @property(nonatomic,strong) SVPulsingAnnotationView *userLocationAnnotationView;
 
 // Everything Else
@@ -121,9 +119,9 @@ static const double kStopsInRegionRefreshDelayOnDrag = 0.1;
         self.mapView.showsUserLocation = YES;
     }
 
+    [self createLocationHoverBar];
+
     if (self.standaloneMode) {
-        [self createLocationHoverBar];
-        [self createSecondaryHoverBar];
         [self configureSearch];
     }
 
@@ -178,7 +176,7 @@ static const double kStopsInRegionRefreshDelayOnDrag = 0.1;
 #pragma mark - Drawer UI
 
 - (BOOL)usingDrawerUI {
-    return [OBAApplication.sharedApplication.userDefaults boolForKey:OBAExperimentalUseDrawerUIDefaultsKey];
+    return !self.standaloneMode;
 }
 
 #pragma mark - Search
@@ -475,9 +473,11 @@ static const double kStopsInRegionRefreshDelayOnDrag = 0.1;
     return nil;
 }
 
-- (void)mapView:(MKMapView *)mapView didSelectAnnotationView:(MKAnnotationView *)view {
-    [mapView deselectAnnotation:view.annotation animated:YES];
+- (void)mapView:(MKMapView *)mapView didDeselectAnnotationView:(MKAnnotationView *)view {
+    [self.delegate mapController:self deselectedAnnotation:view.annotation];
+}
 
+- (void)mapView:(MKMapView *)mapView didSelectAnnotationView:(MKAnnotationView *)view {
     OBAStopV2 *stop = nil;
 
     if ([view.annotation isKindOfClass:OBABookmarkV2.class]) {
@@ -490,11 +490,7 @@ static const double kStopsInRegionRefreshDelayOnDrag = 0.1;
         return;
     }
 
-    OBAStopViewController *stopController = [[OBAStopViewController alloc] initWithStopID:stop.stopId];
-    stopController.embedDelegate = self;
-    stopController.inEmbedMode = YES;
-
-    [self oba_presentPopoverViewController:stopController fromView:view popoverSize:CGSizeMake(OBATheme.preferredPopoverWidth, 225) hideNavigationBar:NO];
+    [self.delegate mapController:self displayStopWithID:stop.stopId];
 }
 
 - (void)mapView:(MKMapView *)mapView annotationView:(MKAnnotationView *)view calloutAccessoryControlTapped:(UIControl *)control {
@@ -508,7 +504,7 @@ static const double kStopsInRegionRefreshDelayOnDrag = 0.1;
 }
 
 - (MKOverlayRenderer *)mapView:(MKMapView *)mapView rendererForOverlay:(id<MKOverlay>)overlay {
-    if ([overlay isKindOfClass:[MKPolyline class]]) {
+    if ([overlay isKindOfClass:MKPolyline.class]) {
         MKPolylineRenderer *renderer = [[MKPolylineRenderer alloc] initWithPolyline:overlay];
         renderer.fillColor = [UIColor blackColor];
         renderer.strokeColor = [UIColor blackColor];
@@ -520,21 +516,16 @@ static const double kStopsInRegionRefreshDelayOnDrag = 0.1;
     }
 }
 
-#pragma mark OBAEmbeddedStopDelegate
-
-- (void)embeddedStopController:(OBAStopViewController*)stopController showStop:(NSString*)stopID {
-    [stopController.presentingViewController dismissViewControllerAnimated:NO completion:^{
-        [self displayStopControllerForStopID:stopID];
-    }];
-}
-
-- (void)embeddedStopController:(OBAStopViewController*)stopController pushViewController:(UIViewController*)viewController animated:(BOOL)animated {
-    [stopController.presentingViewController dismissViewControllerAnimated:NO completion:^{
-        [self.navigationController pushViewController:viewController animated:YES];
-    }];
-}
-
 #pragma mark - Actions
+
+- (void)deselectSelectedAnnotationView {
+    id<MKAnnotation> annotation = self.mapView.selectedAnnotations.firstObject;
+    if (!annotation) {
+        return;
+    }
+
+    [self.mapView deselectAnnotation:annotation animated:YES];
+}
 
 - (IBAction)updateLocation:(id)sender {
     if (!self.locationManager.locationServicesEnabled) {
@@ -1082,29 +1073,15 @@ static const double kStopsInRegionRefreshDelayOnDrag = 0.1;
 - (void)createLocationHoverBar {
     UIBarButtonItem *recenterMapButton = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"Map_Selected"] landscapeImagePhone:nil style:UIBarButtonItemStylePlain target:self action:@selector(recenterMap)];
 
+    UIBarButtonItem *mapBarButton = [OBAUIBuilder wrappedImageButton:[UIImage imageNamed:@"map_button"] accessibilityLabel:NSLocalizedString(@"map_controller.toggle_map_type_accessibility_label", @"Accessibility label for toggle map type button on map.") target:self action:@selector(changeMapTypes:)];
+
     self.locationHoverBar = [[ISHHoverBar alloc] init];
-    self.locationHoverBar.items = @[recenterMapButton];
+    self.locationHoverBar.shadowRadius = 2.f;
+    self.locationHoverBar.items = @[mapBarButton, recenterMapButton];
     [self.view addSubview:self.locationHoverBar];
     [self.locationHoverBar mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.bottom.equalTo(self.mas_bottomLayoutGuideTop).offset(-OBATheme.defaultMargin);
-        make.trailing.equalTo(self).offset(-OBATheme.defaultMargin);
-    }];
-}
-
-- (void)createSecondaryHoverBar {
-    self.secondaryHoverBar = [[ISHHoverBar alloc] init];
-
-    UIBarButtonItem *nearbyButton = [OBAUIBuilder wrappedImageButton:[UIImage imageNamed:@"map_signs"] accessibilityLabel:NSLocalizedString(@"msg_nearby_stops_list", @"self.listBarButtonItem.accessibilityLabel") target:self action:@selector(showNearbyStops)];
-
-    NSString *label = NSLocalizedString(@"map_controller.toggle_map_type_accessibility_label", @"Accessibility label for toggle map type button on map.");
-    UIBarButtonItem *mapBarButton = [OBAUIBuilder wrappedImageButton:[UIImage imageNamed:@"map_button"] accessibilityLabel:label target:self action:@selector(changeMapTypes:)];
-
-    self.secondaryHoverBar.items = @[nearbyButton, mapBarButton];
-
-    [self.view addSubview:self.secondaryHoverBar];
-    [self.secondaryHoverBar mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.bottom.equalTo(self.locationHoverBar.mas_top).offset(-2 * [OBATheme defaultPadding]);
-        make.trailing.equalTo(self.locationHoverBar);
+        make.top.equalTo(self.mas_topLayoutGuideBottom).offset(OBATheme.defaultMargin);
+        make.trailing.equalTo(self.view).offset(-OBATheme.defaultPadding);
     }];
 }
 

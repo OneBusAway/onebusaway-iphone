@@ -53,6 +53,7 @@ static NSString * const OBACellStyleSubtitleReuseIdentifier = @"OBACellStyleSubt
     newRow->_selectionStyle = _selectionStyle;
     newRow->_accessoryView = _accessoryView;
     newRow->_titleFont = [_titleFont copyWithZone:zone];
+    newRow->_subtitleFont = [_subtitleFont copyWithZone:zone];
 
     return newRow;
 }

@@ -84,19 +84,29 @@ static NSUInteger const kDefaultMinutesAfter = 35;
 - (void)viewDidLoad {
     [super viewDidLoad];
 
+    UIBarButtonItem *item = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemSave target:nil action:nil];
+    [self setToolbarItems:@[item] animated:YES];
+
+    self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemRefresh target:self action:@selector(reloadData:)];
+
+    self.navigationItem.title = NSLocalizedString(@"stop_view_controller.stop_back_title", @"Back button title representing going back to the stop controller.");
+
     if (self.regularUIMode) {
-        self.navigationItem.title = NSLocalizedString(@"stop_view_controller.stop_back_title", @"Back button title representing going back to the stop controller.");
         [self createTableHeaderView];
         self.refreshControl = [[UIRefreshControl alloc] init];
         [self.refreshControl addTarget:self action:@selector(reloadData:) forControlEvents:UIControlEventValueChanged];
         [self.tableView addSubview:self.refreshControl];
-        self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemRefresh target:self action:@selector(reloadData:)];
 
         [self createHoverBar];
     }
     else {
-        [self buildBottomEmbedUI];
+        UIBarButtonItem *closeButton = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"close"] style:UIBarButtonItemStyleDone target:self action:@selector(closePane)];
+        self.navigationItem.leftBarButtonItem = closeButton;
+
+        // abxoxo todo: add toolbar somewhere
+        [self createHoverBar];
     }
+
 }
 
 - (void)viewWillAppear:(BOOL)animated {
@@ -133,7 +143,6 @@ static NSUInteger const kDefaultMinutesAfter = 35;
 #pragma mark - Notifications
 
 - (void)willEnterForeground:(NSNotification*)note {
-
     // First, reload the table so that times adjust properly.
     [self.tableView reloadData];
 
@@ -215,24 +224,13 @@ static NSUInteger const kDefaultMinutesAfter = 35;
 
     self.promiseWrapper.anyPromise.then(^(NetworkResponse *networkResponse) {
         OBAArrivalsAndDeparturesForStopV2 *response = networkResponse.object;
-        if (self.regularUIMode) {
-            self.navigationItem.title = [NSString stringWithFormat:@"%@: %@", NSLocalizedString(@"msg_updated", @"message"), [OBADateHelpers formatShortTimeNoDate:[NSDate date]]];
-        }
+        self.navigationItem.title = [NSString stringWithFormat:@"%@: %@", NSLocalizedString(@"msg_updated", @"message"), [OBADateHelpers formatShortTimeNoDate:[NSDate date]]];
+
         [self.modelDAO viewedArrivalsAndDeparturesForStop:response.stop];
 
         self.arrivalsAndDepartures = response;
 
         [self populateTableFromArrivalsAndDeparturesModel:self.arrivalsAndDepartures];
-
-        if (self.regularUIMode) {
-            [self.stopHeaderView populateTableHeaderFromArrivalsAndDeparturesModel:self.arrivalsAndDepartures];
-        }
-        else {
-            OBAStopV2 *stop = self.arrivalsAndDepartures.stop;
-            NSString *title = stop.nameWithDirection;
-            NSString *subtitle = stop.routeNamesAsString;
-            self.navigationItem.titleView = [[OBANavigationTitleView alloc] initWithTitle:title subtitle:subtitle];
-        }
     }).catch(^(NSError *error) {
         [AlertPresenter showError:error presentingController:self];
         DDLogError(@"An error occurred while displaying a stop: %@", error);
@@ -251,6 +249,20 @@ static NSUInteger const kDefaultMinutesAfter = 35;
     }
 
     NSMutableArray *sections = [NSMutableArray array];
+
+    if (self.inEmbedMode) {
+        OBAStopV2 *stop = result.stop;
+        OBATableRow *titleRow = [[OBATableRow alloc] initWithTitle:stop.nameWithDirection action:nil];
+        titleRow.titleFont = [OBATheme headlineFont];
+        titleRow.subtitleFont = [OBATheme subheadFont];
+
+        titleRow.style = UITableViewCellStyleSubtitle;
+        titleRow.selectionStyle = UITableViewCellSelectionStyleNone;
+        titleRow.subtitle = [NSString stringWithFormat:NSLocalizedString(@"stops_controller.routes_list_fmt", @"Formatted string for a list of routes - Routes: %@"), stop.routeNamesAsString];
+
+        OBATableSection *section = [[OBATableSection alloc] initWithTitle:nil rows:@[titleRow]];
+        [sections addObject:section];
+    }
 
     // Toggle showing/hiding filtered routes.
     if ([self.routeFilter hasFilteredRoutes]) {
@@ -284,13 +296,8 @@ static NSUInteger const kDefaultMinutesAfter = 35;
 
     OBATableSection *loadMoreSection = nil;
 
-    if (self.regularUIMode) {
-        // "Load More Departures..."
-        loadMoreSection = [self createLoadMoreDeparturesSection];
-    }
-    else {
-        loadMoreSection = [[OBATableSection alloc] initWithTitle:nil];
-    }
+    // "Load More Departures..."
+    loadMoreSection = [self createLoadMoreDeparturesSection];
 
     NSString *timeframeText = [self timeframeStringForMinutesBeforeToAfter];
 
@@ -507,7 +514,6 @@ static NSUInteger const kDefaultMinutesAfter = 35;
 - (OBADepartureRow*)buildDepartureRowForArrivalAndDeparture:(OBAArrivalAndDepartureV2*)dep {
     OBAArrivalAndDepartureSectionBuilder *builder = [[OBAArrivalAndDepartureSectionBuilder alloc] initWithModelDAO:self.modelDAO];
     OBADepartureRow *row = [builder createDepartureRowForStop:dep];
-    row.displayContextButton = self.regularUIMode;
 
     [row setAction:^(OBABaseRow *blockRow) {
         OBAArrivalAndDepartureViewController *vc = [[OBAArrivalAndDepartureViewController alloc] initWithArrivalAndDeparture:dep];
@@ -659,6 +665,15 @@ static NSUInteger const kDefaultMinutesAfter = 35;
     return [NSDictionary dictionaryWithDictionary:dict];
 }
 
+- (void)pushViewController:(UIViewController*)viewController animated:(BOOL)animated {
+    if (self.inEmbedMode) {
+        [self.embedDelegate embeddedStopController:self pushViewController:viewController animated:YES];
+    }
+    else {
+        [self.navigationController pushViewController:viewController animated:animated];
+    }
+}
+
 #pragma mark - Hover Bar
 
 - (void)createHoverBar {
@@ -679,53 +694,8 @@ static NSUInteger const kDefaultMinutesAfter = 35;
 
 #pragma mark - Embed UI
 
-- (void)pushViewController:(UIViewController*)viewController animated:(BOOL)animated {
-    if (self.inEmbedMode) {
-        [self.embedDelegate embeddedStopController:self pushViewController:viewController animated:animated];
-    }
-    else {
-        [self.navigationController pushViewController:viewController animated:YES];
-    }
+- (void)closePane {
+    [self.embedDelegate embeddedStopControllerClosePane:self];
 }
-
-- (void)buildBottomEmbedUI {
-    UIView *fixedBottomBar = [[UIView alloc] init];
-    fixedBottomBar.backgroundColor = [OBATheme colorWithRed:250 green:250 blue:250 alpha:1.f];
-
-    UIView *topLine = [[UIView alloc] initWithFrame:CGRectZero];
-    topLine.backgroundColor = UIColor.lightGrayColor;
-    [topLine setContentHuggingPriority:UILayoutPriorityRequired forAxis:UILayoutConstraintAxisVertical];
-    [topLine mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.height.equalTo(@(0.5f));
-    }];
-
-    UIButton *button = [UIButton buttonWithType:UIButtonTypeSystem];
-    [button addTarget:self action:@selector(embedDelegateShowStop:) forControlEvents:UIControlEventTouchUpInside];
-    [button setImage:[UIImage imageNamed:@"chevron"] forState:UIControlStateNormal];
-    [button setTitle:NSLocalizedString(@"stop.view_stop_button_title", @"View Stop button in embed mode") forState:UIControlStateNormal];
-    button.transform = CGAffineTransformMakeScale(-1.0, 1.0);
-    button.titleLabel.transform = CGAffineTransformMakeScale(-1.0, 1.0);
-    button.imageView.transform = CGAffineTransformMakeScale(-1.0, 1.0);
-    button.imageEdgeInsets = UIEdgeInsetsMake(10, -30, 10, 0);
-
-    UIStackView *stack = [[UIStackView alloc] initWithArrangedSubviews:@[topLine, button]];
-    stack.axis = UILayoutConstraintAxisVertical;
-    [fixedBottomBar addSubview:stack];
-    [stack mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.edges.equalTo(fixedBottomBar);
-    }];
-    [self.view addSubview:fixedBottomBar];
-    [fixedBottomBar mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.leading.trailing.and.bottom.equalTo(self.view);
-        make.height.greaterThanOrEqualTo(@44.5);
-    }];
-    self.tableView.contentInset = UIEdgeInsetsMake(0, 0, 44, 0);
-    self.tableView.scrollIndicatorInsets = self.tableView.contentInset;
-}
-
-- (void)embedDelegateShowStop:(UIButton*)button {
-    [self.embedDelegate embeddedStopController:self showStop:self.stopID];
-}
-
 
 @end

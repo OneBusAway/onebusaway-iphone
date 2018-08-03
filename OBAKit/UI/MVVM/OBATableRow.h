@@ -30,7 +30,10 @@ NS_ASSUME_NONNULL_BEGIN
 @property(nonatomic,copy,nullable) NSAttributedString *attributedTitle;
 
 @property(nonatomic,copy,nullable) NSString *subtitle;
+
 @property(nonatomic,copy,nullable) UIFont *titleFont;
+@property(nonatomic,copy,nullable) UIFont *subtitleFont;
+
 @property(nonatomic,assign) UITableViewCellStyle style;
 @property(nonatomic,strong,nullable) UIImage *image;
 @property(nonatomic,assign) NSTextAlignment textAlignment;
