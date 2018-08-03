@@ -9,7 +9,13 @@
 @import Foundation;
 @import UIKit;
 
+NS_ASSUME_NONNULL_BEGIN
+
 extern NSTimeInterval const OBALongAnimationDuration;
+
+typedef void (^OBAVoidBlock)(void);
+typedef void (^OBACompletionBlock)(BOOL finished);
+
 
 @interface OBAAnimation : NSObject
 
@@ -18,7 +24,7 @@ extern NSTimeInterval const OBALongAnimationDuration;
 
  @param animations A block containing the operations to animate.
  */
-+ (void)performAnimations:(void (^)(void))animations;
++ (void)performAnimations:(OBAVoidBlock)animations;
 
 /**
  A standard interface for performing animations with a completion block.
@@ -26,6 +32,29 @@ extern NSTimeInterval const OBALongAnimationDuration;
  @param animations A block containing the operations to animate.
  @param completion Called when the animations have finished.
  */
-+ (void)performAnimations:(void (^)(void))animations completion:(void (^)(BOOL finished))completion;
++ (void)performAnimations:(OBAVoidBlock)animations completion:(nullable OBACompletionBlock)completion;
+
+/**
+ A standard interface for performing animations with a completion block.
+ Includes ability to specify if the operations should be animated or not,
+ allowing for simpler calling from methods that have an `animated` parameter.
+
+ @param animated Perform operations with animation or not.
+ @param animations A block containing the operations to animate.
+ */
++ (void)performAnimated:(BOOL)animated animations:(OBAVoidBlock)animations;
+
+/**
+ A standard interface for performing animations with a completion block.
+ Includes ability to specify if the operations should be animated or not,
+ allowing for simpler calling from methods that have an `animated` parameter.
+
+ @param animated Perform operations with animation or not.
+ @param animations A block containing the operations to animate.
+ @param completion Called when the animations have finished.
+ */
++ (void)performAnimated:(BOOL)animated animations:(OBAVoidBlock)animations completion:(nullable OBACompletionBlock)completion;
 
 @end
+
+NS_ASSUME_NONNULL_END
