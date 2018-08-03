@@ -47,11 +47,6 @@
     OBATableSection *compassSection = [self buildSwitchSectionWithDefaultsKey:OBADisplayUserHeadingOnMapDefaultsKey switchTitle:NSLocalizedString(@"settings.user_heading_switch_title", @"Title for the enable/disable user heading switch on the settings controller") footerText:NSLocalizedString(@"settings.user_heading_footer_text", @"Footer for the enable/disable user heading switch on the settings controller")];
     [sections addObject:compassSection];
 
-    if ([OBACommon debugMode]) {
-        OBATableSection *experimentalSection = [self buildSwitchSectionWithDefaultsKey:OBAExperimentalUseDrawerUIDefaultsKey switchTitle:@"Use Drawer UI" footerText:@"EXPERIMENTAL! Kill app and relaunch to see this in action"];
-        [sections addObject:experimentalSection];
-    }
-
     self.sections = sections;
     [self.tableView reloadData];
 }

@@ -122,9 +122,6 @@ NSString * const OBAHasMigratedDefaultsToAppGroupDefaultsKey = @"OBAHasMigratedD
     mutableDefaults[OBADisplayUserHeadingOnMapDefaultsKey] = @(YES);
     mutableDefaults[OBAMapSelectedTypeDefaultsKey] = @(MKMapTypeStandard);
 
-    // Experimental Settings
-    mutableDefaults[OBAExperimentalUseDrawerUIDefaultsKey] = @(NO);
-
     defaults = mutableDefaults;
 #endif
 
