@@ -91,6 +91,8 @@
 /* code == 500 */
 "error_messages.server_error" = "El servidor no pudo interpretar tu solicitud, o simplemente tiene algunos problemas.";
 
+/* Search for Vehicle ID produced no results. */
+"error_messages.vehicle_not_found" = "No se pudo encontrar un vehículo correspondiente. Por favor, compruebe la identificación y vuelva a intentarlo.";
 
 /* code == 404 */
 "mgs_stop_not_found" = "La Parada no fue encontrada";
