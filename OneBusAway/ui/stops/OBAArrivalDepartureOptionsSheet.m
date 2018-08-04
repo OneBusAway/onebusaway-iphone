@@ -140,7 +140,7 @@
 #pragma mark - Action Menu
 
 - (void)showActionMenuForDepartureRow:(OBADepartureRow*)departureRow fromPresentingView:(UIView*)presentingView {
-    UIAlertController *alert = [UIAlertController alertControllerWithTitle:NSLocalizedString(@"classic_departure_cell.context_alert.title", @"Title for the context menu button's alert controller.") message:nil preferredStyle:UIAlertControllerStyleActionSheet];
+    UIAlertController *alert = [UIAlertController alertControllerWithTitle:nil message:nil preferredStyle:UIAlertControllerStyleActionSheet];
 
     [alert addAction:[UIAlertAction actionWithTitle:OBAStrings.cancel style:UIAlertActionStyleCancel handler:nil]];
 

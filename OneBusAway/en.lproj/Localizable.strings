@@ -783,9 +783,6 @@
 /* This is the ... button shown on the right side of a departure cell. Tapping it shows a menu with more options. */
 "classic_departure_cell.context_button_accessibility_label" = "Options";
 
-/* Title for the context menu button's alert controller. */
-"classic_departure_cell.context_alert.title" = "Options for Arrival & Departure";
-
 /* Title for alert controller's Set Alarm option. */
 "classic_departure_cell.context_alert.set_alarm" = "Set Alarm";
 
