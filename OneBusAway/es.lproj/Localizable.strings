@@ -372,6 +372,9 @@
 /* view.message */
 "msg_set_up_mail_to_send_email" = "Por favor configure tu aplicación de Correo antes de intentar enviar un correo electrónico.";
 
+/* Attribution text for the Dark Sky weather service. */
+"info.dark_sky_attribution" = "Las previsiones meteorológicas son proporcionadas por Dark Sky";
+
 /* Title of the the alert that appears when you try sending an email without Mail.app set up */
 "info.email_app_not_set_up_title" = "No se Puede Enviar Correo por medio de la app Mail";
 
@@ -819,11 +822,17 @@
 /* Formatted string for Search for Stop Number: */
 "map_search.search_for_stop_number" = "Número de Parada:";
 
+/* Vehicle ID: <VEHICLE ID> */
+"map_search.search_for_vehicle_id" = "Vehículo ID:";
+
 /* Map Search: Recent Stops section title */
 "map_search.recent_stops_section_title" = "Paradas Recientes";
 
 /* Map Search: Bookmarks section title */
 "map_search.bookmarks_section_title" = "Favoritos";
+
+/* Title of the Vehicle Search disambiguator view controller */
+"vehicle_disambiguator.title" = "Elija un Vehículo";
 
 /* Clear Search button text */
 "toast_view.clear_search" = "Limpiar Búsqueda";
@@ -917,6 +926,9 @@
 
 /* Mark All as Read toolbar button title */
 "regional_alerts_controller.mark_all_as_read" = "Marcar Todas como Leídas";
+
+/* View Stop button in embed mode */
+"stop.view_stop_button_title" = "Ver parada";
 
 /* This is the '...' button in the stop header view. */
 "stop_header_view.menu_button_accessibility_label" = "Más Opciones";
