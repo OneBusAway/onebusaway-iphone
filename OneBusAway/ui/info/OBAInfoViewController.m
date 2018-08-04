@@ -375,7 +375,7 @@ static NSString * const kPrivacyURLString = @"http://onebusaway.org/privacy/";
     [volunteerLabel setContentCompressionResistancePriority:UILayoutPriorityRequired forAxis:UILayoutConstraintAxisVertical];
     [views addObject:volunteerLabel];
 
-    BorderedButton *volunteerButton = [[BorderedButton alloc] initWithBorderColor:[UIColor blackColor] title:NSLocalizedString(@"msg_visit_us",)];
+    OBABorderedButton *volunteerButton = [[OBABorderedButton alloc] initWithBorderColor:[UIColor blackColor] title:NSLocalizedString(@"msg_visit_us",)];
     [volunteerButton addTarget:self action:@selector(openGitHub) forControlEvents:UIControlEventTouchUpInside];
     [volunteerButton setContentHuggingPriority:UILayoutPriorityDefaultLow forAxis:UILayoutConstraintAxisHorizontal];
     [volunteerButton setContentHuggingPriority:UILayoutPriorityDefaultLow forAxis:UILayoutConstraintAxisVertical];

@@ -162,7 +162,7 @@
 "msg_eastbound" = "往東";
 
 /* OBABookmarkEditExisting */
-"msg_edit_bookmark" = "修改書籤";
+"edit_bookmark.title" = "修改書籤";
 
 /* No comment provided by engineer. */
 "msg_edit_group_name" = "修改群組名稱";

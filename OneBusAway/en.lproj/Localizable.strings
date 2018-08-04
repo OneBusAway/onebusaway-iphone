@@ -162,7 +162,19 @@
 "msg_eastbound" = "Eastbound";
 
 /* OBABookmarkEditExisting */
-"msg_edit_bookmark" = "Edit Bookmark";
+"edit_bookmark.title" = "Edit Bookmark";
+
+/* Label for the Bookmark Name text field */
+"edit_bookmark.bookmark_name_label" = "Bookmark Name";
+
+/* Label for the Add Bookmark Group section */
+"edit_bookmark.add_bookmark_group_label" = "Add Bookmark Group";
+
+/* Label for the 'No Group' table row */
+"edit_bookmark.no_group_label" = "(No Group)";
+
+/* Bookmark Group section header */
+"edit_bookmark.bookmark_group_header" = "Bookmark Group";
 
 /* No comment provided by engineer. */
 "msg_edit_group_name" = "Edit Group Name";

@@ -14,6 +14,7 @@ static UIFont *_headlineFont = nil;
 static UIFont *_subheadFont = nil;
 static UIFont *_boldSubheadFont = nil;
 static UIFont *_bodyFont = nil;
+static UIFont *_italicBodyFont = nil;
 static UIFont *_boldBodyFont = nil;
 static UIFont *_largeTitleFont = nil;
 static UIFont *_titleFont = nil;
@@ -30,6 +31,7 @@ static UIFont *_italicFootnoteFont = nil;
     _headlineFont = nil;
     _subheadFont = nil;
     _bodyFont = nil;
+    _italicBodyFont = nil;
     _boldBodyFont = nil;
     _largeTitleFont = nil;
     _titleFont = nil;
@@ -91,6 +93,13 @@ static UIFont *_italicFootnoteFont = nil;
         _bodyFont = [self fontWithTextStyle:UIFontTextStyleBody];
     }
     return _bodyFont;
+}
+
++ (UIFont*)italicBodyFont {
+    if (!_italicBodyFont) {
+        _italicBodyFont = [self italicFontWithTextStyle:UIFontTextStyleBody];
+    }
+    return _italicBodyFont;
 }
 
 + (UIFont*)boldBodyFont {

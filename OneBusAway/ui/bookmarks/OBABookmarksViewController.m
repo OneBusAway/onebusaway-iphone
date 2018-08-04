@@ -8,12 +8,12 @@
 
 #import "OBABookmarksViewController.h"
 #import "OBAStopViewController.h"
-#import "OBAEditStopBookmarkViewController.h"
 #import "OBACollapsingHeaderView.h"
 #import "OBABookmarkGroupsViewController.h"
 #import "OBANavigationTitleView.h"
 #import "ISHHoverBar.h"
 #import "UIViewController+OBAAdditions.h"
+#import "OneBusAway-Swift.h"
 
 @import SafariServices;
 @import Masonry;
@@ -764,8 +764,8 @@ static NSString * const OBABookmarkSortUserDefaultsKey = @"OBABookmarkSortUserDe
     row.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
 
     [row setEditAction:^{
-        OBAEditStopBookmarkViewController *editor = [[OBAEditStopBookmarkViewController alloc] initWithBookmark:bookmark];
-        UINavigationController *nav = [[UINavigationController alloc] initWithRootViewController:editor];
+        OBAEditBookmarkViewController *bookmarkViewController = [[OBAEditBookmarkViewController alloc] initWithBookmark:bookmark modelDAO:self.modelDAO];
+        UINavigationController *nav = [[UINavigationController alloc] initWithRootViewController:bookmarkViewController];
         [self presentViewController:nav animated:YES completion:nil];
     }];
 

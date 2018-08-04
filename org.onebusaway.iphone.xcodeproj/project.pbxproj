@@ -57,7 +57,6 @@
 		9341977F1DB0C140004BBBB7 /* OBABookmarkGroupsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 934196EF1DB0C13F004BBBB7 /* OBABookmarkGroupsViewController.m */; };
 		934197801DB0C140004BBBB7 /* OBABookmarkRouteDisambiguationViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 934196F21DB0C13F004BBBB7 /* OBABookmarkRouteDisambiguationViewController.m */; };
 		934197811DB0C140004BBBB7 /* OBABookmarksViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 934196F41DB0C13F004BBBB7 /* OBABookmarksViewController.m */; };
-		934197821DB0C140004BBBB7 /* OBAEditStopBookmarkViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 934196F61DB0C13F004BBBB7 /* OBAEditStopBookmarkViewController.m */; };
 		934197851DB0C140004BBBB7 /* OBADrawerViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 934196FE1DB0C13F004BBBB7 /* OBADrawerViewController.m */; };
 		934197861DB0C140004BBBB7 /* OBAAgenciesListViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 934197011DB0C13F004BBBB7 /* OBAAgenciesListViewController.m */; };
 		934197871DB0C140004BBBB7 /* OBACreditsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 934197031DB0C13F004BBBB7 /* OBACreditsViewController.m */; };
@@ -181,6 +180,7 @@
 		9385EC3B1DCF14C60020CCB2 /* OBASettingsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9385EC3A1DCF14C60020CCB2 /* OBASettingsViewController.m */; };
 		9385EC401DCF1D910020CCB2 /* ServiceAlertDetailsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9385EC3F1DCF1D910020CCB2 /* ServiceAlertDetailsViewController.swift */; };
 		93876DFB1E68AD3900B4343F /* OBAMapAnnotationViewBuilder.m in Sources */ = {isa = PBXBuildFile; fileRef = 93876DFA1E68AD3900B4343F /* OBAMapAnnotationViewBuilder.m */; };
+		939A1A8021163F60001D5654 /* EditBookmarkViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 939A1A7F21163F60001D5654 /* EditBookmarkViewController.swift */; };
 		93A1C68A20B3F63F00E176DE /* ForecastSectionController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 93A1C68920B3F63F00E176DE /* ForecastSectionController.swift */; };
 		93A637DB20A2CCE30005248C /* HorizontalSectionController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 93A637D820A2CCE20005248C /* HorizontalSectionController.swift */; };
 		93A637DC20A2CCE30005248C /* DisplaySectionController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 93A637D920A2CCE20005248C /* DisplaySectionController.swift */; };
@@ -362,8 +362,6 @@
 		934196F21DB0C13F004BBBB7 /* OBABookmarkRouteDisambiguationViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OBABookmarkRouteDisambiguationViewController.m; sourceTree = "<group>"; };
 		934196F31DB0C13F004BBBB7 /* OBABookmarksViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OBABookmarksViewController.h; sourceTree = "<group>"; };
 		934196F41DB0C13F004BBBB7 /* OBABookmarksViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OBABookmarksViewController.m; sourceTree = "<group>"; };
-		934196F51DB0C13F004BBBB7 /* OBAEditStopBookmarkViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OBAEditStopBookmarkViewController.h; sourceTree = "<group>"; };
-		934196F61DB0C13F004BBBB7 /* OBAEditStopBookmarkViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OBAEditStopBookmarkViewController.m; sourceTree = "<group>"; };
 		934196FD1DB0C13F004BBBB7 /* OBADrawerViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OBADrawerViewController.h; sourceTree = "<group>"; };
 		934196FE1DB0C13F004BBBB7 /* OBADrawerViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OBADrawerViewController.m; sourceTree = "<group>"; };
 		934197001DB0C13F004BBBB7 /* OBAAgenciesListViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OBAAgenciesListViewController.h; sourceTree = "<group>"; };
@@ -548,6 +546,7 @@
 		9385EC3F1DCF1D910020CCB2 /* ServiceAlertDetailsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ServiceAlertDetailsViewController.swift; sourceTree = "<group>"; };
 		93876DF91E68AD3900B4343F /* OBAMapAnnotationViewBuilder.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OBAMapAnnotationViewBuilder.h; sourceTree = "<group>"; };
 		93876DFA1E68AD3900B4343F /* OBAMapAnnotationViewBuilder.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OBAMapAnnotationViewBuilder.m; sourceTree = "<group>"; };
+		939A1A7F21163F60001D5654 /* EditBookmarkViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditBookmarkViewController.swift; sourceTree = "<group>"; };
 		939CEB241C0E406500E1D2B7 /* rvtd.gpx */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = rvtd.gpx; sourceTree = "<group>"; };
 		93A1C68920B3F63F00E176DE /* ForecastSectionController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ForecastSectionController.swift; sourceTree = "<group>"; };
 		93A637D820A2CCE20005248C /* HorizontalSectionController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HorizontalSectionController.swift; sourceTree = "<group>"; };
@@ -888,8 +887,7 @@
 				934196F21DB0C13F004BBBB7 /* OBABookmarkRouteDisambiguationViewController.m */,
 				934196F31DB0C13F004BBBB7 /* OBABookmarksViewController.h */,
 				934196F41DB0C13F004BBBB7 /* OBABookmarksViewController.m */,
-				934196F51DB0C13F004BBBB7 /* OBAEditStopBookmarkViewController.h */,
-				934196F61DB0C13F004BBBB7 /* OBAEditStopBookmarkViewController.m */,
+				939A1A7F21163F60001D5654 /* EditBookmarkViewController.swift */,
 			);
 			path = bookmarks;
 			sourceTree = "<group>";
@@ -1895,7 +1893,6 @@
 				93DCEF7220E5AF2F0004E087 /* LabelSectionController.swift in Sources */,
 				934198211DB0C1BA004BBBB7 /* OBATextFieldTableViewCell.m in Sources */,
 				9341B82720B66FDE006450FC /* StopSectionController.swift in Sources */,
-				934197821DB0C140004BBBB7 /* OBAEditStopBookmarkViewController.m in Sources */,
 				9341982C1DB0C1D6004BBBB7 /* main.m in Sources */,
 				934C50AE1E2B6D5B00DFDCA0 /* OBAPushManager.m in Sources */,
 				9341978D1DB0C140004BBBB7 /* RegionListViewController.swift in Sources */,
@@ -1915,6 +1912,7 @@
 				930EFFCF20C5CC0200A2AE1F /* RegionalAlertSection.swift in Sources */,
 				9341977E1DB0C140004BBBB7 /* OBAAlerts.m in Sources */,
 				930E41A21E5ECAA60040CEB5 /* MapSearchViewController.swift in Sources */,
+				939A1A8021163F60001D5654 /* EditBookmarkViewController.swift in Sources */,
 				931A6A2D1E03EAAE00131242 /* OBATimelineBarCell.m in Sources */,
 				934197801DB0C140004BBBB7 /* OBABookmarkRouteDisambiguationViewController.m in Sources */,
 				93F1C26320BCDCCF00B5032B /* OfflineSection.swift in Sources */,

@@ -162,7 +162,7 @@
 "msg_eastbound" = "hacia el Este";
 
 /* OBABookmarkEditExisting */
-"msg_edit_bookmark" = "Editar Favorito";
+"edit_bookmark.title" = "Editar Favorito";
 
 /* No comment provided by engineer. */
 "msg_edit_group_name" = "Editar Nombre del Grupo";

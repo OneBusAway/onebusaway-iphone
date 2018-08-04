@@ -7,7 +7,35 @@
 //
 
 #import "OBAAlerts.h"
+#import "EXTScope.h"
 @import OBAKit;
+
+@interface OBATextFieldAlertController : UIAlertController
+@property(nonatomic,strong) UIAlertAction *saveButton;
+
++ (instancetype)alertWithTitle:(NSString*)title configurationHandler:(void (^ __nullable)(UITextField *textField))configurationHandler;
+@end
+
+@implementation OBATextFieldAlertController
+
++ (instancetype)alertWithTitle:(NSString*)title configurationHandler:(void (^ __nullable)(UITextField *textField))configurationHandler {
+    OBATextFieldAlertController *alert = [OBATextFieldAlertController alertControllerWithTitle:title message:nil preferredStyle:UIAlertControllerStyleAlert];
+
+    [alert addTextFieldWithConfigurationHandler:configurationHandler];
+    for (UITextField *field in alert.textFields) {
+        [field addTarget:alert action:@selector(textFieldDidChange:) forControlEvents:UIControlEventEditingChanged];
+    }
+
+    return alert;
+}
+
+- (void)textFieldDidChange:(UITextField *)textField {
+    if (self.saveButton) {
+        self.saveButton.enabled = (textField.text.length > 0);
+    }
+}
+
+@end
 
 @implementation OBAAlerts
 
@@ -24,6 +52,28 @@
     }]];
 
     return alert;
+}
+
+
++ (UIAlertController*)buildAddBookmarkGroupAlertWithModelDAO:(OBAModelDAO*)modelDAO completion:(void(^)(void))completion {
+    OBABookmarkGroup *group = nil;
+
+    OBATextFieldAlertController *alertController = [OBATextFieldAlertController alertWithTitle:NSLocalizedString(@"msg_add_bookmark_group",) configurationHandler:^(UITextField *textField) {
+        textField.placeholder = NSLocalizedString(@"msg_name_of_group",);
+        textField.text = group.name;
+    }];
+
+    [alertController addAction:[UIAlertAction actionWithTitle:OBAStrings.cancel style:UIAlertActionStyleCancel handler:nil]];
+
+    UIAlertAction *saveButton = [UIAlertAction actionWithTitle:OBAStrings.save style:UIAlertActionStyleDefault handler:^(UIAlertAction *action) {
+        OBABookmarkGroup *newGroup = [[OBABookmarkGroup alloc] initWithName:alertController.textFields.firstObject.text];
+        [modelDAO saveBookmarkGroup:newGroup];
+        completion();
+    }];
+    [alertController addAction:saveButton];
+    alertController.saveButton = saveButton;
+
+    return alertController;
 }
 
 @end
