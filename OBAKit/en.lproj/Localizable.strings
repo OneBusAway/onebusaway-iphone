@@ -40,6 +40,9 @@
 /* Learn More */
 "strings.learn_more" = "Learn More";
 
+/* Continue */
+"strings.continue" = "Continue";
+
 /* No comment provided by engineer. */
 "msg_cellular" = "Cellular";
 

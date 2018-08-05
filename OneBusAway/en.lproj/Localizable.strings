@@ -665,6 +665,12 @@
 /* Settings section title on info page */
 "msg_your_location" = "Your Location";
 
+/* Pay My Fare table row */
+"msg_pay_fare" = "Pay My Fare";
+
+/* An alert button that says 'Continue and Do Not Show Again' */
+"info_controller.payment.continue_dont_show_again" = "Continue and Don't Show Again";
+
 /* OBASectionTypeNotes
    OBASectionTypeSubmit */
 "msg_explanatory_send_reports" = "Your reports help OneBusAway find and fix problems with the system.";

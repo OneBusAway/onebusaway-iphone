@@ -63,7 +63,7 @@
         textField.text = group.name;
     }];
 
-    [alertController addAction:[UIAlertAction actionWithTitle:OBAStrings.cancel style:UIAlertActionStyleCancel handler:nil]];
+    [alertController addAction:self.buildCancelButton];
 
     UIAlertAction *saveButton = [UIAlertAction actionWithTitle:OBAStrings.save style:UIAlertActionStyleDefault handler:^(UIAlertAction *action) {
         OBABookmarkGroup *newGroup = [[OBABookmarkGroup alloc] initWithName:alertController.textFields.firstObject.text];
@@ -74,6 +74,12 @@
     alertController.saveButton = saveButton;
 
     return alertController;
+}
+
+#pragma mark - Action Buttons
+
++ (UIAlertAction*)buildCancelButton {
+    return [UIAlertAction actionWithTitle:OBAStrings.cancel style:UIAlertActionStyleCancel handler:nil];
 }
 
 @end

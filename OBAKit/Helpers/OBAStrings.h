@@ -24,6 +24,11 @@ NS_ASSUME_NONNULL_BEGIN
 @property(class,nonatomic,copy,readonly) NSString *close;
 
 /**
+ The text 'Continue'.
+ */
+@property(class,nonatomic,copy,readonly) NSString *continueString;
+
+/**
  The text 'Delete'.
  */
 @property(class,nonatomic,copy,readonly) NSString *delete;
