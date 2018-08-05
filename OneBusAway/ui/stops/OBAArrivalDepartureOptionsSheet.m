@@ -10,7 +10,6 @@
 #import "GKActionSheetPicker.h"
 #import "OBAPushManager.h"
 @import SVProgressHUD;
-#import "OBAEditStopBookmarkViewController.h"
 #import "OneBusAway-Swift.h"
 
 @interface OBAArrivalDepartureOptionsSheet ()
@@ -140,7 +139,7 @@
 #pragma mark - Action Menu
 
 - (void)showActionMenuForDepartureRow:(OBADepartureRow*)departureRow fromPresentingView:(UIView*)presentingView {
-    UIAlertController *alert = [UIAlertController alertControllerWithTitle:NSLocalizedString(@"classic_departure_cell.context_alert.title", @"Title for the context menu button's alert controller.") message:nil preferredStyle:UIAlertControllerStyleActionSheet];
+    UIAlertController *alert = [UIAlertController alertControllerWithTitle:nil message:nil preferredStyle:UIAlertControllerStyleActionSheet];
 
     [alert addAction:[UIAlertAction actionWithTitle:OBAStrings.cancel style:UIAlertActionStyleCancel handler:nil]];
 
@@ -177,8 +176,8 @@
     }
     else {
         OBABookmarkV2 *bookmark = [[OBABookmarkV2 alloc] initWithArrivalAndDeparture:dep region:self.modelDAO.currentRegion];
-        OBAEditStopBookmarkViewController *editor = [[OBAEditStopBookmarkViewController alloc] initWithBookmark:bookmark];
-        UINavigationController *nav = [[UINavigationController alloc] initWithRootViewController:editor];
+        OBAEditBookmarkViewController *bookmarkViewController = [[OBAEditBookmarkViewController alloc] initWithBookmark:bookmark modelDAO:self.modelDAO];
+        UINavigationController *nav = [[UINavigationController alloc] initWithRootViewController:bookmarkViewController];
 
         [self.delegate optionsSheet:self presentViewController:nav fromView:nil];
     }

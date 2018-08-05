@@ -162,7 +162,7 @@
 "msg_eastbound" = "hacia el Este";
 
 /* OBABookmarkEditExisting */
-"msg_edit_bookmark" = "Editar Favorito";
+"edit_bookmark.title" = "Editar Favorito";
 
 /* No comment provided by engineer. */
 "msg_edit_group_name" = "Editar Nombre del Grupo";
@@ -782,9 +782,6 @@
 
 /* This is the ... button shown on the right side of a departure cell. Tapping it shows a menu with more options. */
 "classic_departure_cell.context_button_accessibility_label" = "Opciones";
-
-/* Title for the context menu button's alert controller. */
-"classic_departure_cell.context_alert.title" = "Opciones para Llegadas & Salidas";
 
 /* Title for alert controller's Set Alarm option. */
 "classic_departure_cell.context_alert.set_alarm" = "Establecer Alarma";

@@ -255,6 +255,8 @@
 		9388C2B91FFEC29B0068041F /* PickerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9388C2B81FFEC29B0068041F /* PickerViewController.swift */; };
 		9388C2D32001567F0068041F /* OBAStackedMarqueeLabels.h in Headers */ = {isa = PBXBuildFile; fileRef = 9388C2D12001567F0068041F /* OBAStackedMarqueeLabels.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		9388C2D42001567F0068041F /* OBAStackedMarqueeLabels.m in Sources */ = {isa = PBXBuildFile; fileRef = 9388C2D22001567F0068041F /* OBAStackedMarqueeLabels.m */; };
+		939A1A8421165989001D5654 /* OBAButtonRow.h in Headers */ = {isa = PBXBuildFile; fileRef = 939A1A8221165989001D5654 /* OBAButtonRow.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		939A1A8521165989001D5654 /* OBAButtonRow.m in Sources */ = {isa = PBXBuildFile; fileRef = 939A1A8321165989001D5654 /* OBAButtonRow.m */; };
 		93A6E9E21F5BC18B00AFA61C /* AppInterop.swift in Sources */ = {isa = PBXBuildFile; fileRef = 93A6E9E11F5BC18B00AFA61C /* AppInterop.swift */; };
 		93A73BF21F8760F600F213D4 /* OBAClassicDepartureView.h in Headers */ = {isa = PBXBuildFile; fileRef = 93A73BF01F8760F600F213D4 /* OBAClassicDepartureView.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		93A73BF31F8760F600F213D4 /* OBAClassicDepartureView.m in Sources */ = {isa = PBXBuildFile; fileRef = 93A73BF11F8760F600F213D4 /* OBAClassicDepartureView.m */; };
@@ -577,6 +579,8 @@
 		9388C2B81FFEC29B0068041F /* PickerViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PickerViewController.swift; sourceTree = "<group>"; };
 		9388C2D12001567F0068041F /* OBAStackedMarqueeLabels.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = OBAStackedMarqueeLabels.h; sourceTree = "<group>"; };
 		9388C2D22001567F0068041F /* OBAStackedMarqueeLabels.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = OBAStackedMarqueeLabels.m; sourceTree = "<group>"; };
+		939A1A8221165989001D5654 /* OBAButtonRow.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = OBAButtonRow.h; sourceTree = "<group>"; };
+		939A1A8321165989001D5654 /* OBAButtonRow.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = OBAButtonRow.m; sourceTree = "<group>"; };
 		93A6E9E11F5BC18B00AFA61C /* AppInterop.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppInterop.swift; sourceTree = "<group>"; };
 		93A73BF01F8760F600F213D4 /* OBAClassicDepartureView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OBAClassicDepartureView.h; sourceTree = "<group>"; };
 		93A73BF11F8760F600F213D4 /* OBAClassicDepartureView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OBAClassicDepartureView.m; sourceTree = "<group>"; };
@@ -699,6 +703,8 @@
 				9388C2AB1FFE1C240068041F /* OBAPlaceholderCell.m */,
 				932CE84F20263FFB003091D3 /* OBABaseTableCell.h */,
 				932CE85020263FFB003091D3 /* OBABaseTableCell.m */,
+				939A1A8221165989001D5654 /* OBAButtonRow.h */,
+				939A1A8321165989001D5654 /* OBAButtonRow.m */,
 			);
 			path = MVVM;
 			sourceTree = "<group>";
@@ -1292,6 +1298,7 @@
 				934196261DB0B099004BBBB7 /* OBANavigationTargetAnnotation.h in Headers */,
 				9341968A1DB0B099004BBBB7 /* OBATripScheduleV2.h in Headers */,
 				934196921DB0B099004BBBB7 /* OBAVehicleStatusV2.h in Headers */,
+				939A1A8421165989001D5654 /* OBAButtonRow.h in Headers */,
 				9341965A1DB0B099004BBBB7 /* OBAFrequencyV2.h in Headers */,
 				934196241DB0B099004BBBB7 /* OBASphericalGeometryLibrary.h in Headers */,
 				934C50991E2B656900DFDCA0 /* NSDictionary+OBAAdditions.h in Headers */,
@@ -1449,6 +1456,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				939A1A8521165989001D5654 /* OBAButtonRow.m in Sources */,
 				934196251DB0B099004BBBB7 /* OBASphericalGeometryLibrary.m in Sources */,
 				931C60D41EC3974E0086EC37 /* OBAApplication.m in Sources */,
 				934196701DB0B099004BBBB7 /* OBAReportProblemWithTripV2.m in Sources */,

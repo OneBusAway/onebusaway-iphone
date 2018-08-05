@@ -49,6 +49,11 @@
 @property(class,nonatomic,copy,readonly) UIFont *bodyFont;
 
 /**
+ Italic body font. Resizes based upon the user's chosen font sizes at the system level.
+ */
+@property(class,nonatomic,copy,readonly) UIFont *italicBodyFont;
+
+/**
  * The appropriate font to use for footer text, or a sidenote.
  * Please use sparingly.
  */

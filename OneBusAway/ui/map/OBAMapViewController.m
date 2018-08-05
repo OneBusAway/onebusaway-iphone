@@ -490,6 +490,14 @@ static const double kStopsInRegionRefreshDelayOnDrag = 0.1;
         return;
     }
 
+    // Center on the stop's coordinate, with a bit of offset to account for the drawer
+    // and the search bar at the top of screen.
+    CLLocationCoordinate2D translatedCenter = stop.coordinate;
+    translatedCenter.latitude -= (mapView.region.span.latitudeDelta / 3.0);
+
+    MKCoordinateRegion stopRegion = MKCoordinateRegionMake(translatedCenter, mapView.region.span);
+    [mapView setRegion:stopRegion animated:YES];
+
     [self.delegate mapController:self displayStopWithID:stop.stopId];
 }
 

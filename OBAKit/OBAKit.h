@@ -144,6 +144,7 @@ FOUNDATION_EXPORT const unsigned char OBAKitVersionString[];
 #import <OBAKit/OBABaseTableCell.h>
 #import <OBAKit/OBABookmarkedRouteRow.h>
 #import <OBAKit/OBABookmarkedRouteCell.h>
+#import <OBAKit/OBAButtonRow.h>
 #import <OBAKit/OBAStaticTableViewController.h>
 #import <OBAKit/OBATableRow.h>
 #import <OBAKit/OBATableCell.h>

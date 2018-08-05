@@ -15,7 +15,6 @@
 #import "OBAReportProblemWithRecentTripsViewController.h"
 #import "OBAEditStopPreferencesViewController.h"
 #import "OBAStopTableHeaderView.h"
-#import "OBAEditStopBookmarkViewController.h"
 #import "OBAAnalytics.h"
 #import "OBALabelFooterView.h"
 #import "OBASegmentedRow.h"

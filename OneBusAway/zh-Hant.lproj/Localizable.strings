@@ -162,7 +162,7 @@
 "msg_eastbound" = "往東";
 
 /* OBABookmarkEditExisting */
-"msg_edit_bookmark" = "修改書籤";
+"edit_bookmark.title" = "修改書籤";
 
 /* No comment provided by engineer. */
 "msg_edit_group_name" = "修改群組名稱";
@@ -777,9 +777,6 @@
 
 /* This is the ... button shown on the right side of a departure cell. Tapping it shows a menu with more options. */
 "classic_departure_cell.context_button_accessibility_label" = "選項";
-
-/* Title for the context menu button's alert controller. */
-"classic_departure_cell.context_alert.title" = "到達 & 離開 選項";
 
 /* Title for alert controller's Set Alarm option. */
 "classic_departure_cell.context_alert.set_alarm" = "設定提醒鬧鈴";
