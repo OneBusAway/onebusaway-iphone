@@ -74,7 +74,8 @@ class ForecastCell: SelfSizingCollectionCell {
         imageView.contentMode = .scaleAspectFit
         imageView.backgroundColor = .clear
         imageView.snp.makeConstraints { make in
-            make.width.height.equalTo(40)
+            make.width.equalTo(40)
+            make.height.greaterThanOrEqualTo(40)
         }
         return imageView
     }()

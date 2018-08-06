@@ -401,9 +401,7 @@ extension MapTableViewController: MapControllerDelegate {
         stopController.embedDelegate = self
         stopController.inEmbedMode = true
 
-        let navigation = UINavigationController.init(rootViewController: stopController)
-
-        pulleyViewController.setDrawerContentViewController(controller: navigation, animated: true)
+        pulleyViewController.setDrawerContentViewController(controller: stopController, animated: true)
         pulleyViewController.setDrawerPosition(position: .partiallyRevealed, animated: true)
 
         adapter.reloadData()
@@ -438,6 +436,10 @@ extension MapTableViewController: EmbeddedStopDelegate {
         pulleyViewController?.setDrawerPosition(position: .closed, animated: true) { _ in
             self.adapter.performUpdates(animated: false)
         }
+    }
+
+    func embeddedStopControllerBottomLayoutGuideLength() -> CGFloat {
+        return bottomLayoutGuide.length
     }
 }
 

@@ -948,6 +948,9 @@
 /* This is the Filter button in the stop header view. */
 "stop_header_view.filter_button_accessibility_label" = "Filter & Sort Routes";
 
+/* This is the Filter button title in the stop header view. */
+"stop_header_view.filter_button_title" = "Filter";
+
 /* No comment provided by engineer. */
 "msg_scheduled_explanatory" = "*'Scheduled': no vehicle location data available";
 
