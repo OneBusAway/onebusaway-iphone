@@ -15,6 +15,8 @@ NS_ASSUME_NONNULL_BEGIN
 @interface OBAAlerts : NSObject
 + (UIAlertController*)locationServicesDisabledAlert;
 + (UIAlertController*)buildAddBookmarkGroupAlertWithModelDAO:(OBAModelDAO*)modelDAO completion:(void(^)(void))completion;
+
++ (UIAlertAction*)buildCancelButton;
 @end
 
 NS_ASSUME_NONNULL_END

@@ -10,6 +10,7 @@
 @import OBAKit;
 @import Masonry;
 #import "OBALabelFooterView.h"
+#import "OBAAlerts.h"
 
 @implementation OBABookmarkGroupsViewController {
     UIAlertAction *_saveButton;
@@ -95,7 +96,7 @@
                                          handler:(group) ? editGroup : addGroup];
 
     _saveButton.enabled = (group.name.length > 0);
-    [alertController addAction:[UIAlertAction actionWithTitle:OBAStrings.cancel style:UIAlertActionStyleCancel handler:nil]];
+    [alertController addAction:OBAAlerts.buildCancelButton];
     [alertController addAction:_saveButton];
 
     [self presentViewController:alertController animated:YES completion:nil];

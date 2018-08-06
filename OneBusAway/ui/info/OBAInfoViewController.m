@@ -17,13 +17,15 @@
 #import "OBAAnalytics.h"
 #import "OneBusAway-Swift.h"
 #import "OBAPushManager.h"
+#import "OBAFarePayments.h"
 
 static NSString * const kRepoURLString = @"https://www.github.com/onebusaway/onebusaway-iphone";
 static NSString * const kPrivacyURLString = @"http://onebusaway.org/privacy/";
 
-@interface OBAInfoViewController ()<MFMailComposeViewControllerDelegate, UIDocumentInteractionControllerDelegate>
+@interface OBAInfoViewController ()<MFMailComposeViewControllerDelegate, UIDocumentInteractionControllerDelegate, OBAFarePaymentsDelegate>
 @property(nonatomic,strong) UITapGestureRecognizer *debugTapRecognizer;
 @property(nonatomic,strong) UIDocumentInteractionController *docController;
+@property(nonatomic,strong) OBAFarePayments *farePayments;
 @end
 
 @implementation OBAInfoViewController
@@ -147,19 +149,30 @@ static NSString * const kPrivacyURLString = @"http://onebusaway.org/privacy/";
 
 - (OBATableSection*)settingsTableSection {
 
+    NSMutableArray *rows = [[NSMutableArray alloc] init];
+
     OBATableRow *region = [[OBATableRow alloc] initWithTitle:NSLocalizedString(@"msg_region", @"") action:^(OBABaseRow *r2) {
         [self.navigationController pushViewController:[[RegionListViewController alloc] init] animated:YES];
     }];
     region.style = UITableViewCellStyleValue1;
     region.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
     region.subtitle = self.modelDAO.currentRegion.regionName;
+    [rows addObject:region];
+
+    if (self.modelDAO.currentRegion.supportsMobileFarePayment) {
+        OBATableRow *payFare = [[OBATableRow alloc] initWithTitle:NSLocalizedString(@"msg_pay_fare", @"Pay My Fare table row") action:^(OBABaseRow *row) {
+            [self.farePayments beginFarePaymentWorkflow];
+        }];
+        [rows addObject:payFare];
+    }
 
     OBATableRow *agencies = [[OBATableRow alloc] initWithTitle:NSLocalizedString(@"msg_agencies", @"Info Page Agencies Row Title") action:^(OBABaseRow *r2) {
         [self openAgencies];
     }];
     agencies.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
+    [rows addObject:agencies];
 
-    return [OBATableSection tableSectionWithTitle:NSLocalizedString(@"msg_your_location", @"Settings section title on info page") rows:@[region,agencies]];
+    return [OBATableSection tableSectionWithTitle:NSLocalizedString(@"msg_your_location", @"Settings section title on info page") rows:rows];
 }
 
 - (OBATableSection*)contactTableSection {
@@ -300,6 +313,23 @@ static NSString * const kPrivacyURLString = @"http://onebusaway.org/privacy/";
     else {
         [self cantSendEmail:emailTarget];
     }
+}
+
+#pragma mark - Fare Payment
+
+- (OBAFarePayments*)farePayments {
+    if (!_farePayments) {
+        _farePayments = [[OBAFarePayments alloc] initWithApplication:[OBAApplication sharedApplication] delegate:self];
+    }
+    return _farePayments;
+}
+
+- (void)farePayments:(OBAFarePayments *)farePayments presentViewController:(UIViewController *)viewController animated:(BOOL)animated completion:(void (^)(void))completion {
+    [self presentViewController:viewController animated:animated completion:completion];
+}
+
+- (void)farePayments:(OBAFarePayments *)farePayments presentError:(NSError *)error {
+    [AlertPresenter showError:error presentingController:self];
 }
 
 #pragma mark - Public Methods

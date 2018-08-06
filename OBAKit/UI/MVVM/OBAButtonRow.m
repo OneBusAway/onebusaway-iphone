@@ -23,6 +23,8 @@
     self = [super initWithStyle:style reuseIdentifier:reuseIdentifier];
 
     if (self) {
+        self.selectionStyle = UITableViewCellSelectionStyleNone;
+
         _borderedButton = [[OBABorderedButton alloc] initWithBorderColor:UIColor.blackColor title:@"Click me"];
         _borderedButton.titleLabel.font = [OBATheme boldFootnoteFont];
         [_borderedButton addTarget:self action:@selector(buttonTapped) forControlEvents:UIControlEventTouchUpInside];

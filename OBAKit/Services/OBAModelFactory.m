@@ -438,6 +438,12 @@ static NSString * const kReferences = @"references";
     [self addSetPropertyRule:@"obaBaseUrl" forPrefix:[self extendPrefix:prefix withValue:@"obaBaseUrl"]];
     [self addSetPropertyRule:@"identifier" forPrefix:[self extendPrefix:prefix withValue:@"id"]];
     [self addSetPropertyRule:@"regionName" forPrefix:[self extendPrefix:prefix withValue:@"regionName"]];
+
+    // Payments
+    [self addSetPropertyRule:@"paymentWarningBody" forPrefix:[self extendPrefix:prefix withValue:@"paymentWarningBody"]];
+    [self addSetPropertyRule:@"paymentWarningTitle" forPrefix:[self extendPrefix:prefix withValue:@"paymentWarningTitle"]];
+    [self addSetPropertyRule:@"paymentAppStoreIdentifier" forPrefix:[self extendPrefix:prefix withValue:@"paymentiOSAppStoreIdentifier"]];
+    [self addSetPropertyRule:@"paymentAppURLScheme" forPrefix:[self extendPrefix:prefix withValue:@"paymentiOSAppURLScheme"]];
 }
 
 - (void) addRegionBoundsV2RulesWithPrefix:(NSString*)prefix {
