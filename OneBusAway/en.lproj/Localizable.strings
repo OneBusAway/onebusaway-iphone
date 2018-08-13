@@ -233,9 +233,6 @@
 /* No comment provided by engineer. */
 "msg_loading" = "Loading";
 
-/* Progress HUD status when first locating the user on the Region List Controller */
-"msg_loading_regions" = "Loading Regions";
-
 /* Location section title on PII controller */
 "msg_location" = "Location";
 

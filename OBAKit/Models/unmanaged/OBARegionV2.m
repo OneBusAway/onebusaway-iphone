@@ -115,24 +115,6 @@
     }
 }
 
-- (void)setPaymentAppURLScheme:(NSString*)scheme {
-    if (scheme == (id)NSNull.null) {
-        _paymentAppURLScheme = nil;
-    }
-    else {
-        _paymentAppURLScheme = [scheme copy];
-    }
-}
-
-- (void)setPaymentAppStoreIdentifier:(NSString*)appID {
-    if (appID == (id)NSNull.null) {
-        _paymentAppStoreIdentifier = nil;
-    }
-    else {
-        _paymentAppStoreIdentifier = [appID copy];
-    }
-}
-
 - (BOOL)supportsMobileFarePayment {
     return self.paymentAppURLScheme != nil;
 }
@@ -143,7 +125,7 @@
 
 - (NSURL*)paymentAppDeepLinkURL {
     if (self.supportsMobileFarePayment) {
-        return [NSURL URLWithString:[NSString stringWithFormat:@"%@://open", self.paymentAppURLScheme]];
+        return [NSURL URLWithString:[NSString stringWithFormat:@"%@://onebusaway", self.paymentAppURLScheme]];
     }
     else {
         return nil;

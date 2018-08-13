@@ -443,7 +443,7 @@ static NSString * const kReferences = @"references";
     [self addSetPropertyRule:@"paymentWarningBody" forPrefix:[self extendPrefix:prefix withValue:@"paymentWarningBody"]];
     [self addSetPropertyRule:@"paymentWarningTitle" forPrefix:[self extendPrefix:prefix withValue:@"paymentWarningTitle"]];
     [self addSetPropertyRule:@"paymentAppStoreIdentifier" forPrefix:[self extendPrefix:prefix withValue:@"paymentiOSAppStoreIdentifier"]];
-    [self addSetPropertyRule:@"paymentAppURLScheme" forPrefix:[self extendPrefix:prefix withValue:@"paymentiOSAppURLScheme"]];
+    [self addSetPropertyRule:@"paymentAppURLScheme" forPrefix:[self extendPrefix:prefix withValue:@"paymentiOSAppUrlScheme"]];
 }
 
 - (void) addRegionBoundsV2RulesWithPrefix:(NSString*)prefix {
