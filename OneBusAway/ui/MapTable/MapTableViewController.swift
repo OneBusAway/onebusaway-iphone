@@ -123,7 +123,7 @@ class MapTableViewController: UIViewController {
         modelDAO = application.modelDao
         modelService = application.modelService
 
-        self.mapController = OBAMapViewController.init(mapDataLoader: application.mapDataLoader, mapRegionManager: application.mapRegionManager)
+        self.mapController = OBAMapViewController(application: application)
         self.mapController.standaloneMode = false
 
         super.init(nibName: nil, bundle: nil)

@@ -38,6 +38,8 @@ static const double kStopsInRegionRefreshDelayOnDrag = 0.1;
 
 @interface OBAMapViewController ()<MKMapViewDelegate, UISearchBarDelegate, UISearchControllerDelegate, MapSearchDelegate, OBANavigator, OBAMapRegionDelegate, OBAVehicleDisambiguationDelegate>
 
+@property(nonatomic,strong) OBAApplication *application;
+
 // Map UI
 @property(nonatomic,strong) MKMapView *mapView;
 @property(nonatomic,strong) ISHHoverBar *locationHoverBar;
@@ -66,16 +68,17 @@ static const double kStopsInRegionRefreshDelayOnDrag = 0.1;
 
 @implementation OBAMapViewController
 
-- (instancetype)initWithMapDataLoader:(OBAMapDataLoader*)mapDataLoader mapRegionManager:(OBAMapRegionManager*)mapRegionManager {
+- (instancetype)initWithApplication:(OBAApplication*)application {
     self = [super initWithNibName:nil bundle:nil];
 
     if (self) {
         _standaloneMode = YES;
 
-        _mapDataLoader = mapDataLoader;
+        _application = application;
+        _mapDataLoader = application.mapDataLoader;
         [_mapDataLoader addDelegate:self];
 
-        _mapRegionManager = mapRegionManager;
+        _mapRegionManager = application.mapRegionManager;
         [_mapRegionManager addDelegate:self];
 
         self.title = NSLocalizedString(@"msg_map", @"Map tab title");
@@ -84,14 +87,14 @@ static const double kStopsInRegionRefreshDelayOnDrag = 0.1;
 
         [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(userHeadingDidUpdate:) name:OBAHeadingDidUpdateNotification object:nil];
 
-        [OBAApplication.sharedApplication.userDefaults addObserver:self forKeyPath:OBADisplayUserHeadingOnMapDefaultsKey options:NSKeyValueObservingOptionNew context:nil];
+        [application.userDefaults addObserver:self forKeyPath:OBADisplayUserHeadingOnMapDefaultsKey options:NSKeyValueObservingOptionNew context:nil];
     }
     return self;
 }
 
 - (void)dealloc {
     [self.mapDataLoader cancelOpenConnections];
-    [OBAApplication.sharedApplication.userDefaults removeObserver:self forKeyPath:OBADisplayUserHeadingOnMapDefaultsKey];
+    [self.application.userDefaults removeObserver:self forKeyPath:OBADisplayUserHeadingOnMapDefaultsKey];
 }
 
 #pragma mark - KVO
@@ -238,24 +241,15 @@ static const double kStopsInRegionRefreshDelayOnDrag = 0.1;
 #pragma mark - Lazily Loaded Properties
 
 - (PromisedModelService*)modelService {
-    if (!_modelService) {
-        _modelService = [OBAApplication sharedApplication].modelService;
-    }
-    return _modelService;
+    return self.application.modelService;
 }
 
 - (OBAModelDAO*)modelDAO {
-    if (!_modelDAO) {
-        _modelDAO = [OBAApplication sharedApplication].modelDao;
-    }
-    return _modelDAO;
+    return self.application.modelDao;
 }
 
 - (OBALocationManager*)locationManager {
-    if (!_locationManager) {
-        _locationManager = [OBAApplication sharedApplication].locationManager;
-    }
-    return _locationManager;
+    return self.application.locationManager;
 }
 
 #pragma mark - OBANavigationTargetAware
@@ -490,13 +484,17 @@ static const double kStopsInRegionRefreshDelayOnDrag = 0.1;
         return;
     }
 
-    // Center on the stop's coordinate, with a bit of offset to account for the drawer
-    // and the search bar at the top of screen.
-    CLLocationCoordinate2D translatedCenter = stop.coordinate;
-    translatedCenter.latitude -= (mapView.region.span.latitudeDelta / 3.0);
+    // When using the drawer, move the stop around a bit on screen so it's not overlapped
+    // by the drawer.
+    if ([self.application.userDefaults boolForKey:OBAUseStopDrawerDefaultsKey]) {
+        // Center on the stop's coordinate, with a bit of offset to account for the drawer
+        // and the search bar at the top of screen.
+        CLLocationCoordinate2D translatedCenter = stop.coordinate;
+        translatedCenter.latitude -= (mapView.region.span.latitudeDelta / 3.0);
 
-    MKCoordinateRegion stopRegion = MKCoordinateRegionMake(translatedCenter, mapView.region.span);
-    [mapView setRegion:stopRegion animated:YES];
+        MKCoordinateRegion stopRegion = MKCoordinateRegionMake(translatedCenter, mapView.region.span);
+        [mapView setRegion:stopRegion animated:YES];
+    }
 
     [self.delegate mapController:self displayStopWithID:stop.stopId];
 }

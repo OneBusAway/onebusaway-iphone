@@ -33,9 +33,6 @@ NS_SWIFT_NAME(MapControllerDelegate)
 INIT_NIB_UNAVAILABLE;
 INIT_CODER_UNAVAILABLE;
 
-@property(nonatomic,strong) OBAModelDAO *modelDAO;
-@property(nonatomic,strong) PromisedModelService *modelService;
-@property(nonatomic,strong) OBALocationManager *locationManager;
 @property(nonatomic,weak) id<OBAMapControllerDelegate> delegate;
 
 /**
@@ -46,7 +43,7 @@ INIT_CODER_UNAVAILABLE;
 
 @property(nonatomic,strong,readonly) CLCircularRegion *visibleMapRegion;
 
-- (instancetype)initWithMapDataLoader:(OBAMapDataLoader*)mapDataLoader mapRegionManager:(OBAMapRegionManager*)mapRegionManager NS_DESIGNATED_INITIALIZER;
+- (instancetype)initWithApplication:(OBAApplication*)application NS_DESIGNATED_INITIALIZER;
 
 - (void)recenterMap;
 
