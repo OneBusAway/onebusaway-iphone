@@ -26,7 +26,6 @@
 #import "OBAArrivalDepartureOptionsSheet.h"
 #import "UIViewController+OBAAdditions.h"
 #import "EXTScope.h"
-#import "ISHHoverBar.h"
 #import "OBANavigationTitleView.h"
 
 @import Masonry;
@@ -50,7 +49,6 @@ static NSUInteger const kDefaultMinutesAfter = 35;
 @property(nonatomic,strong) OBARouteFilter *routeFilter;
 @property(nonatomic,strong) OBAStopTableHeaderView *stopHeaderView;
 @property(nonatomic,strong) OBAArrivalDepartureOptionsSheet *departureSheetHelper;
-@property(nonatomic,strong) ISHHoverBar *hoverBar;
 @property(nonatomic,assign,readonly) BOOL regularUIMode;
 @property(nonatomic,strong) OBADrawerNavigationBar *drawerNavigationBar;
 @end
@@ -84,25 +82,18 @@ static NSUInteger const kDefaultMinutesAfter = 35;
 - (void)viewDidLoad {
     [super viewDidLoad];
 
-    self.tableView.backgroundColor = UIColor.clearColor;
-    self.view.backgroundColor = UIColor.clearColor;
-
-    UIBarButtonItem *item = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemSave target:nil action:nil];
-    [self setToolbarItems:@[item] animated:YES];
-
-    self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemRefresh target:self action:@selector(reloadData:)];
-
     self.navigationItem.title = NSLocalizedString(@"stop_view_controller.stop_back_title", @"Back button title representing going back to the stop controller.");
 
     if (self.regularUIMode) {
+        self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemRefresh target:self action:@selector(reloadData:)];
         [self createTableHeaderView];
         self.refreshControl = [[UIRefreshControl alloc] init];
         [self.refreshControl addTarget:self action:@selector(reloadData:) forControlEvents:UIControlEventValueChanged];
         [self.tableView addSubview:self.refreshControl];
-
-        [self createHoverBar];
     }
     else {
+        self.tableView.backgroundColor = UIColor.clearColor;
+        self.view.backgroundColor = UIColor.clearColor;
         [self createAndInstallDrawerNavigationBar];
         [self updateDrawerTitleWithArrivalsAndDepartures:self.arrivalsAndDepartures];
     }
@@ -273,6 +264,7 @@ static NSUInteger const kDefaultMinutesAfter = 35;
 
         self.arrivalsAndDepartures = response;
         [self updateDrawerTitleWithArrivalsAndDepartures:self.arrivalsAndDepartures];
+        [self.stopHeaderView populateTableHeaderFromArrivalsAndDeparturesModel:self.arrivalsAndDepartures];
         [self populateTableFromArrivalsAndDeparturesModel:self.arrivalsAndDepartures];
     }).catch(^(NSError *error) {
         [AlertPresenter showError:error presentingController:self];
@@ -286,6 +278,23 @@ static NSUInteger const kDefaultMinutesAfter = 35;
     });
 }
 
+- (OBATableSection*)createButtonRowSection {
+    UIBarButtonItem *bookmarkButton = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"Favorites"] style:UIBarButtonItemStylePlain target:self action:@selector(addBookmark)];
+    bookmarkButton.title = NSLocalizedString(@"msg_add_bookmark", @"");
+
+    UIBarButtonItem *filterButton = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"filter"] style:UIBarButtonItemStylePlain target:self action:@selector(showFilterAndSortUI)];
+    filterButton.accessibilityLabel = NSLocalizedString(@"stop_header_view.filter_button_accessibility_label", @"This is the Filter button in the stop header view.");
+    filterButton.title = NSLocalizedString(@"stop_header_view.filter_button_title", @"This is the Filter button title in the stop header view.");
+
+
+    NSArray *buttons = @[bookmarkButton, filterButton];
+
+    OBAButtonBarRow *buttonRow = [[OBAButtonBarRow alloc] initWithBarButtonItems:buttons];
+    OBATableSection *section = [[OBATableSection alloc] initWithTitle:nil rows:@[buttonRow]];
+
+    return section;
+}
+
 - (void)populateTableFromArrivalsAndDeparturesModel:(OBAArrivalsAndDeparturesForStopV2 *)result {
     if (!result) {
         return;
@@ -293,23 +302,7 @@ static NSUInteger const kDefaultMinutesAfter = 35;
 
     NSMutableArray *sections = [NSMutableArray array];
 
-    // abxoxo
-    if (self.inEmbedMode) {
-
-        UIBarButtonItem *bookmarkButton = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"Favorites"] style:UIBarButtonItemStylePlain target:self action:@selector(addBookmark)];
-        bookmarkButton.title = NSLocalizedString(@"msg_add_bookmark", @"");
-
-        UIBarButtonItem *filterButton = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"filter"] style:UIBarButtonItemStylePlain target:self action:@selector(showFilterAndSortUI)];
-        filterButton.accessibilityLabel = NSLocalizedString(@"stop_header_view.filter_button_accessibility_label", @"This is the Filter button in the stop header view.");
-        filterButton.title = NSLocalizedString(@"stop_header_view.filter_button_title", @"This is the Filter button title in the stop header view.");
-
-
-        NSArray *buttons = @[bookmarkButton, filterButton];
-
-        OBAButtonBarRow *buttonRow = [[OBAButtonBarRow alloc] initWithBarButtonItems:buttons];
-        OBATableSection *section = [[OBATableSection alloc] initWithTitle:nil rows:@[buttonRow]];
-        [sections addObject:section];
-    }
+    [sections addObject:[self createButtonRowSection]];
 
     // Toggle showing/hiding filtered routes.
     if ([self.routeFilter hasFilteredRoutes]) {
@@ -325,8 +318,7 @@ static NSUInteger const kDefaultMinutesAfter = 35;
     // Departures
     // TODO: DRY up this whole thing.
     if (self.stopPreferences.sortTripsByType == OBASortTripsByDepartureTimeV2) {
-        OBATableSection *section = [self buildClassicDepartureSectionWithDeparture:result];
-        [sections addObject:section];
+        [sections addObject:[self buildClassicDepartureSectionWithDeparture:result]];
     }
     else {
         NSDictionary *groupedArrivals = [OBAStopViewController groupPredictedArrivalsOnRoute:result.arrivalsAndDepartures];
@@ -495,6 +487,7 @@ static NSUInteger const kDefaultMinutesAfter = 35;
         nearby.pushesResultsOntoStack = YES;
         [self pushViewController:nearby animated:YES];
     }];
+    nearbyStopsRow.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
     [rows addObject:nearbyStopsRow];
 
     // Walking Directions (Apple Maps)
@@ -737,26 +730,6 @@ static NSUInteger const kDefaultMinutesAfter = 35;
     else {
         [self.navigationController pushViewController:viewController animated:animated];
     }
-}
-
-#pragma mark - Hover Bar
-
-- (void)createHoverBar {
-    // abxoxo - todo add bookmark button here!
-    self.hoverBar = [[ISHHoverBar alloc] init];
-    self.hoverBar.items = @[self.toolbarFilterButton];
-    [self.view addSubview:self.hoverBar];
-    [self.hoverBar mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.bottom.equalTo(self.mas_bottomLayoutGuideTop).offset(-OBATheme.defaultMargin);
-        make.trailing.equalTo(self).offset(-OBATheme.defaultMargin);
-    }];
-}
-
-- (UIBarButtonItem*)toolbarFilterButton {
-    NSString *label = NSLocalizedString(@"stop_header_view.filter_button_accessibility_label", @"This is the Filter button in the stop header view.");
-    UIBarButtonItem *filterButton = [OBAUIBuilder wrappedImageButton:[UIImage imageNamed:@"filter"] accessibilityLabel:label target:self action:@selector(showFilterAndSortUI)];
-
-    return filterButton;
 }
 
 #pragma mark - Embed UI
