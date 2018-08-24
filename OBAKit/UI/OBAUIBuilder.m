@@ -52,6 +52,7 @@
 + (UIBarButtonItem*)wrappedImageButton:(UIImage*)image accessibilityLabel:(NSString*)label target:(id)target action:(SEL)action {
     UIButton *button = [[UIButton alloc] initWithFrame:CGRectMake(0, 0, 44, 44)];
     button.tintColor = OBATheme.OBADarkGreen;
+    button.imageView.contentMode = UIViewContentModeScaleAspectFit;
     [button setImage:image forState:UIControlStateNormal];
     button.imageEdgeInsets = [OBATheme hoverBarImageInsets];
     [button addTarget:target action:action forControlEvents:UIControlEventTouchUpInside];

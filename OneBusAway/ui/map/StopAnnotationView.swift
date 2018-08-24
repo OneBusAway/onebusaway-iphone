@@ -11,6 +11,10 @@ import UIKit
 @objc(OBAStopAnnotationView)
 class StopAnnotationView: MKAnnotationView {
 
+    /// Scale and add a drop shadow to the annotation view when it
+    /// is tapped to depict that it has been selected.
+    @objc public var showsSelectionState: Bool = true
+
     // MARK: - View Properties
     private let myImageView: UIImageView = {
         let img = UIImageView(frame: .zero)
@@ -94,9 +98,11 @@ extension StopAnnotationView {
     override func setSelected(_ selected: Bool, animated: Bool) {
         super.setSelected(selected, animated: animated)
 
-        OBAAnimation.perform(animated: animated) {
-            self.updateShadow()
-            self.updateTransform()
+        if showsSelectionState {
+            OBAAnimation.perform(animated: animated) {
+                self.updateShadow()
+                self.updateTransform()
+            }
         }
     }
 

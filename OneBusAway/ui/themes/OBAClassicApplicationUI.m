@@ -46,7 +46,7 @@ static NSString *kOBASelectedTabIndexDefaultsKey = @"OBASelectedTabIndexDefaults
     if (self) {
         _tabBarController = [[UITabBarController alloc] init];
 
-        _mapViewController = [[OBAMapViewController alloc] initWithMapDataLoader:application.mapDataLoader mapRegionManager:application.mapRegionManager];
+        _mapViewController = [[OBAMapViewController alloc] initWithApplication:application];
         _mapNavigationController = [[UINavigationController alloc] initWithRootViewController:_mapViewController];
 
         _recentsViewController = [[OBARecentStopsViewController alloc] init];

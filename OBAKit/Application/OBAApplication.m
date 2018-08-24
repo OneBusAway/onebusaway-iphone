@@ -121,6 +121,7 @@ NSString * const OBAHasMigratedDefaultsToAppGroupDefaultsKey = @"OBAHasMigratedD
     mutableDefaults[OBAOptInToTrackingDefaultsKey] = @(YES);
     mutableDefaults[OBADisplayUserHeadingOnMapDefaultsKey] = @(YES);
     mutableDefaults[OBAMapSelectedTypeDefaultsKey] = @(MKMapTypeStandard);
+    mutableDefaults[OBAUseStopDrawerDefaultsKey] = @(YES);
 
     defaults = mutableDefaults;
 #endif

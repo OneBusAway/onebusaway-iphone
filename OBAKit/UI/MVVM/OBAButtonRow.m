@@ -30,7 +30,8 @@
         [_borderedButton addTarget:self action:@selector(buttonTapped) forControlEvents:UIControlEventTouchUpInside];
         [self.contentView addSubview:_borderedButton];
         [_borderedButton mas_makeConstraints:^(MASConstraintMaker *make) {
-            make.center.equalTo(self.contentView);
+            make.centerX.equalTo(self.contentView);
+            make.top.and.bottom.equalTo(self.contentView);
         }];
     }
     return self;

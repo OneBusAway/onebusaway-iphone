@@ -16,6 +16,7 @@
 #import <OBAKit/OBADepartureCellHelpers.h>
 #import <OBAKit/OBAMacros.h>
 #import <OBAKit/OBABookmarkedRouteRow.h>
+#import <OBAKit/UIView+OBAAdditions.h>
 
 #define kUseDebugColors NO
 
@@ -83,7 +84,7 @@
         labelStack.axis = UILayoutConstraintAxisVertical;
         labelStack.distribution = UIStackViewDistributionFill;
         labelStack.spacing = 0;
-
+        UIView *labelStackWrapper = [labelStack oba_embedInWrapperView];
 
         NSArray *labelStackViews = @[
                                      [OBAClassicDepartureView wrapDepartureLabel:_firstDepartureLabel],
@@ -95,9 +96,10 @@
         departureLabelStack.axis = UILayoutConstraintAxisVertical;
         departureLabelStack.distribution = UIStackViewDistributionFill;
         departureLabelStack.spacing = 0;
+        UIView *departureLabelStackWrapper = [departureLabelStack oba_embedInWrapperView];
 
         UIStackView *horizontalStack = ({
-            UIStackView *stack = [[UIStackView alloc] initWithArrangedSubviews:@[labelStack, departureLabelStack, _contextMenuButton]];
+            UIStackView *stack = [[UIStackView alloc] initWithArrangedSubviews:@[labelStackWrapper, departureLabelStackWrapper, _contextMenuButton]];
             stack.axis = UILayoutConstraintAxisHorizontal;
             stack.distribution = UIStackViewDistributionFill;
             stack.spacing = OBATheme.compactPadding;

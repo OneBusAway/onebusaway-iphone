@@ -123,7 +123,7 @@ class MapTableViewController: UIViewController {
         modelDAO = application.modelDao
         modelService = application.modelService
 
-        self.mapController = OBAMapViewController.init(mapDataLoader: application.mapDataLoader, mapRegionManager: application.mapRegionManager)
+        self.mapController = OBAMapViewController(application: application)
         self.mapController.standaloneMode = false
 
         super.init(nibName: nil, bundle: nil)
@@ -393,7 +393,10 @@ extension MapTableViewController: MapControllerDelegate {
     func mapController(_ controller: OBAMapViewController, displayStopWithID stopID: String) {
         let stopController = StopViewController.init(stopID: stopID)
 
-        guard let pulleyViewController = pulleyViewController else {
+        guard
+            let pulleyViewController = pulleyViewController,
+            application.userDefaults.bool(forKey: OBAUseStopDrawerDefaultsKey)
+        else {
             navigationController?.pushViewController(stopController, animated: true)
             return
         }
@@ -401,9 +404,7 @@ extension MapTableViewController: MapControllerDelegate {
         stopController.embedDelegate = self
         stopController.inEmbedMode = true
 
-        let navigation = UINavigationController.init(rootViewController: stopController)
-
-        pulleyViewController.setDrawerContentViewController(controller: navigation, animated: true)
+        pulleyViewController.setDrawerContentViewController(controller: stopController, animated: true)
         pulleyViewController.setDrawerPosition(position: .partiallyRevealed, animated: true)
 
         adapter.reloadData()
@@ -438,6 +439,10 @@ extension MapTableViewController: EmbeddedStopDelegate {
         pulleyViewController?.setDrawerPosition(position: .closed, animated: true) { _ in
             self.adapter.performUpdates(animated: false)
         }
+    }
+
+    func embeddedStopControllerBottomLayoutGuideLength() -> CGFloat {
+        return bottomLayoutGuide.length
     }
 }
 

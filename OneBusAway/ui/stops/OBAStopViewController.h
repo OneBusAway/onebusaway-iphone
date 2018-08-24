@@ -16,6 +16,8 @@ NS_SWIFT_NAME(EmbeddedStopDelegate)
 - (void)embeddedStopController:(OBAStopViewController*)stopController pushViewController:(UIViewController*)viewController animated:(BOOL)animated;
 
 - (void)embeddedStopControllerClosePane:(OBAStopViewController*)stopController;
+
+- (CGFloat)embeddedStopControllerBottomLayoutGuideLength;
 @end
 
 NS_SWIFT_NAME(StopViewController)

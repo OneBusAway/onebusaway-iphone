@@ -232,6 +232,12 @@
 		935C391A1F772CE300737DC4 /* NSString+OBAAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = 935C39181F772CE300737DC4 /* NSString+OBAAdditions.m */; };
 		935F91FD20F7EFB2003571EB /* Models+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 935F91FC20F7EFB2003571EB /* Models+Extensions.swift */; };
 		9363B6D420F50EE400F515CB /* MatchingAgencyVehicle.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9363B6D320F50EE400F515CB /* MatchingAgencyVehicle.swift */; };
+		93681B932122215700293165 /* UIStackView+OBAAdditions.h in Headers */ = {isa = PBXBuildFile; fileRef = 93681B912122215700293165 /* UIStackView+OBAAdditions.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		93681B942122215700293165 /* UIStackView+OBAAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = 93681B922122215700293165 /* UIStackView+OBAAdditions.m */; };
+		93681B9621223D7700293165 /* DrawerNavigationBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 93681B9521223D7700293165 /* DrawerNavigationBar.swift */; };
+		93681B992122952700293165 /* OBAButtonBarRow.h in Headers */ = {isa = PBXBuildFile; fileRef = 93681B972122952700293165 /* OBAButtonBarRow.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		93681B9A2122952700293165 /* OBAButtonBarRow.m in Sources */ = {isa = PBXBuildFile; fileRef = 93681B982122952700293165 /* OBAButtonBarRow.m */; };
+		93681B9C2122A95A00293165 /* StackedButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 93681B9B2122A95A00293165 /* StackedButton.swift */; };
 		936EB1B61E91746400F4F3A7 /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 936EB1B51E91746400F4F3A7 /* SystemConfiguration.framework */; };
 		936EB1B91E91A83700F4F3A7 /* OBARegionStorage.h in Headers */ = {isa = PBXBuildFile; fileRef = 936EB1B71E91A83700F4F3A7 /* OBARegionStorage.h */; };
 		936EB1BA1E91A83700F4F3A7 /* OBARegionStorage.m in Sources */ = {isa = PBXBuildFile; fileRef = 936EB1B81E91A83700F4F3A7 /* OBARegionStorage.m */; };
@@ -556,6 +562,12 @@
 		935C39181F772CE300737DC4 /* NSString+OBAAdditions.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "NSString+OBAAdditions.m"; sourceTree = "<group>"; };
 		935F91FC20F7EFB2003571EB /* Models+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Models+Extensions.swift"; sourceTree = "<group>"; };
 		9363B6D320F50EE400F515CB /* MatchingAgencyVehicle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MatchingAgencyVehicle.swift; sourceTree = "<group>"; };
+		93681B912122215700293165 /* UIStackView+OBAAdditions.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "UIStackView+OBAAdditions.h"; sourceTree = "<group>"; };
+		93681B922122215700293165 /* UIStackView+OBAAdditions.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "UIStackView+OBAAdditions.m"; sourceTree = "<group>"; };
+		93681B9521223D7700293165 /* DrawerNavigationBar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DrawerNavigationBar.swift; sourceTree = "<group>"; };
+		93681B972122952700293165 /* OBAButtonBarRow.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = OBAButtonBarRow.h; sourceTree = "<group>"; };
+		93681B982122952700293165 /* OBAButtonBarRow.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = OBAButtonBarRow.m; sourceTree = "<group>"; };
+		93681B9B2122A95A00293165 /* StackedButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StackedButton.swift; sourceTree = "<group>"; };
 		936EB1B51E91746400F4F3A7 /* SystemConfiguration.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SystemConfiguration.framework; path = System/Library/Frameworks/SystemConfiguration.framework; sourceTree = SDKROOT; };
 		936EB1B71E91A83700F4F3A7 /* OBARegionStorage.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OBARegionStorage.h; sourceTree = "<group>"; };
 		936EB1B81E91A83700F4F3A7 /* OBARegionStorage.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OBARegionStorage.m; sourceTree = "<group>"; };
@@ -705,6 +717,8 @@
 				932CE85020263FFB003091D3 /* OBABaseTableCell.m */,
 				939A1A8221165989001D5654 /* OBAButtonRow.h */,
 				939A1A8321165989001D5654 /* OBAButtonRow.m */,
+				93681B972122952700293165 /* OBAButtonBarRow.h */,
+				93681B982122952700293165 /* OBAButtonBarRow.m */,
 			);
 			path = MVVM;
 			sourceTree = "<group>";
@@ -797,6 +811,8 @@
 				930EFFE420C87F0C00A2AE1F /* CLLocationManager+AnyPromise.m */,
 				93DCEF6C20E54EAF0004E087 /* MKMapSnapshotter+AnyPromise.h */,
 				93DCEF6D20E54EAF0004E087 /* MKMapSnapshotter+AnyPromise.m */,
+				93681B912122215700293165 /* UIStackView+OBAAdditions.h */,
+				93681B922122215700293165 /* UIStackView+OBAAdditions.m */,
 			);
 			path = Categories;
 			sourceTree = "<group>";
@@ -1057,6 +1073,7 @@
 				9388C2B51FFEAA4B0068041F /* PopoverPresenter.swift */,
 				9388C2D12001567F0068041F /* OBAStackedMarqueeLabels.h */,
 				9388C2D22001567F0068041F /* OBAStackedMarqueeLabels.m */,
+				93681B9521223D7700293165 /* DrawerNavigationBar.swift */,
 			);
 			path = UI;
 			sourceTree = "<group>";
@@ -1118,6 +1135,7 @@
 			isa = PBXGroup;
 			children = (
 				9377DD521EE4682E00134AE8 /* BorderedButton.swift */,
+				93681B9B2122A95A00293165 /* StackedButton.swift */,
 			);
 			path = Controls;
 			sourceTree = "<group>";
@@ -1274,6 +1292,7 @@
 				9341962A1DB0B099004BBBB7 /* OBATripStopTimeMapAnnotation.h in Headers */,
 				93E592B11F8D3C600079A2D8 /* OBABookmarkedRouteCell.h in Headers */,
 				93E5929B1F8CAA9C0079A2D8 /* OBATableSection.h in Headers */,
+				93681B992122952700293165 /* OBAButtonBarRow.h in Headers */,
 				933BC22E2033CC0E00267965 /* OBAMapDataLoader.h in Headers */,
 				93FF488720EF53C4009CFF13 /* OBAGenericNavigationTarget.h in Headers */,
 				934196141DB0B099004BBBB7 /* OBAStopIconFactory.h in Headers */,
@@ -1314,6 +1333,7 @@
 				931C60D71EC3975A0086EC37 /* OBAApplicationConfiguration.h in Headers */,
 				93E592B01F8D3C600079A2D8 /* OBABookmarkedRouteRow.h in Headers */,
 				9388C29D1FFDBAEA0068041F /* FBShimmeringView.h in Headers */,
+				93681B932122215700293165 /* UIStackView+OBAAdditions.h in Headers */,
 				934196091DB0B099004BBBB7 /* OBAImageHelpers.h in Headers */,
 				934196281DB0B099004BBBB7 /* OBATripContinuationMapAnnotation.h in Headers */,
 				93E592A11F8CABD70079A2D8 /* OBAVibrantBlurContainerView.h in Headers */,
@@ -1495,6 +1515,7 @@
 				93089DA81F87E7FC00694A90 /* OBADepartureRow.m in Sources */,
 				9341961F1DB0B099004BBBB7 /* OBAMapRegionManager.m in Sources */,
 				9385BED71FAFA07D00D122D1 /* PromisedModelService.swift in Sources */,
+				93681B9A2122952700293165 /* OBAButtonBarRow.m in Sources */,
 				934196621DB0B099004BBBB7 /* OBANavigationTarget.m in Sources */,
 				93F35C422058FE9C00F46F80 /* UIView+OBAAdditions.m in Sources */,
 				934196561DB0B099004BBBB7 /* OBACoordinateBounds.m in Sources */,
@@ -1554,6 +1575,7 @@
 				934196911DB0B099004BBBB7 /* OBATripV2.m in Sources */,
 				9377DD531EE4682E00134AE8 /* BorderedButton.swift in Sources */,
 				934196041DB0B099004BBBB7 /* OBAConsoleLogger.m in Sources */,
+				93681B9C2122A95A00293165 /* StackedButton.swift in Sources */,
 				934196591DB0B099004BBBB7 /* OBAEntryWithReferencesV2.m in Sources */,
 				934196291DB0B099004BBBB7 /* OBATripContinuationMapAnnotation.m in Sources */,
 				936EB1BA1E91A83700F4F3A7 /* OBARegionStorage.m in Sources */,
@@ -1573,9 +1595,11 @@
 				934C509A1E2B656900DFDCA0 /* NSDictionary+OBAAdditions.m in Sources */,
 				934196081DB0B099004BBBB7 /* OBAEmailHelper.m in Sources */,
 				9341967F1DB0B099004BBBB7 /* OBAStopAccessEventV2.m in Sources */,
+				93681B9621223D7700293165 /* DrawerNavigationBar.swift in Sources */,
 				93E592941F8CA6260079A2D8 /* OBATableRow.m in Sources */,
 				934196B11DB0B0AF004BBBB7 /* OBAJsonDataSource.m in Sources */,
 				93EA5A3C203DF21800CE6CAC /* OBADeepLinkNavigationTarget.m in Sources */,
+				93681B942122215700293165 /* UIStackView+OBAAdditions.m in Sources */,
 				93FF488820EF53C4009CFF13 /* OBAGenericNavigationTarget.m in Sources */,
 				934196481DB0B099004BBBB7 /* OBAAgencyV2.m in Sources */,
 				9358CDAF1DEA1AB000132CDE /* OBADepartureCellHelpers.m in Sources */,

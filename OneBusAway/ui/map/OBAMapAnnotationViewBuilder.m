@@ -18,6 +18,8 @@
 
     if (!view) {
         view = [[OBAStopAnnotationView alloc] initWithAnnotation:annotation reuseIdentifier:reuseIdentifier];
+        // todo: find a better way of plumbing this in at some point. :-|
+        view.showsSelectionState = [[OBAApplication sharedApplication].userDefaults boolForKey:OBAUseStopDrawerDefaultsKey];
     }
 
     view.annotation = annotation;
