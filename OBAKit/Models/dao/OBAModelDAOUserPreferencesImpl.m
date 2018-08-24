@@ -39,6 +39,7 @@ NSString * const kUngroupedBookmarksOpenKey = @"UngroupedBookmarksOpen";
 NSString * const OBAShareRegionPIIUserDefaultsKey = @"OBAShareRegionPIIUserDefaultsKey";
 NSString * const OBAShareLocationPIIUserDefaultsKey = @"OBAShareLocationPIIUserDefaultsKey";
 NSString * const OBAShareLogsPIIUserDefaultsKey = @"OBAShareLogsPIIUserDefaultsKey";
+NSString * const OBAUseStopDrawerDefaultsKey = @"OBAUseStopDrawerDefaultsKey";
 
 @implementation OBAModelDAOUserPreferencesImpl
 @dynamic shareRegionPII;

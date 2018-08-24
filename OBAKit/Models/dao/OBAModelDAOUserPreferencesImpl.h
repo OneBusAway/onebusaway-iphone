@@ -24,6 +24,7 @@ extern NSString * const OBASetRegionAutomaticallyKey;
 extern NSString * const OBAShareRegionPIIUserDefaultsKey;
 extern NSString * const OBAShareLocationPIIUserDefaultsKey;
 extern NSString * const OBAShareLogsPIIUserDefaultsKey;
+extern NSString * const OBAUseStopDrawerDefaultsKey;
 
 @interface OBAModelDAOUserPreferencesImpl : NSObject<OBAModelPersistenceLayer>
 

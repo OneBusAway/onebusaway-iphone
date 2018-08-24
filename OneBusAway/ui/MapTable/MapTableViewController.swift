@@ -393,7 +393,10 @@ extension MapTableViewController: MapControllerDelegate {
     func mapController(_ controller: OBAMapViewController, displayStopWithID stopID: String) {
         let stopController = StopViewController.init(stopID: stopID)
 
-        guard let pulleyViewController = pulleyViewController else {
+        guard
+            let pulleyViewController = pulleyViewController,
+            application.userDefaults.bool(forKey: OBAUseStopDrawerDefaultsKey)
+        else {
             navigationController?.pushViewController(stopController, animated: true)
             return
         }

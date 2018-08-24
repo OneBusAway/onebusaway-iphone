@@ -783,6 +783,12 @@
 /* Error message displayed to the user when something goes wrong with a just-tapped notification. */
 "notifications.error_messages.formatted_cant_display" = "Sorry, we can't show you that shared trip. If this continues, please let us know. Error: %@";
 
+/* Title for the enable/disable stop drawer switch on the settings controller */
+"settings.stop_drawer_switch_title" = "Use stop drawer";
+
+/* Footer for the stop drawer switch on the settings controller */
+"settings.stop_drawer_footer_text" = "Turn off this setting to see the classic stop page behavior on the map.";
+
 /* Title for the enable/disable user heading switch on the settings controller */
 "settings.user_heading_switch_title" = "Display heading on map";
 

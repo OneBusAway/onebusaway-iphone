@@ -47,6 +47,9 @@
     OBATableSection *compassSection = [self buildSwitchSectionWithDefaultsKey:OBADisplayUserHeadingOnMapDefaultsKey switchTitle:NSLocalizedString(@"settings.user_heading_switch_title", @"Title for the enable/disable user heading switch on the settings controller") footerText:NSLocalizedString(@"settings.user_heading_footer_text", @"Footer for the enable/disable user heading switch on the settings controller")];
     [sections addObject:compassSection];
 
+    OBATableSection *drawerSection = [self buildSwitchSectionWithDefaultsKey:OBAUseStopDrawerDefaultsKey switchTitle:NSLocalizedString(@"settings.stop_drawer_switch_title", @"Title for the enable/disable stop drawer switch on the settings controller") footerText:NSLocalizedString(@"settings.stop_drawer_footer_text", @"Footer for the stop drawer switch on the settings controller")];
+    [sections addObject:drawerSection];
+
     self.sections = sections;
     [self.tableView reloadData];
 }
