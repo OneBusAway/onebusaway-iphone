@@ -160,7 +160,7 @@ public final class PulleyViewController: UIViewController, PulleyDrawerViewContr
     fileprivate let primaryContentContainer = UIView()
     fileprivate let drawerContentContainer = UIView()
     fileprivate let drawerShadowView = UIView()
-    fileprivate let drawerScrollView: PulleyPassthroughScrollView = PulleyPassthroughScrollView()
+    fileprivate let drawerScrollView = PulleyPassthroughScrollView()
     fileprivate let backgroundDimmingView = UIView()
 
     fileprivate var dimmingViewTapRecognizer: UITapGestureRecognizer?
