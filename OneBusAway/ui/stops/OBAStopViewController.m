@@ -321,19 +321,27 @@ static NSUInteger const kDefaultMinutesAfter = 35;
     }
 
     // Departures
-    // TODO: DRY up this whole thing.
-    if (self.stopPreferences.sortTripsByType == OBASortTripsByDepartureTimeV2) {
-        [sections addObject:[self buildClassicDepartureSectionWithDeparture:result]];
+    if ([self.routeFilter filteredArrivalsAndDepartures:result.arrivalsAndDepartures].count == 0) {
+        NSString *str = [NSString stringWithFormat:NSLocalizedString(@"stops.no_departures_in_next_n_minutes_format", @"No departures in the next {MINUTES} minutes"), @(self.minutesAfter)];
+        OBATableRow *row = [OBATableRow disabledInfoRowWithText:str];
+        OBATableSection *section = [[OBATableSection alloc] initWithTitle:nil rows:@[row]];
+        [sections addObject:section];
     }
     else {
-        NSDictionary *groupedArrivals = [OBAStopViewController groupPredictedArrivalsOnRoute:result.arrivalsAndDepartures];
-        NSArray *arrivalKeys = [groupedArrivals.allKeys sortedArrayUsingSelector:@selector(localizedStandardCompare:)];
-        for (NSString *key in arrivalKeys) {
-            NSArray<OBAArrivalAndDepartureV2*> *departures = groupedArrivals[key];
+        // TODO: DRY up this whole thing.
+        if (self.stopPreferences.sortTripsByType == OBASortTripsByDepartureTimeV2) {
+            [sections addObject:[self buildClassicDepartureSectionWithDeparture:result]];
+        }
+        else {
+            NSDictionary *groupedArrivals = [OBAStopViewController groupPredictedArrivalsOnRoute:result.arrivalsAndDepartures];
+            NSArray *arrivalKeys = [groupedArrivals.allKeys sortedArrayUsingSelector:@selector(localizedStandardCompare:)];
+            for (NSString *key in arrivalKeys) {
+                NSArray<OBAArrivalAndDepartureV2*> *departures = groupedArrivals[key];
 
-            // Exclude table sections for routes that the user has disabled and routes without departures.
-            if (departures.count > 0 && [self.routeFilter shouldShowRouteID:departures[0].routeId]) {
-                [sections addObject:[self createDepartureSectionWithTitle:key fromDepartures:departures]];
+                // Exclude table sections for routes that the user has disabled and routes without departures.
+                if (departures.count > 0 && [self.routeFilter shouldShowRouteID:departures[0].routeId]) {
+                    [sections addObject:[self createDepartureSectionWithTitle:key fromDepartures:departures]];
+                }
             }
         }
     }
@@ -346,20 +354,15 @@ static NSUInteger const kDefaultMinutesAfter = 35;
     NSString *timeframeText = [self timeframeStringForMinutesBeforeToAfter];
 
     if (timeframeText) {
-        OBATableRow *timeframeRow = [[OBATableRow alloc] initWithTitle:timeframeText action:nil];
-        timeframeRow.textAlignment = NSTextAlignmentCenter;
-        timeframeRow.titleFont = [OBATheme italicFootnoteFont];
-        timeframeRow.selectionStyle = UITableViewCellSelectionStyleNone;
+        OBATableRow *timeframeRow = [OBATableRow disabledInfoRowWithText:timeframeText];
         [loadMoreSection addRow:timeframeRow];
     }
 
     if (result.lacksRealTimeData) {
-        OBATableRow *scheduledExplanationRow = [[OBATableRow alloc] initWithTitle:[OBAStrings scheduledDepartureExplanation] action:nil];
-        scheduledExplanationRow.textAlignment = NSTextAlignmentCenter;
-        scheduledExplanationRow.titleFont = [OBATheme italicFootnoteFont];
-        scheduledExplanationRow.selectionStyle = UITableViewCellSelectionStyleNone;
+        OBATableRow *scheduledExplanationRow = [OBATableRow disabledInfoRowWithText:OBAStrings.scheduledDepartureExplanation];
         [loadMoreSection addRow:scheduledExplanationRow];
     }
+
     [sections addObject:loadMoreSection];
 
     OBATableSection *moreOptionsSection = [self buildMoreOptionsSectionWithStop:result.stop];
