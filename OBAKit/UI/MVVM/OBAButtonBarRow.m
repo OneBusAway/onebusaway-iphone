@@ -29,6 +29,8 @@
 
     if (self) {
         self.selectionStyle = UITableViewCellSelectionStyleNone;
+        self.backgroundColor = UIColor.clearColor;
+        self.contentView.backgroundColor = UIColor.clearColor;
 
         _buttonStack = [UIStackView oba_horizontalStackWithArrangedSubviews:@[]];
         _buttonStack.spacing = OBATheme.defaultPadding;
