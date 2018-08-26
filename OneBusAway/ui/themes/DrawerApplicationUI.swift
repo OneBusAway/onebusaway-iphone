@@ -42,8 +42,8 @@ import OBAKit
 
         mapController = MapTableViewController.init(application: application)
         mapNavigationController = UINavigationController.init(rootViewController: mapController)
-        mapPulley = PulleyViewController(contentViewController: mapNavigationController, drawerViewController: UIViewController())
-        mapPulley.setDrawerPosition(position: .closed, animated: false)
+        mapPulley = PulleyViewController(contentViewController: mapNavigationController, drawerViewController: nil)
+        mapPulley.initialDrawerPosition = .closed
         mapPulley.defaultCollapsedHeight = 120.0
 
         mapPulley.title = mapController.title
