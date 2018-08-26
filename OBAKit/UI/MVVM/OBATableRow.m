@@ -9,6 +9,7 @@
 #import <OBAKit/OBATableRow.h>
 #import <OBAKit/OBAViewModelRegistry.h>
 #import <OBAKit/OBATableViewCell.h>
+#import <OBAKit/OBATheme.h>
 
 static NSString * const OBACellStyleDefaultReuseIdentifier = @"OBAUITableViewCellStyleDefaultCellIdentifier";
 static NSString * const OBACellStyleValue1ReuseIdentifier = @"OBACellStyleValue1ReuseIdentifier";
@@ -19,6 +20,16 @@ static NSString * const OBACellStyleSubtitleReuseIdentifier = @"OBACellStyleSubt
 
 + (void)load {
     [OBAViewModelRegistry registerClass:self.class];
+}
+
++ (instancetype)disabledInfoRowWithText:(NSString*)text {
+    OBATableRow *row = [[OBATableRow alloc] initWithTitle:text action:nil];
+    row.textAlignment = NSTextAlignmentCenter;
+    row.titleFont = [OBATheme footnoteFont];
+    row.selectionStyle = UITableViewCellSelectionStyleNone;
+    row.titleColor = UIColor.darkGrayColor;
+
+    return row;
 }
 
 - (instancetype)initWithTitle:(NSString*)title action:(nullable OBARowAction)action {

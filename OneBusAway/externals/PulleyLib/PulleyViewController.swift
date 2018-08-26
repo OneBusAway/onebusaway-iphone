@@ -160,7 +160,7 @@ public final class PulleyViewController: UIViewController, PulleyDrawerViewContr
     fileprivate let primaryContentContainer = UIView()
     fileprivate let drawerContentContainer = UIView()
     fileprivate let drawerShadowView = UIView()
-    fileprivate let drawerScrollView: PulleyPassthroughScrollView = PulleyPassthroughScrollView()
+    fileprivate let drawerScrollView = PulleyPassthroughScrollView()
     fileprivate let backgroundDimmingView = UIView()
 
     fileprivate var dimmingViewTapRecognizer: UITapGestureRecognizer?
@@ -267,15 +267,15 @@ public final class PulleyViewController: UIViewController, PulleyDrawerViewContr
     }
 
     /// The current drawer view controller (shown in the drawer).
-    public fileprivate(set) var drawerContentViewController: UIViewController! {
+    public fileprivate(set) var drawerContentViewController: UIViewController? {
         willSet {
-            guard let controller = drawerContentViewController else {
+            guard let currentController = drawerContentViewController else {
                 return
             }
 
-            controller.willMove(toParentViewController: nil)
-            controller.view.removeFromSuperview()
-            controller.removeFromParentViewController()
+            currentController.willMove(toParentViewController: nil)
+            currentController.view.removeFromSuperview()
+            currentController.removeFromParentViewController()
         }
 
         didSet {
@@ -543,7 +543,7 @@ public final class PulleyViewController: UIViewController, PulleyDrawerViewContr
     ///
     /// - Note: The drawer VC is 20pts too tall in order to have some extra space for the bounce animation. Make sure your constraints / content layout take this into account.
     ///
-    required public init(contentViewController: UIViewController, drawerViewController: UIViewController) {
+    required public init(contentViewController: UIViewController, drawerViewController: UIViewController?) {
         super.init(nibName: nil, bundle: nil)
 
         ({
@@ -726,20 +726,20 @@ extension PulleyViewController {
 
         // IB Support
         if primaryContentViewController == nil || drawerContentViewController == nil {
-            assert(primaryContentContainerView != nil && drawerContentContainerView != nil, "When instantiating from Interface Builder you must provide container views with an embedded view controller.")
+            if primaryContentViewController == nil {
+                assert(primaryContentContainerView != nil, "When instantiating from Interface Builder you must provide container views with an embedded view controller.")
+            }
 
             // Locate main content VC
             for child in childViewControllers {
-                if child.view == primaryContentContainerView.subviews.first {
+                if primaryContentContainerView != nil && child.view == primaryContentContainerView.subviews.first {
                     primaryContentViewController = child
                 }
 
-                if child.view == drawerContentContainerView.subviews.first {
+                if drawerContentContainerView != nil && child.view == drawerContentContainerView.subviews.first {
                     drawerContentViewController = child
                 }
             }
-
-            assert(primaryContentViewController != nil && drawerContentViewController != nil, "Container views must contain an embedded view controller.")
         }
 
         enforceCanScrollDrawer()
@@ -955,11 +955,13 @@ extension PulleyViewController: PulleyPassthroughScrollViewDelegate {
             return primaryContentContainer
         }
         else {
-            if drawerContentContainer.bounds.contains(drawerContentContainer.convert(point, from: scrollView)) {
-                return drawerContentViewController.view
+            guard
+                let drawerContentViewController = drawerContentViewController,
+                drawerContentContainer.bounds.contains(drawerContentContainer.convert(point, from: scrollView))
+            else {
+                return primaryContentContainer
             }
-
-            return primaryContentContainer
+            return drawerContentViewController.view
         }
     }
 }

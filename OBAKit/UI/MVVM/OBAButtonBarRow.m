@@ -29,6 +29,8 @@
 
     if (self) {
         self.selectionStyle = UITableViewCellSelectionStyleNone;
+        self.backgroundColor = UIColor.clearColor;
+        self.contentView.backgroundColor = UIColor.clearColor;
 
         _buttonStack = [UIStackView oba_horizontalStackWithArrangedSubviews:@[]];
         _buttonStack.spacing = OBATheme.defaultPadding;
@@ -95,6 +97,7 @@
     button.imageView.image = item.image;
     button.textLabel.text = item.title;
     button.accessibilityLabel = item.accessibilityLabel;
+    button.tintColor = UIColor.blackColor;
 
     [button addTarget:item.target action:item.action forControlEvents:UIControlEventTouchUpInside];
 

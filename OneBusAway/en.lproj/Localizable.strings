@@ -17,7 +17,7 @@
 "today_screen.no_region_description" = "We don't know where you're located. Please choose a region in OneBusAway.";
 
 /* No departures in the next {MINUTES} minutes */
-"today_screen.no_departures_in_next_n_minutes_format" = "No departures in the next %@ minutes";
+"stops.no_departures_in_next_n_minutes_format" = "No departures in the next %@ minutes";
 
 /* Tap for more information subheading on Today view */
 "today_screen.tap_for_more_information" = "Tap for more information";

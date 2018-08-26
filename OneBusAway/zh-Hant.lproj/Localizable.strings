@@ -17,7 +17,7 @@
 "today_screen.no_region_description" = "無法讀取你所在地區，請在OneBusAway裡選擇你的地區。";
 
 /* No departures in the next {MINUTES} minutes */
-"today_screen.no_departures_in_next_n_minutes_format" = "在@%分鐘內無任何離站公車";
+"stops.no_departures_in_next_n_minutes_format" = "在@%分鐘內無任何離站公車";
 
 /* Tap for more information subheading on Today view */
 "today_screen.tap_for_more_information" = "點選讀取更多資訊";

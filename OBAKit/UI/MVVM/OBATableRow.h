@@ -42,6 +42,9 @@ NS_ASSUME_NONNULL_BEGIN
 
 - (instancetype)initWithTitle:(NSString*)title action:(nullable OBARowAction)action;
 - (instancetype)initWithAttributedTitle:(NSAttributedString*)attributedTitle action:(nullable OBARowAction)action;
+
++ (instancetype)disabledInfoRowWithText:(NSString*)text;
+
 @end
 
 NS_ASSUME_NONNULL_END
