@@ -286,8 +286,13 @@ static NSUInteger const kDefaultMinutesAfter = 35;
     filterButton.accessibilityLabel = NSLocalizedString(@"stop_header_view.filter_button_accessibility_label", @"This is the Filter button in the stop header view.");
     filterButton.title = NSLocalizedString(@"stop_header_view.filter_button_title", @"This is the Filter button title in the stop header view.");
 
+    NSMutableArray *buttons = [[NSMutableArray alloc] initWithArray:@[bookmarkButton, filterButton]];
 
-    NSArray *buttons = @[bookmarkButton, filterButton];
+    if (self.inEmbedMode) {
+        UIBarButtonItem *refreshButton = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"refresh"] style:UIBarButtonItemStylePlain target:self action:@selector(reloadData:)];
+        refreshButton.title = OBAStrings.refresh;
+        [buttons addObject:refreshButton];
+    }
 
     OBAButtonBarRow *buttonRow = [[OBAButtonBarRow alloc] initWithBarButtonItems:buttons];
     OBATableSection *section = [[OBATableSection alloc] initWithTitle:nil rows:@[buttonRow]];
