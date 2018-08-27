@@ -10,6 +10,7 @@ import Foundation
 import IGListKit
 import OBAKit
 import SafariServices
+import SwipeCellKit
 
 class RegionalAlert: NSObject, ListDiffable {
     let alertIdentifier: String
@@ -42,7 +43,7 @@ class RegionalAlert: NSObject, ListDiffable {
     }
 }
 
-class RegionalAlertSectionController: ListSectionController {
+class RegionalAlertSectionController: ListSectionController, SwipeCollectionViewCellDelegate {
 
     // MARK: - Data
     var data: RegionalAlert?
@@ -65,6 +66,7 @@ class RegionalAlertSectionController: ListSectionController {
             fatalError()
         }
 
+        cell.delegate = self
         cell.alertTitleLabel.text = data.title
         cell.summaryLabel.text = data.summary
 
@@ -82,9 +84,40 @@ class RegionalAlertSectionController: ListSectionController {
         let safariController = SFSafariViewController.init(url: url)
         viewController.navigationController?.present(safariController, animated: true, completion: nil)
     }
+
+    // MARK: - Swipe Cell Delegate
+
+    func collectionView(_ collectionView: UICollectionView, editActionsForItemAt indexPath: IndexPath, for orientation: SwipeActionsOrientation) -> [SwipeAction]? {
+        guard orientation == .right else { return nil }
+
+        let deleteAction = SwipeAction(style: .destructive, title: "Delete") { _, _ in
+            // handle action by updating model with deletion
+        }
+
+        // customize the action appearance
+        deleteAction.image = UIImage(named: "close")
+
+        return [deleteAction]
+    }
+
+    func collectionView(_ collectionView: UICollectionView, editActionsOptionsForItemAt indexPath: IndexPath, for orientation: SwipeActionsOrientation) -> SwipeOptions {
+        let options = SwipeOptions()
+//        options.expansionStyle = orientation == .left ? .selection : .destructive
+//        options.transitionStyle = defaultOptions.transitionStyle
+//
+//        switch buttonStyle {
+//        case .backgroundColor:
+//            options.buttonSpacing = 11
+//        case .circular:
+//            options.buttonSpacing = 4
+//            options.backgroundColor = #colorLiteral(red: 0.9467939734, green: 0.9468161464, blue: 0.9468042254, alpha: 1)
+//        }
+
+        return options
+    }
 }
 
-class RegionalAlertCell: SelfSizingCollectionCell {
+class RegionalAlertCell: SwipeCollectionViewCell {
     let alertTitleLabel: UILabel = {
         let label = UILabel()
         label.numberOfLines = 2
@@ -108,6 +141,12 @@ class RegionalAlertCell: SelfSizingCollectionCell {
 
         backgroundColor = OBATheme.mapTableBackgroundColor
 
+        clipsToBounds = true
+
+        contentView.frame = bounds
+        contentView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
+        contentView.clipsToBounds = true
+
         let labelStack = UIStackView(arrangedSubviews: [alertTitleLabel, summaryLabel])
         labelStack.axis = .vertical
         let labelStackWrapper = labelStack.oba_embedInWrapperView(withConstraints: false)
@@ -125,5 +164,22 @@ class RegionalAlertCell: SelfSizingCollectionCell {
         contentView.addSubview(cardWrapper)
     }
 
-    required init?(coder aDecoder: NSCoder) { fatalError("init(coder:) has not been implemented") }
+    // MARK: - Copied and pasted from SelfSizingCollectionCell
+
+    override func preferredLayoutAttributesFitting(_ layoutAttributes: UICollectionViewLayoutAttributes) -> UICollectionViewLayoutAttributes {
+        setNeedsLayout()
+        layoutIfNeeded()
+        let size = contentView.systemLayoutSizeFitting(layoutAttributes.size)
+        var newFrame = layoutAttributes.frame
+        // note: don't change the width
+        newFrame.size.height = ceil(size.height)
+        layoutAttributes.frame = newFrame
+        return layoutAttributes
+    }
+
+    public required init?(coder aDecoder: NSCoder) { fatalError("init(coder:) has not been implemented") }
+
+    public static let insets = UIEdgeInsets.zero
+
+    public static let leftRightInsets = UIEdgeInsets(top: 0, left: OBATheme.defaultPadding, bottom: 0, right: OBATheme.defaultPadding)
 }

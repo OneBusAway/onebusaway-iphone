@@ -217,6 +217,7 @@
 		93D5480520B778F700334939 /* SectionHeaderCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 93D5480420B778F700334939 /* SectionHeaderCell.swift */; };
 		93DB91ED20F743570028A7BF /* VehicleDisambiguationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 93DB91EC20F743570028A7BF /* VehicleDisambiguationViewController.swift */; };
 		93DCEF7220E5AF2F0004E087 /* LabelSectionController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 93DCEF7120E5AF2F0004E087 /* LabelSectionController.swift */; };
+		93E1039821349FCA0090E7AF /* SwipeCellKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 93E1039621349FC90090E7AF /* SwipeCellKit.framework */; };
 		93E48CD22108D1B700BFD534 /* agencies_with_coverage.json in Resources */ = {isa = PBXBuildFile; fileRef = 93E48CD12108D1B700BFD534 /* agencies_with_coverage.json */; };
 		93F1C26020BCD34B00B5032B /* LoadingCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 93F1C25F20BCD34B00B5032B /* LoadingCell.swift */; };
 		93F1C26320BCDCCF00B5032B /* OfflineSection.swift in Sources */ = {isa = PBXBuildFile; fileRef = 93F1C26220BCDCCF00B5032B /* OfflineSection.swift */; };
@@ -593,6 +594,7 @@
 		93D5480420B778F700334939 /* SectionHeaderCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SectionHeaderCell.swift; sourceTree = "<group>"; };
 		93DB91EC20F743570028A7BF /* VehicleDisambiguationViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VehicleDisambiguationViewController.swift; sourceTree = "<group>"; };
 		93DCEF7120E5AF2F0004E087 /* LabelSectionController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LabelSectionController.swift; sourceTree = "<group>"; };
+		93E1039621349FC90090E7AF /* SwipeCellKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SwipeCellKit.framework; path = Carthage/Build/iOS/SwipeCellKit.framework; sourceTree = "<group>"; };
 		93E48CD12108D1B700BFD534 /* agencies_with_coverage.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = agencies_with_coverage.json; sourceTree = "<group>"; };
 		93E4A7611CE65B2100E769B0 /* atlanta.gpx */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = atlanta.gpx; sourceTree = "<group>"; };
 		93F1C25F20BCD34B00B5032B /* LoadingCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoadingCell.swift; sourceTree = "<group>"; };
@@ -623,6 +625,7 @@
 				93A923A21C21DCD600A657C8 /* SafariServices.framework in Frameworks */,
 				93528AAE1C8D50D200783E9A /* MapKit.framework in Frameworks */,
 				93BC49E91FB8D61D008B710D /* SwiftMessages.framework in Frameworks */,
+				93E1039821349FCA0090E7AF /* SwipeCellKit.framework in Frameworks */,
 				93BC49D71FB8D5E0008B710D /* OneSignal.framework in Frameworks */,
 				93BC49DD1FB8D5FB008B710D /* CocoaLumberjack.framework in Frameworks */,
 				93BBB3F91DB4B3C100694940 /* OBAKit.framework in Frameworks */,
@@ -703,6 +706,7 @@
 		29B97323FDCFA39411CA2CEA /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				93E1039621349FC90090E7AF /* SwipeCellKit.framework */,
 				93302B4920CB189C003699C6 /* IGListKit.framework */,
 				93BC49EB1FB8D628008B710D /* GoogleAnalytics.framework */,
 				93BC49EA1FB8D628008B710D /* SVProgressHUD.framework */,
@@ -1858,6 +1862,7 @@
 				"$(SRCROOT)/Carthage/Build/iOS/OneSignal.framework",
 				"$(SRCROOT)/Carthage/Build/iOS/IGListKit.framework",
 				"$(SRCROOT)/Carthage/Build/iOS/SwiftProtobuf.framework",
+				"$(SRCROOT)/Carthage/Build/iOS/SwipeCellKit.framework",
 			);
 			name = "Carthage Integration";
 			outputPaths = (
