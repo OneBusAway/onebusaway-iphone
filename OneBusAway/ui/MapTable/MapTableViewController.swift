@@ -50,11 +50,6 @@ class MapTableViewController: UIViewController {
     var centerCoordinate: CLLocationCoordinate2D?
 
     fileprivate let application: OBAApplication
-    fileprivate let locationManager: OBALocationManager
-    fileprivate let mapDataLoader: OBAMapDataLoader
-    fileprivate let mapRegionManager: OBAMapRegionManager
-    fileprivate let modelDAO: OBAModelDAO
-    fileprivate let modelService: PromisedModelService
 
     // MARK: - Service Alerts
     fileprivate var agencyAlerts: [AgencyAlert] = [] {
@@ -117,11 +112,6 @@ class MapTableViewController: UIViewController {
 
     init(application: OBAApplication) {
         self.application = application
-        locationManager = application.locationManager
-        mapDataLoader = application.mapDataLoader
-        mapRegionManager = application.mapRegionManager
-        modelDAO = application.modelDao
-        modelService = application.modelService
 
         self.mapController = OBAMapViewController(application: application)
         self.mapController.standaloneMode = false
@@ -130,8 +120,8 @@ class MapTableViewController: UIViewController {
 
         self.mapController.delegate = self
 
-        self.mapDataLoader.add(self)
-        self.mapRegionManager.add(delegate: self)
+        self.application.mapDataLoader.add(self)
+        self.application.mapRegionManager.add(delegate: self)
 
         self.title = NSLocalizedString("msg_map", comment: "Map tab title")
         self.tabBarItem.image = UIImage.init(named: "Map")
@@ -143,7 +133,7 @@ class MapTableViewController: UIViewController {
     }
 
     deinit {
-        self.mapDataLoader.cancelOpenConnections()
+        self.application.mapDataLoader.cancelOpenConnections()
     }
 }
 
@@ -219,8 +209,14 @@ extension MapTableViewController: UIScrollViewDelegate {
 // MARK: - Regional Alerts
 extension MapTableViewController {
     fileprivate func loadAlerts() {
-        modelService.requestRegionalAlerts().then { (alerts: [AgencyAlert]) -> Void in
-            self.agencyAlerts = alerts
+        application.modelService.requestRegionalAlerts().then { (alerts: [AgencyAlert]) -> Void in
+            let now = Date()
+            self.agencyAlerts = alerts.filter { alert -> Bool in
+                guard let end = alert.endDate else {
+                    return false
+                }
+                return now < end
+            }
         }.catch { err in
             DDLogError("Unable to retrieve agency alerts: \(err)")
         }
@@ -230,14 +226,15 @@ extension MapTableViewController {
 // MARK: - Weather
 extension MapTableViewController {
     fileprivate func loadForecast() {
-        guard let region = modelDAO.currentRegion else {
+        guard let region = application.modelDao.currentRegion else {
             return
         }
 
-        let wrapper = modelService.requestWeather(in: region, location: self.locationManager.currentLocation)
+        let wrapper = application.modelService.requestWeather(in: region, location: self.application.locationManager.currentLocation)
         wrapper.promise.then { networkResponse -> Void in
             // swiftlint:disable force_cast
             let forecast = networkResponse.object as! WeatherForecast
+            // swiftlint:enable force_cast
             self.weatherForecast = forecast
         }.catch { error in
             DDLogError("Unable to retrieve forecast: \(error)")
@@ -245,7 +242,7 @@ extension MapTableViewController {
     }
 }
 
-// MARK: - ListAdapterDataSource
+// MARK: - ListAdapterDataSource (Data Loading)
 extension MapTableViewController: ListAdapterDataSource {
     func objects(for listAdapter: ListAdapter) -> [ListDiffable] {
         guard application.isServerReachable else {
@@ -336,7 +333,7 @@ extension MapTableViewController: ListAdapterDataSource {
             return []
         }
 
-        let nearbyRecentStops: [OBAStopAccessEventV2] = modelDAO.recentStopsNearCoordinate(centerCoordinate)
+        let nearbyRecentStops: [OBAStopAccessEventV2] = application.modelDao.recentStopsNearCoordinate(centerCoordinate)
         guard nearbyRecentStops.count > 0 else {
             return []
         }
@@ -352,16 +349,16 @@ extension MapTableViewController: ListAdapterDataSource {
 // MARK: - Location Management
 extension MapTableViewController {
     private func refreshCurrentLocation() {
-        if let location = locationManager.currentLocation {
-            if mapRegionManager.lastRegionChangeWasProgrammatic {
+        if let location = application.locationManager.currentLocation {
+            if application.mapRegionManager.lastRegionChangeWasProgrammatic {
                 let radius = max(location.horizontalAccuracy, OBAMinMapRadiusInMeters)
                 let region = OBASphericalGeometryLibrary.createRegion(withCenter: location.coordinate, latRadius: radius, lonRadius: radius)
-                mapRegionManager.setRegion(region, changeWasProgrammatic: true)
+                application.mapRegionManager.setRegion(region, changeWasProgrammatic: true)
             }
         }
-        else if let region = modelDAO.currentRegion {
+        else if let region = application.modelDao.currentRegion {
             let coordinateRegion = MKCoordinateRegionForMapRect(region.serviceRect)
-            mapRegionManager.setRegion(coordinateRegion, changeWasProgrammatic: true)
+            application.mapRegionManager.setRegion(coordinateRegion, changeWasProgrammatic: true)
         }
     }
 }
@@ -436,7 +433,9 @@ extension MapTableViewController: EmbeddedStopDelegate {
     }
 
     func embeddedStopControllerBottomLayoutGuideLength() -> CGFloat {
-        return bottomLayoutGuide.length
+        // TODO: figure out why tacking on an extra 20pt to the tab bar size fixes the underlap issue that we see otherwise.
+        // is it because of the height of the status bar or something equally irritating?
+        return bottomLayoutGuide.length + 20.0
     }
 }
 
@@ -456,7 +455,7 @@ extension MapTableViewController: MapSearchDelegate, UISearchControllerDelegate,
 
         searchController.dismiss(animated: true) { [weak self] in
             if let visibleRegion = self?.mapController.visibleMapRegion {
-                self?.mapDataLoader.searchRegion = visibleRegion
+                self?.application.mapDataLoader.searchRegion = visibleRegion
                 self?.mapController.setNavigationTarget(target)
             }
         }
