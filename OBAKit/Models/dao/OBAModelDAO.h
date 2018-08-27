@@ -64,6 +64,15 @@ extern NSString * const OBARegionDidUpdateNotification;
 // Bookmarks
 @property(nonatomic,assign,readonly) NSUInteger allBookmarksCount;
 
+/**
+ Returns a sorted, filtered list of bookmarks that are within `distance` meters of `coordinate`
+
+ @param coordinate The center coordinate
+ @param distance The maximum distance a bookmark can be to be returned
+ @return A list of bookmarks
+ */
+- (NSArray<OBABookmarkV2*>*)sortBookmarksByDistanceToCoordinate:(CLLocationCoordinate2D)coordinate withDistance:(CLLocationDistance)distance;
+
 - (NSArray<OBABookmarkV2*>*)bookmarksMatchingPredicate:(NSPredicate*)predicate;
 - (NSArray<OBABookmarkV2*>*)mappableBookmarksMatchingString:(NSString*)matching;
 - (nullable OBABookmarkV2*)bookmarkForArrivalAndDeparture:(OBAArrivalAndDepartureV2*)arrival;

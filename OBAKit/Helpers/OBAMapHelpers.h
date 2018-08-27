@@ -20,8 +20,11 @@ extern const double OBARegionZoomLevelThreshold;
 @class OBAPlacemark;
 @class OBARegionBoundsV2;
 @class OBAStopV2;
+@class OBABookmarkV2;
 
 NSInteger OBASortStopsByDistanceFromLocation(OBAStopV2 *stop1, OBAStopV2 *stop2, void *context);
+
+NSInteger OBASortBookmarksByDistanceFromLocation(OBABookmarkV2 *bm1, OBABookmarkV2 *bm2, void *context);
 
 @interface OBAMapHelpers : NSObject
 

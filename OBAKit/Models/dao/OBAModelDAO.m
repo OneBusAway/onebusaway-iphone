@@ -124,6 +124,23 @@ const CLLocationDistance kMetersInOneMile = 1609.34;
 
 #pragma mark - Bookmarks
 
+- (NSArray<OBABookmarkV2*>*)sortBookmarksByDistanceToCoordinate:(CLLocationCoordinate2D)coordinate withDistance:(CLLocationDistance)distance {
+    OBAGuard(CLLocationCoordinate2DIsValid(coordinate)) else {
+        return @[];
+    }
+
+    CLLocation *location = [[CLLocation alloc] initWithLatitude:coordinate.latitude longitude:coordinate.longitude];
+    NSArray *bookmarks = [self.allBookmarks sortedArrayUsingFunction:OBASortBookmarksByDistanceFromLocation context:(void *)location];
+
+    NSArray *filtered = [bookmarks filteredArrayUsingPredicate:[NSPredicate predicateWithBlock:^BOOL(OBABookmarkV2 *evaluatedObject, NSDictionary<NSString *,id> *bindings) {
+
+        CLLocationDistance candidateDistance = [OBAMapHelpers getDistanceFrom:coordinate to:evaluatedObject.coordinate];
+        return candidateDistance <= distance;
+    }]];
+
+    return filtered;
+}
+
 - (NSArray<OBABookmarkV2*>*)bookmarksMatchingPredicate:(NSPredicate*)predicate {
     OBAGuard(predicate) else {
         return @[];

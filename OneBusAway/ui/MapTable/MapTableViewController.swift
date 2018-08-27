@@ -267,6 +267,13 @@ extension MapTableViewController: ListAdapterDataSource {
             sections.append(viewModel)
         }
 
+        // Bookmarks
+        let nearbyBookmarks = buildNearbyBookmarksViewModels(pick: 2)
+        if nearbyBookmarks.count > 0 {
+            sections.append(SectionHeader(text: NSLocalizedString("msg_bookmarks", comment: "Bookmarks")))
+            sections.append(contentsOf: nearbyBookmarks)
+        }
+
         // Recent Stops
         let recentNearbyStops = buildNearbyRecentStopViewModels(pick: 2)
         if recentNearbyStops.count > 0 {
@@ -326,6 +333,26 @@ extension MapTableViewController: ListAdapterDataSource {
         //            return LabelSectionController()
         //        case is String: return LabelSectionController()
         }
+    }
+
+    private func buildNearbyBookmarksViewModels(pick upTo: Int = 2) -> [StopViewModel] {
+        guard let centerCoordinate = centerCoordinate else {
+            return []
+        }
+
+        let metersIn1Mile = 1609.34
+        let nearbyBookmarks: [OBABookmarkV2] = application.modelDao.sortBookmarksByDistance(to: centerCoordinate, withDistance: metersIn1Mile)
+
+        guard nearbyBookmarks.count > 0 else {
+            return []
+        }
+
+        let viewModels: [StopViewModel] = nearbyBookmarks.map { bookmark in
+            let routeNames = bookmark.routeWithHeadsign ?? String(format: NSLocalizedString("map_table.route_prefix", comment: "'Route: {TEXT}' prefix"), bookmark.routeShortName)
+            return StopViewModel.init(name: bookmark.name, stopID: bookmark.stopId, direction: nil, routeNames: routeNames)
+        }
+
+        return Array(viewModels.prefix(upTo))
     }
 
     private func buildNearbyRecentStopViewModels(pick upTo: Int = 2) -> [StopViewModel] {

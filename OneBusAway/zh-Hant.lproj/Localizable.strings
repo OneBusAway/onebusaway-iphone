@@ -799,6 +799,8 @@
 /* The empty data set description for the search controller */
 "map_search.empty_data_set_description" = "在此輸入地址,路線號碼或是站牌號碼來搜尋站牌";
 
+/* 'Route: {TEXT}' prefix */
+"map_table.route_prefix" = "路線: %@";
 
 /* The section title on the 'Nearby' controller that says 'Routes' */
 "nearby_stops.routes_section_title" = "路線";

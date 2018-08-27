@@ -21,6 +21,7 @@
 #import <OBAKit/OBARegionV2.h>
 #import <OBAKit/NSObject+OBADescription.h>
 #import <OBAKit/NSCoder+OBAAdditions.h>
+#import <OBAKit/OBAMacros.h>
 
 @implementation OBABookmarkV2
 
@@ -145,6 +146,15 @@
 }
 
 #pragma mark - Misc
+
+- (NSString*)routeWithHeadsign {
+    if (self.routeShortName.length > 0 && self.tripHeadsign.length > 0) {
+        return [NSString stringWithFormat:OBALocalized(@"text_route_to_orientation_params", @"<Route Number> to <Location>. e.g. 10 to Downtown Seattle"), self.routeShortName, self.tripHeadsign];
+    }
+    else {
+        return nil;
+    }
+}
 
 - (BOOL)isValidModel {
     // TODO: this should really be smarter and check for a variety of
