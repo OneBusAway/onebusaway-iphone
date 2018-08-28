@@ -13,6 +13,7 @@
 #import <OBAKit/OBAStopV2.h>
 #import <OBAKit/OBAPlacemark.h>
 #import <OBAKit/OBARegionBoundsV2.h>
+#import <OBAKit/OBABookmarkV2.h>
 
 const double OBADefaultMapRadiusInMeters = 100;
 const double OBAMinMapRadiusInMeters = 150;
@@ -25,6 +26,10 @@ const double OBAPaddingScaleFactor = 1.075;
 #define MERCATOR_OFFSET 268435456
 #define MERCATOR_RADIUS 85445659.44705395
 #define MAXIMUM_ZOOM                20
+
+NSInteger OBASortBookmarksByDistanceFromLocation(OBABookmarkV2 *bm1, OBABookmarkV2 *bm2, void *context) {
+    return OBASortStopsByDistanceFromLocation(bm1.stop, bm2.stop, context);
+}
 
 NSInteger OBASortStopsByDistanceFromLocation(OBAStopV2 *stop1, OBAStopV2 *stop2, void *context) {
     CLLocation *location = (__bridge CLLocation *)context;

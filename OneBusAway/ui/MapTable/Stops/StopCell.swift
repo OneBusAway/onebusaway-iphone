@@ -58,6 +58,20 @@ class StopCell: SelfSizingCollectionCell {
         return plainWrapper
     }()
 
+    private let chevronWrapper: UIView = {
+        let chevronImage = UIImageView(image: #imageLiteral(resourceName: "chevron"))
+        chevronImage.tintColor = .darkGray
+        let chevronWrapper = chevronImage.oba_embedInWrapperView(withConstraints: false)
+        chevronWrapper.backgroundColor = .white
+        chevronImage.snp.makeConstraints { make in
+            make.height.equalTo(14)
+            make.width.equalTo(8)
+            make.leading.trailing.equalToSuperview().inset(UIEdgeInsets(top: 0, left: 0, bottom: 0, right: OBATheme.defaultPadding))
+            make.centerY.equalToSuperview()
+        }
+        return chevronWrapper
+    }()
+
     let separator: CALayer = {
         let layer = CALayer()
         layer.backgroundColor = UIColor(red: 200 / 255.0, green: 199 / 255.0, blue: 204 / 255.0, alpha: 1).cgColor
@@ -68,7 +82,9 @@ class StopCell: SelfSizingCollectionCell {
         super.init(frame: frame)
         backgroundColor = OBATheme.mapTableBackgroundColor
 
-        let cardWrapper = labelStackWrapper.oba_embedInCardWrapper()
+        let outerStack = UIStackView.oba_horizontalStack(withArrangedSubviews: [labelStackWrapper, chevronWrapper])
+
+        let cardWrapper = outerStack.oba_embedInCardWrapper()
         contentView.addSubview(cardWrapper)
         cardWrapper.snp.makeConstraints { make in
             make.edges.equalToSuperview().inset(StopCell.leftRightInsets)

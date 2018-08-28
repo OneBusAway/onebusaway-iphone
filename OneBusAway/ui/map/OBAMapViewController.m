@@ -1077,7 +1077,7 @@ static const double kStopsInRegionRefreshDelayOnDrag = 0.1;
 }
 
 - (void)createLocationHoverBar {
-    UIBarButtonItem *recenterMapButton = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"Map_Selected"] landscapeImagePhone:nil style:UIBarButtonItemStylePlain target:self action:@selector(recenterMap)];
+    UIBarButtonItem *recenterMapButton = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"Map_Selected"] style:UIBarButtonItemStylePlain target:self action:@selector(recenterMap)];
 
     UIBarButtonItem *mapBarButton = [OBAUIBuilder wrappedImageButton:[UIImage imageNamed:@"map_button"] accessibilityLabel:NSLocalizedString(@"map_controller.toggle_map_type_accessibility_label", @"Accessibility label for toggle map type button on map.") target:self action:@selector(changeMapTypes:)];
 

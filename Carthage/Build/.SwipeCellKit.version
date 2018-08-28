@@ -1,0 +1,9 @@
+{
+  "commitish" : "2.4.3",
+  "iOS" : [
+    {
+      "name" : "SwipeCellKit",
+      "hash" : "91ed6b42c9492d0c3f3645984c889118aa62ca06d2d6e6edef8f9442b1260ea5"
+    }
+  ]
+}
