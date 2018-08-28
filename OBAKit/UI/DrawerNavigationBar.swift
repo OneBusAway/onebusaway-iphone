@@ -51,37 +51,6 @@ public class DrawerNavigationBar: UIView {
         return label
     }()
 
-    private class GrabHandle: UIView {
-        override var intrinsicContentSize: CGSize {
-            let sz = super.intrinsicContentSize
-            return CGSize(width: sz.width, height: 4)
-        }
-
-        private let handleLayer: CAShapeLayer = {
-            let handle = CAShapeLayer()
-            handle.bounds = CGRect(x: 0, y: 0, width: 30, height: 4)
-            handle.fillColor = UIColor.lightGray.cgColor
-            handle.path = UIBezierPath.init(roundedRect: handle.bounds, cornerRadius: 4.0).cgPath
-
-            return handle
-        }()
-
-        override init(frame: CGRect) {
-            super.init(frame: frame)
-
-            layer.addSublayer(handleLayer)
-        }
-
-        required init?(coder aDecoder: NSCoder) { fatalError() }
-
-        override func layoutSubviews() {
-            super.layoutSubviews()
-            let x = (frame.width / 2.0) - (handleLayer.frame.width / 2.0)
-            let y = (frame.height / 2.0) - (handleLayer.frame.height / 2.0)
-            handleLayer.frame = CGRect(x: x, y: y, width: handleLayer.frame.width, height: handleLayer.frame.height)
-        }
-    }
-
     private lazy var grabHandle: GrabHandle = {
         let handle = GrabHandle.oba_autolayoutNew()
         handle.snp.makeConstraints { $0.height.equalTo(4) }

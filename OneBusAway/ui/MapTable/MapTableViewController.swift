@@ -246,7 +246,7 @@ extension MapTableViewController {
 extension MapTableViewController: ListAdapterDataSource {
     func objects(for listAdapter: ListAdapter) -> [ListDiffable] {
         guard application.isServerReachable else {
-            return [OfflineSection(), Sweep(collectionViewBounds: view.bounds)]
+            return [GrabHandleSection(), OfflineSection(), Sweep(collectionViewBounds: view.bounds)]
         }
 
         guard pulleyViewController?.drawerPosition == .closed else {
@@ -259,6 +259,9 @@ extension MapTableViewController: ListAdapterDataSource {
         if let forecast = weatherForecast {
             sections.append(forecast)
         }
+
+        // Grab Handle
+        sections.append(GrabHandleSection())
 
         // Agency Alerts
         if agencyAlerts.count > 0 {
@@ -318,6 +321,7 @@ extension MapTableViewController: ListAdapterDataSource {
 
     private func createSectionController(for object: Any) -> ListSectionController {
         switch object {
+        case is GrabHandleSection: return GrabHandleSectionController()
         case is LoadingSection: return LoadingSectionController()
         case is OfflineSection: return OfflineSectionController()
         case is RegionalAlert: return RegionalAlertSectionController()

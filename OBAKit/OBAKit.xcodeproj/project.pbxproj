@@ -280,6 +280,7 @@
 		93D5F3671FF1900700800132 /* OBAURLRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 93D5F3661FF1900700800132 /* OBAURLRequest.swift */; };
 		93DCEF6E20E54EAF0004E087 /* MKMapSnapshotter+AnyPromise.h in Headers */ = {isa = PBXBuildFile; fileRef = 93DCEF6C20E54EAF0004E087 /* MKMapSnapshotter+AnyPromise.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		93DCEF6F20E54EAF0004E087 /* MKMapSnapshotter+AnyPromise.m in Sources */ = {isa = PBXBuildFile; fileRef = 93DCEF6D20E54EAF0004E087 /* MKMapSnapshotter+AnyPromise.m */; };
+		93E103A12134D5E30090E7AF /* GrabHandle.swift in Sources */ = {isa = PBXBuildFile; fileRef = 93E103A02134D5E30090E7AF /* GrabHandle.swift */; };
 		93E592931F8CA6260079A2D8 /* OBATableRow.h in Headers */ = {isa = PBXBuildFile; fileRef = 93E592911F8CA6260079A2D8 /* OBATableRow.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		93E592941F8CA6260079A2D8 /* OBATableRow.m in Sources */ = {isa = PBXBuildFile; fileRef = 93E592921F8CA6260079A2D8 /* OBATableRow.m */; };
 		93E592971F8CA6870079A2D8 /* OBATableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 93E592951F8CA6870079A2D8 /* OBATableViewCell.m */; };
@@ -611,6 +612,7 @@
 		93D5F3661FF1900700800132 /* OBAURLRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OBAURLRequest.swift; sourceTree = "<group>"; };
 		93DCEF6C20E54EAF0004E087 /* MKMapSnapshotter+AnyPromise.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "MKMapSnapshotter+AnyPromise.h"; sourceTree = "<group>"; };
 		93DCEF6D20E54EAF0004E087 /* MKMapSnapshotter+AnyPromise.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "MKMapSnapshotter+AnyPromise.m"; sourceTree = "<group>"; };
+		93E103A02134D5E30090E7AF /* GrabHandle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GrabHandle.swift; sourceTree = "<group>"; };
 		93E592911F8CA6260079A2D8 /* OBATableRow.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OBATableRow.h; sourceTree = "<group>"; };
 		93E592921F8CA6260079A2D8 /* OBATableRow.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OBATableRow.m; sourceTree = "<group>"; };
 		93E592951F8CA6870079A2D8 /* OBATableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OBATableViewCell.m; sourceTree = "<group>"; };
@@ -1136,6 +1138,7 @@
 			children = (
 				9377DD521EE4682E00134AE8 /* BorderedButton.swift */,
 				93681B9B2122A95A00293165 /* StackedButton.swift */,
+				93E103A02134D5E30090E7AF /* GrabHandle.swift */,
 			);
 			path = Controls;
 			sourceTree = "<group>";
@@ -1623,6 +1626,7 @@
 				93E65960204098FB00053B7C /* OBAExtendedNavBarView.m in Sources */,
 				934196441DB0B099004BBBB7 /* OBASetPropertyJsonDigesterRule.m in Sources */,
 				9341966E1DB0B099004BBBB7 /* OBAReportProblemWithStopV2.m in Sources */,
+				93E103A12134D5E30090E7AF /* GrabHandle.swift in Sources */,
 				934196B51DB0B0AF004BBBB7 /* OBAModelService.m in Sources */,
 				93FFA5FB1F88305300EA8008 /* OBAArrivalAndDepartureSectionBuilder.m in Sources */,
 				930EFFE620C87F0C00A2AE1F /* CLLocationManager+AnyPromise.m in Sources */,
