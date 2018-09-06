@@ -50,6 +50,12 @@
     OBATableSection *drawerSection = [self buildSwitchSectionWithDefaultsKey:OBAUseStopDrawerDefaultsKey switchTitle:NSLocalizedString(@"settings.stop_drawer_switch_title", @"Title for the enable/disable stop drawer switch on the settings controller") footerText:NSLocalizedString(@"settings.stop_drawer_footer_text", @"Footer for the stop drawer switch on the settings controller")];
     [sections addObject:drawerSection];
 
+    // Include debug options:
+    if ([OBAApplication.sharedApplication.userDefaults boolForKey:OBADebugModeUserDefaultsKey]) {
+        OBATableSection *testAlertsSection = [self buildSwitchSectionWithDefaultsKey:OBAShowTestAlertsDefaultsKey switchTitle:@"Show Test Alerts" footerText:@"Set this to 'on' if you are an OBA alerts admin and want to preview your test alerts."];
+        [sections addObject:testAlertsSection];
+    }
+
     self.sections = sections;
     [self.tableView reloadData];
 }
