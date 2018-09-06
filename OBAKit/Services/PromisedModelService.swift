@@ -264,7 +264,11 @@ extension PromisedModelService {
     }
 
     private func buildObacoRequest(region: OBARegionV2) -> OBAURLRequest {
-        let url = obacoJsonDataSource.constructURL(fromPath: "/api/v1/regions/\(region.identifier)/alerts.pb", params: nil)
+        var params: [String: Any]? = nil
+        if OBAApplication.shared().userDefaults.bool(forKey: OBAShowTestAlertsDefaultsKey) {
+            params = ["test": "1"]
+        }
+        let url = obacoJsonDataSource.constructURL(fromPath: "/api/v1/regions/\(region.identifier)/alerts.pb", params: params)
         let obacoRequest = OBAURLRequest.init(url: url, cachePolicy: .useProtocolCachePolicy, timeoutInterval: 10)
         return obacoRequest
     }

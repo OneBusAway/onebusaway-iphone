@@ -18,8 +18,9 @@
 
 static NSString * const kAppGroup = @"group.org.onebusaway.iphone";
 static NSString *const kOBADefaultRegionApiServerName = @"http://regions.onebusaway.org";
-NSString *const OBARegionServerInvalidNotification = @"OBARegionServerInvalidNotification";
+NSString * const OBARegionServerInvalidNotification = @"OBARegionServerInvalidNotification";
 NSString * const OBAHasMigratedDefaultsToAppGroupDefaultsKey = @"OBAHasMigratedDefaultsToAppGroupDefaultsKey";
+NSString * const OBAShowTestAlertsDefaultsKey = @"OBAShowTestAlertsDefaultsKey";
 
 @interface OBAApplication ()
 @property (nonatomic, strong, readwrite) OBAApplicationConfiguration *configuration;
@@ -122,6 +123,7 @@ NSString * const OBAHasMigratedDefaultsToAppGroupDefaultsKey = @"OBAHasMigratedD
     mutableDefaults[OBADisplayUserHeadingOnMapDefaultsKey] = @(YES);
     mutableDefaults[OBAMapSelectedTypeDefaultsKey] = @(MKMapTypeStandard);
     mutableDefaults[OBAUseStopDrawerDefaultsKey] = @(YES);
+    mutableDefaults[OBAShowTestAlertsDefaultsKey] = @(NO);
 
     defaults = mutableDefaults;
 #endif
