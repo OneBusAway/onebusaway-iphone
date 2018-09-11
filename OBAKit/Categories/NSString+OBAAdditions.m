@@ -27,4 +27,11 @@
     return [NSString stringWithString:output];
 }
 
+- (CGFloat)oba_heightWithConstrainedWidth:(CGFloat)width font:(UIFont*)font {
+    CGSize constraintSize = CGSizeMake(width, FLT_MAX);
+    CGRect boundingBox = [self boundingRectWithSize:constraintSize options:NSStringDrawingUsesLineFragmentOrigin|NSStringDrawingUsesFontLeading attributes:@{NSFontAttributeName: font} context:nil];
+
+    return boundingBox.size.height;
+}
+
 @end
