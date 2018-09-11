@@ -26,7 +26,7 @@ class LoadingCell: SelfSizingCollectionCell {
     override init(frame: CGRect) {
         super.init(frame: frame)
 
-        contentView.backgroundColor = .magenta
+        contentView.backgroundColor = .clear
 
         contentView.addSubview(shimmeringView)
         shimmeringView.snp.makeConstraints { (make) in

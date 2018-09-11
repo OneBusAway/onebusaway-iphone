@@ -43,12 +43,11 @@ class StopSectionController: ListSectionController {
     override func didSelectItem(at index: Int) {
         guard
             let data = data,
-            let viewController = viewController
+            let viewController = viewController as? MapTableViewController
         else {
             return
         }
 
-        let stopController = StopViewController(stopID: data.stopID)
-        viewController.navigationController?.pushViewController(stopController, animated: true)
+        viewController.displayStop(withID: data.stopID)
     }
 }

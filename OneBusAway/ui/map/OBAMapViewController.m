@@ -21,7 +21,6 @@
 #import "OBAStopViewController.h"
 #import "OBAAnalytics.h"
 #import "OBAAlerts.h"
-#import "OBAMapActivityIndicatorView.h"
 #import "OneBusAway-Swift.h"
 #import "SVPulsingAnnotationView.h"
 #import "UIViewController+OBAContainment.h"
@@ -51,7 +50,6 @@ static const double kStopsInRegionRefreshDelayOnDrag = 0.1;
 @property(nonatomic,strong) MapSearchViewController *mapSearchResultsController;
 
 // Programmatic UI
-@property(nonatomic,strong) OBAMapActivityIndicatorView *mapActivityIndicatorView;
 @property(nonatomic,strong) SVPulsingAnnotationView *userLocationAnnotationView;
 
 // Everything Else
@@ -112,8 +110,6 @@ static const double kStopsInRegionRefreshDelayOnDrag = 0.1;
     [super viewDidLoad];
 
     [self createMapView];
-
-    [self configureMapActivityIndicator];
 
     self.mostRecentRegion = MKCoordinateRegionMake(CLLocationCoordinate2DMake(0, 0), MKCoordinateSpanMake(0, 0));
 
@@ -252,7 +248,11 @@ static const double kStopsInRegionRefreshDelayOnDrag = 0.1;
     return self.application.locationManager;
 }
 
-#pragma mark - OBANavigationTargetAware
+#pragma mark - View Controller Navigation
+
+- (void)pushViewController:(UIViewController*)viewController animated:(BOOL)animated {
+    [self.pulleyViewController pushViewController:viewController animated:animated];
+}
 
 - (void)setNavigationTarget:(OBANavigationTarget *)target {
     if (OBASearchTypeRegion == target.searchType) {
@@ -281,7 +281,7 @@ static const double kStopsInRegionRefreshDelayOnDrag = 0.1;
             if (response) {
                 OBATripDetailsV2 *tripDetails = (OBATripDetailsV2 *)response.object;
                 OBAArrivalAndDepartureViewController *controller = [[OBAArrivalAndDepartureViewController alloc] initWithTripInstance:tripDetails.tripInstance];
-                [self.navigationController pushViewController:controller animated:YES];
+                [self pushViewController:controller animated:YES];
             }
         }).catch(^(NSError *error) {
             [AlertPresenter showError:error presentingController:self];
@@ -325,14 +325,6 @@ static const double kStopsInRegionRefreshDelayOnDrag = 0.1;
 
         [AlertPresenter showError:error presentingController:self];
     }
-}
-
-- (void)mapDataLoader:(OBAMapDataLoader*)mapDataLoader startedUpdatingWithNavigationTarget:(OBANavigationTarget*)target {
-    [self.mapActivityIndicatorView setAnimating:YES];
-}
-
-- (void)mapDataLoaderFinishedUpdating:(OBAMapDataLoader*)searchController {
-    [self.mapActivityIndicatorView setAnimating:NO];
 }
 
 #pragma mark - OBAMapRegionDelegate
@@ -494,18 +486,28 @@ static const double kStopsInRegionRefreshDelayOnDrag = 0.1;
 
         MKCoordinateRegion stopRegion = MKCoordinateRegionMake(translatedCenter, mapView.region.span);
         [mapView setRegion:stopRegion animated:YES];
-    }
 
-    [self.delegate mapController:self displayStopWithID:stop.stopId];
+        [self.delegate mapController:self displayStopWithID:stop.stopId];
+    }
 }
 
 - (void)mapView:(MKMapView *)mapView annotationView:(MKAnnotationView *)view calloutAccessoryControlTapped:(UIControl *)control {
-    id annotation = view.annotation;
+    [self displayAnnotation:view.annotation];
+}
 
-    if ([annotation isKindOfClass:[OBAPlacemark class]]) {
-        OBAPlacemark *placemark = annotation;
+- (void)displayAnnotation:(id<MKAnnotation>)annotation {
+    if ([annotation isKindOfClass:OBAPlacemark.class]) {
+        OBAPlacemark *placemark = (OBAPlacemark*)annotation;
         OBANavigationTarget *target = [OBANavigationTarget navigationTargetForSearchPlacemark:placemark];
         [self.mapDataLoader searchWithTarget:target];
+    }
+    else if ([annotation isKindOfClass:OBABookmarkV2.class]) {
+        OBABookmarkV2 *bookmark = (OBABookmarkV2*)annotation;
+        [self displayStopControllerForStopID:bookmark.stopId];
+    }
+    else if ([annotation isKindOfClass:OBAStopV2.class]) {
+        OBAStopV2 *stop = (OBAStopV2*)annotation;
+        [self displayStopControllerForStopID:stop.stopId];
     }
 }
 
@@ -648,7 +650,7 @@ static const double kStopsInRegionRefreshDelayOnDrag = 0.1;
 
 - (void)displayStopControllerForStopID:(NSString*)stopID {
     OBAStopViewController *stopController = [[OBAStopViewController alloc] initWithStopID:stopID];
-    [self.navigationController pushViewController:stopController animated:YES];
+    [self pushViewController:stopController animated:YES];
 }
 
 #pragma mark - OBAMapViewController Private Methods
@@ -1027,7 +1029,7 @@ static const double kStopsInRegionRefreshDelayOnDrag = 0.1;
         wrapper.anyPromise.then(^(NetworkResponse *response){
             OBATripDetailsV2 *tripDetails = (OBATripDetailsV2 *)response.object;
             OBAArrivalAndDepartureViewController *controller = [[OBAArrivalAndDepartureViewController alloc] initWithTripInstance:tripDetails.tripInstance];
-            [self.navigationController pushViewController:controller animated:YES];
+            [self pushViewController:controller animated:YES];
         }).catch(^(NSError *error) {
             [AlertPresenter showError:error presentingController:self];
         }).always(^{
@@ -1053,15 +1055,6 @@ static const double kStopsInRegionRefreshDelayOnDrag = 0.1;
             make.center.equalTo(self.mapView);
         }];
     }
-}
-
-- (void)configureMapActivityIndicator {
-    self.mapActivityIndicatorView = [[OBAMapActivityIndicatorView alloc] initWithFrame:CGRectZero];
-    [self.view addSubview:self.mapActivityIndicatorView];
-    [self.mapActivityIndicatorView mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.top.equalTo(self.mas_topLayoutGuideBottom).offset(OBATheme.defaultPadding);
-        make.leading.equalTo(self).offset(OBATheme.defaultMargin);
-    }];
 }
 
 - (void)configureToastView {

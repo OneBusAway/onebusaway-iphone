@@ -831,6 +831,9 @@
 /* 'Route: {TEXT}' prefix */
 "map_table.route_prefix" = "Route: %@";
 
+/* Header text for the Bookmarks and Recent Stops section of the map table */
+"map_table.bookmarks_and_recent_stops_header" = "Bookmarks & Recent Stops";
+
 /* Map Search: Quick Lookup Table Section */
 "map_search.quick_lookup_section_title" = "Quick Search";
 

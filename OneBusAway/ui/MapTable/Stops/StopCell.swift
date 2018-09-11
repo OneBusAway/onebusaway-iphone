@@ -10,6 +10,9 @@ import UIKit
 import OBAKit
 import SnapKit
 
+// abxoxo - next up - add an optional icon to the left side of this
+// cell. Recent Stops should get a clock and bookmarks get a star.
+
 class StopCell: SelfSizingCollectionCell {
     var stopViewModel: StopViewModel? {
         didSet {
@@ -72,6 +75,13 @@ class StopCell: SelfSizingCollectionCell {
         return chevronWrapper
     }()
 
+    private let imageView: UIImageView = {
+        let imageView = UIImageView()
+        imageView.image = #imageLiteral(resourceName: "Favorites_Selected")
+        imageView.contentMode = .scaleAspectFit
+        return imageView
+    }()
+
     let separator: CALayer = {
         let layer = CALayer()
         layer.backgroundColor = UIColor(red: 200 / 255.0, green: 199 / 255.0, blue: 204 / 255.0, alpha: 1).cgColor
@@ -82,7 +92,14 @@ class StopCell: SelfSizingCollectionCell {
         super.init(frame: frame)
         backgroundColor = OBATheme.mapTableBackgroundColor
 
-        let outerStack = UIStackView.oba_horizontalStack(withArrangedSubviews: [labelStackWrapper, chevronWrapper])
+        let imageViewWrapper = imageView.oba_embedInWrapperView(withConstraints: false)
+        imageViewWrapper.backgroundColor = .white
+        imageView.snp.remakeConstraints { make in
+            make.width.equalTo(16.0)
+            make.edges.equalToSuperview().inset(UIEdgeInsets(top: 0, left: OBATheme.defaultPadding, bottom: 0, right: 0))
+        }
+
+        let outerStack = UIStackView.oba_horizontalStack(withArrangedSubviews: [imageViewWrapper, labelStackWrapper, chevronWrapper])
 
         let cardWrapper = outerStack.oba_embedInCardWrapper()
         contentView.addSubview(cardWrapper)

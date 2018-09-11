@@ -14,9 +14,10 @@ import OBAKit
     let tabBarController = UITabBarController.init()
 
     // MARK: - Map Tab
-    var mapController: MapTableViewController
-    var mapNavigationController: UINavigationController
+    var mapTableController: MapTableViewController
     var mapPulley: PulleyViewController
+    var mapController: OBAMapViewController
+    let drawerNavigation: UINavigationController
 
     // MARK: - Recents Tab
     let recentsController = OBARecentStopsViewController.init()
@@ -40,21 +41,41 @@ import OBAKit
     required init(application: OBAApplication) {
         self.application = application
 
-        mapController = MapTableViewController.init(application: application)
-        mapNavigationController = UINavigationController.init(rootViewController: mapController)
-        mapPulley = PulleyViewController(contentViewController: mapNavigationController, drawerViewController: nil)
-        mapPulley.initialDrawerPosition = .closed
-        mapPulley.defaultCollapsedHeight = 120.0
+        let useStopDrawer = application.userDefaults.bool(forKey: OBAUseStopDrawerDefaultsKey)
 
-        mapPulley.title = mapController.title
-        mapPulley.tabBarItem.image = mapController.tabBarItem.image
-        mapPulley.tabBarItem.selectedImage = mapController.tabBarItem.selectedImage
+        mapTableController = MapTableViewController.init(application: application)
+        drawerNavigation = UINavigationController(rootViewController: mapTableController)
+        drawerNavigation.setNavigationBarHidden(true, animated: false)
+
+        mapController = OBAMapViewController(application: application)
+        mapController.standaloneMode = !useStopDrawer
+        mapController.delegate = mapTableController
+
+        mapPulley = PulleyViewController(contentViewController: mapController, drawerViewController: drawerNavigation)
+        mapPulley.defaultCollapsedHeight = 120.0
+        mapPulley.initialDrawerPosition = .collapsed
+
+        mapPulley.title = mapTableController.title
+        mapPulley.tabBarItem.image = mapTableController.tabBarItem.image
+        mapPulley.tabBarItem.selectedImage = mapTableController.tabBarItem.selectedImage
+
+        let mapPulleyNav = UINavigationController(rootViewController: mapPulley)
 
         super.init()
 
-        tabBarController.viewControllers = [mapPulley, recentsNavigation, bookmarksNavigation, infoNavigation]
+        mapPulley.delegate = self
+
+        tabBarController.viewControllers = [mapPulleyNav, recentsNavigation, bookmarksNavigation, infoNavigation]
         tabBarController.delegate = self
     }
+}
+
+// MARK: - Pulley Delegate
+extension DrawerApplicationUI: PulleyDelegate {
+    func drawerPositionDidChange(drawer: PulleyViewController, bottomSafeArea: CGFloat) {
+        mapTableController.collectionView.isScrollEnabled = drawer.drawerPosition == .open
+    }
+
 }
 
 // MARK: - OBAApplicationUI
@@ -102,14 +123,12 @@ extension DrawerApplicationUI: OBAApplicationUI {
     }
 
     func navigate(toTargetInternal navigationTarget: OBANavigationTarget) {
-        mapNavigationController.popViewController(animated: false)
-
         let viewController: (UIViewController & OBANavigationTargetAware)
         let topController: UIViewController
 
         switch navigationTarget.target {
         case .map, .searchResults:
-            viewController = mapController
+            viewController = mapTableController
             topController = mapPulley
         case .recentStops:
             viewController = recentsController
@@ -134,7 +153,8 @@ extension DrawerApplicationUI: OBAApplicationUI {
 
         if navigationTarget.parameters["stop"] != nil, let stopID = navigationTarget.parameters["stopID"] as? String {
             let vc = StopViewController.init(stopID: stopID)
-            mapNavigationController.pushViewController(vc, animated: true)
+            let nav = mapPulley.navigationController ?? drawerNavigation
+            nav.pushViewController(vc, animated: true)
         }
 
         // update kOBASelectedTabIndexDefaultsKey, otherwise -applicationDidBecomeActive: will switch us away.

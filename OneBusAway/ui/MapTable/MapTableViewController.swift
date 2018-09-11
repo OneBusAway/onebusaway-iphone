@@ -8,16 +8,6 @@
 
 import UIKit
 import IGListKit
-import MapKit
-
-// https://stackoverflow.com/a/26299473
-class PassthroughCollectionView: UICollectionView {
-    override func point(inside point: CGPoint, with event: UIEvent?) -> Bool {
-        let height = bounds.height + contentOffset.y
-        let collectionBounds = CGRect.init(x: 0, y: 0, width: bounds.width, height: height)
-        return collectionBounds.contains(point)
-    }
-}
 
 class MapTableViewController: UIViewController {
 
@@ -26,10 +16,20 @@ class MapTableViewController: UIViewController {
         return ListAdapter(updater: ListAdapterUpdater(), viewController: self, workingRangeSize: 1)
     }()
 
-    let collectionView: PassthroughCollectionView = {
+    lazy var collectionViewLayout: UICollectionViewLayout = {
         let layout = UICollectionViewFlowLayout()
         layout.estimatedItemSize = CGSize(width: 375, height: 40)
-        let collectionView = PassthroughCollectionView(frame: .zero, collectionViewLayout: layout)
+        layout.itemSize = UICollectionViewFlowLayoutAutomaticSize
+        return layout
+    }()
+
+    lazy var collectionView: UICollectionView = {
+        let collectionView = UICollectionView(frame: .zero, collectionViewLayout: collectionViewLayout)
+        collectionView.isScrollEnabled = false
+        collectionView.backgroundColor = .clear
+        collectionView.showsVerticalScrollIndicator = false
+        collectionView.alwaysBounceVertical = true
+
         return collectionView
     }()
 
@@ -42,7 +42,7 @@ class MapTableViewController: UIViewController {
                 // nop.
             }
             else {
-                adapter.performUpdates(animated: false)
+                performUpdates(animated: false)
             }
         }
     }
@@ -51,17 +51,19 @@ class MapTableViewController: UIViewController {
 
     fileprivate let application: OBAApplication
 
+    private var allowUIUpdates = false
+
     // MARK: - Service Alerts
     fileprivate var agencyAlerts: [AgencyAlert] = [] {
         didSet {
-            adapter.performUpdates(animated: false)
+            performUpdates(animated: false)
         }
     }
 
     // MARK: - Weather
     var weatherForecast: WeatherForecast? {
         didSet {
-            self.adapter.performUpdates(animated: false)
+            performUpdates(animated: false)
         }
     }
 
@@ -72,17 +74,6 @@ class MapTableViewController: UIViewController {
         view.autoresizingMask = [.flexibleWidth, .flexibleHeight]
         view.backgroundColor = OBATheme.mapTableBackgroundColor
         return view
-    }()
-
-    private var mapController: OBAMapViewController
-
-    private lazy var bottomCover: UIView = {
-        let cover = UIView()
-        cover.isHidden = true
-        cover.backgroundColor = OBATheme.mapTableBackgroundColor
-        let coverHeight: CGFloat = 200
-        cover.frame = CGRect(x: 0, y: mapContainer.frame.height - coverHeight, width: mapContainer.frame.width, height: coverHeight)
-        return cover
     }()
 
     // MARK: - Search
@@ -113,12 +104,7 @@ class MapTableViewController: UIViewController {
     init(application: OBAApplication) {
         self.application = application
 
-        self.mapController = OBAMapViewController(application: application)
-        self.mapController.standaloneMode = false
-
         super.init(nibName: nil, bundle: nil)
-
-        self.mapController.delegate = self
 
         self.application.mapDataLoader.add(self)
         self.application.mapRegionManager.add(delegate: self)
@@ -151,20 +137,9 @@ extension MapTableViewController {
         else {
             automaticallyAdjustsScrollViewInsets = false
         }
-
-        oba_addChildViewController(mapController, to: mapContainer)
-        view.addSubview(mapContainer)
-
-        view.addSubview(bottomCover)
-
-        collectionView.backgroundColor = .clear
-        collectionView.showsVerticalScrollIndicator = false
-        collectionView.alwaysBounceVertical = true
-
         view.addSubview(collectionView)
         adapter.collectionView = collectionView
         adapter.dataSource = self
-        adapter.scrollViewDelegate = self
 
         configureSearchUI()
     }
@@ -174,35 +149,14 @@ extension MapTableViewController {
         refreshCurrentLocation()
         loadForecast()
         loadAlerts()
-    }
-}
 
-// MARK: - Layout
-extension MapTableViewController {
-    override func viewDidLayoutSubviews() {
-        super.viewDidLayoutSubviews()
-
-        let tabBarHeight: CGFloat = 44.0
-        mapContainer.frame = CGRect(x: 0, y: 0, width: view.bounds.width, height: view.bounds.height - tabBarHeight)
-
-        collectionView.contentInset = UIEdgeInsets(top: view.bounds.height - Sweep.collectionViewContentInset, left: 0, bottom: 0, right: 0)
-        collectionView.frame = CGRect(x: 0, y: 0, width: view.bounds.width, height: view.bounds.height)
+        allowUIUpdates = true
     }
 
-    fileprivate var sweepHeight: CGFloat {
-        return Sweep.defaultHeight(collectionViewBounds: view.bounds)
-    }
-}
+    override func viewDidDisappear(_ animated: Bool) {
+        super.viewDidDisappear(animated)
 
-// MARK: - UIScrollViewDelegate
-extension MapTableViewController: UIScrollViewDelegate {
-    func scrollViewDidScroll(_ scrollView: UIScrollView) {
-        if scrollView.contentSize.height > 0 && scrollView.frame.height + scrollView.contentOffset.y >= scrollView.contentSize.height {
-            bottomCover.isHidden = false
-        }
-        else {
-            bottomCover.isHidden = true
-        }
+        allowUIUpdates = false
     }
 }
 
@@ -219,6 +173,8 @@ extension MapTableViewController {
             }
         }.catch { err in
             DDLogError("Unable to retrieve agency alerts: \(err)")
+        }.always {
+            // nop?
         }
     }
 }
@@ -238,28 +194,41 @@ extension MapTableViewController {
             self.weatherForecast = forecast
         }.catch { error in
             DDLogError("Unable to retrieve forecast: \(error)")
+        }.always {
+            // nop?
         }
+    }
+}
+
+// MARK: - Layout
+extension MapTableViewController {
+    override func viewDidLayoutSubviews() {
+        super.viewDidLayoutSubviews()
+        collectionView.frame = view.bounds
     }
 }
 
 // MARK: - ListAdapterDataSource (Data Loading)
 extension MapTableViewController: ListAdapterDataSource {
+
+    private func performUpdates(animated: Bool) {
+        if allowUIUpdates {
+            adapter.performUpdates(animated: animated)
+        }
+    }
+
     func objects(for listAdapter: ListAdapter) -> [ListDiffable] {
         guard application.isServerReachable else {
             return [GrabHandleSection(), OfflineSection(), Sweep(collectionViewBounds: view.bounds)]
         }
 
-        guard pulleyViewController?.drawerPosition == .closed else {
-            return []
-        }
-
         var sections: [ListDiffable] = []
 
-        // Forecast
-        if let forecast = weatherForecast {
-            sections.append(forecast)
-        }
-
+//        // Forecast
+//        if let forecast = weatherForecast {
+//            sections.append(forecast)
+//        }
+//
         // Grab Handle
         sections.append(GrabHandleSection())
 
@@ -270,18 +239,23 @@ extension MapTableViewController: ListAdapterDataSource {
             sections.append(viewModel)
         }
 
-        // Bookmarks
-        let nearbyBookmarks = buildNearbyBookmarksViewModels(pick: 2)
-        if nearbyBookmarks.count > 0 {
-            sections.append(SectionHeader(text: NSLocalizedString("msg_bookmarks", comment: "Bookmarks")))
-            sections.append(contentsOf: nearbyBookmarks)
+        // abxoxo
+
+        // Bookmarks/Recents
+        var nearbyItems = [StopViewModel]()
+        nearbyItems.append(contentsOf: buildNearbyBookmarksViewModels(pick: 3))
+        nearbyItems.append(contentsOf: buildNearbyRecentStopViewModels(pick: 3))
+
+        if let center = self.centerCoordinate {
+            nearbyItems.sort { (s1, s2) -> Bool in
+                return OBAMapHelpers.getDistanceFrom(center, to: s1.coordinate) < OBAMapHelpers.getDistanceFrom(center, to: s2.coordinate)
+            }
         }
 
-        // Recent Stops
-        let recentNearbyStops = buildNearbyRecentStopViewModels(pick: 2)
-        if recentNearbyStops.count > 0 {
-            sections.append(SectionHeader(text: NSLocalizedString("map_search.recent_stops_section_title", comment: "Recent Stops")))
-            sections.append(contentsOf: recentNearbyStops)
+        if nearbyItems.count > 0 {
+            let headerText = NSLocalizedString("map_table.bookmarks_and_recent_stops_header", comment: "Header text for the Bookmarks and Recent Stops section of the map table")
+            sections.append(SectionHeader(text: headerText))
+            sections.append(contentsOf: nearbyItems)
         }
 
         // Nearby Stops
@@ -292,20 +266,14 @@ extension MapTableViewController: ListAdapterDataSource {
         {
             sections.append(SectionHeader(text: NSLocalizedString("msg_nearby_stops", comment: "Nearby Stops text")))
 
-            let stopViewModels: [StopViewModel] = Array(stops.prefix(3)).map {
-                StopViewModel.init(name: $0.name, stopID: $0.stopId, direction: $0.direction, routeNames: $0.routeNamesAsString())
+            let stopViewModels: [StopViewModel] = Array(stops.prefix(5)).map {
+                StopViewModel.init(name: $0.name, stopID: $0.stopId, direction: $0.direction, routeNames: $0.routeNamesAsString(), coordinate: $0.coordinate)
             }
 
             sections.append(contentsOf: stopViewModels)
-
-            // Appending this on iOS 10 when there aren't any stop view models
-            // was crashing the app. Therefore, we only append the Sweep when
-            // there are stop view models to include, too.
-            sections.append(Sweep(collectionViewBounds: view.bounds))
         }
         else {
-            // abxoxo - this is crashing the app on iOS 10
-//            sections.append(LoadingSection())
+            sections.append(LoadingSection())
         }
 
         return sections
@@ -327,7 +295,6 @@ extension MapTableViewController: ListAdapterDataSource {
         case is RegionalAlert: return RegionalAlertSectionController()
         case is SectionHeader: return SectionHeaderSectionController()
         case is StopViewModel: return StopSectionController()
-        case is Sweep: return BottomSweepSectionController()
         case is WeatherForecast: return ForecastSectionController()
         default:
             fatalError()
@@ -353,7 +320,7 @@ extension MapTableViewController: ListAdapterDataSource {
 
         let viewModels: [StopViewModel] = nearbyBookmarks.map { bookmark in
             let routeNames = bookmark.routeWithHeadsign ?? String(format: NSLocalizedString("map_table.route_prefix", comment: "'Route: {TEXT}' prefix"), bookmark.routeShortName)
-            return StopViewModel.init(name: bookmark.name, stopID: bookmark.stopId, direction: nil, routeNames: routeNames)
+            return StopViewModel(name: bookmark.name, stopID: bookmark.stopId, direction: nil, routeNames: routeNames, coordinate: bookmark.coordinate)
         }
 
         return Array(viewModels.prefix(upTo))
@@ -370,7 +337,7 @@ extension MapTableViewController: ListAdapterDataSource {
         }
 
         let viewModels: [StopViewModel] = nearbyRecentStops.map {
-            StopViewModel.init(name: $0.title, stopID: $0.stopID, direction: nil, routeNames: $0.subtitle)
+            StopViewModel(name: $0.title, stopID: $0.stopID, direction: nil, routeNames: $0.subtitle, coordinate: $0.coordinate)
         }
 
         return Array(viewModels.prefix(upTo))
@@ -401,6 +368,14 @@ extension MapTableViewController: OBAMapDataLoaderDelegate {
         let unsortedStops = searchResult.values.filter { $0 is OBAStopV2 } as! [OBAStopV2]
         stops = unsortedStops.sortByDistance(coordinate: centerCoordinate)
     }
+
+    func mapDataLoader(_ mapDataLoader: OBAMapDataLoader, startedUpdatingWith target: OBANavigationTarget) {
+        // nop?
+    }
+
+    func mapDataLoaderFinishedUpdating(_ mapDataLoader: OBAMapDataLoader) {
+        // nop?
+    }
 }
 
 // MARK: - Map Region Delegate
@@ -410,30 +385,35 @@ extension MapTableViewController: OBAMapRegionDelegate {
     }
 }
 
-// MARK: - Map Controller Delegate
-extension MapTableViewController: MapControllerDelegate {
-    func mapController(_ controller: OBAMapViewController, displayStopWithID stopID: String) {
-        let stopController = StopViewController.init(stopID: stopID)
+// MARK: - Miscellaneous Public Methods
+extension MapTableViewController {
+    public func displayStop(withID stopID: String) {
+        let stopController = StopViewController(stopID: stopID)
 
         guard
             let pulleyViewController = pulleyViewController,
             application.userDefaults.bool(forKey: OBAUseStopDrawerDefaultsKey)
-        else {
-            navigationController?.pushViewController(stopController, animated: true)
-            return
+            else {
+                navigationController?.pushViewController(stopController, animated: true)
+                return
         }
 
         stopController.embedDelegate = self
         stopController.inEmbedMode = true
 
-        pulleyViewController.setDrawerContentViewController(controller: stopController, animated: true)
-        pulleyViewController.setDrawerPosition(position: .partiallyRevealed, animated: true)
+        pulleyViewController.pushViewController(stopController, animated: true)
+    }
+}
 
-        adapter.reloadData()
+// MARK: - Map Controller Delegate
+extension MapTableViewController: MapControllerDelegate {
+    func mapController(_ controller: OBAMapViewController, displayStopWithID stopID: String) {
+        displayStop(withID: stopID)
     }
 
     func mapController(_ controller: OBAMapViewController, deselectedAnnotation annotation: MKAnnotation) {
         guard
+            OBAApplication.shared().userDefaults.bool(forKey: OBAUseStopDrawerDefaultsKey),
             let stop = annotation as? OBAStopV2,
             let nav = pulleyViewController?.drawerContentViewController as? UINavigationController,
             let stopController = nav.topViewController as? StopViewController
@@ -450,17 +430,13 @@ extension MapTableViewController: MapControllerDelegate {
 // MARK: - EmbeddedStopDelegate
 extension MapTableViewController: EmbeddedStopDelegate {
     func embeddedStop(_ stopController: StopViewController, push viewController: UIViewController, animated: Bool) {
-        mapController.deselectSelectedAnnotationView()
-        pulleyViewController?.setDrawerPosition(position: .closed, animated: true) { _ in
-            self.navigationController?.pushViewController(viewController, animated: animated)
-        }
+        pulleyViewController?.pushViewController(viewController, animated: animated)
     }
 
     func embeddedStopControllerClosePane(_ stopController: StopViewController) {
-        mapController.deselectSelectedAnnotationView()
-        pulleyViewController?.setDrawerPosition(position: .closed, animated: true) { _ in
-            self.adapter.performUpdates(animated: false)
-        }
+        pulleyViewController?.popViewController(animated: true)
+        // abxoxo
+//        mapController.deselectSelectedAnnotationView()
     }
 
     func embeddedStopControllerBottomLayoutGuideLength() -> CGFloat {
@@ -474,8 +450,9 @@ extension MapTableViewController: EmbeddedStopDelegate {
 extension MapTableViewController: MapSearchDelegate, UISearchControllerDelegate, UISearchBarDelegate {
 
     fileprivate func configureSearchUI() {
-        definesPresentationContext = true
-        navigationItem.titleView = searchController.searchBar
+        // abxoxo
+        pulleyViewController?.definesPresentationContext = true
+        pulleyViewController?.navigationItem.titleView = searchController.searchBar
         searchController.searchBar.sizeToFit()
     }
 
@@ -485,10 +462,12 @@ extension MapTableViewController: MapSearchDelegate, UISearchControllerDelegate,
         OBAAnalytics.reportEvent(withCategory: OBAAnalyticsCategoryUIAction, action: "button_press", label: analyticsLabel, value: nil)
 
         searchController.dismiss(animated: true) { [weak self] in
-            if let visibleRegion = self?.mapController.visibleMapRegion {
-                self?.application.mapDataLoader.searchRegion = visibleRegion
-                self?.mapController.setNavigationTarget(target)
-            }
+            // abxoxo
+            print(self ?? "") // abxoxo
+//            if let visibleRegion = self?.mapController.visibleMapRegion {
+//                self?.application.mapDataLoader.searchRegion = visibleRegion
+//                self?.mapController.setNavigationTarget(target)
+//            }
         }
     }
 
@@ -511,16 +490,10 @@ extension MapTableViewController: MapSearchDelegate, UISearchControllerDelegate,
     }
 }
 
-// MARK: - Miscellaneous Public Methods
-extension MapTableViewController {
-    public func recenterMap() {
-        mapController.recenterMap()
-    }
-}
-
 // MARK: - OBANavigationTargetAware
 extension MapTableViewController: OBANavigationTargetAware {
     func setNavigationTarget(_ navigationTarget: OBANavigationTarget) {
-        mapController.setNavigationTarget(navigationTarget)
+        // abxoxo
+//        mapController.setNavigationTarget(navigationTarget)
     }
 }
