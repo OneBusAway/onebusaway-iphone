@@ -7,16 +7,17 @@
 //
 
 import UIKit
+import OBAKit
 
 @objc(OBAStopAnnotationView)
 class StopAnnotationView: MKAnnotationView {
 
     /// Scale and add a drop shadow to the annotation view when it
     /// is tapped to depict that it has been selected.
-    @objc public var showsSelectionState: Bool = true
+    @objc var showsSelectionState = false
 
     // MARK: - View Properties
-    private let myImageView: UIImageView = {
+    private let stopImageView: UIImageView = {
         let img = UIImageView(frame: .zero)
         img.contentMode = .scaleAspectFit
         img.layer.shadowColor = UIColor.black.cgColor
@@ -30,11 +31,12 @@ class StopAnnotationView: MKAnnotationView {
     public override init(annotation: MKAnnotation?, reuseIdentifier: String?) {
         super.init(annotation: annotation, reuseIdentifier: reuseIdentifier)
 
-        addSubview(myImageView)
+        canShowCallout = true
+
+        addSubview(stopImageView)
 
         bounds = CGRect(x: 0, y: 0, width: OBADefaultAnnotationSize, height: OBADefaultAnnotationSize)
-
-        canShowCallout = false
+        frame = frame.integral
     }
 
     public required init?(coder aDecoder: NSCoder) { fatalError() }
@@ -42,17 +44,17 @@ class StopAnnotationView: MKAnnotationView {
     override func prepareForReuse() {
         super.prepareForReuse()
 
-        myImageView.image = nil
+        stopImageView.image = nil
     }
 
     override func layoutSubviews() {
         super.layoutSubviews()
 
-        myImageView.frame = bounds
+        stopImageView.frame = bounds
     }
 }
 
-// MARK: - Data Configuration
+// MARK: - Data Loading
 extension StopAnnotationView {
     override var annotation: MKAnnotation? {
         didSet {
@@ -74,22 +76,37 @@ extension StopAnnotationView {
     private func configure(bookmark: OBABookmarkV2) {
         var stopImage: UIImage
         if let stop = bookmark.stop {
-            stopImage = OBAImageHelpers.colorizeImage(OBAStopIconFactory.getIconForStop(stop), with: OBATheme.mapBookmarkTintColor)
+            let icon = OBAStopIconFactory.getIconForStop(stop, stroke: strokeColor)
+            stopImage = OBAImageHelpers.colorizeImage(icon, with: OBATheme.mapBookmarkTintColor)
         }
         else {
             stopImage = UIImage(named: "Bookmarks")!
         }
 
-        myImageView.image = stopImage
+        stopImageView.image = stopImage
+
+        setNeedsLayout()
     }
 
     private func configure(stop: OBAStopV2) {
-        let image = OBAStopIconFactory.getIconForStop(stop)
-        myImageView.image = image
+        let image = OBAStopIconFactory.getIconForStop(stop, stroke: strokeColor)
+        stopImageView.image = image
     }
 
     private func configureNop() {
         // nop?
+    }
+}
+
+// MARK: - Visual Treatment
+extension StopAnnotationView {
+    private var strokeColor: UIColor {
+        if isSelected {
+            return OBATheme.obaDarkGreen
+        }
+        else {
+            return UIColor.black
+        }
     }
 }
 
@@ -100,6 +117,7 @@ extension StopAnnotationView {
 
         if showsSelectionState {
             OBAAnimation.perform(animated: animated) {
+                self.configureUI()
                 self.updateShadow()
                 self.updateTransform()
             }
@@ -108,7 +126,7 @@ extension StopAnnotationView {
 
     private func updateShadow() {
         let opacity: Float = isSelected ? 0.3 : 0.0
-        self.myImageView.layer.shadowOpacity = opacity
+        self.stopImageView.layer.shadowOpacity = opacity
     }
 
     private func updateTransform() {

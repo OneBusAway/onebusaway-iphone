@@ -6,6 +6,7 @@
 //  Copyright © 2018 OneBusAway. All rights reserved.
 //
 
+import CoreLocation
 import UIKit
 import IGListKit
 
@@ -14,12 +15,14 @@ class StopViewModel: NSObject {
     let stopID: String
     let direction: String?
     let routeNames: String
+    let coordinate: CLLocationCoordinate2D
 
-    init(name: String, stopID: String, direction: String?, routeNames: String) {
+    init(name: String, stopID: String, direction: String?, routeNames: String, coordinate: CLLocationCoordinate2D) {
         self.name = name
         self.stopID = stopID
         self.direction = direction
         self.routeNames = routeNames
+        self.coordinate = coordinate
     }
 }
 
@@ -48,5 +51,7 @@ extension StopViewModel: ListDiffable {
             && stopID == object.stopID
             && direction == object.direction
             && routeNames == object.routeNames
+            && coordinate.latitude == object.coordinate.latitude
+            && coordinate.longitude == object.coordinate.longitude
     }
 }

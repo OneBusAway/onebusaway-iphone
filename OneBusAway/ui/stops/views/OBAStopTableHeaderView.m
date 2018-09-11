@@ -126,7 +126,7 @@
         });
 
         [snapshotter start].then(^(MKMapSnapshot *snapshot) {
-            UIImage *annotatedImage = [OBAImageHelpers draw:[OBAStopIconFactory getIconForStop:self.stop]
+            UIImage *annotatedImage = [OBAImageHelpers draw:[OBAStopIconFactory getIconForStop:self.stop strokeColor:UIColor.blackColor]
                                                        onto:snapshot.image
                                                     atPoint:[snapshot pointForCoordinate:self.stop.coordinate]];
             return [OBAImageHelpers colorizeImage:annotatedImage withColor:kHeaderImageViewBackgroundColor];

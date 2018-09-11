@@ -27,9 +27,9 @@ class GrabHandleCell: SelfSizingCollectionCell {
         clipsToBounds = false
         layer.masksToBounds = false
         layer.shadowColor = UIColor.black.cgColor
-        layer.shadowOffset = CGSize(width: 0, height: 0)
-        layer.shadowRadius = 2.0
-        layer.shadowOpacity = 0.3
+        layer.shadowOffset = CGSize(width: 0, height: -2)
+        layer.shadowRadius = 1.0
+        layer.shadowOpacity = 0.1
 
         contentView.backgroundColor = OBATheme.mapTableBackgroundColor
 
@@ -37,8 +37,8 @@ class GrabHandleCell: SelfSizingCollectionCell {
 
         contentView.addSubview(grabHandle)
         grabHandle.snp.makeConstraints { (make) in
-            make.height.equalTo(4)
-            make.edges.equalToSuperview().inset(OBATheme.defaultEdgeInsets)
+            make.height.equalTo(4).priority(.medium)
+            make.edges.equalToSuperview().inset(UIEdgeInsets(top: OBATheme.defaultPadding, left: OBATheme.defaultPadding, bottom: 0, right: OBATheme.defaultPadding))
         }
     }
 

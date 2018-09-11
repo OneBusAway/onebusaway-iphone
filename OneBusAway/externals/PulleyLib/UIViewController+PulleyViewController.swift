@@ -6,7 +6,7 @@
 //  Copyright © 2018 52inc. All rights reserved.
 //
 
-public extension UIViewController {
+@objc public extension UIViewController {
 
     /// If this viewController pertences to a PulleyViewController, return it.
     public var pulleyViewController: PulleyViewController? {

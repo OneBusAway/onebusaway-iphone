@@ -122,7 +122,7 @@ NSString * const OBAShowTestAlertsDefaultsKey = @"OBAShowTestAlertsDefaultsKey";
     mutableDefaults[OBAOptInToTrackingDefaultsKey] = @(YES);
     mutableDefaults[OBADisplayUserHeadingOnMapDefaultsKey] = @(YES);
     mutableDefaults[OBAMapSelectedTypeDefaultsKey] = @(MKMapTypeStandard);
-    mutableDefaults[OBAUseStopDrawerDefaultsKey] = @(YES);
+    mutableDefaults[OBAUseStopDrawerDefaultsKey] = @(NO);
     mutableDefaults[OBAShowTestAlertsDefaultsKey] = @(NO);
 
     defaults = mutableDefaults;

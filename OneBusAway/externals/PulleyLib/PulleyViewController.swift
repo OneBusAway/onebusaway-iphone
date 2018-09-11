@@ -755,7 +755,7 @@ extension PulleyViewController {
         setNeedsSupportedDrawerPositionsUpdate()
     }
 
-    override open func viewDidLayoutSubviews() {
+    override public func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
 
         // Make sure our view controller views are subviews of the right view (Resolves #21 issue with changing the presentation context)
@@ -1171,6 +1171,46 @@ extension PulleyViewController {
         }
         else {
             supportedPositions = PulleyPosition.all
+        }
+    }
+}
+
+// MARK: - View Controller Stack
+extension PulleyViewController {
+
+    private var childNavigationController: UINavigationController? {
+        if let drawerNav = drawerContentViewController as? UINavigationController {
+            return drawerNav
+        }
+        else {
+            return nil
+        }
+    }
+
+    @objc public func pushViewController(_ viewController: UIViewController, animated: Bool) {
+        if let nav = navigationController {
+            nav.pushViewController(viewController, animated: animated)
+        }
+        else if let childNav = childNavigationController {
+            let transition = CATransition()
+            transition.duration = UIView.inheritedAnimationDuration
+            transition.timingFunction = CAMediaTimingFunction(name: kCAMediaTimingFunctionEaseInEaseOut)
+            transition.type = kCATransitionMoveIn
+            transition.subtype = kCATransitionFromTop
+            childNav.view.layer.add(transition, forKey: nil)
+            childNav.pushViewController(viewController, animated: false)
+        }
+    }
+
+    public func popViewController(animated: Bool) {
+        if let childNav = childNavigationController {
+            let transition = CATransition()
+            transition.duration = UIView.inheritedAnimationDuration
+            transition.timingFunction = CAMediaTimingFunction(name: kCAMediaTimingFunctionEaseInEaseOut)
+            transition.type = kCATransitionMoveIn
+            transition.subtype = kCATransitionFromTop
+            childNav.view.layer.add(transition, forKey: nil)
+            childNav.popViewController(animated: false)
         }
     }
 }
