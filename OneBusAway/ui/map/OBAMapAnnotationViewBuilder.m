@@ -22,6 +22,18 @@
         view.showsSelectionState = [[OBAApplication sharedApplication].userDefaults boolForKey:OBAUseStopDrawerDefaultsKey];
     }
 
+    view.rightCalloutAccessoryView = ({
+        UIButton *rightCalloutButton = [UIButton buttonWithType:UIButtonTypeDetailDisclosure];
+        [rightCalloutButton setImage:[UIImage imageNamed:@"chevron"] forState:UIControlStateNormal];
+        if ([OBATheme useHighContrastUI]) {
+            rightCalloutButton.tintColor = [UIColor blackColor];
+        }
+        else {
+            rightCalloutButton.tintColor = [OBATheme OBAGreen];
+        }
+        rightCalloutButton;
+    });
+
     view.annotation = annotation;
 
     return view;
