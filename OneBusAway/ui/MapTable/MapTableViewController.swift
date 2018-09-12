@@ -325,7 +325,7 @@ extension MapTableViewController: ListAdapterDataSource {
 
         let viewModels: [StopViewModel] = nearbyBookmarks.map { bookmark in
             let routeNames = bookmark.routeWithHeadsign ?? String(format: NSLocalizedString("map_table.route_prefix", comment: "'Route: {TEXT}' prefix"), bookmark.routeShortName)
-            return StopViewModel(name: bookmark.name, stopID: bookmark.stopId, direction: nil, routeNames: routeNames, coordinate: bookmark.coordinate)
+            return StopViewModel(name: bookmark.name, stopID: bookmark.stopId, direction: nil, routeNames: routeNames, coordinate: bookmark.coordinate, image: UIImage(named: "Favorites"))
         }
 
         return Array(viewModels.prefix(upTo))
@@ -342,7 +342,7 @@ extension MapTableViewController: ListAdapterDataSource {
         }
 
         let viewModels: [StopViewModel] = nearbyRecentStops.map {
-            StopViewModel(name: $0.title, stopID: $0.stopID, direction: nil, routeNames: $0.subtitle, coordinate: $0.coordinate)
+            StopViewModel(name: $0.title, stopID: $0.stopID, direction: nil, routeNames: $0.subtitle, coordinate: $0.coordinate, image: UIImage(named: "Recent"))
         }
 
         return Array(viewModels.prefix(upTo))
