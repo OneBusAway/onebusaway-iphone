@@ -9,6 +9,8 @@
 @import Foundation;
 @import MapKit;
 
+NS_ASSUME_NONNULL_BEGIN
+
 extern const double OBADefaultMapRadiusInMeters;
 extern const double OBAMinMapRadiusInMeters;
 extern const double OBAMaxLatitudeDeltaToShowStops;
@@ -32,6 +34,14 @@ NSInteger OBASortBookmarksByDistanceFromLocation(OBABookmarkV2 *bm1, OBABookmark
 + (MKCoordinateRegion)coordinateRegionWithCenterCoordinate:(CLLocationCoordinate2D)centerCoordinate zoomLevel:(NSUInteger)zoomLevel viewSize:(CGSize)size;
 
 + (NSString*)stringFromDistance:(CLLocationDistance)distance;
+
+/**
+ Converts an MKCoordinateRegion
+
+ @param coordinateRegion A coordinate region
+ @return The equivalent circular region
+ */
++ (CLCircularRegion*)convertCoordinateRegionToCircularRegion:(MKCoordinateRegion)coordinateRegion;
 
 /**
  Computes distance between two CLLocationCoordinate2D points.
@@ -97,3 +107,5 @@ NSInteger OBASortBookmarksByDistanceFromLocation(OBABookmarkV2 *bm1, OBABookmark
 + (MKCoordinateRegion)computeRegionForCenter:(CLLocation*)center nearbyStops:(NSArray*)stops;
 + (NSUInteger)zoomLevelForMapRect:(MKMapRect)mRect withMapViewSizeInPixels:(CGSize)viewSizeInPixels;
 @end
+
+NS_ASSUME_NONNULL_END

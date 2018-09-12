@@ -77,6 +77,13 @@ NSInteger OBASortStopsByDistanceFromLocation(OBAStopV2 *stop1, OBAStopV2 *stop2,
 
 #pragma mark - Helper methods
 
++ (CLCircularRegion*)convertCoordinateRegionToCircularRegion:(MKCoordinateRegion)coordinateRegion {
+    MKMapRect mapRect = [OBAMapHelpers mapRectForCoordinateRegion:coordinateRegion];
+    CLCircularRegion *circularRegion = [OBAMapHelpers convertVisibleMapRect:mapRect intoCircularRegionWithCenter:coordinateRegion.center];
+
+    return circularRegion;
+}
+
 + (MKCoordinateSpan)coordinateSpanWithCenterCoordinate:(CLLocationCoordinate2D)centerCoordinate zoomLevel:(NSUInteger)zoomLevel viewSize:(CGSize)size
 {
     // convert center coordiate to pixel space
