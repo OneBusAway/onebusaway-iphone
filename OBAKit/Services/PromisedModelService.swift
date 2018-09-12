@@ -133,6 +133,11 @@ import PromiseKit
 
         wrapper.promise = wrapper.promise.then { networkResponse -> NetworkResponse in
             let dict = networkResponse.object as! [String: Any]
+
+            if dict["error"] != nil {
+                throw OBAErrorMessages.cannotRegisterAlarm
+            }
+
             let url = URL.init(string: dict["url"] as! String)!
 
             return NetworkResponse.init(object: url, URLResponse: networkResponse.URLResponse, urlRequest: networkResponse.urlRequest)
