@@ -1,0 +1,11 @@
+framework module PMKCoreLocation {
+  umbrella header "PMKCoreLocation.h"
+
+  export *
+  module * { export * }
+}
+
+module PMKCoreLocation.Swift {
+    header "PMKCoreLocation-Swift.h"
+    requires objc
+}

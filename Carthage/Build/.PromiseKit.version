@@ -1,27 +1,9 @@
 {
-  "Mac" : [
-    {
-      "name" : "PromiseKit",
-      "hash" : "725150af3d5e36497c37a92c6b5751b36b8ebe1714ecc4825b6cde04f2b4a660"
-    }
-  ],
-  "watchOS" : [
-    {
-      "name" : "PromiseKit",
-      "hash" : "b19c2942609a57dc03ac28da5f639d5dece428663c86d96a28f220bc781b886e"
-    }
-  ],
-  "tvOS" : [
-    {
-      "name" : "PromiseKit",
-      "hash" : "057d505dab7b284641544b03e21ff8482b1107bfe6adc331a1ddfdb8e15870ab"
-    }
-  ],
   "commitish" : "4.5.1",
   "iOS" : [
     {
       "name" : "PromiseKit",
-      "hash" : "d79970f9d139e900673f3739f7989fd4345ec1c271b43ad0dae6de088262f834"
+      "hash" : "dc74669ce72df4ab255e2c91e4b81e0b09cf8dfcf79aa4d9a671b0bd7eab64be"
     }
   ]
 }

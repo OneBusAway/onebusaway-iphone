@@ -34,7 +34,8 @@ github "Instagram/IGListKit" ==3.4.0
 github "CocoaLumberjack/CocoaLumberjack" ~>3.4.1
 
 # https://github.com/SwipeCellKit/SwipeCellKit/releases
-github "SwipeCellKit/SwipeCellKit" ~>2.4.3
+# github "SwipeCellKit/SwipeCellKit" ~>2.4.3
+github "SwipeCellKit/SwipeCellKit" "swift_4.2"
 
 # This repository does not work properly with Carthage.
 # I am currently copying the source files present in Carthage/Checkouts

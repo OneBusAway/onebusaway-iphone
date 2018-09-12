@@ -1,7 +1,7 @@
 language: objective-c
-osx_image: xcode9.3
+osx_image: xcode10
 before_install:
-  - export IOS_SIMULATOR_UDID=`instruments -s devices | grep "iPhone SE (11.2" | ruby -e "puts gets.split('[')[1].split(']').first"`
+  - export IOS_SIMULATOR_UDID=`instruments -s devices | grep "iPhone SE.*12" | ruby -e "puts gets.match(/[0-9a-fA-F]{8}\-[0-9a-fA-F]{4}\-[0-9a-fA-F]{4}\-[0-9a-fA-F]{4}\-[0-9a-fA-F]{12}/)"`
   - echo $IOS_SIMULATOR_UDID
   - open -a "simulator" --args -CurrentDeviceUDID $IOS_SIMULATOR_UDID
 script: set -o pipefail && xcodebuild clean test CODE_SIGN_IDENTITY="" CODE_SIGNING_REQUIRED=NO -project org.onebusaway.iphone.xcodeproj -scheme OneBusAway -sdk iphonesimulator -destination "platform=iOS Simulator,id=$IOS_SIMULATOR_UDID" ONLY_ACTIVE_ARCH=NO | xcpretty
