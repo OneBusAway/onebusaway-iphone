@@ -322,7 +322,7 @@ static NSString * const OBALastRegionRefreshDateUserDefaultsKey = @"OBALastRegio
 
 - (void)application:(UIApplication *)application performActionForShortcutItem:(UIApplicationShortcutItem *)shortcutItem completionHandler:(void (^)(BOOL))completionHandler {
 
-    [self.applicationUI performActionForShortcutItem:(UIApplicationShortcutItem *)shortcutItem completionHandler:(void (^)(BOOL))completionHandler];
+    [self.applicationUI performActionForShortcutItem:shortcutItem completionHandler:(void (^)(BOOL))completionHandler];
 }
 
 - (void)updateShortcutItemsForRecentStops {

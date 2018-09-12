@@ -99,8 +99,12 @@ extension DrawerApplicationUI: OBAApplicationUI {
         else if shortcutItem.type == kApplicationShortcutRecents {
             navigationTargetType = .recentStops
             if let stopIDs = shortcutItem.userInfo?["stopIds"] as? NSArray,
-               let firstObject = stopIDs.firstObject {
+               let firstObject = stopIDs.firstObject
+            {
                 parameters = [OBAStopIDNavigationTargetParameter: firstObject]
+            }
+            else if let stopID = shortcutItem.userInfo?["stopID"] as? String {
+                parameters = [OBAStopIDNavigationTargetParameter: stopID]
             }
         }
 
