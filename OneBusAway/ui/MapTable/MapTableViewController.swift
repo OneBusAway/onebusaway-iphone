@@ -395,16 +395,15 @@ extension MapTableViewController {
     public func displayStop(withID stopID: String) {
         let stopController = StopViewController(stopID: stopID)
 
-        guard
-            let pulleyViewController = pulleyViewController,
-            application.userDefaults.bool(forKey: OBAUseStopDrawerDefaultsKey)
-            else {
-                navigationController?.pushViewController(stopController, animated: true)
-                return
+        guard let pulleyViewController = pulleyViewController else {
+            navigationController?.pushViewController(stopController, animated: true)
+            return
         }
 
-        stopController.embedDelegate = self
-        stopController.inEmbedMode = true
+        if application.userDefaults.bool(forKey: OBAUseStopDrawerDefaultsKey) {
+            stopController.embedDelegate = self
+            stopController.inEmbedMode = true
+        }
 
         pulleyViewController.pushViewController(stopController, animated: true)
     }
