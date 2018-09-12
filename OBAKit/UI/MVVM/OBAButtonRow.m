@@ -31,7 +31,7 @@
         [self.contentView addSubview:_borderedButton];
         [_borderedButton mas_makeConstraints:^(MASConstraintMaker *make) {
             make.centerX.equalTo(self.contentView);
-            make.top.and.bottom.equalTo(self.contentView);
+            make.top.and.bottom.equalTo(self.contentView).insets(UIEdgeInsetsMake(OBATheme.defaultPadding, 0, OBATheme.defaultPadding, 0));
         }];
     }
     return self;
