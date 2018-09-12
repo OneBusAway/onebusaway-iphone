@@ -24,13 +24,6 @@ class GrabHandleCell: SelfSizingCollectionCell {
     override init(frame: CGRect) {
         super.init(frame: frame)
 
-        clipsToBounds = false
-        layer.masksToBounds = false
-        layer.shadowColor = UIColor.black.cgColor
-        layer.shadowOffset = CGSize(width: 0, height: -2)
-        layer.shadowRadius = 1.0
-        layer.shadowOpacity = 0.1
-
         contentView.backgroundColor = OBATheme.mapTableBackgroundColor
 
         let grabHandle = GrabHandle.oba_autolayoutNew()
