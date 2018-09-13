@@ -163,7 +163,9 @@ static NSUInteger const kDefaultMinutesAfter = 35;
 
     self.drawerNavigationBar.subtitleLabel.text = [NSString stringWithFormat:NSLocalizedString(@"stops_controller.routes_list_fmt", @"Formatted string for a list of routes - Routes: %@"), stop.routeNamesAsString];
 
-    [self resizeDrawerNav];
+    if (self.inEmbedMode) {
+        [self resizeDrawerNav];
+    }
 }
 
 - (void)resizeDrawerNav {

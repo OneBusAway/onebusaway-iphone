@@ -10,9 +10,6 @@ import UIKit
 import OBAKit
 import SnapKit
 
-// abxoxo - next up - add an optional icon to the left side of this
-// cell. Recent Stops should get a clock and bookmarks get a star.
-
 class StopCell: SelfSizingCollectionCell {
     var stopViewModel: StopViewModel? {
         didSet {
@@ -21,6 +18,7 @@ class StopCell: SelfSizingCollectionCell {
             }
             nameLabel.text = stop.nameWithDirection
             routesLabel.text = stop.routeNames
+            imageView.image = stop.image
         }
     }
 
@@ -77,7 +75,6 @@ class StopCell: SelfSizingCollectionCell {
 
     private let imageView: UIImageView = {
         let imageView = UIImageView()
-        imageView.image = #imageLiteral(resourceName: "Favorites_Selected")
         imageView.contentMode = .scaleAspectFit
         return imageView
     }()

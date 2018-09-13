@@ -8,6 +8,8 @@
 
 import UIKit
 import IGListKit
+import SVProgressHUD
+import PromiseKit
 
 class MapTableViewController: UIViewController {
 
@@ -47,7 +49,10 @@ class MapTableViewController: UIViewController {
         }
     }
 
-    var centerCoordinate: CLLocationCoordinate2D?
+    var coordinateRegion: MKCoordinateRegion?
+    var centerCoordinate: CLLocationCoordinate2D? {
+        return coordinateRegion?.center
+    }
 
     fileprivate let application: OBAApplication
 
@@ -320,7 +325,7 @@ extension MapTableViewController: ListAdapterDataSource {
 
         let viewModels: [StopViewModel] = nearbyBookmarks.map { bookmark in
             let routeNames = bookmark.routeWithHeadsign ?? String(format: NSLocalizedString("map_table.route_prefix", comment: "'Route: {TEXT}' prefix"), bookmark.routeShortName)
-            return StopViewModel(name: bookmark.name, stopID: bookmark.stopId, direction: nil, routeNames: routeNames, coordinate: bookmark.coordinate)
+            return StopViewModel(name: bookmark.name, stopID: bookmark.stopId, direction: nil, routeNames: routeNames, coordinate: bookmark.coordinate, image: UIImage(named: "Favorites"))
         }
 
         return Array(viewModels.prefix(upTo))
@@ -337,7 +342,7 @@ extension MapTableViewController: ListAdapterDataSource {
         }
 
         let viewModels: [StopViewModel] = nearbyRecentStops.map {
-            StopViewModel(name: $0.title, stopID: $0.stopID, direction: nil, routeNames: $0.subtitle, coordinate: $0.coordinate)
+            StopViewModel(name: $0.title, stopID: $0.stopID, direction: nil, routeNames: $0.subtitle, coordinate: $0.coordinate, image: UIImage(named: "Recent"))
         }
 
         return Array(viewModels.prefix(upTo))
@@ -381,7 +386,7 @@ extension MapTableViewController: OBAMapDataLoaderDelegate {
 // MARK: - Map Region Delegate
 extension MapTableViewController: OBAMapRegionDelegate {
     func mapRegionManager(_ manager: OBAMapRegionManager, setRegion region: MKCoordinateRegion, animated: Bool) {
-        self.centerCoordinate = region.center
+        self.coordinateRegion = region
     }
 }
 
@@ -390,16 +395,15 @@ extension MapTableViewController {
     public func displayStop(withID stopID: String) {
         let stopController = StopViewController(stopID: stopID)
 
-        guard
-            let pulleyViewController = pulleyViewController,
-            application.userDefaults.bool(forKey: OBAUseStopDrawerDefaultsKey)
-            else {
-                navigationController?.pushViewController(stopController, animated: true)
-                return
+        guard let pulleyViewController = pulleyViewController else {
+            navigationController?.pushViewController(stopController, animated: true)
+            return
         }
 
-        stopController.embedDelegate = self
-        stopController.inEmbedMode = true
+        if application.userDefaults.bool(forKey: OBAUseStopDrawerDefaultsKey) {
+            stopController.embedDelegate = self
+            stopController.inEmbedMode = true
+        }
 
         pulleyViewController.pushViewController(stopController, animated: true)
     }
@@ -462,12 +466,15 @@ extension MapTableViewController: MapSearchDelegate, UISearchControllerDelegate,
         OBAAnalytics.reportEvent(withCategory: OBAAnalyticsCategoryUIAction, action: "button_press", label: analyticsLabel, value: nil)
 
         searchController.dismiss(animated: true) { [weak self] in
-            // abxoxo
-            print(self ?? "") // abxoxo
-//            if let visibleRegion = self?.mapController.visibleMapRegion {
-//                self?.application.mapDataLoader.searchRegion = visibleRegion
-//                self?.mapController.setNavigationTarget(target)
-//            }
+            guard let region: MKCoordinateRegion = self?.coordinateRegion else {
+                return
+            }
+            let circularRegion = OBAMapHelpers.convertCoordinateRegion(toCircularRegion: region)
+
+            // abxoxo - todo fixme - this is gross :-\
+            self?.application.mapDataLoader.searchRegion = circularRegion
+            let appDelegate = UIApplication.shared.delegate as! OBAApplicationDelegate
+            appDelegate.navigate(to: target)
         }
     }
 
@@ -491,9 +498,106 @@ extension MapTableViewController: MapSearchDelegate, UISearchControllerDelegate,
 }
 
 // MARK: - OBANavigationTargetAware
-extension MapTableViewController: OBANavigationTargetAware {
+extension MapTableViewController: OBANavigationTargetAware, VehicleDisambiguationDelegate {
+    func disambiguator(_ viewController: VehicleDisambiguationViewController, didSelect matchingVehicle: MatchingAgencyVehicle) {
+        viewController.dismiss(animated: true) {
+            SVProgressHUD.show()
+
+            // abxoxo - here!
+        }
+//        [viewController dismissViewControllerAnimated:YES completion:^{
+//            [SVProgressHUD show];
+//
+//            // abxoxo - todo - add this wrapper to a 'disposal bag' or something that can be cancelled
+//            // if the user exits this view controller before this operation finishes.
+//            PromiseWrapper *wrapper = [self.modelService requestVehicleTrip:matchingVehicle.vehicleID];
+//            wrapper.anyPromise.then(^(NetworkResponse *response){
+//            OBATripDetailsV2 *tripDetails = (OBATripDetailsV2 *)response.object;
+//            OBAArrivalAndDepartureViewController *controller = [[OBAArrivalAndDepartureViewController alloc] initWithTripInstance:tripDetails.tripInstance];
+//            [self pushViewController:controller animated:YES];
+//            }).catch(^(NSError *error) {
+//            [AlertPresenter showError:error presentingController:self];
+//            }).always(^{
+//            [SVProgressHUD dismiss];
+//            });
+//            }];
+    }
+
+    private func disambiguateMatchingVehicles(_ matchingVehicles: [MatchingAgencyVehicle]) {
+        let disambiguator = VehicleDisambiguationViewController(with: matchingVehicles, delegate: self)
+        let nav = UINavigationController(rootViewController: disambiguator)
+
+        pulleyViewController?.present(nav, animated: true, completion: nil)
+    }
+
+    private func loadVehicleNavigationTarget(_ vehicleNavTarget: OBAVehicleIDNavigationTarget) {
+//        guard let region = application.modelDao.currentRegion else {
+//            // TODO: better error handling.
+//            return
+//        }
+//        SVProgressHUD.show()
+
+        // abxoxo - todo!
+
+//        let wrapper = application.modelService.requestVehicles(matching: vehicleNavTarget.query, in: region)
+//        wrapper.promise.then { [weak self] networkResponse /* -> Promise<NetworkResponse> */ in
+//            let matchingVehicles = networkResponse.object as! [MatchingAgencyVehicle]
+//
+//            if
+//                matchingVehicles.count == 1,
+//                let first = matchingVehicles.first,
+//                let modelService = self?.application.modelService
+//            {
+//                return modelService.requestVehicleTrip(first.vehicleID).anyPromise
+//            }
+//            else {
+//                // pop up a disambiguation UI.
+//                self?.disambiguateMatchingVehicles(matchingVehicles)
+//                return AnyPromise.init(Promise<Void>())
+//            }
+//        }.then {
+//
+//        }
+
+//        wrapper.anyPromise.then(^(NetworkResponse *response) {
+//            NSArray<OBAMatchingAgencyVehicle*> *matchingVehicles = response.object;
+//
+//            if (matchingVehicles.count == 1) {
+//                return [self.modelService requestVehicleTrip:matchingVehicles.firstObject.vehicleID].anyPromise;
+//            }
+//            else {
+//                // pop up a disambiguation UI.
+//                [self disambiguateMatchingVehicles:matchingVehicles];
+//                return [AnyPromise promiseWithValue:nil];
+//            }
+//        }).then(^(NetworkResponse *response) {
+//            if (response) {
+//                OBATripDetailsV2 *tripDetails = (OBATripDetailsV2 *)response.object;
+//                OBAArrivalAndDepartureViewController *controller = [[OBAArrivalAndDepartureViewController alloc] initWithTripInstance:tripDetails.tripInstance];
+//                [self pushViewController:controller animated:YES];
+//            }
+//        }).catch(^(NSError *error) {
+//            [AlertPresenter showError:error presentingController:self];
+//        }).always(^{
+//            [SVProgressHUD dismiss];
+//        });
+    }
+
     func setNavigationTarget(_ navigationTarget: OBANavigationTarget) {
-        // abxoxo
-//        mapController.setNavigationTarget(navigationTarget)
+        if navigationTarget.searchType == .region {
+            application.mapDataLoader.searchPending()
+            application.mapRegionManager.setRegionFrom(navigationTarget)
+        }
+        else if
+            navigationTarget.searchType == .stopId,
+            let stopID = navigationTarget.searchArgument as? String {
+            displayStop(withID: stopID)
+        }
+        else if navigationTarget is OBAVehicleIDNavigationTarget {
+            loadVehicleNavigationTarget(navigationTarget as! OBAVehicleIDNavigationTarget)
+        }
+        else {
+            application.mapDataLoader.search(with: navigationTarget)
+        }
     }
 }

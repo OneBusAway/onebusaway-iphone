@@ -1,9 +1,9 @@
 {
-  "commitish" : "2.8.1",
+  "commitish" : "2.8.4",
   "iOS" : [
     {
       "name" : "OneSignal",
-      "hash" : "008e513f0a89c684c4c7c32271b1586ea8ec00c98242874d3270d5650e3b8ddc"
+      "hash" : "72f132ea0f9696985545b9b3c23d5708fe9d92df598be5eceb07b06388425b74"
     }
   ]
 }

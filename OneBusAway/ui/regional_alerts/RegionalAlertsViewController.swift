@@ -69,7 +69,7 @@ class RegionalAlertsViewController: OBAStaticTableViewController {
 
         if let url = alert.url(language: language) {
             let safari = SFSafariViewController.init(url: url)
-            navigationController?.pushViewController(safari, animated: true)
+            present(safari, animated: true, completion: nil)
             // abxoxo - todo mark as read.
         }
         else {

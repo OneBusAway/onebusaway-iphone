@@ -16,6 +16,7 @@ import OBAKit
     // MARK: - Map Tab
     var mapTableController: MapTableViewController
     var mapPulley: PulleyViewController
+    let mapPulleyNav: UINavigationController
     var mapController: OBAMapViewController
     let drawerNavigation: UINavigationController
 
@@ -59,7 +60,7 @@ import OBAKit
         mapPulley.tabBarItem.image = mapTableController.tabBarItem.image
         mapPulley.tabBarItem.selectedImage = mapTableController.tabBarItem.selectedImage
 
-        let mapPulleyNav = UINavigationController(rootViewController: mapPulley)
+        mapPulleyNav = UINavigationController(rootViewController: mapPulley)
 
         super.init()
 
@@ -75,7 +76,6 @@ extension DrawerApplicationUI: PulleyDelegate {
     func drawerPositionDidChange(drawer: PulleyViewController, bottomSafeArea: CGFloat) {
         mapTableController.collectionView.isScrollEnabled = drawer.drawerPosition == .open
     }
-
 }
 
 // MARK: - OBAApplicationUI
@@ -101,6 +101,9 @@ extension DrawerApplicationUI: OBAApplicationUI {
             if let stopIDs = shortcutItem.userInfo?["stopIds"] as? NSArray,
                let firstObject = stopIDs.firstObject {
                 parameters = [OBAStopIDNavigationTargetParameter: firstObject]
+            }
+            else if let stopID = shortcutItem.userInfo?["stopID"] as? String {
+                parameters = [OBAStopIDNavigationTargetParameter: stopID]
             }
         }
 
@@ -129,7 +132,7 @@ extension DrawerApplicationUI: OBAApplicationUI {
         switch navigationTarget.target {
         case .map, .searchResults:
             viewController = mapTableController
-            topController = mapPulley
+            topController = mapPulleyNav
         case .recentStops:
             viewController = recentsController
             topController = recentsNavigation
@@ -158,7 +161,7 @@ extension DrawerApplicationUI: OBAApplicationUI {
         }
 
         // update kOBASelectedTabIndexDefaultsKey, otherwise -applicationDidBecomeActive: will switch us away.
-        if let selected = tabBarController.selectedViewController {
+         if let selected = tabBarController.selectedViewController {
             tabBarController(tabBarController, didSelect: selected)
         }
     }
