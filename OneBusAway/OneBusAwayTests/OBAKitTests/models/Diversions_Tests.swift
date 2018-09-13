@@ -20,7 +20,7 @@ class Diversions_Tests: QuickSpec {
             beforeEach {
                 let data = jsonData["data"] as! [String: Any]
                 let entry = data["entry"] as! [String: Any]
-                polylineString = entry["points"] as! String
+                polylineString = (entry["points"] as! String)
             }
 
             describe("deserialization") {

@@ -25,7 +25,7 @@ class ModelFactory_getAgenciesWithCoverageV2_Tests: QuickSpec {
                 // The model factory expects that only the `data` field gets passed in.
                 let subset = jsonData["data"] as! [String: Any]
                 listWithRange = modelFactory.getAgenciesWithCoverageV2(fromJson: subset, error: &error)
-                agencies = listWithRange.values as! [OBAAgencyWithCoverageV2]
+                agencies = (listWithRange.values as! [OBAAgencyWithCoverageV2])
             }
 
             describe("list with range") {
