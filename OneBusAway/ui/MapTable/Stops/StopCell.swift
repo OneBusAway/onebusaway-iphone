@@ -18,11 +18,29 @@ class StopCell: SelfSizingCollectionCell {
             }
             nameLabel.text = stop.nameWithDirection
             routesLabel.text = stop.routeNames
-            imageView.image = stop.image
+
+            if let image = stop.image {
+                imageView.image = image
+                imageView.snp.updateConstraints { (make) in
+                    make.width.equalTo(16.0)
+                }
+            }
         }
     }
 
-    fileprivate let nameLabel: UILabel = {
+    override func prepareForReuse() {
+        super.prepareForReuse()
+
+        imageView.image = nil
+        imageView.snp.updateConstraints { (make) in
+            make.width.equalTo(0.0)
+        }
+
+        nameLabel.text = nil
+        routesLabel.text = nil
+    }
+
+    private let nameLabel: UILabel = {
         let lbl = UILabel.init()
         lbl.backgroundColor = .white
         lbl.setContentHuggingPriority(.defaultHigh, for: .vertical)
@@ -31,7 +49,7 @@ class StopCell: SelfSizingCollectionCell {
         return lbl
     }()
 
-    fileprivate let routesLabel: UILabel = {
+    private let routesLabel: UILabel = {
         let lbl = UILabel()
         lbl.backgroundColor = .white
         lbl.font = OBATheme.footnoteFont
@@ -41,13 +59,13 @@ class StopCell: SelfSizingCollectionCell {
         return lbl
     }()
 
-    fileprivate lazy var labelStack: UIStackView = {
+    private lazy var labelStack: UIStackView = {
         let stack = UIStackView.init(arrangedSubviews: [nameLabel, routesLabel])
         stack.axis = .vertical
         return stack
     }()
 
-    fileprivate lazy var labelStackWrapper: UIView = {
+    private lazy var labelStackWrapper: UIView = {
         let plainWrapper = labelStack.oba_embedInWrapperView(withConstraints: false)
         plainWrapper.backgroundColor = .white
 
@@ -79,7 +97,7 @@ class StopCell: SelfSizingCollectionCell {
         return imageView
     }()
 
-    let separator: CALayer = {
+    private let separator: CALayer = {
         let layer = CALayer()
         layer.backgroundColor = UIColor(red: 200 / 255.0, green: 199 / 255.0, blue: 204 / 255.0, alpha: 1).cgColor
         return layer
@@ -92,7 +110,7 @@ class StopCell: SelfSizingCollectionCell {
         let imageViewWrapper = imageView.oba_embedInWrapperView(withConstraints: false)
         imageViewWrapper.backgroundColor = .white
         imageView.snp.remakeConstraints { make in
-            make.width.equalTo(16.0)
+            make.width.equalTo(0.0)
             make.edges.equalToSuperview().inset(UIEdgeInsets(top: 0, left: OBATheme.defaultPadding, bottom: 0, right: 0))
         }
 
