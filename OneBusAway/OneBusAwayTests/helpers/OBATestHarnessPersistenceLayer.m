@@ -84,6 +84,14 @@
     //
 }
 
+- (NSSet*)readAgencyAlerts {
+    return nil;
+}
+
+- (void)writeAgencyAlerts:(NSSet*)agencyAlerts {
+    //
+}
+
 - (OBARegionV2 *)readOBARegion {
     return self.currentRegion;
 }

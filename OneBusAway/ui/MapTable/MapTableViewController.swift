@@ -240,13 +240,16 @@ extension MapTableViewController: ListAdapterDataSource {
         sections.append(GrabHandleSection())
 
         // Agency Alerts
-        if agencyAlerts.count > 0 {
-            let first = agencyAlerts[0]
-            let viewModel = RegionalAlert.init(alertIdentifier: first.id, title: first.title(language: "en"), summary: first.body(language: "en"), url: first.url(language: "en"))
+        let filteredAlerts = agencyAlerts.filter { application.modelDao.isAlertUnread($0) }
+        if filteredAlerts.count > 0 {
+            let first = filteredAlerts[0]
+
+            let viewModel = RegionalAlert(alertIdentifier: first.id, title: first.title(language: "en"), summary: first.body(language: "en"), url: first.url(language: "en"), date: first.startDate) { [weak self] _ in
+                self?.application.modelDao.markAlert(asRead: first)
+                self?.performUpdates(animated: true)
+            }
             sections.append(viewModel)
         }
-
-        // abxoxo
 
         // Bookmarks/Recents
         var nearbyItems = [StopViewModel]()

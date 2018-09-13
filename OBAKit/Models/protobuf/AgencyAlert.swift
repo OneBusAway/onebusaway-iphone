@@ -62,6 +62,10 @@ import Foundation
         self.agencyID = gtfsAgency.agencyID
         self.agency = agencies.first { $0.agencyId == gtfsAgency.agencyID }
     }
+
+    override public var hash: Int {
+        return String(format: "%@_%@_%@", id, agencyID, title(language: "en") ?? "").hashValue
+    }
 }
 
 // MARK: - Errors
