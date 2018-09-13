@@ -114,9 +114,7 @@ static const double kStopsInRegionRefreshDelayOnDrag = 0.1;
     self.mostRecentRegion = MKCoordinateRegionMake(CLLocationCoordinate2DMake(0, 0), MKCoordinateSpanMake(0, 0));
 
     self.mapView.rotateEnabled = NO;
-    if ([CLLocationManager authorizationStatus] == kCLAuthorizationStatusAuthorizedWhenInUse) {
-        self.mapView.showsUserLocation = YES;
-    }
+    self.mapView.showsUserLocation = YES;
 
     [self createLocationHoverBar];
 
