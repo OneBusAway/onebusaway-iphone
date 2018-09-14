@@ -24,6 +24,8 @@
 #import <OBAKit/OBAModelPersistenceLayer.h>
 #import <OBAKit/OBATripDeepLink.h>
 
+@class OBAAgencyAlert;
+
 NS_ASSUME_NONNULL_BEGIN
 
 extern NSString * const OBAUngroupedBookmarksIdentifier;
@@ -101,6 +103,10 @@ extern NSString * const OBARegionDidUpdateNotification;
 - (BOOL)isVisitedSituationWithId:(NSString*)situationId;
 - (void)setVisited:(BOOL)visited forSituationWithId:(NSString*)situationId;
 - (OBAServiceAlertsModel*) getServiceAlertsModelForSituations:(NSArray*)situations;
+
+// Agency Alerts
+- (void)markAlertAsRead:(OBAAgencyAlert*)alert;
+- (BOOL)isAlertUnread:(OBAAgencyAlert*)alert;
 
 // Recent Stops
 

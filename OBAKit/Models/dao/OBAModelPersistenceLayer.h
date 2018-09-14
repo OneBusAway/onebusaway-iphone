@@ -44,6 +44,11 @@ NS_ASSUME_NONNULL_BEGIN
 - (NSSet*)readVisistedSituationIds;
 - (void)writeVisistedSituationIds:(NSSet*)situationIds;
 
+// Agency Alerts
+
+- (NSSet*)readAgencyAlerts;
+- (void)writeAgencyAlerts:(NSSet*)agencyAlerts;
+
 // Regions
 
 - (OBARegionV2 * _Nullable) readOBARegion;

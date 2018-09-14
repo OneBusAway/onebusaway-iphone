@@ -30,6 +30,7 @@ NSString * const kStopPreferencesKey = @"stopPreferences";
 NSString * const kMostRecentLocationKey = @"mostRecentLocation";
 NSString * const kHideFutureLocationWarningsKey = @"hideFutureLocationWarnings";
 NSString * const kVisitedSituationIdsKey = @"visitedSituationIdsKey";
+NSString * const kAgencyAlertsKey = @"agencyAlertsKey";
 NSString * const kOBARegionKey = @"oBARegion";
 NSString * const kCustomRegionsKey = @"customRegions";
 NSString * const kSharedTripsKey = @"sharedTrips";
@@ -109,6 +110,16 @@ NSString * const OBAUseStopDrawerDefaultsKey = @"OBAUseStopDrawerDefaultsKey2";
 
 - (void)writeVisistedSituationIds:(NSSet*)situationIds {
     [self.class writeObjectToUserDefaults:situationIds withKey:kVisitedSituationIdsKey];
+}
+
+#pragma mark - Agency Alerts
+
+- (NSSet*)readAgencyAlerts {
+    return [self.class loadAndDecodeObjectFromDataForKey:kAgencyAlertsKey] ?: [NSSet set];
+}
+
+- (void)writeAgencyAlerts:(NSSet*)agencyAlerts {
+    [self.class writeObjectToUserDefaults:agencyAlerts withKey:kAgencyAlertsKey];
 }
 
 #pragma mark - Regions

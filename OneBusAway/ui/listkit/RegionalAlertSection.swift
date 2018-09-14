@@ -12,17 +12,23 @@ import OBAKit
 import SafariServices
 import SwipeCellKit
 
+typealias RegionalAlertCallback = (_ alert: RegionalAlert) -> Void
+
 class RegionalAlert: NSObject, ListDiffable {
     let alertIdentifier: String
     let title: String?
     let summary: String?
     let url: URL?
+    let date: Date?
+    let markAlertAsRead: RegionalAlertCallback
 
-    init(alertIdentifier: String, title: String?, summary: String?, url: URL?) {
+    init(alertIdentifier: String, title: String?, summary: String?, url: URL?, date: Date?, markAlertAsRead: @escaping RegionalAlertCallback) {
         self.alertIdentifier = alertIdentifier
         self.title = title
         self.summary = summary
         self.url = url
+        self.date = date
+        self.markAlertAsRead = markAlertAsRead
     }
 
     // MARK: - ListDiffable
@@ -40,6 +46,7 @@ class RegionalAlert: NSObject, ListDiffable {
             && title == alert.title
             && summary == alert.summary
             && url == alert.url
+            && date == alert.date
     }
 }
 
@@ -69,6 +76,7 @@ class RegionalAlertSectionController: ListSectionController, SwipeCollectionView
         cell.delegate = self
         cell.alertTitleLabel.text = data.title
         cell.summaryLabel.text = data.summary
+        cell.timeLabel.text = OBADateHelpers.formatDate(forMessageStyle: data.date)
 
         return cell
     }
@@ -90,44 +98,39 @@ class RegionalAlertSectionController: ListSectionController, SwipeCollectionView
     func collectionView(_ collectionView: UICollectionView, editActionsForItemAt indexPath: IndexPath, for orientation: SwipeActionsOrientation) -> [SwipeAction]? {
         guard orientation == .right else { return nil }
 
-        let deleteAction = SwipeAction(style: .destructive, title: "Delete") { _, _ in
-            // handle action by updating model with deletion
+        let deleteAction = SwipeAction(style: .default, title: OBAStrings.dismiss) { _, _ in
+            if let data = self.data {
+                data.markAlertAsRead(data)
+            }
         }
+        deleteAction.textColor = .black
 
         // customize the action appearance
-        deleteAction.image = UIImage(named: "close")
+        deleteAction.image = UIImage(named: "Delete")
 
         return [deleteAction]
     }
 
     func collectionView(_ collectionView: UICollectionView, editActionsOptionsForItemAt indexPath: IndexPath, for orientation: SwipeActionsOrientation) -> SwipeOptions {
-        let options = SwipeOptions()
-//        options.expansionStyle = orientation == .left ? .selection : .destructive
-//        options.transitionStyle = defaultOptions.transitionStyle
-//
-//        switch buttonStyle {
-//        case .backgroundColor:
-//            options.buttonSpacing = 11
-//        case .circular:
-//            options.buttonSpacing = 4
-//            options.backgroundColor = #colorLiteral(red: 0.9467939734, green: 0.9468161464, blue: 0.9468042254, alpha: 1)
-//        }
+        var options = SwipeOptions()
+        options.transitionStyle = .reveal
 
         return options
     }
 }
 
 class RegionalAlertCell: SwipeCollectionViewCell {
-    let alertTitleLabel: UILabel = {
+    fileprivate let alertTitleLabel: UILabel = {
         let label = UILabel()
         label.numberOfLines = 2
         label.setContentHuggingPriority(.required, for: .vertical)
         label.setContentCompressionResistancePriority(.required, for: .vertical)
+        label.setContentCompressionResistancePriority(.defaultHigh, for: .horizontal)
         label.font = OBATheme.boldSubheadFont
         return label
     }()
 
-    let summaryLabel: UILabel = {
+    fileprivate let summaryLabel: UILabel = {
         let label = UILabel()
         label.numberOfLines = 3
         label.setContentHuggingPriority(.defaultHigh, for: .vertical)
@@ -136,18 +139,28 @@ class RegionalAlertCell: SwipeCollectionViewCell {
         return label
     }()
 
+    fileprivate let timeLabel: UILabel = {
+        let label = UILabel()
+        label.numberOfLines = 1
+        label.setContentCompressionResistancePriority(.required, for: .horizontal)
+        label.setContentHuggingPriority(.required, for: .horizontal)
+        label.font = OBATheme.footnoteFont
+        label.textColor = UIColor.darkGray
+        return label
+    }()
+
     override init(frame: CGRect) {
         super.init(frame: frame)
 
         backgroundColor = OBATheme.mapTableBackgroundColor
 
-        clipsToBounds = true
-
         contentView.frame = bounds
         contentView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
-        contentView.clipsToBounds = true
 
-        let labelStack = UIStackView(arrangedSubviews: [alertTitleLabel, summaryLabel])
+        let titleStack = UIStackView.oba_horizontalStack(withArrangedSubviews: [alertTitleLabel, timeLabel])
+        let titleStackWrapper = titleStack.oba_embedInWrapper()
+
+        let labelStack = UIStackView(arrangedSubviews: [titleStackWrapper, summaryLabel])
         labelStack.axis = .vertical
         let labelStackWrapper = labelStack.oba_embedInWrapperView(withConstraints: false)
         labelStackWrapper.backgroundColor = .white

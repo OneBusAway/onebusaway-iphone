@@ -26,6 +26,7 @@
 #import <OBAKit/NSArray+OBAAdditions.h>
 #import <OBAKit/OBALogging.h>
 #import <OBAKit/OBAMapHelpers.h>
+#import <OBAKit/OBAKit-Swift.h>
 
 NSString * const OBAUngroupedBookmarksIdentifier = @"OBAUngroupedBookmarksIdentifier";
 NSString * const OBAMostRecentStopsChangedNotification = @"OBAMostRecentStopsChangedNotification";
@@ -41,6 +42,7 @@ const CLLocationDistance kMetersInOneMile = 1609.34;
 @property(nonatomic,strong,readwrite) NSMutableArray *mostRecentStops;
 @property(nonatomic,strong,readwrite) NSMutableDictionary *stopPreferences;
 @property(nonatomic,strong) NSMutableSet *visitedSituationIds;
+@property(nonatomic,strong) NSMutableSet *readAgencyAlerts;
 @end
 
 @implementation OBAModelDAO
@@ -68,6 +70,7 @@ const CLLocationDistance kMetersInOneMile = 1609.34;
         _stopPreferences = [[NSMutableDictionary alloc] initWithDictionary:[_preferencesDao readStopPreferences]];
         _mostRecentLocation = [_preferencesDao readMostRecentLocation];
         _visitedSituationIds = [[NSMutableSet alloc] initWithSet:[_preferencesDao readVisistedSituationIds]];
+        _readAgencyAlerts = [[NSMutableSet alloc] initWithSet:[_preferencesDao readAgencyAlerts]];
     }
 
     return self;
@@ -646,6 +649,24 @@ const CLLocationDistance kMetersInOneMile = 1609.34;
     }
 
     [_preferencesDao writeVisistedSituationIds:_visitedSituationIds];
+}
+
+#pragma mark - Agency Alerts
+
+- (void)markAlertAsRead:(OBAAgencyAlert*)alert {
+    [self.readAgencyAlerts addObject:[self uniqueIdentifierForAlert:alert]];
+    [_preferencesDao writeAgencyAlerts:_readAgencyAlerts];
+}
+
+- (BOOL)isAlertUnread:(OBAAgencyAlert*)alert {
+    NSMutableSet *readAlerts = self.readAgencyAlerts;
+    NSString *hashVal = [self uniqueIdentifierForAlert:alert];
+    return ![readAlerts containsObject:hashVal];
+}
+
+- (NSString*)uniqueIdentifierForAlert:(OBAAgencyAlert*)alert {
+    NSString *identifier = [NSString stringWithFormat:@"ID_%@_agency_%@_title_%@", alert.id, alert.agencyID, [alert titleWithLanguage:@"en"] ?: @""];
+    return [identifier oba_SHA1];
 }
 
 #pragma mark - PII/Privacy

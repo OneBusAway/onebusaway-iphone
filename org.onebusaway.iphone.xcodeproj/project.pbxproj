@@ -210,6 +210,8 @@
 		93BC49E91FB8D61D008B710D /* SwiftMessages.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 93BC49E71FB8D61D008B710D /* SwiftMessages.framework */; };
 		93BC49EC1FB8D628008B710D /* SVProgressHUD.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 93BC49EA1FB8D628008B710D /* SVProgressHUD.framework */; };
 		93BC49ED1FB8D628008B710D /* GoogleAnalytics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 93BC49EB1FB8D628008B710D /* GoogleAnalytics.framework */; };
+		93C21DA0214A287600F422DA /* TableRowController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 93C21D9F214A287600F422DA /* TableRowController.swift */; };
+		93C21DA3214A364000F422DA /* ChevronCardCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 93C21DA2214A364000F422DA /* ChevronCardCell.swift */; };
 		93C3936B1D8A3A4D0080F370 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 93C3936A1D8A3A4D0080F370 /* UIKit.framework */; };
 		93C3936D1D8A3A530080F370 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 93C3936C1D8A3A530080F370 /* Foundation.framework */; };
 		93C48E492096EF0F001FB95C /* MapTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 93C48E482096EF0F001FB95C /* MapTableViewController.swift */; };
@@ -586,6 +588,8 @@
 		93BC49E71FB8D61D008B710D /* SwiftMessages.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SwiftMessages.framework; path = Carthage/Build/iOS/SwiftMessages.framework; sourceTree = "<group>"; };
 		93BC49EA1FB8D628008B710D /* SVProgressHUD.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SVProgressHUD.framework; path = Carthage/Build/iOS/SVProgressHUD.framework; sourceTree = "<group>"; };
 		93BC49EB1FB8D628008B710D /* GoogleAnalytics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = GoogleAnalytics.framework; path = Carthage/Build/iOS/GoogleAnalytics.framework; sourceTree = "<group>"; };
+		93C21D9F214A287600F422DA /* TableRowController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TableRowController.swift; sourceTree = "<group>"; };
+		93C21DA2214A364000F422DA /* ChevronCardCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChevronCardCell.swift; sourceTree = "<group>"; };
 		93C3936A1D8A3A4D0080F370 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
 		93C3936C1D8A3A530080F370 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		93C48E482096EF0F001FB95C /* MapTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapTableViewController.swift; sourceTree = "<group>"; };
@@ -1499,6 +1503,8 @@
 				93A637D920A2CCE20005248C /* DisplaySectionController.swift */,
 				93A637D820A2CCE20005248C /* HorizontalSectionController.swift */,
 				93DCEF7120E5AF2F0004E087 /* LabelSectionController.swift */,
+				93C21D9F214A287600F422DA /* TableRowController.swift */,
+				93C21DA2214A364000F422DA /* ChevronCardCell.swift */,
 			);
 			path = MapTable;
 			sourceTree = "<group>";
@@ -1940,6 +1946,7 @@
 				934197861DB0C140004BBBB7 /* OBAAgenciesListViewController.m in Sources */,
 				930AFE8C1DD04D2F0092AE82 /* OBAStopTableHeaderView.m in Sources */,
 				934197811DB0C140004BBBB7 /* OBABookmarksViewController.m in Sources */,
+				93C21DA0214A287600F422DA /* TableRowController.swift in Sources */,
 				934197A11DB0C140004BBBB7 /* OBASegmentedRow.m in Sources */,
 				9341977D1DB0C140004BBBB7 /* AlertPresenter.swift in Sources */,
 				934C50A01E2B69E300DFDCA0 /* GKActionSheetPicker.m in Sources */,
@@ -1966,6 +1973,7 @@
 				934197A51DB0C140004BBBB7 /* OBATextFieldRow.m in Sources */,
 				931A6A291E03EAA100131242 /* OBATimelineBarRow.m in Sources */,
 				93A637E320A2CDDC0005248C /* CenterLabelCell.swift in Sources */,
+				93C21DA3214A364000F422DA /* ChevronCardCell.swift in Sources */,
 				934196E21DB0C124004BBBB7 /* MKMapView+oba_Additions.m in Sources */,
 				9341B82920B683A5006450FC /* StopViewModel.swift in Sources */,
 				9300CF7F20FA70BB006AB268 /* PulleyPassthroughScrollView.swift in Sources */,

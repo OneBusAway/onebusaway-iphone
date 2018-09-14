@@ -34,15 +34,15 @@ class NearbyStopsViewController: OBAStaticTableViewController {
 
     public var currentCoordinate: CLLocationCoordinate2D?
 
-    @objc init(mapDataLoader: OBAMapDataLoader, mapRegionManager: OBAMapRegionManager) {
+    @objc init(application: OBAApplication) {
         super.init(nibName: nil, bundle: nil)
 
         self.pushesResultsOntoStack = true
 
-        self.mapDataLoader = mapDataLoader
+        self.mapDataLoader = application.mapDataLoader
         self.mapDataLoader?.add(self)
 
-        self.mapRegionManager = mapRegionManager
+        self.mapRegionManager = application.mapRegionManager
         self.mapRegionManager?.add(delegate: self)
     }
 

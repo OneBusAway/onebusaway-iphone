@@ -121,11 +121,10 @@
 
 + (UIView*)wrapDepartureLabel:(UILabel*)label {
     UIView *wrapper = [[UIView alloc] initWithFrame:CGRectZero];
-    wrapper.translatesAutoresizingMaskIntoConstraints = NO;
     [wrapper addSubview:label];
 
     [label mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.edges.equalTo(wrapper);
+        make.top.right.and.bottom.equalTo(wrapper);
     }];
 
     return wrapper;
@@ -140,7 +139,6 @@
 
     return lineLabel;
 }
-
 
 #pragma mark - Table Cell 'Proxy' Methods
 

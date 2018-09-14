@@ -146,6 +146,8 @@ extension MapTableViewController {
         adapter.collectionView = collectionView
         adapter.dataSource = self
 
+        collectionView.contentInset = UIEdgeInsets(top: 0, left: 0, bottom: 100, right: 0)
+
         configureSearchUI()
     }
 
@@ -238,13 +240,16 @@ extension MapTableViewController: ListAdapterDataSource {
         sections.append(GrabHandleSection())
 
         // Agency Alerts
-        if agencyAlerts.count > 0 {
-            let first = agencyAlerts[0]
-            let viewModel = RegionalAlert.init(alertIdentifier: first.id, title: first.title(language: "en"), summary: first.body(language: "en"), url: first.url(language: "en"))
+        let filteredAlerts = agencyAlerts.filter { application.modelDao.isAlertUnread($0) }
+        if filteredAlerts.count > 0 {
+            let first = filteredAlerts[0]
+
+            let viewModel = RegionalAlert(alertIdentifier: first.id, title: first.title(language: "en"), summary: first.body(language: "en"), url: first.url(language: "en"), date: first.startDate) { [weak self] _ in
+                self?.application.modelDao.markAlert(asRead: first)
+                self?.performUpdates(animated: true)
+            }
             sections.append(viewModel)
         }
-
-        // abxoxo
 
         // Bookmarks/Recents
         var nearbyItems = [StopViewModel]()
@@ -276,6 +281,20 @@ extension MapTableViewController: ListAdapterDataSource {
             }
 
             sections.append(contentsOf: stopViewModels)
+
+            if let searchResult = application.mapDataLoader.result {
+                let rowTitle = NSLocalizedString("map_table.more_nearby_stops", comment: "Title for the More Nearby Stops table row")
+                let viewMoreRow = TableRowModel(title: rowTitle) { [weak self] in
+                    guard let self = self else {
+                        return
+                    }
+                    let nearby = NearbyStopsViewController(withSearchResult: searchResult)
+                    nearby.presentedModally = true
+                    let nav = UINavigationController(rootViewController: nearby)
+                    self.present(nav, animated: true, completion: nil)
+                }
+                sections.append(viewMoreRow)
+            }
         }
         else {
             sections.append(LoadingSection())
@@ -300,6 +319,7 @@ extension MapTableViewController: ListAdapterDataSource {
         case is RegionalAlert: return RegionalAlertSectionController()
         case is SectionHeader: return SectionHeaderSectionController()
         case is StopViewModel: return StopSectionController()
+        case is TableRowModel: return TableRowController()
         case is WeatherForecast: return ForecastSectionController()
         default:
             fatalError()

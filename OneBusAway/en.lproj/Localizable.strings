@@ -834,6 +834,9 @@
 /* Header text for the Bookmarks and Recent Stops section of the map table */
 "map_table.bookmarks_and_recent_stops_header" = "Bookmarks & Recent Stops";
 
+/* Title for the More Nearby Stops table row */
+"map_table.more_nearby_stops" = "More Nearby Stops";
+
 /* Map Search: Quick Lookup Table Section */
 "map_search.quick_lookup_section_title" = "Quick Search";
 
