@@ -15,23 +15,23 @@
  */
 
 #import "OBAApplicationDelegate.h"
-@import SystemConfiguration;
-@import GoogleAnalytics;
-@import OBAKit;
-@import SVProgressHUD;
-@import Fabric;
-@import Crashlytics;
-
-#import "OBAPushManager.h"
-#import "OBAStopViewController.h"
-
 #import "OneBusAway-Swift.h"
 
+@import SystemConfiguration;
+@import OBAKit;
+@import SVProgressHUD;
+
+@import Crashlytics;
+@import Fabric;
+@import Firebase;
+@import GoogleAnalytics;
 #import "OBAAnalytics.h"
+#import "OBACrashlyticsLogger.h"
 
 #import "OBAApplicationUI.h"
 #import "OBAClassicApplicationUI.h"
-#import "OBACrashlyticsLogger.h"
+#import "OBAPushManager.h"
+#import "OBAStopViewController.h"
 #import "UIWindow+OBAAdditions.h"
 
 static NSString * const OBALastRegionRefreshDateUserDefaultsKey = @"OBALastRegionRefreshDateUserDefaultsKey";
@@ -104,16 +104,13 @@ static NSString * const OBALastRegionRefreshDateUserDefaultsKey = @"OBALastRegio
 #ifndef TARGET_IPHONE_SIMULATOR
     [[OBAPushManager pushManager] startWithLaunchOptions:launchOptions delegate:self APIKey:self.application.oneSignalAPIKey];
 #endif
-    
-    // Set up Google Analytics. User must be able to opt out of tracking.
-    id<GAITracker> tracker = [[GAI sharedInstance] trackerWithTrackingId:self.application.googleAnalyticsID];
-    BOOL optOut = ![OBAApplication.sharedApplication.userDefaults boolForKey:OBAOptInToTrackingDefaultsKey];
-    [GAI sharedInstance].optOut = optOut;
-    [GAI sharedInstance].trackUncaughtExceptions = YES;
-    [GAI sharedInstance].logger.logLevel = kGAILogLevelWarning;
-    [tracker set:[GAIFields customDimensionForIndex:1] value:self.application.modelDao.currentRegion.regionName];
 
-    [OBAAnalytics configureVoiceOverStatus];
+    [OBAAnalytics.sharedInstance configureVoiceOverStatus];
+
+    UIFont *font = [UIFont preferredFontForTextStyle:UIFontTextStyleBody];
+    [OBAAnalytics.sharedInstance setReportedFontSize:font.pointSize];
+
+    [OBAAnalytics.sharedInstance setUsesHighConstrast:OBATheme.useHighContrastUI];
 
     // On first launch, this refresh process should be deferred.
     if (!OBALocationManager.awaitingLocationAuthorization && [self hasEnoughTimeElapsedToRefreshRegions]) {
@@ -145,14 +142,14 @@ static NSString * const OBALastRegionRefreshDateUserDefaultsKey = @"OBALastRegio
 
     [self.applicationUI applicationDidBecomeActive];
 
-    [GAI sharedInstance].optOut = ![OBAApplication.sharedApplication.userDefaults boolForKey:OBAOptInToTrackingDefaultsKey];
+    [OBAAnalytics.sharedInstance updateOptOutState];
 
     NSString *label = [NSString stringWithFormat:@"API Region: %@", self.application.modelDao.currentRegion.regionName];
     DDLogInfo(@"Region: %@", self.application.modelDao.currentRegion.regionName);
 
-    [OBAAnalytics reportEventWithCategory:OBAAnalyticsCategoryAppSettings action:@"configured_region" label:label value:nil];
+    [OBAAnalytics.sharedInstance reportEventWithCategory:OBAAnalyticsCategoryAppSettings action:@"configured_region" label:label value:nil];
 
-    [OBAAnalytics reportEventWithCategory:OBAAnalyticsCategoryAppSettings action:@"general" label:[NSString stringWithFormat:@"Set Region Automatically: %@", OBAStringFromBool(self.application.modelDao.automaticallySelectRegion)] value:nil];
+    [OBAAnalytics.sharedInstance reportEventWithCategory:OBAAnalyticsCategoryAppSettings action:@"general" label:[NSString stringWithFormat:@"Set Region Automatically: %@", OBAStringFromBool(self.application.modelDao.automaticallySelectRegion)] value:nil];
 }
 
 - (void)applicationWillResignActive:(UIApplication *)application {
@@ -433,7 +430,7 @@ static NSString * const OBALastRegionRefreshDateUserDefaultsKey = @"OBALastRegio
 - (void)initializeFabric {
     NSMutableArray *fabricKits = [[NSMutableArray alloc] initWithArray:@[Crashlytics.class]];
 
-    if ([OBAAnalytics OKToTrack]) {
+    if (OBAAnalytics.sharedInstance.OKToTrack) {
         [fabricKits addObject:Answers.class];
     }
 

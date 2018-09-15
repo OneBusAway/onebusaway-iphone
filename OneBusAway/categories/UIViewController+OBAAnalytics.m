@@ -54,7 +54,7 @@
     
     if ([NSStringFromClass(self.class) hasPrefix:@"OBA"]) {
         // Not a system class, and therefore something worth tracking.
-        [OBAAnalytics reportViewController:self];
+        [OBAAnalytics.sharedInstance reportViewController:self];
     }
 }
 @end

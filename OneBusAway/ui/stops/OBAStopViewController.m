@@ -589,7 +589,7 @@ static NSUInteger const kDefaultMinutesAfter = 35;
 
 - (OBATableSection*)createLoadMoreDeparturesSection {
     OBATableRow *moreDeparturesRow = [[OBATableRow alloc] initWithTitle:NSLocalizedString(@"msg_load_more_departures_dots", @"") action:^(OBABaseRow *r2) {
-        [OBAAnalytics reportEventWithCategory:OBAAnalyticsCategoryUIAction action:@"button_press" label:@"Clicked load more arrivals button" value:nil];
+        [OBAAnalytics.sharedInstance reportEventWithCategory:OBAAnalyticsCategoryUIAction action:@"button_press" label:@"Clicked load more arrivals button" value:nil];
         self.minutesAfter += 30;
         [self reloadDataAnimated:NO];
     }];

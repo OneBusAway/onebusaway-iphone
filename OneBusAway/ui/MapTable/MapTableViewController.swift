@@ -481,9 +481,10 @@ extension MapTableViewController: MapSearchDelegate, UISearchControllerDelegate,
     }
 
     func mapSearch(_ mapSearch: MapSearchViewController, selectedNavigationTarget target: OBANavigationTarget) {
-        OBAAnalytics.reportEvent(withCategory: OBAAnalyticsCategoryUIAction, action: "button_press", label: "Search button clicked", value: nil)
+        OBAAnalytics.shared().reportEvent(withCategory: OBAAnalyticsCategoryUIAction, action: "button_press", label: "Search button clicked", value: nil)
         let analyticsLabel = "Search: \(NSStringFromOBASearchType(target.searchType) ?? "Unknown")"
-        OBAAnalytics.reportEvent(withCategory: OBAAnalyticsCategoryUIAction, action: "button_press", label: analyticsLabel, value: nil)
+        OBAAnalytics.shared().reportEvent(withCategory: OBAAnalyticsCategoryUIAction, action: "button_press", label: analyticsLabel, value: nil)
+        Analytics.logEvent(OBAAnalyticsSearchPerformed, parameters: ["searchType": NSStringFromOBASearchType(target.searchType) ?? "Unknown"])
 
         searchController.dismiss(animated: true) { [weak self] in
             guard let region: MKCoordinateRegion = self?.coordinateRegion else {
@@ -513,7 +514,7 @@ extension MapTableViewController: MapSearchDelegate, UISearchControllerDelegate,
     }
 
     func searchBarTextDidEndEditing(_ searchBar: UISearchBar) {
-        OBAAnalytics.reportEvent(withCategory: OBAAnalyticsCategoryUIAction, action: "button_press", label: "Search box selected", value: nil)
+        OBAAnalytics.shared().reportEvent(withCategory: OBAAnalyticsCategoryUIAction, action: "button_press", label: "Search box selected", value: nil)
     }
 }
 
