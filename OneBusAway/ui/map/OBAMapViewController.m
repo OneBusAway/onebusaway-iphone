@@ -86,6 +86,7 @@ static const double kStopsInRegionRefreshDelayOnDrag = 0.1;
         [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(userHeadingDidUpdate:) name:OBAHeadingDidUpdateNotification object:nil];
 
         [application.userDefaults addObserver:self forKeyPath:OBADisplayUserHeadingOnMapDefaultsKey options:NSKeyValueObservingOptionNew context:nil];
+        [application.userDefaults addObserver:self forKeyPath:OBAMapSelectedTypeDefaultsKey options:NSKeyValueObservingOptionNew context:nil];
     }
     return self;
 }
@@ -93,6 +94,7 @@ static const double kStopsInRegionRefreshDelayOnDrag = 0.1;
 - (void)dealloc {
     [self.mapDataLoader cancelOpenConnections];
     [self.application.userDefaults removeObserver:self forKeyPath:OBADisplayUserHeadingOnMapDefaultsKey];
+    [self.application.userDefaults removeObserver:self forKeyPath:OBAMapSelectedTypeDefaultsKey];
 }
 
 #pragma mark - KVO
@@ -101,6 +103,9 @@ static const double kStopsInRegionRefreshDelayOnDrag = 0.1;
     if (object == OBAApplication.sharedApplication.userDefaults && [keyPath isEqual:OBADisplayUserHeadingOnMapDefaultsKey]) {
         BOOL value = [OBAApplication.sharedApplication.userDefaults boolForKey:OBADisplayUserHeadingOnMapDefaultsKey];
         self.userLocationAnnotationView.headingImageView.hidden = !value;
+    }
+    else if (object == OBAApplication.sharedApplication.userDefaults && [keyPath isEqual:OBAMapSelectedTypeDefaultsKey]) {
+        self.mapView.mapType = [OBAApplication.sharedApplication.userDefaults integerForKey:OBAMapSelectedTypeDefaultsKey];
     }
 }
 
@@ -555,37 +560,6 @@ static const double kStopsInRegionRefreshDelayOnDrag = 0.1;
     DDLogInfo(@"setting auto center on current location (via tab bar)");
     self.mapRegionManager.lastRegionChangeWasProgrammatic = YES;
     [self refreshCurrentLocation];
-}
-
-// More map options such as Satellite views
-// see https://github.com/OneBusAway/onebusaway-iphone/issues/65
-- (IBAction)changeMapTypes:(UIButton*)sender {
-    OBATableSection *section = [[OBATableSection alloc] initWithTitle:nil];
-
-    OBATableRow *standardRow = [[OBATableRow alloc] initWithTitle:NSLocalizedString(@"map_controller.standard_map_type_title", @"Title for Standard Map toggle option.") action:^(OBABaseRow *row) {
-        self.mapView.mapType = MKMapTypeStandard;
-        [OBAApplication.sharedApplication.userDefaults setInteger:MKMapTypeStandard forKey:OBAMapSelectedTypeDefaultsKey];
-    }];
-
-    OBATableRow *hybridRow = [[OBATableRow alloc] initWithTitle:NSLocalizedString(@"map_controller.hybrid_map_type_title", @"Title for Hybrid Map toggle option.") action:^(OBABaseRow *row) {
-        self.mapView.mapType = MKMapTypeHybrid;
-        [OBAApplication.sharedApplication.userDefaults setInteger:MKMapTypeHybrid forKey:OBAMapSelectedTypeDefaultsKey];
-    }];
-
-    if (self.mapView.mapType == MKMapTypeStandard) {
-        standardRow.accessoryType = UITableViewCellAccessoryCheckmark;
-    }
-    else if (self.mapView.mapType == MKMapTypeHybrid) {
-        hybridRow.accessoryType = UITableViewCellAccessoryCheckmark;
-    }
-
-    [section addRow:standardRow];
-    [section addRow:hybridRow];
-
-    PickerViewController *picker = [[PickerViewController alloc] init];
-    picker.sections = @[section];
-
-    [self oba_presentPopoverViewController:picker fromView:sender];
 }
 
 - (IBAction)showNearbyStops {
@@ -1070,11 +1044,9 @@ static const double kStopsInRegionRefreshDelayOnDrag = 0.1;
 - (void)createLocationHoverBar {
     UIBarButtonItem *recenterMapButton = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"Map_Selected"] style:UIBarButtonItemStylePlain target:self action:@selector(recenterMap)];
 
-    UIBarButtonItem *mapBarButton = [OBAUIBuilder wrappedImageButton:[UIImage imageNamed:@"map_button"] accessibilityLabel:NSLocalizedString(@"map_controller.toggle_map_type_accessibility_label", @"Accessibility label for toggle map type button on map.") target:self action:@selector(changeMapTypes:)];
-
     self.locationHoverBar = [[ISHHoverBar alloc] init];
     self.locationHoverBar.shadowRadius = 2.f;
-    self.locationHoverBar.items = @[mapBarButton, recenterMapButton];
+    self.locationHoverBar.items = @[recenterMapButton];
     [self.view addSubview:self.locationHoverBar];
     [self.locationHoverBar mas_makeConstraints:^(MASConstraintMaker *make) {
         make.top.equalTo(self.mas_topLayoutGuideBottom).offset(OBATheme.defaultMargin);

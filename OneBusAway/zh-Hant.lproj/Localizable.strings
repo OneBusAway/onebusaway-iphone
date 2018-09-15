@@ -892,8 +892,8 @@
 /* Error message displayed when the stop ID provided doesn't match a known stop ID. */
 "map_controller.no_matching_stop_warning_body" = "我們無法找到任何跟你提供的ID相關的站牌，請確認輸入內容並再次一次！";
 
-/* Accessibility label for toggle map type button on map. */
-"map_controller.toggle_map_type_accessibility_label" = "切換地圖形式";
+/* Button title for changing the map type */
+"map_table.toggle_map_type_button" = "切換地圖形式";
 
 /* Title for Standard Map toggle option. */
 "map_controller.standard_map_type_title" = "一般地圖";

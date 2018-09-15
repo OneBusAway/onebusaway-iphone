@@ -10,6 +10,7 @@ import UIKit
 import IGListKit
 import SVProgressHUD
 import PromiseKit
+import OBAKit
 
 class MapTableViewController: UIViewController {
 
@@ -300,6 +301,17 @@ extension MapTableViewController: ListAdapterDataSource {
             sections.append(LoadingSection())
         }
 
+        let title = NSLocalizedString("map_table.toggle_map_type_button", comment: "Button title for changing the map type")
+        let buttonSection = ButtonSection(title: title, image: UIImage(named: "map_button")) { [weak self] cell in
+            guard let self = self else {
+                return
+            }
+
+            let mapTypePicker = MapTypePickerController(application: self.application)
+            self.oba_presentPopoverViewController(mapTypePicker, from: cell)
+        }
+        sections.append(buttonSection)
+
         return sections
     }
 
@@ -313,6 +325,7 @@ extension MapTableViewController: ListAdapterDataSource {
 
     private func createSectionController(for object: Any) -> ListSectionController {
         switch object {
+        case is ButtonSection: return ButtonSectionController()
         case is GrabHandleSection: return GrabHandleSectionController()
         case is LoadingSection: return LoadingSectionController()
         case is OfflineSection: return OfflineSectionController()

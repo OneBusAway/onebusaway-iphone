@@ -38,4 +38,5 @@
 #import "OBAInfoViewController.h"
 
 // Categories
+#import "UIViewController+OBAAdditions.h"
 #import "UIViewController+OBAContainment.h"

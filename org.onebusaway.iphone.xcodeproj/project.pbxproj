@@ -34,6 +34,8 @@
 		931131F1214C17590063D400 /* nanopb.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 931131EA214C17590063D400 /* nanopb.framework */; };
 		931131F5214C182B0063D400 /* libsqlite3.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 931131F4214C182B0063D400 /* libsqlite3.tbd */; };
 		931131FB214C1BFF0063D400 /* OBA_Firebase.plist in Resources */ = {isa = PBXBuildFile; fileRef = 931131FA214C1BFE0063D400 /* OBA_Firebase.plist */; };
+		931131FD214D6C450063D400 /* ButtonSectionController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 931131FC214D6C450063D400 /* ButtonSectionController.swift */; };
+		931131FF214D7BA20063D400 /* MapTypePickerController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 931131FE214D7BA20063D400 /* MapTypePickerController.swift */; };
 		931A6A291E03EAA100131242 /* OBATimelineBarRow.m in Sources */ = {isa = PBXBuildFile; fileRef = 931A6A281E03EAA100131242 /* OBATimelineBarRow.m */; };
 		931A6A2D1E03EAAE00131242 /* OBATimelineBarCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 931A6A2C1E03EAAE00131242 /* OBATimelineBarCell.m */; };
 		931AEE21204B70060054E448 /* TodayRefreshView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 931AEE20204B70060054E448 /* TodayRefreshView.swift */; };
@@ -344,6 +346,8 @@
 		931131F3214C17880063D400 /* module.modulemap */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = "sourcecode.module-map"; path = module.modulemap; sourceTree = "<group>"; };
 		931131F4214C182B0063D400 /* libsqlite3.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libsqlite3.tbd; path = usr/lib/libsqlite3.tbd; sourceTree = SDKROOT; };
 		931131FA214C1BFE0063D400 /* OBA_Firebase.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = OBA_Firebase.plist; sourceTree = "<group>"; };
+		931131FC214D6C450063D400 /* ButtonSectionController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ButtonSectionController.swift; sourceTree = "<group>"; };
+		931131FE214D7BA20063D400 /* MapTypePickerController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapTypePickerController.swift; sourceTree = "<group>"; };
 		931A6A271E03EAA100131242 /* OBATimelineBarRow.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OBATimelineBarRow.h; sourceTree = "<group>"; };
 		931A6A281E03EAA100131242 /* OBATimelineBarRow.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OBATimelineBarRow.m; sourceTree = "<group>"; };
 		931A6A2B1E03EAAE00131242 /* OBATimelineBarCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OBATimelineBarCell.h; sourceTree = "<group>"; };
@@ -1447,6 +1451,7 @@
 				93F1C26220BCDCCF00B5032B /* OfflineSection.swift */,
 				930EFFCE20C5CC0200A2AE1F /* RegionalAlertSection.swift */,
 				93E1039E2134D5BE0090E7AF /* GrabHandleSection.swift */,
+				931131FC214D6C450063D400 /* ButtonSectionController.swift */,
 			);
 			path = listkit;
 			sourceTree = "<group>";
@@ -1611,6 +1616,7 @@
 				93876DF91E68AD3900B4343F /* OBAMapAnnotationViewBuilder.h */,
 				93876DFA1E68AD3900B4343F /* OBAMapAnnotationViewBuilder.m */,
 				93656B842105388A009A3524 /* StopAnnotationView.swift */,
+				931131FE214D7BA20063D400 /* MapTypePickerController.swift */,
 			);
 			path = map;
 			sourceTree = "<group>";
@@ -1954,6 +1960,7 @@
 			files = (
 				934197EE1DB0C14C004BBBB7 /* SMFloatingLabelTextField.m in Sources */,
 				9300CF8020FA70BB006AB268 /* UIView+constrainToParent.swift in Sources */,
+				931131FF214D7BA20063D400 /* MapTypePickerController.swift in Sources */,
 				930653D71E6DE293005AF0C9 /* OBAToastView.m in Sources */,
 				9327DEFC1E023BE400502F06 /* OBAArrivalDepartureCell.m in Sources */,
 				93A637E520A2CDE50005248C /* LabelCell.swift in Sources */,
@@ -1981,6 +1988,7 @@
 				93F3F88E1E7A7B2D0025FC78 /* RegionalAlertsViewController.swift in Sources */,
 				9353FF921E08E70A00B7A5C3 /* VehicleMapController.swift in Sources */,
 				934197981DB0C140004BBBB7 /* OBASwitchCell.m in Sources */,
+				931131FD214D6C450063D400 /* ButtonSectionController.swift in Sources */,
 				934196E71DB0C124004BBBB7 /* UIViewController+OBAContainment.m in Sources */,
 				934197941DB0C140004BBBB7 /* OBAServiceAlertsViewController.m in Sources */,
 				934197B91DB0C140004BBBB7 /* OBAReportProblemWithTripViewController.m in Sources */,
