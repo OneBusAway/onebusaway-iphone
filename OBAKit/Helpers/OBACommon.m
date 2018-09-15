@@ -31,6 +31,10 @@ NSString * const OBAOptInToTrackingDefaultsKey = @"OBAOptInToTrackingDefaultsKey
 NSString * const OBAOptInToCrashReportingDefaultsKey = @"OBAOptInToCrashReportingDefaultsKey";
 NSString * const OBAMapSelectedTypeDefaultsKey = @"OBAMapSelectedTypeDefaultsKey";
 NSString * const OBADebugModeUserDefaultsKey = @"OBADebugModeUserDefaultsKey";
+NSString * const OBAForecastUpdatedAtDefaultsKey = @"OBAForecastUpdatedAtDefaultsKey";
+NSString * const OBAForecastDataDefaultsKey = @"OBAForecastDataDefaultsKey";
+
+NSString * const OBAForecastUpdatedNotification = @"OBAForecastUpdatedNotification";
 
 NSString * const OBADeepLinkServerAddress = @"https://www.onebusaway.co";
 

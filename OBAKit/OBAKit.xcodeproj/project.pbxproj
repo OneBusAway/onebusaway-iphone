@@ -28,6 +28,7 @@
 		930EFFD620C6F28500A2AE1F /* Contacts.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 930EFFD520C6F28400A2AE1F /* Contacts.framework */; };
 		930EFFE520C87F0C00A2AE1F /* CLLocationManager+AnyPromise.h in Headers */ = {isa = PBXBuildFile; fileRef = 930EFFE320C87F0C00A2AE1F /* CLLocationManager+AnyPromise.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		930EFFE620C87F0C00A2AE1F /* CLLocationManager+AnyPromise.m in Sources */ = {isa = PBXBuildFile; fileRef = 930EFFE420C87F0C00A2AE1F /* CLLocationManager+AnyPromise.m */; };
+		93113206214D9D450063D400 /* ForecastManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 93113205214D9D450063D400 /* ForecastManager.swift */; };
 		931A6A251E02772E00131242 /* OBAValue1ContentsView.h in Headers */ = {isa = PBXBuildFile; fileRef = 931A6A231E02772E00131242 /* OBAValue1ContentsView.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		931A6A261E02772E00131242 /* OBAValue1ContentsView.m in Sources */ = {isa = PBXBuildFile; fileRef = 931A6A241E02772E00131242 /* OBAValue1ContentsView.m */; };
 		931C60D31EC3974E0086EC37 /* OBAApplication.h in Headers */ = {isa = PBXBuildFile; fileRef = 931C60D11EC3974E0086EC37 /* OBAApplication.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -355,6 +356,7 @@
 		930EFFD520C6F28400A2AE1F /* Contacts.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Contacts.framework; path = System/Library/Frameworks/Contacts.framework; sourceTree = SDKROOT; };
 		930EFFE320C87F0C00A2AE1F /* CLLocationManager+AnyPromise.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "CLLocationManager+AnyPromise.h"; sourceTree = "<group>"; };
 		930EFFE420C87F0C00A2AE1F /* CLLocationManager+AnyPromise.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "CLLocationManager+AnyPromise.m"; sourceTree = "<group>"; };
+		93113205214D9D450063D400 /* ForecastManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ForecastManager.swift; sourceTree = "<group>"; };
 		931A6A231E02772E00131242 /* OBAValue1ContentsView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OBAValue1ContentsView.h; sourceTree = "<group>"; };
 		931A6A241E02772E00131242 /* OBAValue1ContentsView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OBAValue1ContentsView.m; sourceTree = "<group>"; };
 		931C60D11EC3974E0086EC37 /* OBAApplication.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OBAApplication.h; sourceTree = "<group>"; };
@@ -1047,6 +1049,7 @@
 				9385BED61FAFA07D00D122D1 /* PromisedModelService.swift */,
 				933A47151FDCCB81009EB332 /* PromiseWrapper.swift */,
 				93D5F3661FF1900700800132 /* OBAURLRequest.swift */,
+				93113205214D9D450063D400 /* ForecastManager.swift */,
 			);
 			path = Services;
 			sourceTree = "<group>";
@@ -1628,6 +1631,7 @@
 				9341966E1DB0B099004BBBB7 /* OBAReportProblemWithStopV2.m in Sources */,
 				93E103A12134D5E30090E7AF /* GrabHandle.swift in Sources */,
 				934196B51DB0B0AF004BBBB7 /* OBAModelService.m in Sources */,
+				93113206214D9D450063D400 /* ForecastManager.swift in Sources */,
 				93FFA5FB1F88305300EA8008 /* OBAArrivalAndDepartureSectionBuilder.m in Sources */,
 				930EFFE620C87F0C00A2AE1F /* CLLocationManager+AnyPromise.m in Sources */,
 				9388C29E1FFDBAEA0068041F /* FBShimmeringLayer.m in Sources */,

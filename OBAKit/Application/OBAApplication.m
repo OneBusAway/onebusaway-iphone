@@ -33,6 +33,7 @@ NSString * const OBAShowTestAlertsDefaultsKey = @"OBAShowTestAlertsDefaultsKey";
 @property (nonatomic, strong, readwrite) OBALogging *loggingManager;
 @property (nonatomic, strong, readwrite) OBAMapDataLoader *mapDataLoader;
 @property (nonatomic, strong, readwrite) OBAMapRegionManager *mapRegionManager;
+@property (nonatomic, strong, readwrite) OBAForecastManager *forecastManager;
 @property (nonatomic, strong, readwrite) NSUserDefaults *userDefaults;
 @end
 
@@ -91,6 +92,8 @@ NSString * const OBAShowTestAlertsDefaultsKey = @"OBAShowTestAlertsDefaultsKey";
     self.mapRegionManager = [[OBAMapRegionManager alloc] init];
 
     [self refreshSettings];
+
+    self.forecastManager = [[OBAForecastManager alloc] initWithApplication:self];
 }
 
 #pragma mark - Defaults
@@ -124,6 +127,7 @@ NSString * const OBAShowTestAlertsDefaultsKey = @"OBAShowTestAlertsDefaultsKey";
     mutableDefaults[OBAMapSelectedTypeDefaultsKey] = @(MKMapTypeStandard);
     mutableDefaults[OBAUseStopDrawerDefaultsKey] = @(NO);
     mutableDefaults[OBAShowTestAlertsDefaultsKey] = @(NO);
+    mutableDefaults[OBAForecastUpdatedAtDefaultsKey] = NSDate.distantPast;
 
     defaults = mutableDefaults;
 #endif

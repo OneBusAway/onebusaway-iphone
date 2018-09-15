@@ -66,13 +66,6 @@ class MapTableViewController: UIViewController {
         }
     }
 
-    // MARK: - Weather
-    var weatherForecast: WeatherForecast? {
-        didSet {
-            performUpdates(animated: false)
-        }
-    }
-
     // MARK: - Map Controller
 
     private lazy var mapContainer: UIView = {
@@ -155,7 +148,6 @@ extension MapTableViewController {
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         refreshCurrentLocation()
-        loadForecast()
         loadAlerts()
 
         allowUIUpdates = true
@@ -187,27 +179,6 @@ extension MapTableViewController {
     }
 }
 
-// MARK: - Weather
-extension MapTableViewController {
-    fileprivate func loadForecast() {
-        guard let region = application.modelDao.currentRegion else {
-            return
-        }
-
-        let wrapper = application.modelService.requestWeather(in: region, location: self.application.locationManager.currentLocation)
-        wrapper.promise.then { networkResponse -> Void in
-            // swiftlint:disable force_cast
-            let forecast = networkResponse.object as! WeatherForecast
-            // swiftlint:enable force_cast
-            self.weatherForecast = forecast
-        }.catch { error in
-            DDLogError("Unable to retrieve forecast: \(error)")
-        }.always {
-            // nop?
-        }
-    }
-}
-
 // MARK: - Layout
 extension MapTableViewController {
     override func viewDidLayoutSubviews() {
@@ -232,11 +203,6 @@ extension MapTableViewController: ListAdapterDataSource {
 
         var sections: [ListDiffable] = []
 
-//        // Forecast
-//        if let forecast = weatherForecast {
-//            sections.append(forecast)
-//        }
-//
         // Grab Handle
         sections.append(GrabHandleSection())
 
@@ -333,7 +299,6 @@ extension MapTableViewController: ListAdapterDataSource {
         case is SectionHeader: return SectionHeaderSectionController()
         case is StopViewModel: return StopSectionController()
         case is TableRowModel: return TableRowController()
-        case is WeatherForecast: return ForecastSectionController()
         default:
             fatalError()
 

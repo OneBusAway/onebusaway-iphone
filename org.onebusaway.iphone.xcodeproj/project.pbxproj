@@ -192,7 +192,6 @@
 		93876DFB1E68AD3900B4343F /* OBAMapAnnotationViewBuilder.m in Sources */ = {isa = PBXBuildFile; fileRef = 93876DFA1E68AD3900B4343F /* OBAMapAnnotationViewBuilder.m */; };
 		939A1A8021163F60001D5654 /* EditBookmarkViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 939A1A7F21163F60001D5654 /* EditBookmarkViewController.swift */; };
 		939A1A8E21178A81001D5654 /* OBAFarePayments.m in Sources */ = {isa = PBXBuildFile; fileRef = 939A1A8D21178A81001D5654 /* OBAFarePayments.m */; };
-		93A1C68A20B3F63F00E176DE /* ForecastSectionController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 93A1C68920B3F63F00E176DE /* ForecastSectionController.swift */; };
 		93A637DB20A2CCE30005248C /* HorizontalSectionController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 93A637D820A2CCE20005248C /* HorizontalSectionController.swift */; };
 		93A637DC20A2CCE30005248C /* DisplaySectionController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 93A637D920A2CCE20005248C /* DisplaySectionController.swift */; };
 		93A637DF20A2CD8D0005248C /* EmbeddedCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 93A637DE20A2CD8C0005248C /* EmbeddedCollectionViewCell.swift */; };
@@ -576,7 +575,6 @@
 		939A1A8C21178A81001D5654 /* OBAFarePayments.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = OBAFarePayments.h; sourceTree = "<group>"; };
 		939A1A8D21178A81001D5654 /* OBAFarePayments.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = OBAFarePayments.m; sourceTree = "<group>"; };
 		939CEB241C0E406500E1D2B7 /* rvtd.gpx */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = rvtd.gpx; sourceTree = "<group>"; };
-		93A1C68920B3F63F00E176DE /* ForecastSectionController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ForecastSectionController.swift; sourceTree = "<group>"; };
 		93A637D820A2CCE20005248C /* HorizontalSectionController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HorizontalSectionController.swift; sourceTree = "<group>"; };
 		93A637D920A2CCE20005248C /* DisplaySectionController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DisplaySectionController.swift; sourceTree = "<group>"; };
 		93A637DE20A2CD8C0005248C /* EmbeddedCollectionViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EmbeddedCollectionViewCell.swift; sourceTree = "<group>"; };
@@ -1581,7 +1579,6 @@
 			isa = PBXGroup;
 			children = (
 				9341B82A20B68FBB006450FC /* ForecastCell.swift */,
-				93A1C68920B3F63F00E176DE /* ForecastSectionController.swift */,
 			);
 			path = Forecast;
 			sourceTree = "<group>";
@@ -1975,7 +1972,6 @@
 				934197921DB0C140004BBBB7 /* OBADiversionViewController.m in Sources */,
 				9341B82220B65DF9006450FC /* SelfSizingCollectionCell.swift in Sources */,
 				939A1A8E21178A81001D5654 /* OBAFarePayments.m in Sources */,
-				93A1C68A20B3F63F00E176DE /* ForecastSectionController.swift in Sources */,
 				93DCEF7220E5AF2F0004E087 /* LabelSectionController.swift in Sources */,
 				934198211DB0C1BA004BBBB7 /* OBATextFieldTableViewCell.m in Sources */,
 				9341B82720B66FDE006450FC /* StopSectionController.swift in Sources */,

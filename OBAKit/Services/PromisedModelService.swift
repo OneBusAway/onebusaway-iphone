@@ -115,7 +115,7 @@ import PromiseKit
             params["lng"] = location.coordinate.longitude
         }
 
-        return self.obacoJsonDataSource.buildGETRequest(withPath: path, queryParameters: params)
+        return obacoJsonDataSource.buildGETRequest(withPath: path, queryParameters: params)
     }
 }
 

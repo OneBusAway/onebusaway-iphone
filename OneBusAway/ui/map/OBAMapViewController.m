@@ -44,6 +44,7 @@ static const double kStopsInRegionRefreshDelayOnDrag = 0.1;
 @property(nonatomic,strong) ISHHoverBar *locationHoverBar;
 @property(nonatomic,strong) OBAToastView *toastView;
 @property(nonatomic,strong) UIImageView *mapCenterImage;
+@property(nonatomic,strong) UIButton *forecastButton;
 
 // Search
 @property(nonatomic,strong) UISearchController *searchController;
@@ -84,6 +85,7 @@ static const double kStopsInRegionRefreshDelayOnDrag = 0.1;
         self.tabBarItem.selectedImage = [UIImage imageNamed:@"Map_Selected"];
 
         [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(userHeadingDidUpdate:) name:OBAHeadingDidUpdateNotification object:nil];
+        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(weatherForecastDidUpdate:) name:OBAForecastUpdatedNotification object:nil];
 
         [application.userDefaults addObserver:self forKeyPath:OBADisplayUserHeadingOnMapDefaultsKey options:NSKeyValueObservingOptionNew context:nil];
         [application.userDefaults addObserver:self forKeyPath:OBAMapSelectedTypeDefaultsKey options:NSKeyValueObservingOptionNew context:nil];
@@ -1043,15 +1045,55 @@ static const double kStopsInRegionRefreshDelayOnDrag = 0.1;
 
 - (void)createLocationHoverBar {
     UIBarButtonItem *recenterMapButton = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"Map_Selected"] style:UIBarButtonItemStylePlain target:self action:@selector(recenterMap)];
+    UIBarButtonItem *tempButtonItem = [[UIBarButtonItem alloc] initWithCustomView:self.forecastButton];
+    [self weatherForecastDidUpdate:nil];
 
     self.locationHoverBar = [[ISHHoverBar alloc] init];
     self.locationHoverBar.shadowRadius = 2.f;
-    self.locationHoverBar.items = @[recenterMapButton];
+    self.locationHoverBar.items = @[recenterMapButton, tempButtonItem];
     [self.view addSubview:self.locationHoverBar];
     [self.locationHoverBar mas_makeConstraints:^(MASConstraintMaker *make) {
         make.top.equalTo(self.mas_topLayoutGuideBottom).offset(OBATheme.defaultMargin);
         make.trailing.equalTo(self.view).offset(-OBATheme.defaultPadding);
     }];
+}
+
+#pragma mark - Weather Forecast
+
+- (UIButton*)forecastButton {
+    if (!_forecastButton) {
+        UIButton *button = [[UIButton alloc] initWithFrame:CGRectMake(0, 0, 44, 44)];
+        [button setTitleColor:OBATheme.OBADarkGreen forState:UIControlStateNormal];
+
+        button.imageView.contentMode = UIViewContentModeScaleAspectFit;
+        button.imageEdgeInsets = [OBATheme hoverBarImageInsets];
+        [button addTarget:self action:@selector(showForecast) forControlEvents:UIControlEventTouchUpInside];
+        _forecastButton = button;
+    }
+    return _forecastButton;
+}
+
+- (void)weatherForecastDidUpdate:(NSNotification*)note {
+    OBAWeatherForecast *forecast = self.application.forecastManager.weatherForecast;
+    if (!forecast) {
+        [self.forecastButton setTitle:@"-º" forState:UIControlStateNormal];
+        return;
+    }
+
+    NSString *temperature = [NSString stringWithFormat:@"%.0fº", forecast.currentForecast.temperature];
+
+    [self.forecastButton setTitle:temperature forState:UIControlStateNormal];
+}
+
+- (void)showForecast {
+    OBAWeatherForecast *forecast = self.application.forecastManager.weatherForecast;
+    if (!forecast) {
+        return;
+    }
+
+    UIAlertController *alert = [UIAlertController alertControllerWithTitle:nil message:forecast.todaySummary preferredStyle:UIAlertControllerStyleAlert];
+    [alert addAction:[UIAlertAction actionWithTitle:OBAStrings.dismiss style:UIAlertActionStyleCancel handler:nil]];
+    [self presentViewController:alert animated:YES completion:nil];
 }
 
 #pragma mark - Private Configuration Junk

@@ -9,6 +9,7 @@
 import Foundation
 import IGListKit
 
+@objc(OBAWeatherForecast)
 public class WeatherForecast: NSObject, Codable {
 
     public static let decoder: JSONDecoder = {
@@ -48,7 +49,10 @@ public class WeatherForecast: NSObject, Codable {
     public let forecastRetrievedAt: Date
     public let units: String
 
+    @objc
     public let todaySummary: String
+
+    @objc
     public let currentForecast: CurrentForecast
 
     override init() { fatalError() }
@@ -63,6 +67,61 @@ public class WeatherForecast: NSObject, Codable {
         case todaySummary = "today_summary"
         case currentForecast = "current_forecast"
     }
+
+    // MARK: - Coding
+
+    public func encode(to encoder: Encoder) throws {
+        var container = encoder.container(keyedBy: CodingKeys.self)
+
+        try container.encode(latitude, forKey: .latitude)
+        try container.encode(longitude, forKey: .longitude)
+        try container.encode(regionIdentifier, forKey: .regionIdentifier)
+        try container.encode(regionName, forKey: .regionName)
+        try container.encode(forecastRetrievedAt, forKey: .forecastRetrievedAt)
+        try container.encode(units, forKey: .units)
+        try container.encode(todaySummary, forKey: .todaySummary)
+        try container.encode(currentForecast, forKey: .currentForecast)
+    }
+
+    required public init(from decoder: Decoder) throws {
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+        latitude = try container.decode(Double.self, forKey: .latitude)
+        longitude = try container.decode(Double.self, forKey: .longitude)
+        regionIdentifier = try container.decode(Int.self, forKey: .regionIdentifier)
+        regionName = try container.decode(String.self, forKey: .regionName)
+        forecastRetrievedAt = try container.decode(Date.self, forKey: .forecastRetrievedAt)
+        units = try container.decode(String.self, forKey: .units)
+        todaySummary = try container.decode(String.self, forKey: .todaySummary)
+        currentForecast = try container.decode(CurrentForecast.self, forKey: .currentForecast)
+    }
+
+    // MARK: - Serialization
+
+    public static func encode(_ forecast: WeatherForecast) -> Data? {
+        do {
+            let data = try PropertyListEncoder().encode(forecast)
+            return data
+        }
+        catch {
+            let err = error
+            print("Error: \(err)")
+        }
+
+        return nil
+    }
+
+    public static func decode(_ data: Data) -> WeatherForecast? {
+        do {
+            let forecast = try PropertyListDecoder().decode(WeatherForecast.self, from: data)
+            return forecast
+        }
+        catch {
+            let err = error
+            print("Error: \(err)")
+        }
+
+        return nil
+    }
 }
 
 @objc(OBACurrentForecast)
@@ -71,7 +130,7 @@ public class CurrentForecast: NSObject, Codable {
     public let precipPerHour: Double
     public let precipProbability: Double
     public let summary: String
-    public let temperature: Double
+    @objc public let temperature: Double
     public let temperatureFeelsLike: Double
     public let date: Date
     public let windSpeed: Double
@@ -104,26 +163,31 @@ public class CurrentForecast: NSObject, Codable {
             other.date == date &&
             other.windSpeed == windSpeed
     }
-}
 
-extension WeatherForecast: ListDiffable {
-    public func diffIdentifier() -> NSObjectProtocol {
-        return self
+    // MARK: - Coding
+
+    public func encode(to encoder: Encoder) throws {
+        var container = encoder.container(keyedBy: CodingKeys.self)
+
+        try container.encode(icon, forKey: .icon)
+        try container.encode(precipPerHour, forKey: .precipPerHour)
+        try container.encode(precipProbability, forKey: .precipProbability)
+        try container.encode(summary, forKey: .summary)
+        try container.encode(temperature, forKey: .temperature)
+        try container.encode(temperatureFeelsLike, forKey: .temperatureFeelsLike)
+        try container.encode(date, forKey: .date)
+        try container.encode(windSpeed, forKey: .windSpeed)
     }
 
-    public func isEqual(toDiffableObject object: ListDiffable?) -> Bool {
-        guard let other = object as? WeatherForecast else {
-            return false
-        }
-
-        return
-            other.latitude == latitude &&
-            other.longitude == longitude &&
-            other.regionIdentifier == regionIdentifier &&
-            other.regionName == regionName &&
-            other.forecastRetrievedAt == forecastRetrievedAt &&
-            other.units == units &&
-            other.todaySummary == todaySummary &&
-            other.currentForecast == currentForecast
+    required public init(from decoder: Decoder) throws {
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+        icon = try container.decode(String.self, forKey: .icon)
+        precipPerHour = try container.decode(Double.self, forKey: .precipPerHour)
+        precipProbability = try container.decode(Double.self, forKey: .precipProbability)
+        summary = try container.decode(String.self, forKey: .summary)
+        temperature = try container.decode(Double.self, forKey: .temperature)
+        temperatureFeelsLike = try container.decode(Double.self, forKey: .temperatureFeelsLike)
+        date = try container.decode(Date.self, forKey: .date)
+        windSpeed = try container.decode(Double.self, forKey: .windSpeed)
     }
 }
