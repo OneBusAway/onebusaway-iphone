@@ -200,6 +200,10 @@ NSString * const OBAShowTestAlertsDefaultsKey = @"OBAShowTestAlertsDefaultsKey";
 
 #pragma mark - App Keys
 
+- (NSString*)firebaseAnalyticsConfigFilePath {
+    return [NSBundle.mainBundle pathForResource:@"OBA_Firebase" ofType:@"plist"];
+}
+
 - (NSString*)googleAnalyticsID {
     return @"UA-2423527-17";
 }

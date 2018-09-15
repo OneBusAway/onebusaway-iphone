@@ -131,7 +131,7 @@ static NSString *kOBASelectedTabIndexDefaultsKey = @"OBASelectedTabIndexDefaults
             break;
     }
 
-    [OBAAnalytics reportEventWithCategory:OBAAnalyticsCategoryAppSettings action:@"startup" label:[NSString stringWithFormat:@"Startup View: %@", startingTab] value:nil];
+    [OBAAnalytics.sharedInstance reportEventWithCategory:OBAAnalyticsCategoryAppSettings action:@"startup" label:[NSString stringWithFormat:@"Startup View: %@", startingTab] value:nil];
 }
 
 - (void)navigateToTargetInternal:(OBANavigationTarget*)navigationTarget {

@@ -25,6 +25,15 @@
 		930CE4DB1E9BFB590073F04D /* UserDefaultsBrowserViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 930CE4DA1E9BFB590073F04D /* UserDefaultsBrowserViewController.swift */; };
 		930E41A21E5ECAA60040CEB5 /* MapSearchViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 930E41A11E5ECAA60040CEB5 /* MapSearchViewController.swift */; };
 		930EFFCF20C5CC0200A2AE1F /* RegionalAlertSection.swift in Sources */ = {isa = PBXBuildFile; fileRef = 930EFFCE20C5CC0200A2AE1F /* RegionalAlertSection.swift */; };
+		931131EB214C17590063D400 /* GoogleUtilities.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 931131E4214C17590063D400 /* GoogleUtilities.framework */; };
+		931131EC214C17590063D400 /* FirebaseAnalytics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 931131E5214C17590063D400 /* FirebaseAnalytics.framework */; };
+		931131ED214C17590063D400 /* FirebaseCoreDiagnostics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 931131E6214C17590063D400 /* FirebaseCoreDiagnostics.framework */; };
+		931131EE214C17590063D400 /* GoogleAppMeasurement.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 931131E7214C17590063D400 /* GoogleAppMeasurement.framework */; };
+		931131EF214C17590063D400 /* FirebaseCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 931131E8214C17590063D400 /* FirebaseCore.framework */; };
+		931131F0214C17590063D400 /* FirebaseInstanceID.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 931131E9214C17590063D400 /* FirebaseInstanceID.framework */; };
+		931131F1214C17590063D400 /* nanopb.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 931131EA214C17590063D400 /* nanopb.framework */; };
+		931131F5214C182B0063D400 /* libsqlite3.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 931131F4214C182B0063D400 /* libsqlite3.tbd */; };
+		931131FB214C1BFF0063D400 /* OBA_Firebase.plist in Resources */ = {isa = PBXBuildFile; fileRef = 931131FA214C1BFE0063D400 /* OBA_Firebase.plist */; };
 		931A6A291E03EAA100131242 /* OBATimelineBarRow.m in Sources */ = {isa = PBXBuildFile; fileRef = 931A6A281E03EAA100131242 /* OBATimelineBarRow.m */; };
 		931A6A2D1E03EAAE00131242 /* OBATimelineBarCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 931A6A2C1E03EAAE00131242 /* OBATimelineBarCell.m */; };
 		931AEE21204B70060054E448 /* TodayRefreshView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 931AEE20204B70060054E448 /* TodayRefreshView.swift */; };
@@ -324,6 +333,17 @@
 		930CE4DA1E9BFB590073F04D /* UserDefaultsBrowserViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UserDefaultsBrowserViewController.swift; sourceTree = "<group>"; };
 		930E41A11E5ECAA60040CEB5 /* MapSearchViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MapSearchViewController.swift; sourceTree = "<group>"; };
 		930EFFCE20C5CC0200A2AE1F /* RegionalAlertSection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegionalAlertSection.swift; sourceTree = "<group>"; };
+		931131E4214C17590063D400 /* GoogleUtilities.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = GoogleUtilities.framework; sourceTree = "<group>"; };
+		931131E5214C17590063D400 /* FirebaseAnalytics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = FirebaseAnalytics.framework; sourceTree = "<group>"; };
+		931131E6214C17590063D400 /* FirebaseCoreDiagnostics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = FirebaseCoreDiagnostics.framework; sourceTree = "<group>"; };
+		931131E7214C17590063D400 /* GoogleAppMeasurement.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = GoogleAppMeasurement.framework; sourceTree = "<group>"; };
+		931131E8214C17590063D400 /* FirebaseCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = FirebaseCore.framework; sourceTree = "<group>"; };
+		931131E9214C17590063D400 /* FirebaseInstanceID.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = FirebaseInstanceID.framework; sourceTree = "<group>"; };
+		931131EA214C17590063D400 /* nanopb.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = nanopb.framework; sourceTree = "<group>"; };
+		931131F2214C17880063D400 /* Firebase.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Firebase.h; sourceTree = "<group>"; };
+		931131F3214C17880063D400 /* module.modulemap */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = "sourcecode.module-map"; path = module.modulemap; sourceTree = "<group>"; };
+		931131F4214C182B0063D400 /* libsqlite3.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libsqlite3.tbd; path = usr/lib/libsqlite3.tbd; sourceTree = SDKROOT; };
+		931131FA214C1BFE0063D400 /* OBA_Firebase.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = OBA_Firebase.plist; sourceTree = "<group>"; };
 		931A6A271E03EAA100131242 /* OBATimelineBarRow.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OBATimelineBarRow.h; sourceTree = "<group>"; };
 		931A6A281E03EAA100131242 /* OBATimelineBarRow.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OBATimelineBarRow.m; sourceTree = "<group>"; };
 		931A6A2B1E03EAAE00131242 /* OBATimelineBarCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OBATimelineBarCell.h; sourceTree = "<group>"; };
@@ -616,24 +636,32 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				931131F5214C182B0063D400 /* libsqlite3.tbd in Frameworks */,
 				93BC49E51FB8D60F008B710D /* PromiseKit.framework in Frameworks */,
 				93C3936D1D8A3A530080F370 /* Foundation.framework in Frameworks */,
 				93BC49E81FB8D61D008B710D /* Masonry.framework in Frameworks */,
 				93BC49ED1FB8D628008B710D /* GoogleAnalytics.framework in Frameworks */,
+				931131F1214C17590063D400 /* nanopb.framework in Frameworks */,
 				93BC49D91FB8D5EB008B710D /* SnapKit.framework in Frameworks */,
 				93BC49DC1FB8D5FB008B710D /* CocoaLumberjackSwift.framework in Frameworks */,
 				93BC49EC1FB8D628008B710D /* SVProgressHUD.framework in Frameworks */,
+				931131ED214C17590063D400 /* FirebaseCoreDiagnostics.framework in Frameworks */,
 				93C3936B1D8A3A4D0080F370 /* UIKit.framework in Frameworks */,
 				93528AB11C8D517100783E9A /* CloudKit.framework in Frameworks */,
 				93A923A21C21DCD600A657C8 /* SafariServices.framework in Frameworks */,
 				93528AAE1C8D50D200783E9A /* MapKit.framework in Frameworks */,
+				931131EE214C17590063D400 /* GoogleAppMeasurement.framework in Frameworks */,
+				931131EC214C17590063D400 /* FirebaseAnalytics.framework in Frameworks */,
 				93BC49E91FB8D61D008B710D /* SwiftMessages.framework in Frameworks */,
 				93E1039821349FCA0090E7AF /* SwipeCellKit.framework in Frameworks */,
 				93BC49D71FB8D5E0008B710D /* OneSignal.framework in Frameworks */,
 				93BC49DD1FB8D5FB008B710D /* CocoaLumberjack.framework in Frameworks */,
 				93BBB3F91DB4B3C100694940 /* OBAKit.framework in Frameworks */,
 				93414D76207361E7001D1892 /* Fabric.framework in Frameworks */,
+				931131EF214C17590063D400 /* FirebaseCore.framework in Frameworks */,
 				93414D77207361E7001D1892 /* Crashlytics.framework in Frameworks */,
+				931131F0214C17590063D400 /* FirebaseInstanceID.framework in Frameworks */,
+				931131EB214C17590063D400 /* GoogleUtilities.framework in Frameworks */,
 				93302B4A20CB189D003699C6 /* IGListKit.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -679,6 +707,7 @@
 				93528AAF1C8D50E900783E9A /* OneBusAway.entitlements */,
 				93631E4A1604F96800CB7209 /* OBAApplicationDelegate.h */,
 				93631E4B1604F96800CB7209 /* OBAApplicationDelegate.m */,
+				931131F8214C1BFE0063D400 /* AppIdentities */,
 				934C50AB1E2B6D5B00DFDCA0 /* push_notifications */,
 				934198261DB0C1CA004BBBB7 /* utilities */,
 				934197F11DB0C1BA004BBBB7 /* controls */,
@@ -709,6 +738,7 @@
 		29B97323FDCFA39411CA2CEA /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				931131F4214C182B0063D400 /* libsqlite3.tbd */,
 				93E1039621349FC90090E7AF /* SwipeCellKit.framework */,
 				93302B4920CB189C003699C6 /* IGListKit.framework */,
 				93BC49EB1FB8D628008B710D /* GoogleAnalytics.framework */,
@@ -770,6 +800,38 @@
 				930CE4DA1E9BFB590073F04D /* UserDefaultsBrowserViewController.swift */,
 			);
 			path = debugging;
+			sourceTree = "<group>";
+		};
+		931131E2214C16250063D400 /* Firebase */ = {
+			isa = PBXGroup;
+			children = (
+				931131F2214C17880063D400 /* Firebase.h */,
+				931131F3214C17880063D400 /* module.modulemap */,
+				931131E5214C17590063D400 /* FirebaseAnalytics.framework */,
+				931131E8214C17590063D400 /* FirebaseCore.framework */,
+				931131E6214C17590063D400 /* FirebaseCoreDiagnostics.framework */,
+				931131E9214C17590063D400 /* FirebaseInstanceID.framework */,
+				931131E7214C17590063D400 /* GoogleAppMeasurement.framework */,
+				931131E4214C17590063D400 /* GoogleUtilities.framework */,
+				931131EA214C17590063D400 /* nanopb.framework */,
+			);
+			path = Firebase;
+			sourceTree = "<group>";
+		};
+		931131F8214C1BFE0063D400 /* AppIdentities */ = {
+			isa = PBXGroup;
+			children = (
+				931131F9214C1BFE0063D400 /* OneBusAway */,
+			);
+			path = AppIdentities;
+			sourceTree = "<group>";
+		};
+		931131F9214C1BFE0063D400 /* OneBusAway */ = {
+			isa = PBXGroup;
+			children = (
+				931131FA214C1BFE0063D400 /* OBA_Firebase.plist */,
+			);
+			path = OneBusAway;
 			sourceTree = "<group>";
 		};
 		9327DEF51E023BB900502F06 /* table_cells */ = {
@@ -1089,6 +1151,7 @@
 		934197BF1DB0C14C004BBBB7 /* externals */ = {
 			isa = PBXGroup;
 			children = (
+				931131E2214C16250063D400 /* Firebase */,
 				9300CF7820FA70BB006AB268 /* PulleyLib */,
 				93A6E5211E6CB23500BEFECE /* ISHHoverBar */,
 				934C509B1E2B69E300DFDCA0 /* GKActionSheetPicker */,
@@ -1745,6 +1808,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				931131FB214C1BFF0063D400 /* OBA_Firebase.plist in Resources */,
 				93ADC51B1DCB1EBE0024FBD6 /* credits.html in Resources */,
 				9341983C1DB0C1E9004BBBB7 /* Images.xcassets in Resources */,
 				934198201DB0C1BA004BBBB7 /* OBALabelAndTextFieldTableViewCell.xib in Resources */,
@@ -1865,7 +1929,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "/usr/local/bin/carthage copy-frameworks";
+			shellScript = "/usr/local/bin/carthage copy-frameworks\n";
 		};
 		93BB1EDE1E3004E2008A88BA /* Fabric */ = {
 			isa = PBXShellScriptBuildPhase;
@@ -1879,7 +1943,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "./Fabric.framework/run c84d1b759118d7506fea035b497a567d26a1c67b 27ddab734af739718fae5fb6f522d5b6a14873fbc58fddc62a8e14374815db58";
+			shellScript = "./Fabric.framework/run c84d1b759118d7506fea035b497a567d26a1c67b 27ddab734af739718fae5fb6f522d5b6a14873fbc58fddc62a8e14374815db58\n";
 		};
 /* End PBXShellScriptBuildPhase section */
 
@@ -2130,6 +2194,7 @@
 					"$(inherited)",
 					"$(PROJECT_DIR)/Carthage/Build/iOS",
 					"$(PROJECT_DIR)",
+					"$(PROJECT_DIR)/OneBusAway/externals/Firebase",
 				);
 				GCC_PRECOMPILE_PREFIX_HEADER = NO;
 				GCC_PREFIX_HEADER = "";
@@ -2161,6 +2226,7 @@
 				SWIFT_SWIFT3_OBJC_INFERENCE = Default;
 				SWIFT_VERSION = 4.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
+				USER_HEADER_SEARCH_PATHS = "$(PROJECT_DIR)/OneBusAway/externals/Firebase";
 				VALIDATE_PRODUCT = YES;
 			};
 			name = Debug;
@@ -2181,6 +2247,7 @@
 					"$(inherited)",
 					"$(PROJECT_DIR)/Carthage/Build/iOS",
 					"$(PROJECT_DIR)",
+					"$(PROJECT_DIR)/OneBusAway/externals/Firebase",
 				);
 				GCC_PRECOMPILE_PREFIX_HEADER = NO;
 				GCC_PREFIX_HEADER = "";
@@ -2208,6 +2275,7 @@
 				SWIFT_SWIFT3_OBJC_INFERENCE = Default;
 				SWIFT_VERSION = 4.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
+				USER_HEADER_SEARCH_PATHS = "$(PROJECT_DIR)/OneBusAway/externals/Firebase";
 				VALIDATE_PRODUCT = YES;
 			};
 			name = Release;
@@ -2780,6 +2848,7 @@
 					"$(inherited)",
 					"$(PROJECT_DIR)/Carthage/Build/iOS",
 					"$(PROJECT_DIR)",
+					"$(PROJECT_DIR)/OneBusAway/externals/Firebase",
 				);
 				GCC_PRECOMPILE_PREFIX_HEADER = NO;
 				GCC_PREFIX_HEADER = "";
@@ -2811,6 +2880,7 @@
 				SWIFT_SWIFT3_OBJC_INFERENCE = Default;
 				SWIFT_VERSION = 4.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
+				USER_HEADER_SEARCH_PATHS = "$(PROJECT_DIR)/OneBusAway/externals/Firebase";
 				VALIDATE_PRODUCT = YES;
 			};
 			name = AdHocDistribution;
@@ -2895,6 +2965,7 @@
 					"$(inherited)",
 					"$(PROJECT_DIR)/Carthage/Build/iOS",
 					"$(PROJECT_DIR)",
+					"$(PROJECT_DIR)/OneBusAway/externals/Firebase",
 				);
 				GCC_PRECOMPILE_PREFIX_HEADER = NO;
 				GCC_PREFIX_HEADER = "";
@@ -2922,6 +2993,7 @@
 				SWIFT_SWIFT3_OBJC_INFERENCE = Default;
 				SWIFT_VERSION = 4.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
+				USER_HEADER_SEARCH_PATHS = "$(PROJECT_DIR)/OneBusAway/externals/Firebase";
 				VALIDATE_PRODUCT = YES;
 			};
 			name = AppStoreDistribution;

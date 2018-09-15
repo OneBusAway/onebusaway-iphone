@@ -8,6 +8,8 @@
 
 #import "OBAFarePayments.h"
 #import "OBAAlerts.h"
+#import "OBAAnalytics.h"
+@import FirebaseAnalytics;
 @import StoreKit;
 
 @interface OBAFarePayments () <SKStoreProductViewControllerDelegate>
@@ -48,9 +50,13 @@
 
 - (void)launchAppOrShowAppStoreForRegion:(OBARegionV2*)region {
     if ([UIApplication.sharedApplication canOpenURL:region.paymentAppDeepLinkURL]) {
+        [OBAAnalytics.sharedInstance reportEventWithCategory:OBAAnalyticsCategoryUIAction action:@"button_press" label:@"Clicked Pay Fare Open App" value:nil];
+
         [UIApplication.sharedApplication openURL:region.paymentAppDeepLinkURL options:@{} completionHandler:nil];
     }
     else {
+        [OBAAnalytics.sharedInstance reportEventWithCategory:OBAAnalyticsCategoryUIAction action:@"button_press" label:@"Clicked Pay Fare Download App" value:nil];
+
         [self displayAppStorePageForAppWithIdentifier:region.paymentAppStoreIdentifier];
     }
 }

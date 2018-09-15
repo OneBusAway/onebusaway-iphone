@@ -98,7 +98,8 @@
     NSDictionary *agencies = situation.references.agencies;
     for (id key in agencies) {
         OBAAgencyV2 * agency = agencies[key];
-        [OBAAnalytics reportEventWithCategory:OBAAnalyticsCategoryUIAction action:@"service_alerts" label:[NSString stringWithFormat:@"Clicked Service Alerts from: %@", agency.name] value:nil];
+        [OBAAnalytics.sharedInstance reportEventWithCategory:OBAAnalyticsCategoryUIAction action:@"service_alerts" label:[NSString stringWithFormat:@"Clicked Service Alerts from: %@", agency.name] value:nil];
+        [FIRAnalytics logEventWithName:OBAAnalyticsServiceAlertTapped parameters:@{@"agencyName": agency.name, @"situationID": situation.situationId}];
     }
 }
 

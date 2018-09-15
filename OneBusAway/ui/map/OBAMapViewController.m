@@ -199,9 +199,9 @@ static const double kStopsInRegionRefreshDelayOnDrag = 0.1;
 }
 
 - (void)mapSearch:(MapSearchViewController *)mapSearch selectedNavigationTarget:(OBANavigationTarget *)target {
-    [OBAAnalytics reportEventWithCategory:OBAAnalyticsCategoryUIAction action:@"button_press" label:@"Search button clicked" value:nil];
+    [OBAAnalytics.sharedInstance reportEventWithCategory:OBAAnalyticsCategoryUIAction action:@"button_press" label:@"Search button clicked" value:nil];
     NSString *analyticsLabel = [NSString stringWithFormat:@"Search: %@", NSStringFromOBASearchType(target.searchType)];
-    [OBAAnalytics reportEventWithCategory:OBAAnalyticsCategoryUIAction action:@"button_press" label:analyticsLabel value:nil];
+    [OBAAnalytics.sharedInstance reportEventWithCategory:OBAAnalyticsCategoryUIAction action:@"button_press" label:analyticsLabel value:nil];
 
     [self.searchController dismissViewControllerAnimated:YES completion:^{
         // abxoxo - TODO: figure out how to unify -navigateToTarget, this method, and -setNavigationTarget.
@@ -229,7 +229,7 @@ static const double kStopsInRegionRefreshDelayOnDrag = 0.1;
 #pragma mark - UISearchBarDelegate
 
 - (void)searchBarTextDidBeginEditing:(UISearchBar *)searchBar {
-    [OBAAnalytics reportEventWithCategory:OBAAnalyticsCategoryUIAction action:@"button_press" label:@"Search box selected" value:nil];
+    [OBAAnalytics.sharedInstance reportEventWithCategory:OBAAnalyticsCategoryUIAction action:@"button_press" label:@"Search box selected" value:nil];
 }
 
 #pragma mark - Lazily Loaded Properties
@@ -540,7 +540,7 @@ static const double kStopsInRegionRefreshDelayOnDrag = 0.1;
         return;
     }
 
-    [OBAAnalytics reportEventWithCategory:OBAAnalyticsCategoryUIAction action:@"button_press" label:@"Clicked My Location Button" value:nil];
+    [OBAAnalytics.sharedInstance reportEventWithCategory:OBAAnalyticsCategoryUIAction action:@"button_press" label:@"Clicked My Location Button" value:nil];
     DDLogInfo(@"setting auto center on current location");
     self.mapRegionManager.lastRegionChangeWasProgrammatic = YES;
     [self refreshCurrentLocation];
@@ -551,7 +551,7 @@ static const double kStopsInRegionRefreshDelayOnDrag = 0.1;
         return;
     }
 
-    [OBAAnalytics reportEventWithCategory:OBAAnalyticsCategoryUIAction action:@"button_press" label:@"My Location via Map Tab Button" value:nil];
+    [OBAAnalytics.sharedInstance reportEventWithCategory:OBAAnalyticsCategoryUIAction action:@"button_press" label:@"My Location via Map Tab Button" value:nil];
     DDLogInfo(@"setting auto center on current location (via tab bar)");
     self.mapRegionManager.lastRegionChangeWasProgrammatic = YES;
     [self refreshCurrentLocation];
@@ -798,11 +798,11 @@ static const double kStopsInRegionRefreshDelayOnDrag = 0.1;
 
     [alert addAction:[UIAlertAction actionWithTitle:OBAStrings.cancel style:UIAlertActionStyleCancel handler:^(UIAlertAction *action) {
         self.hideFutureOutOfRangeErrors = YES;
-        [OBAAnalytics reportEventWithCategory:OBAAnalyticsCategoryUIAction action:@"button_press" label:@"Out of Region Alert: NO" value:nil];
+        [OBAAnalytics.sharedInstance reportEventWithCategory:OBAAnalyticsCategoryUIAction action:@"button_press" label:@"Out of Region Alert: NO" value:nil];
     }]];
 
     [alert addAction:[UIAlertAction actionWithTitle:OBAStrings.ok style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
-        [OBAAnalytics reportEventWithCategory:OBAAnalyticsCategoryUIAction action:@"button_press" label:@"Out of Region Alert: YES" value:nil];
+        [OBAAnalytics.sharedInstance reportEventWithCategory:OBAAnalyticsCategoryUIAction action:@"button_press" label:@"Out of Region Alert: YES" value:nil];
         [self.mapRegionManager setRegion:MKCoordinateRegionForMapRect(self.modelDAO.currentRegion.serviceRect)];
     }]];
 
@@ -1085,7 +1085,7 @@ static const double kStopsInRegionRefreshDelayOnDrag = 0.1;
 #pragma mark - Private Configuration Junk
 
 - (void)setHighContrastStyle {
-    [OBAAnalytics reportEventWithCategory:OBAAnalyticsCategoryAccessibility action:@"increase_contrast" label:[NSString stringWithFormat:@"Loaded view: %@ with Increased Contrast", [self class]] value:nil];
+    [OBAAnalytics.sharedInstance reportEventWithCategory:OBAAnalyticsCategoryAccessibility action:@"increase_contrast" label:[NSString stringWithFormat:@"Loaded view: %@ with Increased Contrast", [self class]] value:nil];
 
     self.navigationController.navigationBar.barTintColor = [UIColor whiteColor];
     self.navigationController.tabBarController.tabBar.barTintColor = [UIColor whiteColor];

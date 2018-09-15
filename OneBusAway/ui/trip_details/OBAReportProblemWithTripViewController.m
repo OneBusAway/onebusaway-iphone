@@ -449,7 +449,10 @@ typedef NS_ENUM (NSInteger, OBASectionType) {
             return;
         }
 
-        [OBAAnalytics reportEventWithCategory:OBAAnalyticsCategorySubmit action:@"report_problem" label:@"Reported Problem" value:nil];
+        [OBAAnalytics.sharedInstance reportEventWithCategory:OBAAnalyticsCategorySubmit action:@"report_problem" label:@"Reported Problem" value:nil];
+
+        NSDictionary *params = @{@"stopID": self.currentStopId, @"vehicleNumber": problem.userVehicleNumber, @"problem": problem.code};
+        [FIRAnalytics logEventWithName:OBAAnalyticsEventTripProblemReported parameters:params];
 
         UIAlertController *alert = [UIAlertController alertControllerWithTitle:NSLocalizedString(@"msg_submission_successful", @"view.title")
                                                                        message:NSLocalizedString(@"msg_sucessfull_report_send", @"view.message")

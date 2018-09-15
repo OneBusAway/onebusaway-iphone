@@ -48,6 +48,7 @@ extern NSString *const OBAShowTestAlertsDefaultsKey;
 @property (nonatomic, strong, readonly) NSUserDefaults *userDefaults;
 
 @property (nonatomic, copy, readonly) NSString *googleAnalyticsID;
+@property (nonatomic, copy, readonly) NSString *firebaseAnalyticsConfigFilePath;
 @property (nonatomic, copy, readonly) NSString *oneSignalAPIKey;
 @property (nonatomic, copy, readonly) NSString *appStoreAppID;
 

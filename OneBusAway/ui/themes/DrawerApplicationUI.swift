@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import FirebaseAnalytics
 import OBAKit
 
 @objc class DrawerApplicationUI: NSObject {
@@ -122,7 +123,8 @@ extension DrawerApplicationUI: OBAApplicationUI {
                            2: "OBABookmarksViewController",
                            3: "OBAInfoViewController"][selectedIndex] ?? "Unknown"
 
-        OBAAnalytics.reportEvent(withCategory: OBAAnalyticsCategoryAppSettings, action: "startup", label: "Startup View: \(startingTab)", value: nil)
+        OBAAnalytics.shared().reportEvent(withCategory: OBAAnalyticsCategoryAppSettings, action: "startup", label: "Startup View: \(startingTab)", value: nil)
+        Analytics.logEvent(OBAAnalyticsStartupScreen, parameters: ["startingTab": startingTab])
     }
 
     func navigate(toTargetInternal navigationTarget: OBANavigationTarget) {
