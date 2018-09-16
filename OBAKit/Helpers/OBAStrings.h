@@ -100,6 +100,11 @@ NS_ASSUME_NONNULL_BEGIN
 @property(class,nonatomic,copy,readonly) NSString *learnMore;
 
 /**
+ Not Found
+ */
+@property(class,nonatomic,copy,readonly) NSString *notFound;
+
+/**
  Created an attributed string with a prepended image.
 
  @param image An image that will precede the string.

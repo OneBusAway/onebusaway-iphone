@@ -31,6 +31,9 @@
 /* Typically used on alerts and other modal actions. A 'cancel' button. */
 "msg_cancel" = "Cancelar";
 
+/* Not Found */
+"strings.not_found" = "No se encontró";
+
 /* The text 'Close' */
 "strings.close" = "Cerrar";
 

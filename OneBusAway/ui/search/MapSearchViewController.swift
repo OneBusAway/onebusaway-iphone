@@ -128,7 +128,7 @@ class MapSearchViewController: OBAStaticTableViewController, UISearchResultsUpda
         // Vehicle ID
         let vehicleText = MapSearchViewController.quickLookupRowText(title: NSLocalizedString("map_search.search_for_vehicle_id", comment: "Vehicle ID: <VEHICLE ID>"), searchText: searchText)
         let vehicleIDRow = OBATableRow.init(attributedTitle: vehicleText) { _ in
-            let target = OBAVehicleIDNavigationTarget.init(query: searchText)
+            let target = OBAVehicleIDNavigationTarget(query: searchText)
             self.delegate?.mapSearch(self, selectedNavigationTarget: target)
         }
         vehicleIDRow.accessoryType = .disclosureIndicator

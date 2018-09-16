@@ -8,6 +8,8 @@
 
 @import OBAKit;
 
+NS_ASSUME_NONNULL_BEGIN
+
 @interface OBAArrivalAndDepartureViewController : OBAStaticTableViewController
 @property(nonatomic,strong) OBAModelDAO *modelDAO;
 @property(nonatomic,strong) PromisedModelService *modelService;
@@ -19,3 +21,5 @@
 - (instancetype)initWithArrivalAndDepartureConvertible:(NSObject<OBAArrivalAndDepartureConvertible,NSCopying>*)convertible;
 
 @end
+
+NS_ASSUME_NONNULL_END
