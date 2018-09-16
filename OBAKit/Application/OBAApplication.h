@@ -25,6 +25,7 @@
 @class OBAApplicationConfiguration;
 @class OBAConsoleLogger;
 @class PromisedModelService;
+@class OBAForecastManager;
 @class OBAMapDataLoader;
 @class OBAMapRegionManager;
 
@@ -45,6 +46,7 @@ extern NSString *const OBAShowTestAlertsDefaultsKey;
 @property (nonatomic, strong, readonly) OBAConsoleLogger *consoleLogger;
 @property (nonatomic, strong, readonly) OBAMapDataLoader *mapDataLoader;
 @property (nonatomic, strong, readonly) OBAMapRegionManager *mapRegionManager;
+@property (nonatomic, strong, readonly) OBAForecastManager *forecastManager;
 @property (nonatomic, strong, readonly) NSUserDefaults *userDefaults;
 
 @property (nonatomic, copy, readonly) NSString *googleAnalyticsID;

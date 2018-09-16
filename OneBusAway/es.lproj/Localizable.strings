@@ -903,8 +903,8 @@
 /* Error message displayed when the stop ID provided doesn't match a known stop ID. */
 "map_controller.no_matching_stop_warning_body" = "No hemos podido encontrar una parada que coincida con el ID que proporcionaste. Por favor, combrueba tu número e inténtalo nuevamente.";
 
-/* Accessibility label for toggle map type button on map. */
-"map_controller.toggle_map_type_accessibility_label" = "Cambiar el Tipo de Mapa";
+/* Button title for changing the map type */
+"map_table.toggle_map_type_button" = "Cambiar el Tipo de Mapa";
 
 /* Title for Standard Map toggle option. */
 "map_controller.standard_map_type_title" = "Mapa Estándar";
