@@ -327,9 +327,6 @@
 /* As in 'going to the north.' */
 "msg_northbound" = "hacia el Norte";
 
-/* code == 404 */
-"msg_not_found" = "No se encontró";
-
 /* cell.label.text */
 "msg_number" = "Número";
 

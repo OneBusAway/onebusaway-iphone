@@ -465,15 +465,7 @@ extension MapTableViewController: MapSearchDelegate, UISearchControllerDelegate,
         Analytics.logEvent(OBAAnalyticsSearchPerformed, parameters: ["searchType": NSStringFromOBASearchType(target.searchType) ?? "Unknown"])
 
         searchController.dismiss(animated: true) { [weak self] in
-            guard let region: MKCoordinateRegion = self?.coordinateRegion else {
-                return
-            }
-            let circularRegion = OBAMapHelpers.convertCoordinateRegion(toCircularRegion: region)
-
-            // abxoxo - todo fixme - this is gross :-\
-            self?.application.mapDataLoader.searchRegion = circularRegion
-            let appDelegate = UIApplication.shared.delegate as! OBAApplicationDelegate
-            appDelegate.navigate(to: target)
+            self?.setNavigationTarget(target)
         }
     }
 
@@ -496,30 +488,21 @@ extension MapTableViewController: MapSearchDelegate, UISearchControllerDelegate,
     }
 }
 
-// MARK: - OBANavigationTargetAware
-extension MapTableViewController: OBANavigationTargetAware, VehicleDisambiguationDelegate {
+// MARK: - Vehicle Search
+extension MapTableViewController: VehicleDisambiguationDelegate {
     func disambiguator(_ viewController: VehicleDisambiguationViewController, didSelect matchingVehicle: MatchingAgencyVehicle) {
         viewController.dismiss(animated: true) {
             SVProgressHUD.show()
 
-            // abxoxo - here!
+            let wrapper = self.application.modelService.requestVehicleTrip(matchingVehicle.vehicleID)
+            wrapper.promise.then { [weak self] networkResponse in
+                self?.displayVehicleFromTripDetails(networkResponse)
+            }.catch { [weak self] error in
+                AlertPresenter.showError((error as NSError), presentingController: self)
+            }.always {
+                SVProgressHUD.dismiss()
+            }
         }
-//        [viewController dismissViewControllerAnimated:YES completion:^{
-//            [SVProgressHUD show];
-//
-//            // abxoxo - todo - add this wrapper to a 'disposal bag' or something that can be cancelled
-//            // if the user exits this view controller before this operation finishes.
-//            PromiseWrapper *wrapper = [self.modelService requestVehicleTrip:matchingVehicle.vehicleID];
-//            wrapper.anyPromise.then(^(NetworkResponse *response){
-//            OBATripDetailsV2 *tripDetails = (OBATripDetailsV2 *)response.object;
-//            OBAArrivalAndDepartureViewController *controller = [[OBAArrivalAndDepartureViewController alloc] initWithTripInstance:tripDetails.tripInstance];
-//            [self pushViewController:controller animated:YES];
-//            }).catch(^(NSError *error) {
-//            [AlertPresenter showError:error presentingController:self];
-//            }).always(^{
-//            [SVProgressHUD dismiss];
-//            });
-//            }];
     }
 
     private func disambiguateMatchingVehicles(_ matchingVehicles: [MatchingAgencyVehicle]) {
@@ -530,66 +513,79 @@ extension MapTableViewController: OBANavigationTargetAware, VehicleDisambiguatio
     }
 
     private func loadVehicleNavigationTarget(_ vehicleNavTarget: OBAVehicleIDNavigationTarget) {
-//        guard let region = application.modelDao.currentRegion else {
-//            // TODO: better error handling.
-//            return
-//        }
-//        SVProgressHUD.show()
+        // swiftlint:disable nesting
+        enum VehicleError: Error {
+            case noMatchesFound
+            case needsDisambiguation(_ matchingVehicles: [MatchingAgencyVehicle])
+        }
+        // swiftlint:enable nesting
 
-        // abxoxo - todo!
+        guard let region = application.modelDao.currentRegion else {
+            // abxoxo TODO: better error handling.
+            return
+        }
+        SVProgressHUD.show()
 
-//        let wrapper = application.modelService.requestVehicles(matching: vehicleNavTarget.query, in: region)
-//        wrapper.promise.then { [weak self] networkResponse /* -> Promise<NetworkResponse> */ in
-//            let matchingVehicles = networkResponse.object as! [MatchingAgencyVehicle]
-//
-//            if
-//                matchingVehicles.count == 1,
-//                let first = matchingVehicles.first,
-//                let modelService = self?.application.modelService
-//            {
-//                return modelService.requestVehicleTrip(first.vehicleID).anyPromise
-//            }
-//            else {
-//                // pop up a disambiguation UI.
-//                self?.disambiguateMatchingVehicles(matchingVehicles)
-//                return AnyPromise.init(Promise<Void>())
-//            }
-//        }.then {
-//
-//        }
+        let wrapper = application.modelService.requestVehicles(matching: vehicleNavTarget.query, in: region)
+        wrapper.promise.then { [weak self] networkResponse -> Promise<NetworkResponse> in
+            let matchingVehicles = networkResponse.object as! [MatchingAgencyVehicle]
 
-//        wrapper.anyPromise.then(^(NetworkResponse *response) {
-//            NSArray<OBAMatchingAgencyVehicle*> *matchingVehicles = response.object;
-//
-//            if (matchingVehicles.count == 1) {
-//                return [self.modelService requestVehicleTrip:matchingVehicles.firstObject.vehicleID].anyPromise;
-//            }
-//            else {
-//                // pop up a disambiguation UI.
-//                [self disambiguateMatchingVehicles:matchingVehicles];
-//                return [AnyPromise promiseWithValue:nil];
-//            }
-//        }).then(^(NetworkResponse *response) {
-//            if (response) {
-//                OBATripDetailsV2 *tripDetails = (OBATripDetailsV2 *)response.object;
-//                OBAArrivalAndDepartureViewController *controller = [[OBAArrivalAndDepartureViewController alloc] initWithTripInstance:tripDetails.tripInstance];
-//                [self pushViewController:controller animated:YES];
-//            }
-//        }).catch(^(NSError *error) {
-//            [AlertPresenter showError:error presentingController:self];
-//        }).always(^{
-//            [SVProgressHUD dismiss];
-//        });
+            if matchingVehicles.count > 1 {
+                throw VehicleError.needsDisambiguation(matchingVehicles)
+            }
+
+            guard
+                let vehicle = matchingVehicles.first,
+                let modelService = self?.application.modelService
+                else {
+                    throw VehicleError.noMatchesFound
+            }
+
+            return modelService.requestVehicleTrip(vehicle.vehicleID).promise
+            }.then { [weak self] (networkResponse: NetworkResponse?) -> Void in
+                self?.displayVehicleFromTripDetails(networkResponse)
+            }.catch { error in
+                if let err = error as? VehicleError {
+                    switch err {
+                    case .needsDisambiguation(let matches):
+                        self.disambiguateMatchingVehicles(matches)
+                    case .noMatchesFound:
+                        let body = NSLocalizedString("map_table.vehicle_search_no_results", comment: "No results were found for your search. Please try again.")
+                        AlertPresenter.showWarning(OBAStrings.notFound, body: body)
+                    }
+                }
+            }.always {
+                SVProgressHUD.dismiss()
+        }
     }
 
+    /// Decodes a trip details object from a NetworkResponse and
+    /// uses that to display a specific vehicle trip.
+    ///
+    /// - Parameter networkResponse: A NetworkResponse containing an OBATripDetailsV2 object.
+    private func displayVehicleFromTripDetails(_ networkResponse: NetworkResponse?) {
+        if let response = networkResponse,
+            let tripDetails = response.object as? OBATripDetailsV2,
+            let tripInstance = tripDetails.tripInstance,
+            let pulleyController = pulleyViewController
+        {
+            let controller = OBAArrivalAndDepartureViewController(tripInstance: tripInstance)
+            pulleyController.pushViewController(controller, animated: true)
+        }
+    }
+
+}
+
+// MARK: - OBANavigationTargetAware
+extension MapTableViewController: OBANavigationTargetAware {
     func setNavigationTarget(_ navigationTarget: OBANavigationTarget) {
         if navigationTarget.searchType == .region {
             application.mapDataLoader.searchPending()
             application.mapRegionManager.setRegionFrom(navigationTarget)
         }
-        else if
-            navigationTarget.searchType == .stopId,
-            let stopID = navigationTarget.searchArgument as? String {
+        else if navigationTarget.searchType == .stopId,
+                let stopID = navigationTarget.searchArgument as? String
+        {
             displayStop(withID: stopID)
         }
         else if navigationTarget is OBAVehicleIDNavigationTarget {

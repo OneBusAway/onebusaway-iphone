@@ -36,6 +36,7 @@
 #import "OBARecentStopsViewController.h"
 #import "OBABookmarksViewController.h"
 #import "OBAInfoViewController.h"
+#import "OBAArrivalAndDepartureViewController.h"
 
 // Categories
 #import "UIViewController+OBAAdditions.h"

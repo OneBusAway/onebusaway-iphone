@@ -327,9 +327,6 @@
 /* As in 'going to the north.' */
 "msg_northbound" = "往北";
 
-/* code == 404 */
-"msg_not_found" = "查無";
-
 /* cell.label.text */
 "msg_number" = "車號";
 

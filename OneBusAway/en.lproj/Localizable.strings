@@ -336,9 +336,6 @@
 /* As in 'going to the north.' */
 "msg_northbound" = "Northbound";
 
-/* code == 404 */
-"msg_not_found" = "Not found";
-
 /* cell.label.text */
 "msg_number" = "Number";
 
@@ -827,6 +824,9 @@
 
 /* The section title on the 'Nearby' controller that says 'Routes' */
 "nearby_stops.routes_section_title" = "Routes";
+
+/* No results were found for your search. Please try again. */
+"map_table.vehicle_search_no_results" = "No results were found for your search. Please try again.";
 
 /* 'Route: {TEXT}' prefix */
 "map_table.route_prefix" = "Route: %@";
