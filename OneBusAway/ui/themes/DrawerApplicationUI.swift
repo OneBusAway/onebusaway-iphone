@@ -54,7 +54,7 @@ import OBAKit
         mapController.delegate = mapTableController
 
         mapPulley = PulleyViewController(contentViewController: mapController, drawerViewController: drawerNavigation)
-        mapPulley.defaultCollapsedHeight = 120.0
+        mapPulley.defaultCollapsedHeight = DrawerApplicationUI.calculateCollapsedHeightForCurrentDevice()
         mapPulley.initialDrawerPosition = .collapsed
 
         mapPulley.title = mapTableController.title
@@ -76,6 +76,22 @@ import OBAKit
 extension DrawerApplicationUI: PulleyDelegate {
     func drawerPositionDidChange(drawer: PulleyViewController, bottomSafeArea: CGFloat) {
         mapTableController.collectionView.isScrollEnabled = drawer.drawerPosition == .open
+    }
+
+    private static func calculateCollapsedHeightForCurrentDevice() -> CGFloat {
+        let height = UIScreen.main.bounds.height
+        if height >= 812.0 { // X, Xs, iPad, etc.
+            return 200.0
+        }
+        else if height <= 736.0 { // Plus
+            return 200.0
+        }
+        else if height <= 667.0 { // 6, 7, 8
+            return 180.0
+        }
+        else { // iPhone SE, etc.
+            return 120.0
+        }
     }
 }
 
