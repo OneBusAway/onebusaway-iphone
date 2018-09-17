@@ -32,7 +32,7 @@ NS_ASSUME_NONNULL_BEGIN
 + (instancetype)unparsedDataSourceWithBaseURL:(NSURL*)URL userID:(NSString*)userID;
 
 /**
- OBA.co, obaco, or onebusaway.co is the service that powers deep links in the app,
+ alerts.onebusaway.org, formerly obaco or onebusaway.co, is the service that powers deep links in the app,
  along with other cross-regional services.
  */
 + (instancetype)obacoJSONDataSource;
