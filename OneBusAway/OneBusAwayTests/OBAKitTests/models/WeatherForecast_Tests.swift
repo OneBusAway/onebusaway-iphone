@@ -59,13 +59,6 @@ class WeatherForecast_Tests: QuickSpec {
                     expect(weatherForecast.currentForecast.temperature).to(equal(72.5))
                 }
             }
-
-            describe("IGListKit Integration") {
-                it("conforms to the ListDiffable protocol") {
-                    let conformity = weatherForecast.conforms(to: ListDiffable.self)
-                    expect(conformity).to(beTrue())
-                }
-            }
         }
     }
 }

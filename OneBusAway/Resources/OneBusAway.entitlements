@@ -8,6 +8,7 @@
 	<array>
 		<string>applinks:onebusaway.co</string>
 		<string>applinks:www.onebusaway.co</string>
+		<string>applinks:alerts.onebusaway.org</string>
 	</array>
 	<key>com.apple.developer.icloud-container-identifiers</key>
 	<array>
