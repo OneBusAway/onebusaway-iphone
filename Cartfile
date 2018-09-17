@@ -51,7 +51,7 @@ github "jspahrsummers/libextobjc" ~>0.5.0
 github "apple/swift-protobuf" ~>1.0.3
 
 # https://github.com/OneSignal/OneSignal-iOS-SDK/releases
-github "OneSignal/OneSignal-iOS-SDK" ~>2.8.1
+github "OneSignal/OneSignal-iOS-SDK" ~>2.8.8
 
 ###################
 ##### Testing #####
