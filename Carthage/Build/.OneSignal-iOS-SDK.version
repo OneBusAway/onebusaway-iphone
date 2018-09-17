@@ -1,9 +1,18 @@
 {
-  "commitish" : "2.8.4",
+  "Mac" : [
+
+  ],
+  "watchOS" : [
+
+  ],
+  "tvOS" : [
+
+  ],
+  "commitish" : "2.8.8",
   "iOS" : [
     {
       "name" : "OneSignal",
-      "hash" : "72f132ea0f9696985545b9b3c23d5708fe9d92df598be5eceb07b06388425b74"
+      "hash" : "70c00e1a59d7624eca1bff370c9bc3c152fb6ba0584327b586e2dd58bbf6ba93"
     }
   ]
 }

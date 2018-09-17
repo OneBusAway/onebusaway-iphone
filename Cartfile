@@ -34,8 +34,7 @@ github "Instagram/IGListKit" ==3.4.0
 github "CocoaLumberjack/CocoaLumberjack" ~>3.4.1
 
 # https://github.com/SwipeCellKit/SwipeCellKit/releases
-# github "SwipeCellKit/SwipeCellKit" ~>2.4.3
-github "SwipeCellKit/SwipeCellKit" "swift_4.2"
+github "SwipeCellKit/SwipeCellKit" ~>2.5.0
 
 # This repository does not work properly with Carthage.
 # I am currently copying the source files present in Carthage/Checkouts
@@ -52,7 +51,7 @@ github "jspahrsummers/libextobjc" ~>0.5.0
 github "apple/swift-protobuf" ~>1.0.3
 
 # https://github.com/OneSignal/OneSignal-iOS-SDK/releases
-github "OneSignal/OneSignal-iOS-SDK" ~>2.8.1
+github "OneSignal/OneSignal-iOS-SDK" ~>2.8.8
 
 ###################
 ##### Testing #####
