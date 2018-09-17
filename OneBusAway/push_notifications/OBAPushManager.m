@@ -14,7 +14,7 @@ NSString * const OBAPushNotificationUserIdDefaultsKey = @"OBAPushNotificationUse
 NSString * const OBAPushNotificationPushTokenDefaultsKey = @"OBAPushNotificationPushTokenDefaultsKey";
 
 @interface OBAPushManager ()<OSSubscriptionObserver>
-
+@property(nonatomic,copy,nullable) PMKResolver subscriptionStatusResolver;
 @end
 
 @implementation OBAPushManager
@@ -50,8 +50,15 @@ NSString * const OBAPushNotificationPushTokenDefaultsKey = @"OBAPushNotification
 
 - (void)onOSSubscriptionChanged:(OSSubscriptionStateChanges*)stateChanges {
     // TODO: send the updates to the server.
-//    NSString *userID = stateChanges.to.userId;
-//    NSString *pushToken = stateChanges.to.pushToken;
+    NSString *userID = stateChanges.to.userId;
+    NSString *pushToken = stateChanges.to.pushToken;
+
+    NSLog(@"Push subscription status changed! userID: %@, pushToken: %@", userID, pushToken);
+
+    if (self.subscriptionStatusResolver) {
+        self.subscriptionStatusResolver(userID);
+        self.subscriptionStatusResolver = nil;
+    }
 }
 
 #pragma mark - Promises
@@ -60,7 +67,16 @@ NSString * const OBAPushNotificationPushTokenDefaultsKey = @"OBAPushNotification
     return [AnyPromise promiseWithResolverBlock:^(PMKResolver resolve) {
         [OneSignal promptForPushNotificationsWithUserResponse:^(BOOL accepted) {
             if (accepted) {
-                resolve([OneSignal getPermissionSubscriptionState].subscriptionStatus.userId);
+                OSPermissionSubscriptionState *state = [OneSignal getPermissionSubscriptionState];
+                OSSubscriptionState *subscriptionStatus = state.subscriptionStatus;
+                NSString *userID = subscriptionStatus.userId;
+
+                if (userID) {
+                    resolve(userID);
+                }
+                else {
+                    NSLog(@"No available user id. waiting!!!");
+                }
             }
             else {
                 resolve([NSError errorWithDomain:OBAErrorDomain code:OBAErrorCodePushNotificationAuthorizationDenied userInfo:@{NSLocalizedDescriptionKey: NSLocalizedString(@"push_manager.authorization_denied", @"Error message shown when the user denies the app the ability to send push notifications.")}]);

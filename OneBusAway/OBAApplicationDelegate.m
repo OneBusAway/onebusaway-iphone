@@ -101,7 +101,9 @@ static NSString * const OBALastRegionRefreshDateUserDefaultsKey = @"OBALastRegio
                                                           diskPath:nil];
     [NSURLCache setSharedURLCache:cache];
 
-#ifndef TARGET_IPHONE_SIMULATOR
+#if TARGET_OS_SIMULATOR
+    NSLog(@"Running on Simulator. Not starting the push manager!");
+#else
     [[OBAPushManager pushManager] startWithLaunchOptions:launchOptions delegate:self APIKey:self.application.oneSignalAPIKey];
 #endif
 
