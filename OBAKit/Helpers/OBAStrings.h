@@ -105,6 +105,11 @@ NS_ASSUME_NONNULL_BEGIN
 @property(class,nonatomic,copy,readonly) NSString *notFound;
 
 /**
+ Offline
+ */
+@property(class,nonatomic,copy,readonly) NSString *offline;
+
+/**
  Created an attributed string with a prepended image.
 
  @param image An image that will precede the string.

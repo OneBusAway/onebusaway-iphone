@@ -837,6 +837,9 @@
 /* Title for the More Nearby Stops table row */
 "map_table.more_nearby_stops" = "More Nearby Stops";
 
+/* Explanation for when the app is offline. */
+"map_table.offline_explanation" = "Your network is unavailable. Check your data or WiFi connection and try again.";
+
 /* Map Search: Quick Lookup Table Section */
 "map_search.quick_lookup_section_title" = "Quick Search";
 

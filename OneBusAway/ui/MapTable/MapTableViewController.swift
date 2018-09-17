@@ -111,6 +111,7 @@ class MapTableViewController: UIViewController {
         self.title = NSLocalizedString("msg_map", comment: "Map tab title")
         self.tabBarItem.image = UIImage.init(named: "Map")
         self.tabBarItem.selectedImage = UIImage.init(named: "Map_Selected")
+        NotificationCenter.default.addObserver(self, selector: #selector(reachabilityChanged(note:)), name: NSNotification.Name.reachabilityChanged, object: nil)
     }
 
     required init?(coder aDecoder: NSCoder) {
@@ -198,7 +199,7 @@ extension MapTableViewController: ListAdapterDataSource {
 
     func objects(for listAdapter: ListAdapter) -> [ListDiffable] {
         guard application.isServerReachable else {
-            return [GrabHandleSection(), OfflineSection(), Sweep(collectionViewBounds: view.bounds)]
+            return [GrabHandleSection(), OfflineSection()]
         }
 
         var sections: [ListDiffable] = []
@@ -344,6 +345,13 @@ extension MapTableViewController: ListAdapterDataSource {
         }
 
         return Array(viewModels.prefix(upTo))
+    }
+}
+
+// MARK: - Reachability
+extension MapTableViewController {
+    @objc func reachabilityChanged(note: NSNotification) {
+        adapter.performUpdates(animated: true)
     }
 }
 

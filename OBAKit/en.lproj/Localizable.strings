@@ -193,6 +193,9 @@
 /* Not Found */
 "strings.not_found" = "Not Found";
 
+/* Offline */
+"strings.offline" = "Offline";
+
 /* An error displayed to the user when their alarm can't be created. */
 "model_service.cant_register_alarm_missing_parameters" = "Sorry, we can't create an alarm for this upcoming trip. You're welcome to try again, but it probably won't make any difference. Sorry about that :(";
 
