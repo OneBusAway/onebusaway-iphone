@@ -329,13 +329,20 @@ static NSString * const OBALastRegionRefreshDateUserDefaultsKey = @"OBALastRegio
     UIApplicationShortcutIcon *clockIcon = [UIApplicationShortcutIcon iconWithType:UIApplicationShortcutIconTypeTime];
 
     for (OBAStopAccessEventV2 *stopEvent in self.application.modelDao.mostRecentStops) {
+        if (stopEvent.stopID.length == 0) {
+            continue;
+        }
+
         UIApplicationShortcutItem *shortcutItem =
                 [[UIApplicationShortcutItem alloc] initWithType:kApplicationShortcutRecents
                                                  localizedTitle:stopEvent.title
                                               localizedSubtitle:nil
                                                            icon:clockIcon
                                                        userInfo:@{ @"stopID": stopEvent.stopID }];
-        [dynamicShortcuts addObject:shortcutItem];
+
+        if (shortcutItem) {
+            [dynamicShortcuts addObject:shortcutItem];
+        }
     }
 
     [UIApplication sharedApplication].shortcutItems = [dynamicShortcuts oba_pickFirst:4];
@@ -344,7 +351,6 @@ static NSString * const OBALastRegionRefreshDateUserDefaultsKey = @"OBALastRegio
 #pragma mark - Reachability
 
 - (void)reachabilityChanged:(NSNotification*)note {
-
     OBAReachability *reachability = note.object;
 
     if (!reachability.isReachable) {
