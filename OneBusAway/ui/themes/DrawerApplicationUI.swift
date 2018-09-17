@@ -83,11 +83,11 @@ extension DrawerApplicationUI: PulleyDelegate {
         if height >= 812.0 { // X, Xs, iPad, etc.
             return 200.0
         }
-        else if height <= 736.0 { // Plus
-            return 200.0
+        else if height >= 736.0 { // Plus
+            return 150.0
         }
-        else if height <= 667.0 { // 6, 7, 8
-            return 180.0
+        else if height >= 667.0 { // 6, 7, 8
+            return 150.0
         }
         else { // iPhone SE, etc.
             return 120.0
