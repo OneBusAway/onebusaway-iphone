@@ -53,6 +53,7 @@
 
         NSArray *views = @[leftLabelStackWrapper, departureLabelStackWrapper, self.contextMenuButton];
         UIStackView *horizontalStack = [[UIStackView alloc] initWithArrangedSubviews:views];
+        horizontalStack.translatesAutoresizingMaskIntoConstraints = NO;
         horizontalStack.axis = UILayoutConstraintAxisHorizontal;
         horizontalStack.distribution = UIStackViewDistributionFill;
         horizontalStack.spacing = OBATheme.compactPadding;
@@ -85,28 +86,13 @@
 }
 
 + (UIView*)wrapDepartureLabel:(UILabel*)label {
-    UIView *wrapper = [[UIView alloc] initWithFrame:CGRectZero];
-    [wrapper addSubview:label];
+    UIView *wrapper = [label oba_embedInWrapperViewWithConstraints:NO];
 
     [label mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.top.right.and.bottom.equalTo(wrapper);
-    }];
-
-    [wrapper mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.height.equalTo(label);
+        make.edges.equalTo(wrapper);
     }];
 
     return wrapper;
-}
-
-+ (UILabel*)buildLineLabel {
-    UILabel *lineLabel = [[UILabel alloc] init];
-    lineLabel.numberOfLines = 0;
-    [lineLabel setContentCompressionResistancePriority:UILayoutPriorityDefaultHigh forAxis:UILayoutConstraintAxisHorizontal];
-    [lineLabel setContentCompressionResistancePriority:UILayoutPriorityRequired forAxis:UILayoutConstraintAxisVertical];
-    [lineLabel setContentHuggingPriority:UILayoutPriorityDefaultLow forAxis:UILayoutConstraintAxisVertical];
-
-    return lineLabel;
 }
 
 #pragma mark - Table Cell 'Proxy' Methods
@@ -215,6 +201,7 @@
 - (UIStackView*)leftLabelStack {
     if (!_leftLabelStack) {
         _leftLabelStack = [[UIStackView alloc] initWithArrangedSubviews:@[self.topLineLabel, self.middleLineLabel, self.bottomLineLabel, [UIView new]]];
+        _leftLabelStack.translatesAutoresizingMaskIntoConstraints = NO;
         _leftLabelStack.axis = UILayoutConstraintAxisVertical;
         _leftLabelStack.distribution = UIStackViewDistributionFill;
         _leftLabelStack.spacing = 0;
@@ -222,15 +209,25 @@
     return _leftLabelStack;
 }
 
++ (UILabel*)buildLineLabel {
+    UILabel *lineLabel = [UILabel oba_autolayoutNew];
+    lineLabel.numberOfLines = 0;
+    [lineLabel setContentCompressionResistancePriority:UILayoutPriorityDefaultHigh forAxis:UILayoutConstraintAxisHorizontal];
+    [lineLabel setContentCompressionResistancePriority:UILayoutPriorityRequired forAxis:UILayoutConstraintAxisVertical];
+    [lineLabel setContentHuggingPriority:UILayoutPriorityDefaultLow forAxis:UILayoutConstraintAxisVertical];
+
+    return lineLabel;
+}
+
 - (UILabel*)topLineLabel {
     if (!_topLineLabel) {
-        _topLineLabel = [[UILabel alloc] init];
+        _topLineLabel = [UILabel oba_autolayoutNew];
         _topLineLabel.font = OBATheme.boldBodyFont;
         _topLineLabel.numberOfLines = 1;
         _topLineLabel.adjustsFontSizeToFitWidth = YES;
         _topLineLabel.minimumScaleFactor = 0.8f;
         [_topLineLabel setContentCompressionResistancePriority:UILayoutPriorityRequired forAxis:UILayoutConstraintAxisVertical];
-        [_topLineLabel setContentHuggingPriority:UILayoutPriorityDefaultLow forAxis:UILayoutConstraintAxisVertical];
+        [_topLineLabel setContentHuggingPriority:UILayoutPriorityDefaultHigh forAxis:UILayoutConstraintAxisVertical];
     }
     return _topLineLabel;
 }
@@ -258,6 +255,7 @@
                                      self.departureLabelSpacer
                                      ];
         _departureLabelStack = [[UIStackView alloc] initWithArrangedSubviews:labelStackViews];
+        _departureLabelStack.translatesAutoresizingMaskIntoConstraints = NO;
         _departureLabelStack.axis = UILayoutConstraintAxisVertical;
         _departureLabelStack.distribution = UIStackViewDistributionFill;
         _departureLabelStack.spacing = 0;
@@ -267,7 +265,7 @@
 
 - (OBADepartureTimeLabel*)firstDepartureLabel {
     if (!_firstDepartureLabel) {
-        _firstDepartureLabel = [[OBADepartureTimeLabel alloc] init];
+        _firstDepartureLabel = [OBADepartureTimeLabel oba_autolayoutNew];
         _firstDepartureLabel.font = [OBATheme bodyFont];
         [_firstDepartureLabel setContentCompressionResistancePriority:UILayoutPriorityRequired forAxis:UILayoutConstraintAxisHorizontal];
         [_firstDepartureLabel setContentHuggingPriority:UILayoutPriorityDefaultHigh forAxis:UILayoutConstraintAxisVertical];
@@ -277,7 +275,7 @@
 
 - (OBADepartureTimeLabel*)secondDepartureLabel {
     if (!_secondDepartureLabel) {
-        _secondDepartureLabel = [[OBADepartureTimeLabel alloc] init];
+        _secondDepartureLabel = [OBADepartureTimeLabel oba_autolayoutNew];
         _secondDepartureLabel.font = [OBATheme footnoteFont];
         [_secondDepartureLabel setContentCompressionResistancePriority:UILayoutPriorityRequired forAxis:UILayoutConstraintAxisHorizontal];
         [_secondDepartureLabel setContentHuggingPriority:UILayoutPriorityDefaultHigh forAxis:UILayoutConstraintAxisVertical];
@@ -287,7 +285,7 @@
 
 - (OBADepartureTimeLabel*)thirdDepartureLabel {
     if (!_thirdDepartureLabel) {
-        _thirdDepartureLabel = [[OBADepartureTimeLabel alloc] init];
+        _thirdDepartureLabel = [OBADepartureTimeLabel oba_autolayoutNew];
         _thirdDepartureLabel.font = [OBATheme footnoteFont];
         [_thirdDepartureLabel setContentCompressionResistancePriority:UILayoutPriorityRequired forAxis:UILayoutConstraintAxisHorizontal];
         [_thirdDepartureLabel setContentHuggingPriority:UILayoutPriorityDefaultHigh forAxis:UILayoutConstraintAxisVertical];
@@ -297,7 +295,7 @@
 
 - (UIView*)departureLabelSpacer {
     if (!_departureLabelSpacer) {
-        _departureLabelSpacer = [UIView new];
+        _departureLabelSpacer = [UIView oba_autolayoutNew];
     }
     return _departureLabelSpacer;
 }
@@ -305,6 +303,7 @@
 - (UIButton*)contextMenuButton {
     if (!_contextMenuButton) {
         _contextMenuButton = [OBAUIBuilder contextMenuButton];
+        _contextMenuButton.translatesAutoresizingMaskIntoConstraints = NO;
     }
     return _contextMenuButton;
 }

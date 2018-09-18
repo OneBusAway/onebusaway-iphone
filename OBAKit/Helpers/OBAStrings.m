@@ -83,6 +83,10 @@
     return OBALocalized(@"strings.not_found", @"Not Found");
 }
 
++ (NSString*)offline {
+    return OBALocalized(@"strings.offline", @"Offline");
+}
+
 + (nullable NSAttributedString*)attributedStringWithPrependedImage:(UIImage*)image string:(NSString*)string {
     return [self attributedStringWithPrependedImage:image string:string color:nil];
 }

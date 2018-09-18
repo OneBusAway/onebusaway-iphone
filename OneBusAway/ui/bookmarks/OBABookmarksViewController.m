@@ -506,8 +506,14 @@ static NSString * const OBABookmarkSortUserDefaultsKey = @"OBABookmarkSortUserDe
 #pragma mark - Moving Table Cells
 
 - (BOOL)tableView:(UITableView*)tableView canMoveRowAtIndexPath:(NSIndexPath *)indexPath {
-    // Only rows backed by a model can be moved.
-    return !![self rowAtIndexPath:indexPath].model;
+    OBABookmarkSort sort = [self.application.userDefaults integerForKey:OBABookmarkSortUserDefaultsKey];
+    if (sort == OBABookmarkSortProximity) {
+        return NO;
+    }
+    else {
+        // Only rows backed by a model can be moved.
+        return !![self rowAtIndexPath:indexPath].model;
+    }
 }
 
 - (void)tableView:(UITableView*)tableView moveRowAtIndexPath:(NSIndexPath *)sourceIndexPath toIndexPath:(NSIndexPath *)destinationIndexPath {

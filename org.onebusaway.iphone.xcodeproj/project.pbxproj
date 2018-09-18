@@ -186,7 +186,6 @@
 		9373E70F1EA4084C0019C7CB /* OBATripDeepLink_Tests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9373E70E1EA4084C0019C7CB /* OBATripDeepLink_Tests.swift */; };
 		937B0B7C21027C79001C4CF9 /* shape_1_40046045.json in Resources */ = {isa = PBXBuildFile; fileRef = 937B0B7A21027C78001C4CF9 /* shape_1_40046045.json */; };
 		937B0B7E21027D1B001C4CF9 /* Diversions_Tests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 937B0B7D21027D1B001C4CF9 /* Diversions_Tests.swift */; };
-		9383FCB020AF6FEA007347B2 /* BottomSweepSectionController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9383FCAF20AF6FEA007347B2 /* BottomSweepSectionController.swift */; };
 		9385EC3B1DCF14C60020CCB2 /* OBASettingsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9385EC3A1DCF14C60020CCB2 /* OBASettingsViewController.m */; };
 		9385EC401DCF1D910020CCB2 /* ServiceAlertDetailsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9385EC3F1DCF1D910020CCB2 /* ServiceAlertDetailsViewController.swift */; };
 		93876DFB1E68AD3900B4343F /* OBAMapAnnotationViewBuilder.m in Sources */ = {isa = PBXBuildFile; fileRef = 93876DFA1E68AD3900B4343F /* OBAMapAnnotationViewBuilder.m */; };
@@ -565,7 +564,6 @@
 		9373E7101EA4087A0019C7CB /* OneBusAwayTests-Bridging-Header.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "OneBusAwayTests-Bridging-Header.h"; sourceTree = "<group>"; };
 		937B0B7A21027C78001C4CF9 /* shape_1_40046045.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = shape_1_40046045.json; sourceTree = "<group>"; };
 		937B0B7D21027D1B001C4CF9 /* Diversions_Tests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Diversions_Tests.swift; sourceTree = "<group>"; };
-		9383FCAF20AF6FEA007347B2 /* BottomSweepSectionController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BottomSweepSectionController.swift; sourceTree = "<group>"; };
 		9385EC391DCF14C60020CCB2 /* OBASettingsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OBASettingsViewController.h; sourceTree = "<group>"; };
 		9385EC3A1DCF14C60020CCB2 /* OBASettingsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OBASettingsViewController.m; sourceTree = "<group>"; };
 		9385EC3F1DCF1D910020CCB2 /* ServiceAlertDetailsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ServiceAlertDetailsViewController.swift; sourceTree = "<group>"; };
@@ -1565,7 +1563,6 @@
 				93A637E220A2CDDC0005248C /* CenterLabelCell.swift */,
 				93A637E020A2CDA60005248C /* EmbeddedSectionController.swift */,
 				93A637DE20A2CD8C0005248C /* EmbeddedCollectionViewCell.swift */,
-				9383FCAF20AF6FEA007347B2 /* BottomSweepSectionController.swift */,
 				93A637D920A2CCE20005248C /* DisplaySectionController.swift */,
 				93A637D820A2CCE20005248C /* HorizontalSectionController.swift */,
 				93DCEF7120E5AF2F0004E087 /* LabelSectionController.swift */,
@@ -2045,7 +2042,6 @@
 				934196E21DB0C124004BBBB7 /* MKMapView+oba_Additions.m in Sources */,
 				9341B82920B683A5006450FC /* StopViewModel.swift in Sources */,
 				9300CF7F20FA70BB006AB268 /* PulleyPassthroughScrollView.swift in Sources */,
-				9383FCB020AF6FEA007347B2 /* BottomSweepSectionController.swift in Sources */,
 				934198171DB0C1BA004BBBB7 /* OBARotatingButton.m in Sources */,
 				930CE4DB1E9BFB590073F04D /* UserDefaultsBrowserViewController.swift in Sources */,
 				93FE60261E0B2F34006EC9FB /* SVPulsingAnnotationView.m in Sources */,

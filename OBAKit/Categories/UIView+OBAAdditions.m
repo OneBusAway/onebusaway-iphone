@@ -35,7 +35,7 @@
 }
 
 - (UIView*)oba_embedInWrapperViewWithConstraints:(BOOL)constrained {
-    UIView *wrapper = [[UIView alloc] initWithFrame:CGRectZero];
+    UIView *wrapper = [UIView oba_autolayoutNew];
     [wrapper addSubview:self];
     if (constrained) {
         [self mas_makeConstraints:^(MASConstraintMaker *make) {
