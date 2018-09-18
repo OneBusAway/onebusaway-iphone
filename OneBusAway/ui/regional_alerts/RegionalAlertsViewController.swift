@@ -66,11 +66,11 @@ class RegionalAlertsViewController: OBAStaticTableViewController {
     // MARK: - Actions
 
     private func presentAlert(_ alert: AgencyAlert) {
+        application.modelDao.markAlert(asRead: alert)
 
         if let url = alert.url(language: language) {
             let safari = SFSafariViewController.init(url: url)
             present(safari, animated: true, completion: nil)
-            // abxoxo - todo mark as read.
         }
         else {
             let alert = UIAlertController.init(title: alert.title(language: language), message: alert.body(language: language), preferredStyle: .alert)
@@ -82,9 +82,10 @@ class RegionalAlertsViewController: OBAStaticTableViewController {
     }
 
     @objc private func markAllAsRead() {
-        // abxoxo - todo
-//        self.regionalAlertsManager.markAllAsRead()
-//        self.reloadData()
+        for alert in agencyAlerts {
+            application.modelDao.markAlert(asRead: alert)
+        }
+        reloadData()
     }
 
     // MARK: - Data Loading
@@ -93,12 +94,9 @@ class RegionalAlertsViewController: OBAStaticTableViewController {
         application.modelService.requestRegionalAlerts().then { alerts -> Void in
             self.agencyAlerts = alerts
             self.reloadData()
-        }.catch { error in
-            // abxoxo - todo
+        }.catch { [weak self] error in
+            AlertPresenter.showError(error as NSError, presentingController: self)
             print("error \(error)")
-        }.always {
-            // abxoxo - todo
-            print("done!")
         }
     }
 
@@ -113,8 +111,7 @@ class RegionalAlertsViewController: OBAStaticTableViewController {
                 tableRow.subject = subject
             }
 
-            // abxoxo todo!
-//            tableRow.unread = alert.unread
+            tableRow.unread = application.modelDao.isAlertUnread(alert)
 
             return tableRow
         }
