@@ -57,6 +57,14 @@ import OBAKit
         mapPulley.defaultCollapsedHeight = DrawerApplicationUI.calculateCollapsedHeightForCurrentDevice()
         mapPulley.initialDrawerPosition = .collapsed
 
+        if #available(iOS 11.0, *) {
+            // nop
+        }
+        else {
+            // iOS 10
+            mapPulley.backgroundDimmingColor = .clear
+        }
+
         mapPulley.title = mapTableController.title
         mapPulley.tabBarItem.image = mapTableController.tabBarItem.image
         mapPulley.tabBarItem.selectedImage = mapTableController.tabBarItem.selectedImage
@@ -80,18 +88,34 @@ extension DrawerApplicationUI: PulleyDelegate {
 
     private static func calculateCollapsedHeightForCurrentDevice() -> CGFloat {
         let height = UIScreen.main.bounds.height
+
+        var totalDrawerHeight: CGFloat
+
+        if #available(iOS 11.0, *) {
+            totalDrawerHeight = 0.0
+        }
+        else {
+            // PulleyLib seems to have a few layout bugs on iOS 10.
+            // Given the very small number of users on this platform, I am not
+            // super-excited about the prospect of debugging this issue and am
+            // choosing instead to just work around it.
+            totalDrawerHeight = 40.0
+        }
+
         if height >= 812.0 { // X, Xs, iPad, etc.
-            return 200.0
+            totalDrawerHeight += 200.0
         }
         else if height >= 736.0 { // Plus
-            return 150.0
+            totalDrawerHeight += 150.0
         }
         else if height >= 667.0 { // 6, 7, 8
-            return 150.0
+            totalDrawerHeight += 150.0
         }
         else { // iPhone SE, etc.
-            return 120.0
+            totalDrawerHeight += 120.0
         }
+
+        return totalDrawerHeight
     }
 }
 
