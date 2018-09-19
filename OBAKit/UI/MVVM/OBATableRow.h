@@ -21,7 +21,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface OBATableRow : OBABaseRow
 @property(nonatomic,copy,nullable) UIColor *titleColor;
-@property(nonatomic,copy,nullable) NSString *title;
+@property(nonatomic,copy) NSString *title;
 
 /**
  An attributed string that will be used to draw the title label. This takes

@@ -70,8 +70,6 @@
 		934197811DB0C140004BBBB7 /* OBABookmarksViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 934196F41DB0C13F004BBBB7 /* OBABookmarksViewController.m */; };
 		934197851DB0C140004BBBB7 /* OBADrawerViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 934196FE1DB0C13F004BBBB7 /* OBADrawerViewController.m */; };
 		934197861DB0C140004BBBB7 /* OBAAgenciesListViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 934197011DB0C13F004BBBB7 /* OBAAgenciesListViewController.m */; };
-		934197871DB0C140004BBBB7 /* OBACreditsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 934197031DB0C13F004BBBB7 /* OBACreditsViewController.m */; };
-		934197881DB0C140004BBBB7 /* OBACreditsViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 934197041DB0C13F004BBBB7 /* OBACreditsViewController.xib */; };
 		934197891DB0C140004BBBB7 /* OBAInfoViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 934197061DB0C13F004BBBB7 /* OBAInfoViewController.m */; };
 		9341978B1DB0C140004BBBB7 /* OBARecentStopsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9341970B1DB0C13F004BBBB7 /* OBARecentStopsViewController.m */; };
 		9341978C1DB0C140004BBBB7 /* RegionBuilderViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9341970D1DB0C13F004BBBB7 /* RegionBuilderViewController.swift */; };
@@ -227,6 +225,8 @@
 		93D5480520B778F700334939 /* SectionHeaderCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 93D5480420B778F700334939 /* SectionHeaderCell.swift */; };
 		93DB91ED20F743570028A7BF /* VehicleDisambiguationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 93DB91EC20F743570028A7BF /* VehicleDisambiguationViewController.swift */; };
 		93DCEF7220E5AF2F0004E087 /* LabelSectionController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 93DCEF7120E5AF2F0004E087 /* LabelSectionController.swift */; };
+		93DE556D2152AD6A0030D67D /* CreditsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 93DE556C2152AD6A0030D67D /* CreditsViewController.swift */; };
+		93DE55702152AFEA0030D67D /* credits.plist in Resources */ = {isa = PBXBuildFile; fileRef = 93DE556F2152AFEA0030D67D /* credits.plist */; };
 		93E1039821349FCA0090E7AF /* SwipeCellKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 93E1039621349FC90090E7AF /* SwipeCellKit.framework */; };
 		93E1039F2134D5BE0090E7AF /* GrabHandleSection.swift in Sources */ = {isa = PBXBuildFile; fileRef = 93E1039E2134D5BE0090E7AF /* GrabHandleSection.swift */; };
 		93E48CD22108D1B700BFD534 /* agencies_with_coverage.json in Resources */ = {isa = PBXBuildFile; fileRef = 93E48CD12108D1B700BFD534 /* agencies_with_coverage.json */; };
@@ -392,9 +392,6 @@
 		934196FE1DB0C13F004BBBB7 /* OBADrawerViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OBADrawerViewController.m; sourceTree = "<group>"; };
 		934197001DB0C13F004BBBB7 /* OBAAgenciesListViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OBAAgenciesListViewController.h; sourceTree = "<group>"; };
 		934197011DB0C13F004BBBB7 /* OBAAgenciesListViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OBAAgenciesListViewController.m; sourceTree = "<group>"; };
-		934197021DB0C13F004BBBB7 /* OBACreditsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OBACreditsViewController.h; sourceTree = "<group>"; };
-		934197031DB0C13F004BBBB7 /* OBACreditsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OBACreditsViewController.m; sourceTree = "<group>"; };
-		934197041DB0C13F004BBBB7 /* OBACreditsViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = OBACreditsViewController.xib; sourceTree = "<group>"; };
 		934197051DB0C13F004BBBB7 /* OBAInfoViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OBAInfoViewController.h; sourceTree = "<group>"; };
 		934197061DB0C13F004BBBB7 /* OBAInfoViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OBAInfoViewController.m; sourceTree = "<group>"; };
 		9341970A1DB0C13F004BBBB7 /* OBARecentStopsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OBARecentStopsViewController.h; sourceTree = "<group>"; };
@@ -616,6 +613,8 @@
 		93D5480420B778F700334939 /* SectionHeaderCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SectionHeaderCell.swift; sourceTree = "<group>"; };
 		93DB91EC20F743570028A7BF /* VehicleDisambiguationViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VehicleDisambiguationViewController.swift; sourceTree = "<group>"; };
 		93DCEF7120E5AF2F0004E087 /* LabelSectionController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LabelSectionController.swift; sourceTree = "<group>"; };
+		93DE556C2152AD6A0030D67D /* CreditsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreditsViewController.swift; sourceTree = "<group>"; };
+		93DE556F2152AFEA0030D67D /* credits.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = credits.plist; sourceTree = "<group>"; };
 		93E1039621349FC90090E7AF /* SwipeCellKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SwipeCellKit.framework; path = Carthage/Build/iOS/SwipeCellKit.framework; sourceTree = "<group>"; };
 		93E1039E2134D5BE0090E7AF /* GrabHandleSection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GrabHandleSection.swift; sourceTree = "<group>"; };
 		93E48CD12108D1B700BFD534 /* agencies_with_coverage.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = agencies_with_coverage.json; sourceTree = "<group>"; };
@@ -979,13 +978,11 @@
 			children = (
 				934197001DB0C13F004BBBB7 /* OBAAgenciesListViewController.h */,
 				934197011DB0C13F004BBBB7 /* OBAAgenciesListViewController.m */,
-				934197021DB0C13F004BBBB7 /* OBACreditsViewController.h */,
-				934197031DB0C13F004BBBB7 /* OBACreditsViewController.m */,
-				934197041DB0C13F004BBBB7 /* OBACreditsViewController.xib */,
 				934197051DB0C13F004BBBB7 /* OBAInfoViewController.h */,
 				934197061DB0C13F004BBBB7 /* OBAInfoViewController.m */,
 				9385EC391DCF14C60020CCB2 /* OBASettingsViewController.h */,
 				9385EC3A1DCF14C60020CCB2 /* OBASettingsViewController.m */,
+				93DE556C2152AD6A0030D67D /* CreditsViewController.swift */,
 			);
 			path = info;
 			sourceTree = "<group>";
@@ -1274,6 +1271,7 @@
 				934198341DB0C1E9004BBBB7 /* OneBusAway.entitlements */,
 				934198351DB0C1E9004BBBB7 /* regions-v3.json */,
 				935C39101F76EEAD00737DC4 /* Launch Screen.storyboard */,
+				93DE556F2152AFEA0030D67D /* credits.plist */,
 			);
 			name = Resources;
 			path = OneBusAway/Resources;
@@ -1819,9 +1817,9 @@
 				934197931DB0C140004BBBB7 /* OBADiversionViewController.xib in Resources */,
 				9341983B1DB0C1E9004BBBB7 /* feedback_message_body.html in Resources */,
 				9336B1CB1FF95D5500CCC5ED /* test_userdefaults.xml in Resources */,
-				934197881DB0C140004BBBB7 /* OBACreditsViewController.xib in Resources */,
 				5B7C4A5A1DB96E6A00853DD5 /* Localizable.strings in Resources */,
 				9341981E1DB0C1BA004BBBB7 /* OBALabelAndSwitchTableViewCell.xib in Resources */,
+				93DE55702152AFEA0030D67D /* credits.plist in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1965,7 +1963,6 @@
 				933546DD1E834ABE00D83519 /* OBAMessageRow.m in Sources */,
 				9341B82420B66FB0006450FC /* StopCell.swift in Sources */,
 				93656B852105388A009A3524 /* StopAnnotationView.swift in Sources */,
-				934197871DB0C140004BBBB7 /* OBACreditsViewController.m in Sources */,
 				934197921DB0C140004BBBB7 /* OBADiversionViewController.m in Sources */,
 				9341B82220B65DF9006450FC /* SelfSizingCollectionCell.swift in Sources */,
 				939A1A8E21178A81001D5654 /* OBAFarePayments.m in Sources */,
@@ -2051,6 +2048,7 @@
 				93A6E9EE1F5CC11800AFA61C /* UIViewController+OBAAdditions.m in Sources */,
 				936EB1C11E92F30C00F4F3A7 /* OnboardingViewController.swift in Sources */,
 				9341981F1DB0C1BA004BBBB7 /* OBALabelAndTextFieldTableViewCell.m in Sources */,
+				93DE556D2152AD6A0030D67D /* CreditsViewController.swift in Sources */,
 				935C39151F7707FF00737DC4 /* AlertPresenterView.swift in Sources */,
 				93D5480520B778F700334939 /* SectionHeaderCell.swift in Sources */,
 				9368E5C01DB1584900C329D0 /* OBAEmptyDataSetSource.m in Sources */,

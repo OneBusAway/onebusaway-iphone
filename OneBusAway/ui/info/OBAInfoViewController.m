@@ -13,7 +13,6 @@
 @import OBAKit;
 #import "OBAAgenciesListViewController.h"
 #import "OBASettingsViewController.h"
-#import "OBACreditsViewController.h"
 #import "OBAAnalytics.h"
 #import "OneBusAway-Swift.h"
 #import "OBAPushManager.h"
@@ -204,6 +203,7 @@ static NSString * const kPrivacyURLString = @"http://onebusaway.org/privacy/";
 - (OBATableSection*)aboutTableSection {
     OBATableRow *credits = [[OBATableRow alloc] initWithTitle:NSLocalizedString(@"msg_credits", @"Info Page Credits Row Title") action:^(OBABaseRow *r2) {
         [self logRowTapAnalyticsEvent:@"Credits"];
+        
         [self.navigationController pushViewController:[[OBACreditsViewController alloc] init] animated:YES];
     }];
     credits.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
