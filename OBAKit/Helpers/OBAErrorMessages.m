@@ -35,7 +35,12 @@
         return OBAErrorMessages.serverError;
     }
     else if (httpResponse.statusCode == 404) {
-        return OBAErrorMessages.stopNotFoundError;
+        if ([httpResponse.URL.path containsString:@"trip-for-vehicle"]) {
+            return OBAErrorMessages.vehicleNotFoundError;
+        }
+        else {
+            return OBAErrorMessages.stopNotFoundError;
+        }
     }
     else if (httpResponse.statusCode >= 300 && httpResponse.statusCode <= 399) {
         return [OBAErrorMessages connectionError:httpResponse];

@@ -532,20 +532,20 @@ extension MapTableViewController: VehicleDisambiguationDelegate {
             }
 
             return modelService.requestVehicleTrip(vehicle.vehicleID).promise
-            }.then { [weak self] (networkResponse: NetworkResponse?) -> Void in
+        }.then { [weak self] (networkResponse: NetworkResponse?) -> Void in
                 self?.displayVehicleFromTripDetails(networkResponse)
-            }.catch { error in
-                if let err = error as? VehicleError {
-                    switch err {
-                    case .needsDisambiguation(let matches):
-                        self.disambiguateMatchingVehicles(matches)
-                    case .noMatchesFound:
-                        let body = NSLocalizedString("map_table.vehicle_search_no_results", comment: "No results were found for your search. Please try again.")
-                        AlertPresenter.showWarning(OBAStrings.notFound, body: body)
-                    }
+        }.catch { error in
+            if let err = error as? VehicleError {
+                switch err {
+                case .needsDisambiguation(let matches):
+                    self.disambiguateMatchingVehicles(matches)
+                case .noMatchesFound:
+                    let body = NSLocalizedString("map_table.vehicle_search_no_results", comment: "No results were found for your search. Please try again.")
+                    AlertPresenter.showWarning(OBAStrings.notFound, body: body)
                 }
-            }.always {
-                SVProgressHUD.dismiss()
+            }
+        }.always {
+            SVProgressHUD.dismiss()
         }
     }
 
