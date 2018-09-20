@@ -281,6 +281,7 @@
 		93D5F3671FF1900700800132 /* OBAURLRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 93D5F3661FF1900700800132 /* OBAURLRequest.swift */; };
 		93DCEF6E20E54EAF0004E087 /* MKMapSnapshotter+AnyPromise.h in Headers */ = {isa = PBXBuildFile; fileRef = 93DCEF6C20E54EAF0004E087 /* MKMapSnapshotter+AnyPromise.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		93DCEF6F20E54EAF0004E087 /* MKMapSnapshotter+AnyPromise.m in Sources */ = {isa = PBXBuildFile; fileRef = 93DCEF6D20E54EAF0004E087 /* MKMapSnapshotter+AnyPromise.m */; };
+		93DE557221530EAB0030D67D /* BoxedCoordinateRegion.swift in Sources */ = {isa = PBXBuildFile; fileRef = 93DE557121530EAA0030D67D /* BoxedCoordinateRegion.swift */; };
 		93E103A12134D5E30090E7AF /* GrabHandle.swift in Sources */ = {isa = PBXBuildFile; fileRef = 93E103A02134D5E30090E7AF /* GrabHandle.swift */; };
 		93E592931F8CA6260079A2D8 /* OBATableRow.h in Headers */ = {isa = PBXBuildFile; fileRef = 93E592911F8CA6260079A2D8 /* OBATableRow.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		93E592941F8CA6260079A2D8 /* OBATableRow.m in Sources */ = {isa = PBXBuildFile; fileRef = 93E592921F8CA6260079A2D8 /* OBATableRow.m */; };
@@ -614,6 +615,7 @@
 		93D5F3661FF1900700800132 /* OBAURLRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OBAURLRequest.swift; sourceTree = "<group>"; };
 		93DCEF6C20E54EAF0004E087 /* MKMapSnapshotter+AnyPromise.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "MKMapSnapshotter+AnyPromise.h"; sourceTree = "<group>"; };
 		93DCEF6D20E54EAF0004E087 /* MKMapSnapshotter+AnyPromise.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "MKMapSnapshotter+AnyPromise.m"; sourceTree = "<group>"; };
+		93DE557121530EAA0030D67D /* BoxedCoordinateRegion.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BoxedCoordinateRegion.swift; sourceTree = "<group>"; };
 		93E103A02134D5E30090E7AF /* GrabHandle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GrabHandle.swift; sourceTree = "<group>"; };
 		93E592911F8CA6260079A2D8 /* OBATableRow.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OBATableRow.h; sourceTree = "<group>"; };
 		93E592921F8CA6260079A2D8 /* OBATableRow.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OBATableRow.m; sourceTree = "<group>"; };
@@ -1027,6 +1029,7 @@
 				9387F0F81FDDD9F50033A922 /* NetworkResponse.swift */,
 				9363B6D320F50EE400F515CB /* MatchingAgencyVehicle.swift */,
 				9300CF7520F89448006AB268 /* WeatherForecast.swift */,
+				93DE557121530EAA0030D67D /* BoxedCoordinateRegion.swift */,
 			);
 			path = unmanaged;
 			sourceTree = "<group>";
@@ -1566,6 +1569,7 @@
 				93302B5520CFA75D003699C6 /* AgencyAlert.swift in Sources */,
 				9341963A1DB0B099004BBBB7 /* OBASelectorJsonDigesterRule.m in Sources */,
 				9388C2B91FFEC29B0068041F /* PickerViewController.swift in Sources */,
+				93DE557221530EAB0030D67D /* BoxedCoordinateRegion.swift in Sources */,
 				933A47161FDCCB81009EB332 /* PromiseWrapper.swift in Sources */,
 				934196171DB0B099004BBBB7 /* OBAStrings.m in Sources */,
 				930653F51E71D704005AF0C9 /* OBADeepLinkRouter.m in Sources */,

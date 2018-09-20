@@ -148,7 +148,6 @@ extension MapTableViewController {
 
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
-        refreshCurrentLocation()
         loadAlerts()
 
         allowUIUpdates = true
@@ -352,23 +351,6 @@ extension MapTableViewController: ListAdapterDataSource {
 extension MapTableViewController {
     @objc func reachabilityChanged(note: NSNotification) {
         adapter.performUpdates(animated: true)
-    }
-}
-
-// MARK: - Location Management
-extension MapTableViewController {
-    private func refreshCurrentLocation() {
-        if let location = application.locationManager.currentLocation {
-            if application.mapRegionManager.lastRegionChangeWasProgrammatic {
-                let radius = max(location.horizontalAccuracy, OBAMinMapRadiusInMeters)
-                let region = OBASphericalGeometryLibrary.createRegion(withCenter: location.coordinate, latRadius: radius, lonRadius: radius)
-                application.mapRegionManager.setRegion(region, changeWasProgrammatic: true)
-            }
-        }
-        else if let region = application.modelDao.currentRegion {
-            let coordinateRegion = MKCoordinateRegionForMapRect(region.serviceRect)
-            application.mapRegionManager.setRegion(coordinateRegion, changeWasProgrammatic: true)
-        }
     }
 }
 

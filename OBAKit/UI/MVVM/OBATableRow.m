@@ -52,6 +52,10 @@ static NSString * const OBACellStyleSubtitleReuseIdentifier = @"OBACellStyleSubt
     return self;
 }
 
+- (NSString*)title {
+    return _title ?: self.attributedTitle.string;
+}
+
 - (id)copyWithZone:(NSZone *)zone {
     OBATableRow *newRow = [super copyWithZone:zone];
     newRow->_title = [_title copyWithZone:zone];

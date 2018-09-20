@@ -73,6 +73,11 @@ static const double kStopsInRegionRefreshDelayOnDrag = 0.1;
     if (self) {
         _standaloneMode = YES;
 
+        MKCoordinateRegion region = [OBAMapViewController decodeMostRecentRegionFromUserDefaults:application.userDefaults];
+        if (CLLocationCoordinate2DIsValid(region.center)) {
+            _mostRecentRegion = region;
+        }
+
         _application = application;
         _mapDataLoader = application.mapDataLoader;
         [_mapDataLoader addDelegate:self];
@@ -117,8 +122,6 @@ static const double kStopsInRegionRefreshDelayOnDrag = 0.1;
     [super viewDidLoad];
 
     [self createMapView];
-
-    self.mostRecentRegion = MKCoordinateRegionMake(CLLocationCoordinate2DMake(0, 0), MKCoordinateSpanMake(0, 0));
 
     self.mapView.rotateEnabled = NO;
     self.mapView.showsUserLocation = YES;
@@ -627,6 +630,40 @@ static const double kStopsInRegionRefreshDelayOnDrag = 0.1;
     [self pushViewController:stopController animated:YES];
 }
 
+#pragma mark - Coordinate Region
+
+- (BOOL)mostRecentRegionIsValid {
+    MKMapRect regionalServiceRect = self.application.modelDao.currentRegion.serviceRect;
+    MKMapRect candidateRect = [OBAMapHelpers mapRectForCoordinateRegion:self.mostRecentRegion];
+
+    return MKMapRectContainsRect(regionalServiceRect, candidateRect);
+}
+
+- (void)setMostRecentRegion:(MKCoordinateRegion)mostRecentRegion {
+    _mostRecentRegion = mostRecentRegion;
+
+    if (!self.application.modelDao.currentRegion) {
+        return;
+    }
+
+    MKMapRect regionalServiceRect = self.application.modelDao.currentRegion.serviceRect;
+    MKMapRect candidateRect = [OBAMapHelpers mapRectForCoordinateRegion:mostRecentRegion];
+
+    if (!MKMapRectContainsRect(regionalServiceRect, candidateRect)) {
+        return;
+    }
+
+    NSData *data = [NSKeyedArchiver archivedDataWithRootObject:[[OBABoxedCoordinateRegion alloc] initWithCoordinateRegion:_mostRecentRegion]];
+
+    [self.application.userDefaults setObject:data forKey:@"mostRecentRegion"];
+}
+
++ (MKCoordinateRegion)decodeMostRecentRegionFromUserDefaults:(NSUserDefaults*)userDefaults {
+    NSData *data = [userDefaults objectForKey:@"mostRecentRegion"];
+    OBABoxedCoordinateRegion *boxedRegion = [NSKeyedUnarchiver unarchiveObjectWithData:data];
+    return [boxedRegion coordinateRegion];
+}
+
 #pragma mark - OBAMapViewController Private Methods
 
 - (void)refreshCurrentLocation {
@@ -638,6 +675,9 @@ static const double kStopsInRegionRefreshDelayOnDrag = 0.1;
             MKCoordinateRegion region = [OBASphericalGeometryLibrary createRegionWithCenter:location.coordinate latRadius:radius lonRadius:radius];
             [self.mapRegionManager setRegion:region changeWasProgrammatic:YES];
         }
+    }
+    else if (self.mostRecentRegionIsValid) {
+        [self.mapRegionManager setRegion:self.mostRecentRegion changeWasProgrammatic:YES];
     }
     else if (self.modelDAO.currentRegion) {
         MKCoordinateRegion coordinateRegion = MKCoordinateRegionForMapRect(self.modelDAO.currentRegion.serviceRect);
@@ -700,8 +740,6 @@ static const double kStopsInRegionRefreshDelayOnDrag = 0.1;
     OBANavigationTarget *target = nil;
 
     if (span.latitudeDelta > OBAMaxLatitudeDeltaToShowStops) {
-        // Reset the most recent region
-        self.mostRecentRegion = MKCoordinateRegionMake(CLLocationCoordinate2DMake(0, 0), MKCoordinateSpanMake(0, 0));
         target = [OBANavigationTarget navigationTargetForSearchNone];
     }
     else {
