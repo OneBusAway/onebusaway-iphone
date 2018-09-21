@@ -66,6 +66,8 @@
     self.accessoryType = [self departureRow].accessoryType;
 
     self.departureView.departureRow = [self departureRow];
+
+    self.departureView.contextMenuButton.hidden = !self.departureRow.displayContextButton;
 }
 
 - (OBADepartureRow*)departureRow {

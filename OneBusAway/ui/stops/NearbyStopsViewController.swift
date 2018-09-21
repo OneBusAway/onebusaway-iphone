@@ -25,8 +25,7 @@ class NearbyStopsViewController: OBAStaticTableViewController {
     @objc var canceled: NearbyStopsCanceled?
     @objc var closeButtonTitle = OBAStrings.close
     @objc lazy public var navigator: OBANavigator = {
-        let navigator = UIApplication.shared.delegate as! OBAApplicationDelegate
-        return navigator
+        return (UIApplication.shared.delegate as? OBAApplicationDelegate)!
     }()
 
     lazy var modelService: OBAModelService = {
@@ -35,15 +34,15 @@ class NearbyStopsViewController: OBAStaticTableViewController {
 
     public var currentCoordinate: CLLocationCoordinate2D?
 
-    @objc init(mapDataLoader: OBAMapDataLoader, mapRegionManager: OBAMapRegionManager) {
+    @objc init(application: OBAApplication) {
         super.init(nibName: nil, bundle: nil)
 
         self.pushesResultsOntoStack = true
 
-        self.mapDataLoader = mapDataLoader
+        self.mapDataLoader = application.mapDataLoader
         self.mapDataLoader?.add(self)
 
-        self.mapRegionManager = mapRegionManager
+        self.mapRegionManager = application.mapRegionManager
         self.mapRegionManager?.add(delegate: self)
     }
 
@@ -57,7 +56,7 @@ class NearbyStopsViewController: OBAStaticTableViewController {
         self.searchResult = searchResult
         super.init(nibName: nil, bundle: nil)
     }
-    
+
     required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
@@ -109,8 +108,10 @@ extension NearbyStopsViewController {
         }
         else if let stop = self.stop {
             SVProgressHUD.show()
-            self.modelService.requestStopsNear(stop.coordinate).then { searchResult in
-                self.populateTable(searchResult as! OBASearchResult)
+            self.modelService.requestStopsNear(stop.coordinate).then { searchResult -> Void in
+                if let searchResult = searchResult as? OBASearchResult {
+                    self.populateTable(searchResult)
+                }
             }.always {
                 SVProgressHUD.dismiss()
             }.catch { error in
@@ -140,7 +141,7 @@ extension NearbyStopsViewController {
             sections = []
         }
 
-        self.sections = sections.flatMap { $0 }
+        self.sections = sections.compactMap { $0 }
         self.tableView.reloadData()
     }
 
@@ -151,7 +152,10 @@ extension NearbyStopsViewController {
     /// - Parameter searchResult: A search result object containing a list of stops
     /// - Returns: An array of `OBATableSection`s containing stop rows
     func stopSectionsFromSearchResult(_ searchResult: OBASearchResult) -> [OBATableSection] {
-        let stops = searchResult.values as! [OBAStopV2]
+        guard let stops = searchResult.values as? [OBAStopV2] else {
+            return []
+        }
+
         var sections: [OBATableSection] = []
         let filteredStops = stops.filter { $0 != self.stop }
 
@@ -176,18 +180,7 @@ extension NearbyStopsViewController {
 
     func stopSectionFrom(title: String?, stops: [OBAStopV2]) -> OBATableSection {
         let section = OBATableSection.init(title: title)
-        var rows: [OBAStopV2]
-
-        if let coordinate = self.currentCoordinate {
-            rows = stops.sorted(by: { (s1, s2) -> Bool in
-                let distance1 = OBAMapHelpers.getDistanceFrom(s1.coordinate, to: coordinate)
-                let distance2 = OBAMapHelpers.getDistanceFrom(s2.coordinate, to: coordinate)
-                return distance1 < distance2
-            })
-        }
-        else {
-            rows = stops
-        }
+        let rows = stops.sortByDistance(coordinate: currentCoordinate)
 
         section.rows = rows.map { stop in
             let row = OBATableRow.init(title: stop.name) { _ in
@@ -223,8 +216,11 @@ extension NearbyStopsViewController {
         return OBATableSection.init(title: NSLocalizedString("nearby_stops.routes_section_title", comment: "The section title on the 'Nearby' controller that says 'Routes'"), rows: rows)
     }
 
-    func addressSectionFromSearchResult(_ searchResult: OBASearchResult) -> OBATableSection {
-        let placemarks = searchResult.values as! [OBAPlacemark]
+    func addressSectionFromSearchResult(_ searchResult: OBASearchResult) -> OBATableSection? {
+        guard let placemarks = searchResult.values as? [OBAPlacemark] else {
+            return nil
+        }
+
         let rows = placemarks.map { placemark -> OBATableRow in
             let row = OBATableRow.init(title: placemark.title!, action: { _ in
                 let target = OBANavigationTarget(forSearch: placemark)
@@ -256,7 +252,7 @@ extension NearbyStopsViewController {
             guard let stopID = target.searchArgument as? String else {
                 return
             }
-            let stopController = OBAStopViewController.init(stopID: stopID)
+            let stopController = StopViewController.init(stopID: stopID)
             self.navigationController?.pushViewController(stopController, animated: true)
         }
         else {

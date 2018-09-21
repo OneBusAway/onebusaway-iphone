@@ -18,7 +18,6 @@
 #import "OBAPushManager.h"
 #import "OBAArrivalDepartureOptionsSheet.h"
 #import "UIViewController+OBAAdditions.h"
-#import "OBAEditStopBookmarkViewController.h"
 #import "EXTScope.h"
 @import Masonry;
 @import MarqueeLabel;
@@ -415,8 +414,8 @@ static NSTimeInterval const kRefreshTimeInterval = 30;
     }
     else {
         OBABookmarkV2 *bookmark = [[OBABookmarkV2 alloc] initWithArrivalAndDeparture:dep region:self.modelDAO.currentRegion];
-        OBAEditStopBookmarkViewController *editor = [[OBAEditStopBookmarkViewController alloc] initWithBookmark:bookmark];
-        UINavigationController *nav = [[UINavigationController alloc] initWithRootViewController:editor];
+        OBAEditBookmarkViewController *bookmarkViewController = [[OBAEditBookmarkViewController alloc] initWithBookmark:bookmark modelDAO:self.modelDAO];
+        UINavigationController *nav = [[UINavigationController alloc] initWithRootViewController:bookmarkViewController];
         [self.navigationController presentViewController:nav animated:YES completion:nil];
     }
 }

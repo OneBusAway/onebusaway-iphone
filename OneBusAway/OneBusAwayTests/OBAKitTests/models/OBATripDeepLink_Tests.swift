@@ -27,7 +27,7 @@ class OBATripDeepLink_Tests: QuickSpec {
                 }
 
                 it("has a properly encoded URL") {
-                    let deepLinkURL = URL.init(string: "https://www.onebusaway.co/regions/0/stops/Hillsborough%20Area%20Regional%20Transit_4551/trips?trip_id=Hillsborough%20Area%20Regional%20Transit_232378&service_date=1486098000000&stop_sequence=8")!
+                    let deepLinkURL = URL.init(string: "http://alerts.onebusaway.org/regions/0/stops/Hillsborough%20Area%20Regional%20Transit_4551/trips?trip_id=Hillsborough%20Area%20Regional%20Transit_232378&service_date=1486098000000&stop_sequence=8")!
                     expect(deepLink.deepLinkURL).to(equal(deepLinkURL))
                 }
             }
@@ -48,7 +48,7 @@ class OBATripDeepLink_Tests: QuickSpec {
                 }
 
                 it("has a properly encoded URL") {
-                    let deepLinkURL = URL.init(string: "https://www.onebusaway.co/regions/1/stops/1_1234567/trips?trip_id=1_232378&service_date=1486098000000&stop_sequence=8")!
+                    let deepLinkURL = URL.init(string: "http://alerts.onebusaway.org/regions/1/stops/1_1234567/trips?trip_id=1_232378&service_date=1486098000000&stop_sequence=8")!
                     expect(deepLink.deepLinkURL).to(equal(deepLinkURL))
                 }
             }

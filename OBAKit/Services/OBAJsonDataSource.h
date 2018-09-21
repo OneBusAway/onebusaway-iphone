@@ -23,20 +23,30 @@
 NS_ASSUME_NONNULL_BEGIN
 
 @interface OBAJsonDataSource : NSObject
-@property(nonatomic,strong) OBADataSourceConfig *config;
+@property(nonatomic,strong,readonly) OBADataSourceConfig *config;
 @property(nonatomic,strong) NSURLSession *URLSession;
 @property(nonatomic,assign,readonly) BOOL checkStatusCodeInBody;
 
 + (instancetype)JSONDataSourceWithBaseURL:(NSURL*)URL userID:(NSString*)userID;
-+ (instancetype)googleMapsJSONDataSource;
+
++ (instancetype)unparsedDataSourceWithBaseURL:(NSURL*)URL userID:(NSString*)userID;
 
 /**
- OBA.co, obaco, or onebusaway.co is the service that powers deep links in the app,
+ alerts.onebusaway.org, formerly obaco or onebusaway.co, is the service that powers deep links in the app,
  along with other cross-regional services.
  */
 + (instancetype)obacoJSONDataSource;
 
-- (instancetype)initWithConfig:(OBADataSourceConfig*)config checkStatusCodeInBody:(BOOL)checkStatusCodeInBody;
+- (instancetype)initWithConfig:(OBADataSourceConfig*)config;
+
+/**
+ Builds a URL that can communicate with this data source from the specified path and params.
+
+ @param path The URL path
+ @param params Optional parameters
+ @return A fully-qualified URL
+ */
+- (NSURL*)constructURLFromPath:(NSString*)path params:(nullable NSDictionary*)params;
 
 /**
  Creates an URL request based upon the supplied path and HTTP method, configuring other parameters, like a GZIP header.

@@ -75,6 +75,18 @@
     return OBALocalized(@"strings.learn_more", @"Learn More");
 }
 
++ (NSString*)continueString {
+    return OBALocalized(@"strings.continue", @"Continue");
+}
+
++ (NSString*)notFound {
+    return OBALocalized(@"strings.not_found", @"Not Found");
+}
+
++ (NSString*)offline {
+    return OBALocalized(@"strings.offline", @"Offline");
+}
+
 + (nullable NSAttributedString*)attributedStringWithPrependedImage:(UIImage*)image string:(NSString*)string {
     return [self attributedStringWithPrependedImage:image string:string color:nil];
 }

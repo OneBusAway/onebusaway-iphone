@@ -19,8 +19,8 @@
 static const double kRadiusOfEarthInMeters = 6371.01 * 1000;
 
 typedef struct {
-    int number;
-    int index;
+    NSInteger number;
+    NSInteger index;
 } OBANumberAndIndex;
 
 @implementation OBASphericalGeometryLibrary
@@ -36,7 +36,7 @@ typedef struct {
     double lonOffset = (lonRadiusInMeters / lonRadius) * 180 / M_PI;
     
     MKCoordinateSpan span = MKCoordinateSpanMake(latOffset*2,lonOffset*2);
-    return    MKCoordinateRegionMake(center, span);
+    return MKCoordinateRegionMake(center, span);
 }
 
 + (CLLocationDistance) getDistanceFromRegion:(MKCoordinateRegion)regionA toRegion:(MKCoordinateRegion)regionB {
@@ -46,7 +46,6 @@ typedef struct {
 }
 
 + (BOOL) isRegion:(MKCoordinateRegion)regionA containedBy:(MKCoordinateRegion)regionB {
-
     CLLocationCoordinate2D pA = regionA.center;
     MKCoordinateSpan spanA = regionA.span;
     
@@ -82,16 +81,13 @@ typedef struct {
             pA.longitude + spanA.longitudeDelta / 2];
 }
 
-+ (NSArray*) decodePolylineString:(NSString*)encodedPolyline {
-    
++ (NSArray<CLLocation*>*)decodePolylineString:(NSString*)encodedPolyline {
     double lat = 0;
     double lon = 0;
-    
-    int strIndex = 0;
+    NSInteger strIndex = 0;
     NSMutableArray * points = [NSMutableArray array];
     
-    while (strIndex < [encodedPolyline length]) {
-        
+    while (strIndex < encodedPolyline.length) {
         OBANumberAndIndex rLat = [self decodeSignedNumber:encodedPolyline withIndex:strIndex];
         lat = lat + rLat.number * 1e-5;
         strIndex = rLat.index;
@@ -107,34 +103,17 @@ typedef struct {
     return points;
 }
 
-+ (MKPolyline*) createMKPolylineFromLocations:(NSArray*) locations {
++ (OBACoordinateBounds*)coordinateBoundsFromPolylineString:(NSString*)polylineString {
+    NSArray *points = [OBASphericalGeometryLibrary decodePolylineString:polylineString];
+    OBACoordinateBounds *bounds = [OBASphericalGeometryLibrary boundsForLocations:points];
 
-    CLLocationCoordinate2D* pointArr = malloc(sizeof(CLLocationCoordinate2D) * locations.count);
-    
-    for (int i=0; i<locations.count;i++) {
-        CLLocation * location = locations[i];
-        CLLocationCoordinate2D p = location.coordinate;
-        pointArr[i] = p;
-    }
-    
-    MKPolyline * polyline = [MKPolyline polylineWithCoordinates:pointArr count:locations.count];
-
-    free(pointArr);
-    
-    return polyline;
-}
-
-+ (MKPolyline*) decodePolylineStringAsMKPolyline:(NSString*)polylineString {
-    
-    NSArray * locations = [OBASphericalGeometryLibrary decodePolylineString:polylineString];
-    return [OBASphericalGeometryLibrary createMKPolylineFromLocations:locations];
+    return bounds;
 }
 
 + (OBACoordinateBounds*) boundsForLocations:(NSArray*)locations {
-
-    OBACoordinateBounds * bounds = [[OBACoordinateBounds alloc] init];
+    OBACoordinateBounds *bounds = [[OBACoordinateBounds alloc] init];
     
-    for( CLLocation * location in locations) {
+    for (CLLocation *location in locations) {
         CLLocationCoordinate2D p = location.coordinate;
         [bounds addLat:p.latitude lon:p.longitude];
     }
@@ -142,23 +121,39 @@ typedef struct {
     return bounds;
 }
 
-+ (OBACoordinateBounds*) boundsForMKPolyline:(MKPolyline*)polyline {
-    
++ (OBACoordinateBounds*)boundsForMKPolyline:(MKPolyline*)polyline {
     OBACoordinateBounds * bounds = [[OBACoordinateBounds alloc] init];
     
-    MKMapPoint * points = polyline.points;
-    for( int i=0; i<polyline.pointCount; i++ ) {
+    MKMapPoint *points = polyline.points;
+    for (NSInteger i=0; i<polyline.pointCount; i++ ) {
         MKMapPoint point = points[i];
         [bounds addLat:point.y lon:point.x];
     }
     return bounds;
 }
 
++ (MKPolyline*)polylineFromEncodedShape:(NSString*)encodedShape {
+    NSArray<CLLocation *> *points = [OBASphericalGeometryLibrary decodePolylineString:encodedShape];
+    CLLocationCoordinate2D *pointArr = malloc(sizeof(CLLocationCoordinate2D) * points.count);
+
+    for (NSInteger i = 0; i < points.count; i++) {
+        CLLocation *location = points[i];
+        CLLocationCoordinate2D p = location.coordinate;
+        pointArr[i] = p;
+    }
+
+    MKPolyline *polyline = [MKPolyline polylineWithCoordinates:pointArr count:points.count];
+
+    free(pointArr);
+
+    return polyline;
+}
+
 #pragma mark - Private
 
-+ (OBANumberAndIndex) decodeSignedNumber:(NSString*)value withIndex:(int)index {
++ (OBANumberAndIndex)decodeSignedNumber:(NSString*)value withIndex:(NSInteger)index {
     OBANumberAndIndex r = [self decodeNumber:value withIndex:index];
-    int sgn_num = r.number;
+    NSInteger sgn_num = r.number;
     if ((sgn_num & 0x01) > 0) {
         sgn_num = ~(sgn_num);
     }
@@ -166,11 +161,10 @@ typedef struct {
     return r;
 }
 
-+ (OBANumberAndIndex) decodeNumber:(NSString*)value withIndex:(int)index {
-    
-    int num = 0;
-    int v = 0;
-    int shift = 0;
++ (OBANumberAndIndex)decodeNumber:(NSString*)value withIndex:(NSInteger)index {
+    NSInteger num = 0;
+    NSInteger v = 0;
+    NSInteger shift = 0;
     
     do {
         unichar c = [value characterAtIndex:index++];

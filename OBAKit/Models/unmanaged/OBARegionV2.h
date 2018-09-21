@@ -36,6 +36,15 @@ NS_ASSUME_NONNULL_BEGIN
 @property(nonatomic,assign) BOOL experimental;
 @property(nonatomic,assign) NSInteger identifier;
 
+// Payments
+@property(nonatomic,assign,readonly) BOOL supportsMobileFarePayment;
+@property(nonatomic,assign,readonly) BOOL paymentAppDoesNotCoverFullRegion;
+@property(nonatomic,copy,nullable) NSString *paymentWarningBody;
+@property(nonatomic,copy,nullable) NSString *paymentWarningTitle;
+@property(nonatomic,copy,nullable) NSString *paymentAppURLScheme;
+@property(nonatomic,copy,nullable) NSString *paymentAppStoreIdentifier;
+@property(nonatomic,copy,nullable,readonly) NSURL *paymentAppDeepLinkURL;
+
 /**
  Signifies that this was created in the RegionBuilderViewController
  */
@@ -43,7 +52,8 @@ NS_ASSUME_NONNULL_BEGIN
 
 - (void)addBound:(OBARegionBoundsV2*)bound;
 - (CLLocationDistance)distanceFromLocation:(CLLocation*)location;
-- (MKMapRect)serviceRect;
+
+@property(nonatomic,assign,readonly) MKMapRect serviceRect;
 
 /**
  The location coordinate in the center of the `serviceRect`.

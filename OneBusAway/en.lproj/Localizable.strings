@@ -17,7 +17,7 @@
 "today_screen.no_region_description" = "We don't know where you're located. Please choose a region in OneBusAway.";
 
 /* No departures in the next {MINUTES} minutes */
-"today_screen.no_departures_in_next_n_minutes_format" = "No departures in the next %@ minutes";
+"stops.no_departures_in_next_n_minutes_format" = "No departures in the next %@ minutes";
 
 /* Tap for more information subheading on Today view */
 "today_screen.tap_for_more_information" = "Tap for more information";
@@ -162,7 +162,19 @@
 "msg_eastbound" = "Eastbound";
 
 /* OBABookmarkEditExisting */
-"msg_edit_bookmark" = "Edit Bookmark";
+"edit_bookmark.title" = "Edit Bookmark";
+
+/* Label for the Bookmark Name text field */
+"edit_bookmark.bookmark_name_label" = "Bookmark Name";
+
+/* Label for the Add Bookmark Group section */
+"edit_bookmark.add_bookmark_group_label" = "Add Bookmark Group";
+
+/* Label for the 'No Group' table row */
+"edit_bookmark.no_group_label" = "(No Group)";
+
+/* Bookmark Group section header */
+"edit_bookmark.bookmark_group_header" = "Bookmark Group";
 
 /* No comment provided by engineer. */
 "msg_edit_group_name" = "Edit Group Name";
@@ -220,9 +232,6 @@
 
 /* No comment provided by engineer. */
 "msg_loading" = "Loading";
-
-/* Progress HUD status when first locating the user on the Region List Controller */
-"msg_loading_regions" = "Loading Regions";
 
 /* Location section title on PII controller */
 "msg_location" = "Location";
@@ -327,9 +336,6 @@
 /* As in 'going to the north.' */
 "msg_northbound" = "Northbound";
 
-/* code == 404 */
-"msg_not_found" = "Not found";
-
 /* cell.label.text */
 "msg_number" = "Number";
 
@@ -371,6 +377,9 @@
 
 /* view.message */
 "msg_set_up_mail_to_send_email" = "Please set up your Mail app before trying to send an email.";
+
+/* Attribution text for the Dark Sky weather service. */
+"info.dark_sky_attribution" = "Weather forecasts powered by Dark Sky";
 
 /* Title of the the alert that appears when you try sending an email without Mail.app set up */
 "info.email_app_not_set_up_title" = "Can't Send Email via Mail app";
@@ -586,6 +595,9 @@
 
 "stops_controller.cell.add_bookmark_title" = "Bookmark";
 
+/* Formatted string for a list of routes - Routes: %@ */
+"stops_controller.routes_list_fmt" = "Routes: %@";
+
 /* cell.statusLabel.text */
 "msg_mayus_vehicle" = "Vehicle";
 
@@ -646,6 +658,12 @@
 
 /* Settings section title on info page */
 "msg_your_location" = "Your Location";
+
+/* Pay My Fare table row */
+"msg_pay_fare" = "Pay My Fare";
+
+/* An alert button that says 'Continue and Do Not Show Again' */
+"info_controller.payment.continue_dont_show_again" = "Continue and Don't Show Again";
 
 /* OBASectionTypeNotes
    OBASectionTypeSubmit */
@@ -762,6 +780,12 @@
 /* Error message displayed to the user when something goes wrong with a just-tapped notification. */
 "notifications.error_messages.formatted_cant_display" = "Sorry, we can't show you that shared trip. If this continues, please let us know. Error: %@";
 
+/* Title for the enable/disable stop drawer switch on the settings controller */
+"settings.stop_drawer_switch_title" = "Use stop drawer";
+
+/* Footer for the stop drawer switch on the settings controller */
+"settings.stop_drawer_footer_text" = "Turn off this setting to see the classic stop page behavior on the map.";
+
 /* Title for the enable/disable user heading switch on the settings controller */
 "settings.user_heading_switch_title" = "Display heading on map";
 
@@ -776,9 +800,6 @@
 
 /* This is the ... button shown on the right side of a departure cell. Tapping it shows a menu with more options. */
 "classic_departure_cell.context_button_accessibility_label" = "Options";
-
-/* Title for the context menu button's alert controller. */
-"classic_departure_cell.context_alert.title" = "Options for Arrival & Departure";
 
 /* Title for alert controller's Set Alarm option. */
 "classic_departure_cell.context_alert.set_alarm" = "Set Alarm";
@@ -804,6 +825,21 @@
 /* The section title on the 'Nearby' controller that says 'Routes' */
 "nearby_stops.routes_section_title" = "Routes";
 
+/* No results were found for your search. Please try again. */
+"map_table.vehicle_search_no_results" = "No results were found for your search. Please try again.";
+
+/* 'Route: {TEXT}' prefix */
+"map_table.route_prefix" = "Route: %@";
+
+/* Header text for the Bookmarks and Recent Stops section of the map table */
+"map_table.bookmarks_and_recent_stops_header" = "Bookmarks & Recent Stops";
+
+/* Title for the More Nearby Stops table row */
+"map_table.more_nearby_stops" = "More Nearby Stops";
+
+/* Explanation for when the app is offline. */
+"map_table.offline_explanation" = "Your network is unavailable. Check your data or WiFi connection and try again.";
+
 /* Map Search: Quick Lookup Table Section */
 "map_search.quick_lookup_section_title" = "Quick Search";
 
@@ -816,11 +852,17 @@
 /* Formatted string for Search for Stop Number: */
 "map_search.search_for_stop_number" = "Stop Number:";
 
+/* Vehicle ID: <VEHICLE ID> */
+"map_search.search_for_vehicle_id" = "Vehicle ID:";
+
 /* Map Search: Recent Stops section title */
 "map_search.recent_stops_section_title" = "Recent Stops";
 
 /* Map Search: Bookmarks section title */
 "map_search.bookmarks_section_title" = "Bookmarks";
+
+/* Title of the Vehicle Search disambiguator view controller */
+"vehicle_disambiguator.title" = "Choose a Vehicle";
 
 /* Clear Search button text */
 "toast_view.clear_search" = "Clear Search";
@@ -891,8 +933,8 @@
 /* Error message displayed when the stop ID provided doesn't match a known stop ID. */
 "map_controller.no_matching_stop_warning_body" = "We were unable to find a stop that matches the ID you provided. Please check the number and try again.";
 
-/* Accessibility label for toggle map type button on map. */
-"map_controller.toggle_map_type_accessibility_label" = "Toggle Map Type";
+/* Button title for changing the map type */
+"map_table.toggle_map_type_button" = "Toggle Map Type";
 
 /* Title for Standard Map toggle option. */
 "map_controller.standard_map_type_title" = "Standard Map";
@@ -915,11 +957,17 @@
 /* Mark All as Read toolbar button title */
 "regional_alerts_controller.mark_all_as_read" = "Mark All as Read";
 
+/* View Stop button in embed mode */
+"stop.view_stop_button_title" = "View Stop";
+
 /* This is the '...' button in the stop header view. */
 "stop_header_view.menu_button_accessibility_label" = "More Options";
 
 /* This is the Filter button in the stop header view. */
 "stop_header_view.filter_button_accessibility_label" = "Filter & Sort Routes";
+
+/* This is the Filter button title in the stop header view. */
+"stop_header_view.filter_button_title" = "Filter";
 
 /* No comment provided by engineer. */
 "msg_scheduled_explanatory" = "*'Scheduled': no vehicle location data available";

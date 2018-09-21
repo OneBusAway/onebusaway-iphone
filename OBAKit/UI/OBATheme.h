@@ -49,6 +49,11 @@
 @property(class,nonatomic,copy,readonly) UIFont *bodyFont;
 
 /**
+ Italic body font. Resizes based upon the user's chosen font sizes at the system level.
+ */
+@property(class,nonatomic,copy,readonly) UIFont *italicBodyFont;
+
+/**
  * The appropriate font to use for footer text, or a sidenote.
  * Please use sparingly.
  */
@@ -106,6 +111,8 @@
  @return A UIColor
  */
 + (UIColor*)colorWithRed:(NSUInteger)red green:(NSUInteger)green blue:(NSUInteger)blue alpha:(CGFloat)alpha;
+
+@property(class,nonatomic,copy,readonly) UIColor *mapTableBackgroundColor;
 
 /**
  Formerly known as OBAGREEN.
@@ -242,6 +249,11 @@
 @property(class,nonatomic,assign,readonly) CGFloat defaultCornerRadius;
 
 /**
+ A more compact corner radius to apply to views that require rounded edges.
+ */
+@property(class,nonatomic,assign,readonly) CGFloat compactCornerRadius;
+
+/**
  The value of +[OBATheme defaultMargin] in the form of UIEdgeInsets.
  */
 @property(class,nonatomic,assign,readonly) UIEdgeInsets marginSizedEdgeInsets;
@@ -260,5 +272,7 @@
  Default insets for images placed in UIButtons inside of a hover bar—our version of a FAB.
  */
 @property(class,nonatomic,assign,readonly) UIEdgeInsets hoverBarImageInsets;
+
+@property(class,nonatomic,assign,readonly) CGFloat preferredPopoverWidth;
 
 @end

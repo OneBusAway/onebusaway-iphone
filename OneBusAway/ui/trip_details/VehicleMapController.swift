@@ -9,6 +9,8 @@
 import MapKit
 import OBAKit
 
+// swiftlint:disable force_cast
+
 @objc protocol VehicleMapDelegate {
     func vehicleMap(_ vehicleMap: VehicleMapController, didToggleSize expanded: Bool)
     func vehicleMap(_ vehicleMap: VehicleMapController, didSelectStop annotation: MKAnnotation)
@@ -177,7 +179,7 @@ extension VehicleMapController {
         self.expanded = !self.expanded
         self.delegate?.vehicleMap(self, didToggleSize: self.expanded)
     }
-    
+
     @objc func recenterMap() {
         self.mapView.setUserTrackingMode(MKUserTrackingMode.follow, animated: true)
     }
@@ -192,7 +194,7 @@ extension VehicleMapController {
 
     func mapView(_ mapView: MKMapView, didSelect view: MKAnnotationView) {
         guard let annotation = view.annotation else {
-            return;
+            return
         }
 
         self.delegate?.vehicleMap(self, didSelectStop: annotation)
@@ -214,7 +216,7 @@ extension VehicleMapController {
         }
     }
 
-    // TODO: DRY this up with stopAnnotation().
+    // DRY this up with stopAnnotation()
     func otherStopAnnotation(_ annotation: OBATripStopTimeMapAnnotation, mapView: MKMapView) -> MKAnnotationView? {
         let identifier = "stopAnnotation"
 
@@ -302,7 +304,7 @@ extension VehicleMapController {
             make.edges.equalToSuperview()
         }
     }
-    
+
     func createHoverBar() {
         let hoverBar = ISHHoverBar()
 
@@ -313,8 +315,9 @@ extension VehicleMapController {
 
         hoverBar.items = [recenterMapButton, toggleBarButton]
         self.view.addSubview(hoverBar)
-        hoverBar.snp.makeConstraints { (make) in
-           make.trailing.bottom.equalToSuperview().inset(UIEdgeInsetsMake(0, 0, OBATheme.defaultPadding, OBATheme.defaultPadding))
+        hoverBar.snp.makeConstraints { make in
+            let insets = UIEdgeInsets(top: 0, left: 0, bottom: OBATheme.defaultPadding, right: OBATheme.defaultPadding)
+            make.trailing.bottom.equalToSuperview().inset(insets)
         }
     }
 }

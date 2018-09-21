@@ -133,7 +133,7 @@ extension TodayRowView {
 // MARK: - Departures
 extension TodayRowView {
     fileprivate func updateDepartures() {
-        let formatString = NSLocalizedString("today_screen.no_departures_in_next_n_minutes_format", comment: "No departures in the next {MINUTES} minutes")
+        let formatString = NSLocalizedString("stops.no_departures_in_next_n_minutes_format", comment: "No departures in the next {MINUTES} minutes")
         let nextDepartureText = String.init(format: formatString, String(kMinutes))
         nextDepartureLabel.text = nextDepartureText
         leadingDepartureLabel.text = nil

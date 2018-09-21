@@ -1,11 +1,11 @@
 # https://github.com/mxcl/promisekit/releases
-github "mxcl/PromiseKit" ~>4.5.0
+github "mxcl/PromiseKit" ==4.5.1
 
 # https://github.com/PromiseKit/CoreLocation/releases
-github "PromiseKit/CoreLocation" ~>3.0.3
+github "PromiseKit/CoreLocation" ==1.0.2
 
 # https://github.com/PromiseKit/MapKit/releases
-github "PromiseKit/MapKit" ~>3.0.0
+github "PromiseKit/MapKit" ==1.0.1
 
 # https://github.com/akashivskyy/GoogleAnalytics-Framework/releases
 github "akashivskyy/GoogleAnalytics-Framework" ~>3.17
@@ -22,8 +22,19 @@ github "SnapKit/SnapKit" ~>4.0.0
 # https://github.com/SwiftKickMobile/SwiftMessages/releases
 github "SwiftKickMobile/SwiftMessages" ~>4.1.0
 
+# https://github.com/AzimoLabs/SMFloatingLabelTextField/releases
+github "AzimoLabs/SMFloatingLabelTextField" ~>0.3.2
+
+# https://github.com/cbpowell/MarqueeLabel/releases
+github "cbpowell/MarqueeLabel" "d7cdb1708910f030c28d0118e26f6bac24dcad8a"
+
+github "Instagram/IGListKit" ==3.4.0
+
 # https://github.com/CocoaLumberjack/CocoaLumberjack/releases
 github "CocoaLumberjack/CocoaLumberjack" ~>3.4.1
+
+# https://github.com/SwipeCellKit/SwipeCellKit/releases
+github "SwipeCellKit/SwipeCellKit" ~>2.5.0
 
 # This repository does not work properly with Carthage.
 # I am currently copying the source files present in Carthage/Checkouts
@@ -32,27 +43,25 @@ github "CocoaLumberjack/CocoaLumberjack" ~>3.4.1
 # https://github.com/jspahrsummers/libextobjc/releases
 github "jspahrsummers/libextobjc" ~>0.5.0
 
-# https://github.com/mantle/mantle/releases
-github "mantle/mantle" ~>2.1.0
+###################
+###### Data #######
+###################
 
-# https://github.com/AzimoLabs/SMFloatingLabelTextField/releases
-github "AzimoLabs/SMFloatingLabelTextField" ~>0.3.2
-
-# https://github.com/cbpowell/MarqueeLabel/releases
-github "cbpowell/MarqueeLabel" "d7cdb1708910f030c28d0118e26f6bac24dcad8a"
+# https://github.com/apple/swift-protobuf/releases
+github "apple/swift-protobuf" ~>1.0.3
 
 # https://github.com/OneSignal/OneSignal-iOS-SDK/releases
-github "OneSignal/OneSignal-iOS-SDK" ~>2.8.1
+github "OneSignal/OneSignal-iOS-SDK" ~>2.8.8
 
 ###################
 ##### Testing #####
 ###################
 
 # https://github.com/Quick/Quick/releases
-github "Quick/Quick" ~>1.2.0
+github "Quick/Quick" ~>1.3.0
 
 # https://github.com/Quick/Nimble/releases
-github "Quick/Nimble" ~>7.0.3
+github "Quick/Nimble" ~>7.1.3
 
 # https://github.com/AliSoftware/OHHTTPStubs/releases
 github "AliSoftware/OHHTTPStubs" ~>6.1.0

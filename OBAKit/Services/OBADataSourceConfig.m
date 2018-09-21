@@ -27,24 +27,40 @@
 
 @implementation OBADataSourceConfig
 
-- (instancetype)initWithURL:(NSURL*)baseURL args:(nullable NSDictionary*)args {
+- (instancetype)initWithBaseURL:(NSURL*)URL userID:(nullable NSString*)userID checkStatusCodeInBody:(BOOL)checkStatusCodeInBody {
+    return [self initWithBaseURL:URL userID:userID checkStatusCodeInBody:checkStatusCodeInBody apiKey:nil bundleVersion:nil apiVersion:nil];
+}
+
+- (instancetype)initWithBaseURL:(NSURL*)URL userID:(nullable NSString*)userID checkStatusCodeInBody:(BOOL)checkStatusCodeInBody apiKey:(nullable NSString*)apiKey bundleVersion:(nullable NSString*)bundleVersion apiVersion:(nullable NSString*)apiVersion {
     self = [super init];
-    
+
     if (self) {
-        _baseURL = [baseURL copy];
+        _baseURL = [URL copy];
+        _checkStatusCodeInBody = checkStatusCodeInBody;
         _basePath = [[NSURLComponents componentsWithURL:_baseURL resolvingAgainstBaseURL:NO] percentEncodedPath];
-        _defaultArgs = [self.class dictionaryToQueryItems:args];
+        _defaultArgs = [OBADataSourceConfig defaultArgsWithUserID:userID apiKey:apiKey bundleVersion:bundleVersion apiVersion:apiVersion];
+        _contentType = OBADataSourceContentTypeJSON;
     }
+
     return self;
 }
 
-+ (instancetype)dataSourceConfigWithBaseURL:(NSURL*)URL userID:(NSString*)userID {
-    NSDictionary *obaArgs = @{ @"key":     @"org.onebusaway.iphone",
-                               @"app_uid": userID,
-                               @"app_ver": [[NSBundle mainBundle] objectForInfoDictionaryKey:@"CFBundleVersion"],
-                               @"version": @"2"};
++ (NSArray<NSURLQueryItem*>*)defaultArgsWithUserID:(nullable NSString*)userID apiKey:(nullable NSString*)apiKey bundleVersion:(nullable NSString*)bundleVersion apiVersion:(nullable NSString*)apiVersion {
+    NSMutableArray *args = [[NSMutableArray alloc] init];
 
-    return [[OBADataSourceConfig alloc] initWithURL:URL args:obaArgs];
+    [args addObject:[NSURLQueryItem queryItemWithName:@"key" value:apiKey ?: @"org.onebusaway.iphone"]];
+
+    if (userID.length > 0) {
+        [args addObject:[NSURLQueryItem queryItemWithName:@"app_uid" value:userID]];
+    }
+
+    bundleVersion = bundleVersion ?: [NSBundle.mainBundle objectForInfoDictionaryKey:@"CFBundleVersion"];
+    [args addObject:[NSURLQueryItem queryItemWithName:@"app_ver" value:bundleVersion]];
+
+    apiVersion = apiVersion ?: @"2";
+    [args addObject:[NSURLQueryItem queryItemWithName:@"version" value:apiVersion]];
+
+    return [NSArray arrayWithArray:args];
 }
 
 #pragma mark - Public Methods

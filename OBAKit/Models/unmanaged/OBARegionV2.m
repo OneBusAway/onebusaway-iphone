@@ -42,6 +42,11 @@
     [encoder oba_encodeBool:_supportsObaDiscoveryApis forSelector:@selector(supportsObaDiscoveryApis)];
     [encoder oba_encodeBool:_supportsSiriRealtimeApis forSelector:@selector(supportsSiriRealtimeApis)];
     [encoder oba_encodePropertyOnObject:self withSelector:@selector(twitterUrl)];
+
+    [encoder oba_encodePropertyOnObject:self withSelector:@selector(paymentWarningBody)];
+    [encoder oba_encodePropertyOnObject:self withSelector:@selector(paymentWarningTitle)];
+    [encoder oba_encodePropertyOnObject:self withSelector:@selector(paymentAppURLScheme)];
+    [encoder oba_encodePropertyOnObject:self withSelector:@selector(paymentAppStoreIdentifier)];
 }
 
 - (id)initWithCoder:(NSCoder *)decoder {
@@ -65,6 +70,11 @@
         _identifier = [decoder oba_decodeInteger:@selector(identifier)];
         _regionName = [self.class cleanUpRegionName:[decoder oba_decodeObject:@selector(regionName)]];
         _custom = [decoder oba_decodeBool:@selector(custom)];
+
+        _paymentWarningBody = [decoder oba_decodeObject:@selector(paymentWarningBody)];
+        _paymentWarningTitle = [decoder oba_decodeObject:@selector(paymentWarningTitle)];
+        _paymentAppURLScheme = [decoder oba_decodeObject:@selector(paymentAppURLScheme)];
+        _paymentAppStoreIdentifier = [decoder oba_decodeObject:@selector(paymentAppStoreIdentifier)];
     }
 
     return self;
@@ -83,6 +93,43 @@
 
     NSRegularExpression *regex = [NSRegularExpression regularExpressionWithPattern:@"\\s?\\(?beta\\)?" options:NSRegularExpressionCaseInsensitive error:nil];
     return [regex stringByReplacingMatchesInString:regionName options:(NSMatchingOptions)0 range:NSMakeRange(0, regionName.length) withTemplate:@""];
+}
+
+#pragma mark - Payment App
+
+- (void)setPaymentWarningBody:(NSString*)body {
+    if (body == (id)NSNull.null) {
+        _paymentWarningBody = nil;
+    }
+    else {
+        _paymentWarningBody = [body copy];
+    }
+}
+
+- (void)setPaymentWarningTitle:(NSString*)title {
+    if (title == (id)NSNull.null) {
+        _paymentWarningTitle = nil;
+    }
+    else {
+        _paymentWarningTitle = [title copy];
+    }
+}
+
+- (BOOL)supportsMobileFarePayment {
+    return self.paymentAppURLScheme != nil;
+}
+
+- (BOOL)paymentAppDoesNotCoverFullRegion {
+    return self.paymentWarningTitle != nil && self.paymentWarningBody != nil;
+}
+
+- (NSURL*)paymentAppDeepLinkURL {
+    if (self.supportsMobileFarePayment) {
+        return [NSURL URLWithString:[NSString stringWithFormat:@"%@://onebusaway", self.paymentAppURLScheme]];
+    }
+    else {
+        return nil;
+    }
 }
 
 #pragma mark - Other Public Methods
@@ -233,12 +280,28 @@
         return NO;
     }
 
+    if (![self.paymentWarningBody isEqual:object.paymentWarningBody]) {
+        return NO;
+    }
+
+    if (![self.paymentWarningTitle isEqual:object.paymentWarningTitle]) {
+        return NO;
+    }
+
+    if (![self.paymentAppURLScheme isEqual:object.paymentAppURLScheme]) {
+        return NO;
+    }
+
+    if (![self.paymentAppStoreIdentifier isEqual:object.paymentAppStoreIdentifier]) {
+        return NO;
+    }
+
     return YES;
 }
 
 - (NSString*)description
 {
-    return [self oba_description:@[@"baseURL", @"custom", @"regionName", @"siriBaseUrl", @"obaVersionInfo", @"language", @"bounds", @"contactEmail", @"twitterUrl", @"facebookUrl", @"supportsSiriRealtimeApis", @"supportsObaRealtimeApis", @"supportsObaDiscoveryApis", @"active", @"experimental", @"identifier"]];
+    return [self oba_description:@[@"baseURL", @"custom", @"regionName", @"siriBaseUrl", @"obaVersionInfo", @"language", @"bounds", @"contactEmail", @"twitterUrl", @"facebookUrl", @"supportsSiriRealtimeApis", @"supportsObaRealtimeApis", @"supportsObaDiscoveryApis", @"active", @"experimental", @"identifier", @"paymentWarningBody", @"paymentWarningTitle", @"paymentAppURLScheme", @"paymentAppStoreIdentifier"]];
 }
 
 @end

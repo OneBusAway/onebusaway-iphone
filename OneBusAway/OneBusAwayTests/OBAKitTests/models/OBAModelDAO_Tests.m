@@ -639,6 +639,36 @@
     [self waitForExpectationsWithTimeout:5 handler:nil];
 }
 
+- (void)testRecentStopsNearCoordinate_invalidCoordinate {
+    CLLocationCoordinate2D invalid = kCLLocationCoordinate2DInvalid;
+    NSArray *output = [self.modelDAO recentStopsNearCoordinate:invalid];
+
+    XCTAssertTrue(output.count == 0);
+}
+
+- (void)testRecentStopsNearCoordinate_validCoordinate {
+    CLLocationCoordinate2D coordSpaceNeedle = CLLocationCoordinate2DMake(47.6205063, -122.3492774);
+
+    OBAStopV2 *stopSLU = [self.class generateStopWithLatitude:47.6208745 longitude:-122.3387323];
+    stopSLU.name = @"SLU";
+    [self.modelDAO viewedArrivalsAndDeparturesForStop:stopSLU];
+    XCTAssertEqual(self.modelDAO.mostRecentStops.count, 1);
+
+    OBAStopV2 *stopAurora = [self.class generateStopWithLatitude:47.6210315 longitude:-122.3440149];
+    stopAurora.name = @"Aurora";
+    [self.modelDAO viewedArrivalsAndDeparturesForStop:stopAurora];
+    XCTAssertEqual(self.modelDAO.mostRecentStops.count, 2);
+
+    OBAStopV2 *stopSaint = [self.class generateStopWithLatitude:47.6177114 longitude:-122.3272776];
+    [self.modelDAO viewedArrivalsAndDeparturesForStop:stopSaint];
+    XCTAssertEqual(self.modelDAO.mostRecentStops.count, 3);
+
+    NSArray<OBAStopAccessEventV2*> *sortedRecents = [self.modelDAO recentStopsNearCoordinate:coordSpaceNeedle];
+    XCTAssertEqual(sortedRecents.count, 2);
+    XCTAssertEqualObjects(sortedRecents[0].stopID, stopAurora.stopId);
+    XCTAssertEqualObjects(sortedRecents[1].stopID, stopSLU.stopId);
+}
+
 #pragma mark - Location
 
 - (void)testMostRecentLocation {
@@ -695,6 +725,14 @@
     OBAStopV2 *stop = [[OBAStopV2 alloc] init];
     stop.stopId = [[NSUUID UUID] UUIDString];
     stop.name = stop.stopId;
+    return stop;
+}
+
++ (OBAStopV2*)generateStopWithLatitude:(double)lat longitude:(double)lon {
+    OBAStopV2 *stop = [self generateStop];
+    stop.lat = lat;
+    stop.lon = lon;
+
     return stop;
 }
 

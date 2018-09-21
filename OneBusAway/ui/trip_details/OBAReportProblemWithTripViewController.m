@@ -381,7 +381,7 @@ typedef NS_ENUM (NSInteger, OBASectionType) {
     switch (indexPath.row) {
         case 0: {
             OBALabelAndSwitchTableViewCell *cell = [OBALabelAndSwitchTableViewCell getOrCreateCellForTableView:tableView];
-            cell.label.text = [NSString stringWithFormat:@"%@ %@?", NSLocalizedString(@"msg_on_this", @"cell.label.text"), [_vehicleType capitalizedString]];
+            cell.label.text = [NSString stringWithFormat:@"%@ %@?", NSLocalizedString(@"msg_on_this", @"cell.label.text"), _vehicleType];
             cell.label.font = [OBATheme bodyFont];
             [cell.toggleSwitch setOn:_onVehicle];
             [cell.toggleSwitch addTarget:self action:@selector(setOnVehicle:) forControlEvents:UIControlEventValueChanged];
@@ -390,7 +390,7 @@ typedef NS_ENUM (NSInteger, OBASectionType) {
 
         case 1: {
             OBALabelAndTextFieldTableViewCell *cell = [OBALabelAndTextFieldTableViewCell getOrCreateCellForTableView:tableView];
-            cell.label.text = [NSString stringWithFormat:@"%@ %@", [_vehicleType capitalizedString], NSLocalizedString(@"msg_number", @"cell.label.text")];
+            cell.label.text = [NSString stringWithFormat:@"%@ %@", _vehicleType, NSLocalizedString(@"msg_number", @"cell.label.text")];
             cell.label.font = [OBATheme bodyFont];
             cell.textField.text = _vehicleNumber;
             cell.textField.delegate = self;
@@ -449,7 +449,10 @@ typedef NS_ENUM (NSInteger, OBASectionType) {
             return;
         }
 
-        [OBAAnalytics reportEventWithCategory:OBAAnalyticsCategorySubmit action:@"report_problem" label:@"Reported Problem" value:nil];
+        [OBAAnalytics.sharedInstance reportEventWithCategory:OBAAnalyticsCategorySubmit action:@"report_problem" label:@"Reported Problem" value:nil];
+
+        NSDictionary *params = @{@"stopID": self.currentStopId, @"vehicleNumber": problem.userVehicleNumber, @"problem": problem.code};
+        [FIRAnalytics logEventWithName:OBAAnalyticsEventTripProblemReported parameters:params];
 
         UIAlertController *alert = [UIAlertController alertControllerWithTitle:NSLocalizedString(@"msg_submission_successful", @"view.title")
                                                                        message:NSLocalizedString(@"msg_sucessfull_report_send", @"view.message")

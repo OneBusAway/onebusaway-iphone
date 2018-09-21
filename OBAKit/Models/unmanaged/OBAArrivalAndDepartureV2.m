@@ -98,16 +98,7 @@
         return nil;
     }
 
-    NSRegularExpression *regex = [NSRegularExpression regularExpressionWithPattern:@"[a-z]" options:(NSRegularExpressionOptions)0 error:nil];
-    if ([regex numberOfMatchesInString:headsign options:(NSMatchingOptions)0 range:NSMakeRange(0, headsign.length)] > 0) {
-        // Headsign contains a mix of uppercase and lowercase letters. Let it be.
-        return headsign;
-    }
-    else {
-        // No lowercase letters anywhere in the headsign.
-        // Return a Cap Case String in order to prevent SCREAMING CAPS.
-        return headsign.capitalizedString;
-    }
+    return headsign;
 }
 
 - (OBAArrivalAndDepartureInstanceRef*)instance {

@@ -13,17 +13,18 @@
 @import OBAKit;
 #import "OBAAgenciesListViewController.h"
 #import "OBASettingsViewController.h"
-#import "OBACreditsViewController.h"
 #import "OBAAnalytics.h"
 #import "OneBusAway-Swift.h"
 #import "OBAPushManager.h"
+#import "OBAFarePayments.h"
 
 static NSString * const kRepoURLString = @"https://www.github.com/onebusaway/onebusaway-iphone";
 static NSString * const kPrivacyURLString = @"http://onebusaway.org/privacy/";
 
-@interface OBAInfoViewController ()<MFMailComposeViewControllerDelegate, UIDocumentInteractionControllerDelegate>
+@interface OBAInfoViewController ()<MFMailComposeViewControllerDelegate, UIDocumentInteractionControllerDelegate, OBAFarePaymentsDelegate>
 @property(nonatomic,strong) UITapGestureRecognizer *debugTapRecognizer;
 @property(nonatomic,strong) UIDocumentInteractionController *docController;
+@property(nonatomic,strong) OBAFarePayments *farePayments;
 @end
 
 @implementation OBAInfoViewController
@@ -115,10 +116,7 @@ static NSString * const kPrivacyURLString = @"http://onebusaway.org/privacy/";
         [sections addObject:[self debugTableSection]];
     }
 
-    // Only show the alerts section if this region supports it.
-    if ([OBAApplication sharedApplication].regionalAlertsManager.regionalAlerts.count > 0) {
-        [sections addObject:[self alertsTableSection]];
-    }
+    [sections addObject:[self alertsTableSection]];
 
     [sections addObjectsFromArray:@[[self settingsTableSection],
                                     [self contactTableSection],
@@ -131,10 +129,14 @@ static NSString * const kPrivacyURLString = @"http://onebusaway.org/privacy/";
 - (OBATableSection*)alertsTableSection {
     NSString *rowTitle = [NSString stringWithFormat:NSLocalizedString(@"info_controller.updates_alerts_row_format", @"Title for Updates & Alerts row. e.g. Alerts for <Region Name>"), self.modelDAO.currentRegion.regionName];
     OBATableRow *row = [[OBATableRow alloc] initWithTitle:rowTitle action:^(OBABaseRow *r2) {
-        RegionalAlertsViewController *alertsController = [[RegionalAlertsViewController alloc] initWithRegionalAlertsManager:[OBAApplication sharedApplication].regionalAlertsManager];
+        [self logRowTapAnalyticsEvent:@"Regional Alerts"];
+        OBARegionalAlertsViewController *alertsController = [[OBARegionalAlertsViewController alloc] initWithApplication:[OBAApplication sharedApplication]];
         [self.navigationController pushViewController:alertsController animated:YES];
     }];
-    NSUInteger unreadCount = [OBAApplication sharedApplication].regionalAlertsManager.unreadCount;
+
+    // abxoxo - todo fixme!
+    NSUInteger unreadCount = 0;
+//    NSUInteger unreadCount = [OBAApplication sharedApplication].regionalAlertsManager.unreadCount;
 
     if (unreadCount > 0) {
         row.subtitle = [NSString stringWithFormat:@"%@", @(unreadCount)];
@@ -147,31 +149,47 @@ static NSString * const kPrivacyURLString = @"http://onebusaway.org/privacy/";
 
 - (OBATableSection*)settingsTableSection {
 
+    NSMutableArray *rows = [[NSMutableArray alloc] init];
+
     OBATableRow *region = [[OBATableRow alloc] initWithTitle:NSLocalizedString(@"msg_region", @"") action:^(OBABaseRow *r2) {
+        [self logRowTapAnalyticsEvent:@"Region List"];
         [self.navigationController pushViewController:[[RegionListViewController alloc] init] animated:YES];
     }];
     region.style = UITableViewCellStyleValue1;
     region.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
     region.subtitle = self.modelDAO.currentRegion.regionName;
+    [rows addObject:region];
+
+    if (self.modelDAO.currentRegion.supportsMobileFarePayment) {
+        OBATableRow *payFare = [[OBATableRow alloc] initWithTitle:NSLocalizedString(@"msg_pay_fare", @"Pay My Fare table row") action:^(OBABaseRow *row) {
+            [self logRowTapAnalyticsEvent:@"Pay Fare"];
+            [self.farePayments beginFarePaymentWorkflow];
+        }];
+        [rows addObject:payFare];
+    }
 
     OBATableRow *agencies = [[OBATableRow alloc] initWithTitle:NSLocalizedString(@"msg_agencies", @"Info Page Agencies Row Title") action:^(OBABaseRow *r2) {
+        [self logRowTapAnalyticsEvent:@"Show Agencies"];
         [self openAgencies];
     }];
     agencies.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
+    [rows addObject:agencies];
 
-    return [OBATableSection tableSectionWithTitle:NSLocalizedString(@"msg_your_location", @"Settings section title on info page") rows:@[region,agencies]];
+    return [OBATableSection tableSectionWithTitle:NSLocalizedString(@"msg_your_location", @"Settings section title on info page") rows:rows];
 }
 
 - (OBATableSection*)contactTableSection {
     NSMutableArray *rows = [[NSMutableArray alloc] init];
 
     OBATableRow *contactTransitAgency = [[OBATableRow alloc] initWithTitle:NSLocalizedString(@"msg_data_schedule_issues", @"Info Page Contact Us Row Title") action:^(OBABaseRow *r2) {
+        [self logRowTapAnalyticsEvent:@"Contact Transit Agency"];
         [self contactTransitAgency];
     }];
     contactTransitAgency.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
     [rows addObject:contactTransitAgency];
 
     OBATableRow *contactAppDevelopers = [[OBATableRow alloc] initWithTitle:NSLocalizedString(@"info_controller.contact_app_developers_row_title", @"'Contact app developers about a bug' row") action:^(OBABaseRow *r2) {
+        [self logRowTapAnalyticsEvent:@"Contact Developers"];
         [self contactAppDevelopers];
     }];
     contactAppDevelopers.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
@@ -184,25 +202,39 @@ static NSString * const kPrivacyURLString = @"http://onebusaway.org/privacy/";
 
 - (OBATableSection*)aboutTableSection {
     OBATableRow *credits = [[OBATableRow alloc] initWithTitle:NSLocalizedString(@"msg_credits", @"Info Page Credits Row Title") action:^(OBABaseRow *r2) {
+        [self logRowTapAnalyticsEvent:@"Credits"];
+        
         [self.navigationController pushViewController:[[OBACreditsViewController alloc] init] animated:YES];
     }];
     credits.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
 
     OBATableRow *privacy = [[OBATableRow alloc] initWithTitle:NSLocalizedString(@"msg_privacy_policy", @"Info Page Privacy Policy Row Title") action:^(OBABaseRow *r2) {
-        [OBAAnalytics reportEventWithCategory:OBAAnalyticsCategoryUIAction action:@"button_press" label:@"Clicked Privacy Policy Link" value:nil];
+        [OBAAnalytics.sharedInstance reportEventWithCategory:OBAAnalyticsCategoryUIAction action:@"button_press" label:@"Clicked Privacy Policy Link" value:nil];
+        [self logRowTapAnalyticsEvent:@"Privacy Policy"];
+
         SFSafariViewController *safari = [[SFSafariViewController alloc] initWithURL:[NSURL URLWithString:kPrivacyURLString]];
         safari.modalPresentationStyle = UIModalPresentationOverFullScreen;
         [self presentViewController:safari animated:YES completion:nil];
     }];
     privacy.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
 
-    return [OBATableSection tableSectionWithTitle:NSLocalizedString(@"msg_about_oba", @"") rows:@[credits, privacy]];
+    OBATableRow *darkSky = [[OBATableRow alloc] initWithTitle:NSLocalizedString(@"info.dark_sky_attribution", @"Attribution text for the Dark Sky weather service.") action:^(OBABaseRow *row) {
+        [self logRowTapAnalyticsEvent:@"Dark Sky Attribution"];
+        [[UIApplication sharedApplication] openURL:[NSURL URLWithString:@"https://darksky.net/poweredby/"] options:@{} completionHandler:nil];
+    }];
+
+    return [OBATableSection tableSectionWithTitle:NSLocalizedString(@"msg_about_oba", @"") rows:@[credits, privacy, darkSky]];
+}
+
+- (void)logRowTapAnalyticsEvent:(NSString*)rowName {
+    [FIRAnalytics logEventWithName:OBAAnalyticsEventInfoRowTapped parameters:@{@"row": rowName}];
 }
 
 - (OBATableSection*)debugTableSection {
     OBATableSection *section = [[OBATableSection alloc] initWithTitle:NSLocalizedString(@"info_controller.debug_section_title", @"The table section title for the debugging tools.")];
 
     OBATableRow *row = [[OBATableRow alloc] initWithTitle:NSLocalizedString(@"info_controller.browse_user_defaults_row", @"Row title for the Browse User Defaults action") action:^(OBABaseRow *r2) {
+        [self logRowTapAnalyticsEvent:@"User Defaults Browser"];
         UserDefaultsBrowserViewController *browser = [[UserDefaultsBrowserViewController alloc] init];
         [self.navigationController pushViewController:browser animated:YES];
     }];
@@ -210,6 +242,7 @@ static NSString * const kPrivacyURLString = @"http://onebusaway.org/privacy/";
     [section addRow:row];
 
     row = [[OBATableRow alloc] initWithTitle:NSLocalizedString(@"info_controller.export_user_defaults_row", @"Row title for Export Defaults action") action:^(OBABaseRow *r2) {
+        [self logRowTapAnalyticsEvent:@"Export Defaults"];
         NSData *archivedData = [[OBAApplication sharedApplication] exportUserDefaultsAsXML];
         NSURL *URL = [FileHelpers urlToFileName:@"userdefaults.xml" inDirectory:NSDocumentDirectory];
         [archivedData writeToURL:URL atomically:YES];
@@ -298,6 +331,23 @@ static NSString * const kPrivacyURLString = @"http://onebusaway.org/privacy/";
     }
 }
 
+#pragma mark - Fare Payment
+
+- (OBAFarePayments*)farePayments {
+    if (!_farePayments) {
+        _farePayments = [[OBAFarePayments alloc] initWithApplication:[OBAApplication sharedApplication] delegate:self];
+    }
+    return _farePayments;
+}
+
+- (void)farePayments:(OBAFarePayments *)farePayments presentViewController:(UIViewController *)viewController animated:(BOOL)animated completion:(void (^)(void))completion {
+    [self presentViewController:viewController animated:animated completion:completion];
+}
+
+- (void)farePayments:(OBAFarePayments *)farePayments presentError:(NSError *)error {
+    [AlertPresenter showError:error presentingController:self];
+}
+
 #pragma mark - Public Methods
 
 - (void)openAgencies {
@@ -306,15 +356,8 @@ static NSString * const kPrivacyURLString = @"http://onebusaway.org/privacy/";
 
 #pragma mark - OBANavigationTargetAware
 
-- (OBANavigationTarget *)navigationTarget {
-    return [OBANavigationTarget navigationTarget:OBANavigationTargetTypeContactUs];
-}
-
 - (void)setNavigationTarget:(OBANavigationTarget *)navigationTarget {
-    if (navigationTarget.searchType == OBASearchTypeRegionalAlert) {
-        RegionalAlertsViewController *alertsController = [[RegionalAlertsViewController alloc] initWithRegionalAlertsManager:[OBAApplication sharedApplication].regionalAlertsManager focusedAlert:navigationTarget.searchArgument];
-        [self.navigationController pushViewController:alertsController animated:YES];
-    }
+    // abxoxo - ???? - can i just delete this?
 }
 
 #pragma mark - Private
@@ -378,7 +421,7 @@ static NSString * const kPrivacyURLString = @"http://onebusaway.org/privacy/";
     [volunteerLabel setContentCompressionResistancePriority:UILayoutPriorityRequired forAxis:UILayoutConstraintAxisVertical];
     [views addObject:volunteerLabel];
 
-    BorderedButton *volunteerButton = [[BorderedButton alloc] initWithBorderColor:[UIColor blackColor] title:NSLocalizedString(@"msg_visit_us",)];
+    OBABorderedButton *volunteerButton = [[OBABorderedButton alloc] initWithBorderColor:[UIColor blackColor] title:NSLocalizedString(@"msg_visit_us",)];
     [volunteerButton addTarget:self action:@selector(openGitHub) forControlEvents:UIControlEventTouchUpInside];
     [volunteerButton setContentHuggingPriority:UILayoutPriorityDefaultLow forAxis:UILayoutConstraintAxisHorizontal];
     [volunteerButton setContentHuggingPriority:UILayoutPriorityDefaultLow forAxis:UILayoutConstraintAxisVertical];

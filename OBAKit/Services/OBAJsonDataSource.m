@@ -26,11 +26,10 @@
 
 @implementation OBAJsonDataSource
 
-- (id)initWithConfig:(OBADataSourceConfig *)config checkStatusCodeInBody:(BOOL)checkStatusCodeInBody {
+- (id)initWithConfig:(OBADataSourceConfig *)config {
     if (self = [super init]) {
         _config = config;
         _openConnections = [NSHashTable weakObjectsHashTable];
-        _checkStatusCodeInBody = checkStatusCodeInBody;
     }
 
     return self;
@@ -50,30 +49,35 @@
 #pragma mark - Factory Helpers
 
 + (instancetype)JSONDataSourceWithBaseURL:(NSURL*)URL userID:(NSString*)userID {
-    OBADataSourceConfig *obaDataSourceConfig = [OBADataSourceConfig dataSourceConfigWithBaseURL:URL userID:userID];
-    OBAJsonDataSource *dataSource = [[OBAJsonDataSource alloc] initWithConfig:obaDataSourceConfig checkStatusCodeInBody:YES];
+    OBADataSourceConfig *config = [[OBADataSourceConfig alloc] initWithBaseURL:URL userID:userID checkStatusCodeInBody:YES];
+    OBAJsonDataSource *dataSource = [[OBAJsonDataSource alloc] initWithConfig:config];
 
     return dataSource;
 }
 
-+ (instancetype)googleMapsJSONDataSource {
-    OBADataSourceConfig *googleMapsDataSourceConfig = [[OBADataSourceConfig alloc] initWithURL:[NSURL URLWithString:@"https://maps.googleapis.com"] args:@{@"sensor": @"true"}];
-    return [[OBAJsonDataSource alloc] initWithConfig:googleMapsDataSourceConfig checkStatusCodeInBody:NO];
++ (instancetype)unparsedDataSourceWithBaseURL:(NSURL*)URL userID:(NSString*)userID {
+    OBADataSourceConfig *config = [[OBADataSourceConfig alloc] initWithBaseURL:URL userID:userID checkStatusCodeInBody:NO];
+    config.contentType = OBADataSourceContentTypeRaw;
+    return [[OBAJsonDataSource alloc] initWithConfig:config];
 }
 
 + (instancetype)obacoJSONDataSource {
-    OBADataSourceConfig *obacoConfig = [[OBADataSourceConfig alloc] initWithURL:[NSURL URLWithString:OBADeepLinkServerAddress] args:nil];
-    return [[OBAJsonDataSource alloc] initWithConfig:obacoConfig checkStatusCodeInBody:NO];
+    OBADataSourceConfig *config = [[OBADataSourceConfig alloc] initWithBaseURL:[NSURL URLWithString:OBADeepLinkServerAddress] userID:nil checkStatusCodeInBody:NO];
+    return [[OBAJsonDataSource alloc] initWithConfig:config];
 }
 
 #pragma mark - Public Methods
+
+- (NSURL*)constructURLFromPath:(NSString*)path params:(nullable NSDictionary*)params {
+    return [self.config constructURL:path withArgs:params];
+}
 
 - (OBAURLRequest*)buildGETRequestWithPath:(NSString*)path queryParameters:(nullable NSDictionary*)queryParameters {
     return [self buildRequestWithPath:path HTTPMethod:@"GET" queryParameters:queryParameters formBody:nil];
 }
 
 - (OBAURLRequest*)buildRequestWithPath:(NSString*)path HTTPMethod:(NSString*)httpMethod queryParameters:(nullable NSDictionary*)queryParameters formBody:(nullable NSDictionary*)formBody {
-    return [self buildRequestWithURL:[self.config constructURL:path withArgs:queryParameters] HTTPMethod:httpMethod formBody:formBody];
+    return [self buildRequestWithURL:[self constructURLFromPath:path params:queryParameters] HTTPMethod:httpMethod formBody:formBody];
 }
 
 - (OBAURLRequest*)buildRequestWithURL:(NSURL*)URL HTTPMethod:(NSString*)httpMethod formBody:(nullable NSDictionary*)formBody {
@@ -143,6 +147,10 @@
 
 - (NSString*)description {
     return [self oba_description:@[] keyPaths:@[@"config"]];
+}
+
+- (BOOL)checkStatusCodeInBody {
+    return self.config.checkStatusCodeInBody;
 }
 
 @end

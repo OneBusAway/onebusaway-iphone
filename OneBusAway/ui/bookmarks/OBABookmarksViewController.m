@@ -8,12 +8,12 @@
 
 #import "OBABookmarksViewController.h"
 #import "OBAStopViewController.h"
-#import "OBAEditStopBookmarkViewController.h"
 #import "OBACollapsingHeaderView.h"
 #import "OBABookmarkGroupsViewController.h"
 #import "OBANavigationTitleView.h"
 #import "ISHHoverBar.h"
 #import "UIViewController+OBAAdditions.h"
+#import "OneBusAway-Swift.h"
 
 @import SafariServices;
 @import Masonry;
@@ -142,8 +142,8 @@ static NSString * const OBABookmarkSortUserDefaultsKey = @"OBABookmarkSortUserDe
 
 #pragma mark - OBANavigationTargetAware
 
-- (OBANavigationTarget*)navigationTarget {
-    return [OBANavigationTarget navigationTarget:OBANavigationTargetTypeBookmarks];
+- (void)setNavigationTarget:(OBANavigationTarget *)navigationTarget {
+    // abxoxo - todo!
 }
 
 #pragma mark - Notifications
@@ -506,8 +506,14 @@ static NSString * const OBABookmarkSortUserDefaultsKey = @"OBABookmarkSortUserDe
 #pragma mark - Moving Table Cells
 
 - (BOOL)tableView:(UITableView*)tableView canMoveRowAtIndexPath:(NSIndexPath *)indexPath {
-    // Only rows backed by a model can be moved.
-    return !![self rowAtIndexPath:indexPath].model;
+    OBABookmarkSort sort = [self.application.userDefaults integerForKey:OBABookmarkSortUserDefaultsKey];
+    if (sort == OBABookmarkSortProximity) {
+        return NO;
+    }
+    else {
+        // Only rows backed by a model can be moved.
+        return !![self rowAtIndexPath:indexPath].model;
+    }
 }
 
 - (void)tableView:(UITableView*)tableView moveRowAtIndexPath:(NSIndexPath *)sourceIndexPath toIndexPath:(NSIndexPath *)destinationIndexPath {
@@ -764,8 +770,8 @@ static NSString * const OBABookmarkSortUserDefaultsKey = @"OBABookmarkSortUserDe
     row.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
 
     [row setEditAction:^{
-        OBAEditStopBookmarkViewController *editor = [[OBAEditStopBookmarkViewController alloc] initWithBookmark:bookmark];
-        UINavigationController *nav = [[UINavigationController alloc] initWithRootViewController:editor];
+        OBAEditBookmarkViewController *bookmarkViewController = [[OBAEditBookmarkViewController alloc] initWithBookmark:bookmark modelDAO:self.modelDAO];
+        UINavigationController *nav = [[UINavigationController alloc] initWithRootViewController:bookmarkViewController];
         [self presentViewController:nav animated:YES completion:nil];
     }];
 

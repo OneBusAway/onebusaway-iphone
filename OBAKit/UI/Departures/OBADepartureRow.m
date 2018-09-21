@@ -14,6 +14,15 @@
 
 @implementation OBADepartureRow
 
+- (instancetype)initWithAction:(nullable OBARowAction)action {
+    self = [super initWithAction:action];
+
+    if (self) {
+        _displayContextButton = YES;
+    }
+    return self;
+}
+
 + (void)load {
     [OBAViewModelRegistry registerClass:self.class];
 }
@@ -30,7 +39,8 @@
     row->_bookmarkExists = _bookmarkExists;
     row->_alarmExists = _alarmExists;
     row->_hasArrived = _hasArrived;
-
+    row->_displayContextButton = _displayContextButton;
+    
     return row;
 }
 
@@ -44,7 +54,7 @@
     NSString *lineText = nil;
 
     if (destination.length > 0) {
-        lineText = [NSString stringWithFormat:OBALocalized(@"text_route_to_orientation_newline_params", @"Route formatting string. e.g. 10 to Downtown Seattle"), route, destination.capitalizedString];
+        lineText = [NSString stringWithFormat:OBALocalized(@"text_route_to_orientation_newline_params", @"Route formatting string. e.g. 10 to Downtown Seattle"), route, destination];
     }
     else {
         lineText = route;

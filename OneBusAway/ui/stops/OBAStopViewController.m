@@ -9,15 +9,12 @@
 #import "OBAStopViewController.h"
 @import OBAKit;
 @import PromiseKit;
-@import PMKCoreLocation;
-@import PMKMapKit;
 @import SVProgressHUD;
 #import "OneBusAway-Swift.h"
 #import "OBASeparatorSectionView.h"
 #import "OBAReportProblemWithRecentTripsViewController.h"
 #import "OBAEditStopPreferencesViewController.h"
 #import "OBAStopTableHeaderView.h"
-#import "OBAEditStopBookmarkViewController.h"
 #import "OBAAnalytics.h"
 #import "OBALabelFooterView.h"
 #import "OBASegmentedRow.h"
@@ -29,7 +26,7 @@
 #import "OBAArrivalDepartureOptionsSheet.h"
 #import "UIViewController+OBAAdditions.h"
 #import "EXTScope.h"
-#import "ISHHoverBar.h"
+#import "OBANavigationTitleView.h"
 
 @import Masonry;
 
@@ -52,7 +49,8 @@ static NSUInteger const kDefaultMinutesAfter = 35;
 @property(nonatomic,strong) OBARouteFilter *routeFilter;
 @property(nonatomic,strong) OBAStopTableHeaderView *stopHeaderView;
 @property(nonatomic,strong) OBAArrivalDepartureOptionsSheet *departureSheetHelper;
-@property(nonatomic,strong) ISHHoverBar *hoverBar;
+@property(nonatomic,assign,readonly) BOOL regularUIMode;
+@property(nonatomic,strong) OBADrawerNavigationBar *drawerNavigationBar;
 @end
 
 @implementation OBAStopViewController
@@ -86,14 +84,19 @@ static NSUInteger const kDefaultMinutesAfter = 35;
 
     self.navigationItem.title = NSLocalizedString(@"stop_view_controller.stop_back_title", @"Back button title representing going back to the stop controller.");
 
-    [self createTableHeaderView];
-
-    self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemRefresh target:self action:@selector(reloadData:)];
-    self.refreshControl = [[UIRefreshControl alloc] init];
-    [self.refreshControl addTarget:self action:@selector(reloadData:) forControlEvents:UIControlEventValueChanged];
-    [self.tableView addSubview:self.refreshControl];
-
-    [self createHoverBar];
+    if (self.regularUIMode) {
+        self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemRefresh target:self action:@selector(reloadData:)];
+        [self createTableHeaderView];
+        self.refreshControl = [[UIRefreshControl alloc] init];
+        [self.refreshControl addTarget:self action:@selector(reloadData:) forControlEvents:UIControlEventValueChanged];
+        [self.tableView addSubview:self.refreshControl];
+    }
+    else {
+        self.tableView.backgroundColor = UIColor.clearColor;
+        self.view.backgroundColor = UIColor.clearColor;
+        [self createAndInstallDrawerNavigationBar];
+        [self updateDrawerTitleWithArrivalsAndDepartures:self.arrivalsAndDepartures];
+    }
 }
 
 - (void)viewWillAppear:(BOOL)animated {
@@ -127,10 +130,55 @@ static NSUInteger const kDefaultMinutesAfter = 35;
     [self.promiseWrapper cancel];
 }
 
+#pragma mark - Drawer Navigation Bar
+
+- (void)createAndInstallDrawerNavigationBar {
+    self.drawerNavigationBar = [OBADrawerNavigationBar oba_autolayoutNew];
+
+    [self.drawerNavigationBar.closeButton addTarget:self action:@selector(closePane) forControlEvents:UIControlEventTouchUpInside];
+
+    [self.view addSubview:self.drawerNavigationBar];
+    [self.drawerNavigationBar mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.leading.top.and.trailing.equalTo(self.view);
+    }];
+}
+
+- (void)updateDrawerTitleWithArrivalsAndDepartures:(OBAArrivalsAndDeparturesForStopV2*)arrDep {
+    if (!arrDep) {
+        self.drawerNavigationBar.titleLabel.text = nil;
+        self.drawerNavigationBar.subtitleLabel.text = nil;
+        [self resizeDrawerNav];
+        return;
+    }
+
+    OBABookmarkV2 *bookmark = [self.modelDAO bookmarkForArrivalAndDeparture:arrDep.arrivalsAndDepartures.firstObject];
+    OBAStopV2 *stop = arrDep.stop;
+
+    if (bookmark) {
+        self.drawerNavigationBar.titleLabel.text = bookmark.name;
+    }
+    else {
+        self.drawerNavigationBar.titleLabel.text = stop.nameWithDirection;
+    }
+
+    self.drawerNavigationBar.subtitleLabel.text = [NSString stringWithFormat:NSLocalizedString(@"stops_controller.routes_list_fmt", @"Formatted string for a list of routes - Routes: %@"), stop.routeNamesAsString];
+
+    if (self.inEmbedMode) {
+        [self resizeDrawerNav];
+    }
+}
+
+- (void)resizeDrawerNav {
+    CGSize drawerNavSize = [self.drawerNavigationBar systemLayoutSizeFittingSize:CGSizeMake(CGRectGetWidth(self.view.frame), 10000) withHorizontalFittingPriority:UILayoutPriorityRequired verticalFittingPriority:UILayoutPriorityDefaultLow];
+
+    CGFloat tabBarSize = self.embedDelegate.embeddedStopControllerBottomLayoutGuideLength;
+    self.tableView.contentInset = UIEdgeInsetsMake(drawerNavSize.height, 0, tabBarSize, 0);
+    self.tableView.scrollIndicatorInsets = self.tableView.contentInset;
+}
+
 #pragma mark - Notifications
 
 - (void)willEnterForeground:(NSNotification*)note {
-
     // First, reload the table so that times adjust properly.
     [self.tableView reloadData];
 
@@ -183,6 +231,10 @@ static NSUInteger const kDefaultMinutesAfter = 35;
     return _departureSheetHelper;
 }
 
+- (BOOL)regularUIMode {
+    return !self.inEmbedMode;
+}
+
 #pragma mark - Data Loading
 
 - (void)reloadData:(id)sender {
@@ -200,19 +252,22 @@ static NSUInteger const kDefaultMinutesAfter = 35;
         [self.refreshControl beginRefreshing];
     }
 
-    self.navigationItem.title = NSLocalizedString(@"stops_controller.title.updating", @"Title of the Stop UI Controller while it is updating its content.");
+    if (self.regularUIMode) {
+        self.navigationItem.title = NSLocalizedString(@"stops_controller.title.updating", @"Title of the Stop UI Controller while it is updating its content.");
+    }
 
     self.promiseWrapper = [self.modelService requestStopArrivalsAndDeparturesWithID:self.stopID minutesBefore:self.minutesBefore minutesAfter:self.minutesAfter];
 
     self.promiseWrapper.anyPromise.then(^(NetworkResponse *networkResponse) {
         OBAArrivalsAndDeparturesForStopV2 *response = networkResponse.object;
         self.navigationItem.title = [NSString stringWithFormat:@"%@: %@", NSLocalizedString(@"msg_updated", @"message"), [OBADateHelpers formatShortTimeNoDate:[NSDate date]]];
+
         [self.modelDAO viewedArrivalsAndDeparturesForStop:response.stop];
 
         self.arrivalsAndDepartures = response;
-
-        [self populateTableFromArrivalsAndDeparturesModel:self.arrivalsAndDepartures];
+        [self updateDrawerTitleWithArrivalsAndDepartures:self.arrivalsAndDepartures];
         [self.stopHeaderView populateTableHeaderFromArrivalsAndDeparturesModel:self.arrivalsAndDepartures];
+        [self populateTableFromArrivalsAndDeparturesModel:self.arrivalsAndDepartures];
     }).catch(^(NSError *error) {
         [AlertPresenter showError:error presentingController:self];
         DDLogError(@"An error occurred while displaying a stop: %@", error);
@@ -225,12 +280,36 @@ static NSUInteger const kDefaultMinutesAfter = 35;
     });
 }
 
+- (OBATableSection*)createButtonRowSection {
+    UIBarButtonItem *bookmarkButton = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"Favorites"] style:UIBarButtonItemStylePlain target:self action:@selector(addBookmark)];
+    bookmarkButton.title = NSLocalizedString(@"msg_add_bookmark", @"");
+
+    UIBarButtonItem *filterButton = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"filter"] style:UIBarButtonItemStylePlain target:self action:@selector(showFilterAndSortUI)];
+    filterButton.accessibilityLabel = NSLocalizedString(@"stop_header_view.filter_button_accessibility_label", @"This is the Filter button in the stop header view.");
+    filterButton.title = NSLocalizedString(@"stop_header_view.filter_button_title", @"This is the Filter button title in the stop header view.");
+
+    NSMutableArray *buttons = [[NSMutableArray alloc] initWithArray:@[bookmarkButton, filterButton]];
+
+    if (self.inEmbedMode) {
+        UIBarButtonItem *refreshButton = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"refresh"] style:UIBarButtonItemStylePlain target:self action:@selector(reloadData:)];
+        refreshButton.title = OBAStrings.refresh;
+        [buttons addObject:refreshButton];
+    }
+
+    OBAButtonBarRow *buttonRow = [[OBAButtonBarRow alloc] initWithBarButtonItems:buttons];
+    OBATableSection *section = [[OBATableSection alloc] initWithTitle:nil rows:@[buttonRow]];
+
+    return section;
+}
+
 - (void)populateTableFromArrivalsAndDeparturesModel:(OBAArrivalsAndDeparturesForStopV2 *)result {
     if (!result) {
         return;
     }
 
     NSMutableArray *sections = [NSMutableArray array];
+
+    [sections addObject:[self createButtonRowSection]];
 
     // Toggle showing/hiding filtered routes.
     if ([self.routeFilter hasFilteredRoutes]) {
@@ -244,45 +323,52 @@ static NSUInteger const kDefaultMinutesAfter = 35;
     }
 
     // Departures
-    // TODO: DRY up this whole thing.
-    if (self.stopPreferences.sortTripsByType == OBASortTripsByDepartureTimeV2) {
-        OBATableSection *section = [self buildClassicDepartureSectionWithDeparture:result];
+    if ([self.routeFilter filteredArrivalsAndDepartures:result.arrivalsAndDepartures].count == 0) {
+        NSString *str = [NSString stringWithFormat:NSLocalizedString(@"stops.no_departures_in_next_n_minutes_format", @"No departures in the next {MINUTES} minutes"), @(self.minutesAfter)];
+        OBATableRow *row = [OBATableRow disabledInfoRowWithText:str];
+        OBATableSection *section = [[OBATableSection alloc] initWithTitle:nil rows:@[row]];
         [sections addObject:section];
     }
     else {
-        NSDictionary *groupedArrivals = [OBAStopViewController groupPredictedArrivalsOnRoute:result.arrivalsAndDepartures];
-        NSArray *arrivalKeys = [groupedArrivals.allKeys sortedArrayUsingSelector:@selector(localizedStandardCompare:)];
-        for (NSString *key in arrivalKeys) {
-            NSArray<OBAArrivalAndDepartureV2*> *departures = groupedArrivals[key];
+        // TODO: DRY up this whole thing.
+        if (self.stopPreferences.sortTripsByType == OBASortTripsByDepartureTimeV2) {
+            [sections addObject:[self buildClassicDepartureSectionWithDeparture:result]];
+        }
+        else {
+            NSDictionary *groupedArrivals = [OBAStopViewController groupPredictedArrivalsOnRoute:result.arrivalsAndDepartures];
+            NSArray *arrivalKeys = [groupedArrivals.allKeys sortedArrayUsingSelector:@selector(localizedStandardCompare:)];
+            for (NSString *key in arrivalKeys) {
+                NSArray<OBAArrivalAndDepartureV2*> *departures = groupedArrivals[key];
 
-            // Exclude table sections for routes that the user has disabled and routes without departures.
-            if (departures.count > 0 && [self.routeFilter shouldShowRouteID:departures[0].routeId]) {
-                [sections addObject:[self createDepartureSectionWithTitle:key fromDepartures:departures]];
+                // Exclude table sections for routes that the user has disabled and routes without departures.
+                if (departures.count > 0 && [self.routeFilter shouldShowRouteID:departures[0].routeId]) {
+                    [sections addObject:[self createDepartureSectionWithTitle:key fromDepartures:departures]];
+                }
             }
         }
     }
 
+    OBATableSection *loadMoreSection = nil;
+
     // "Load More Departures..."
-    OBATableSection *loadMoreSection = [self createLoadMoreDeparturesSection];
+    loadMoreSection = [self createLoadMoreDeparturesSection];
 
     NSString *timeframeText = [self timeframeStringForMinutesBeforeToAfter];
 
     if (timeframeText) {
-        OBATableRow *timeframeRow = [[OBATableRow alloc] initWithTitle:timeframeText action:nil];
-        timeframeRow.textAlignment = NSTextAlignmentCenter;
-        timeframeRow.titleFont = [OBATheme italicFootnoteFont];
-        timeframeRow.selectionStyle = UITableViewCellSelectionStyleNone;
+        OBATableRow *timeframeRow = [OBATableRow disabledInfoRowWithText:timeframeText];
         [loadMoreSection addRow:timeframeRow];
     }
 
     if (result.lacksRealTimeData) {
-        OBATableRow *scheduledExplanationRow = [[OBATableRow alloc] initWithTitle:[OBAStrings scheduledDepartureExplanation] action:nil];
-        scheduledExplanationRow.textAlignment = NSTextAlignmentCenter;
-        scheduledExplanationRow.titleFont = [OBATheme italicFootnoteFont];
-        scheduledExplanationRow.selectionStyle = UITableViewCellSelectionStyleNone;
+        OBATableRow *scheduledExplanationRow = [OBATableRow disabledInfoRowWithText:OBAStrings.scheduledDepartureExplanation];
         [loadMoreSection addRow:scheduledExplanationRow];
     }
+
     [sections addObject:loadMoreSection];
+
+    OBATableSection *moreOptionsSection = [self buildMoreOptionsSectionWithStop:result.stop];
+    [sections addObject:moreOptionsSection];
 
     self.sections = sections;
     [self.tableView reloadData];
@@ -365,12 +451,83 @@ static NSUInteger const kDefaultMinutesAfter = 35;
     OBABaseRow *nextRow = [self rowAtIndexPath:[NSIndexPath indexPathForRow:indexPath.row+1 inSection:indexPath.section]];
     CGRect bounds = tableView.bounds;
 
+    static UIEdgeInsets regularInsets;
+    static dispatch_once_t onceToken;
+    dispatch_once(&onceToken, ^{
+        regularInsets = cell.separatorInset;
+    });
+
     if ([row isKindOfClass:[OBAWalkableRow class]] || [nextRow isKindOfClass:[OBAWalkableRow class]]) {
         cell.separatorInset = UIEdgeInsetsMake(0, CGRectGetWidth(bounds)/2.f, 0, CGRectGetWidth(bounds)/2.f);
+    }
+    else {
+        cell.separatorInset = regularInsets;
+    }
+}
+
+#pragma mark - Scroll View
+
+- (void)scrollViewDidScroll:(UIScrollView *)scrollView {
+    if (!self.inEmbedMode) {
+        return;
+    }
+
+    CGFloat offset = scrollView.contentOffset.y;
+    CGFloat height = CGRectGetHeight(self.drawerNavigationBar.frame);
+
+    if (-offset >= height) {
+        self.drawerNavigationBar.backgroundColor = [UIColor clearColor];
+        [self.drawerNavigationBar hideDrawerNavigationBarShadow];
+    }
+    else {
+        self.drawerNavigationBar.backgroundColor = [UIColor whiteColor];
+        [self.drawerNavigationBar showDrawerNavigationBarShadow];
     }
 }
 
 #pragma mark - Table Section Creation
+
+- (OBATableSection*)buildMoreOptionsSectionWithStop:(OBAStopV2*)stop {
+
+    NSMutableArray *rows = [[NSMutableArray alloc] init];
+
+    // Nearby Stops
+    OBATableRow *nearbyStopsRow = [[OBATableRow alloc] initWithTitle:NSLocalizedString(@"msg_nearby_stops", @"") action:^(OBABaseRow * _Nonnull row) {
+        NearbyStopsViewController *nearby = [[NearbyStopsViewController alloc] initWithStop:stop];
+        nearby.pushesResultsOntoStack = YES;
+        [self pushViewController:nearby animated:YES];
+    }];
+    nearbyStopsRow.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
+    [rows addObject:nearbyStopsRow];
+
+    // Walking Directions (Apple Maps)
+    OBATableRow *appleMaps = [[OBATableRow alloc] initWithTitle:NSLocalizedString(@"stop.walking_directions_apple_action_title", @"Title of the 'Get Walking Directions (Apple Maps)' option in the action sheet.") action:^(OBABaseRow *row) {
+        NSURL *appleMapsURL = [AppInterop appleMapsWalkingDirectionsURLWithCoordinate:stop.coordinate];
+        [UIApplication.sharedApplication openURL:appleMapsURL options:@{} completionHandler:nil];
+    }];
+    [rows addObject:appleMaps];
+
+    // Walking Directions (Google Maps)
+    NSURL *googleMapsURL = [AppInterop googleMapsWalkingDirectionsURLWithCoordinate:stop.coordinate];
+    if ([UIApplication.sharedApplication canOpenURL:googleMapsURL]) {
+        OBATableRow *googleMaps = [[OBATableRow alloc] initWithTitle:NSLocalizedString(@"stop.walking_directions_google_action_title", @"Title of the 'Get Walking Directions (Google Maps)' option in the action sheet.") action:^(OBABaseRow *row) {
+            [UIApplication.sharedApplication openURL:googleMapsURL options:@{} completionHandler:nil];
+        }];
+        [rows addObject:googleMaps];
+    }
+
+    // Report a Problem
+    OBATableRow *problem = [[OBATableRow alloc] initWithTitle:NSLocalizedString(@"msg_report_a_problem", @"") action:^(OBABaseRow * _Nonnull row) {
+        OBAReportProblemWithRecentTripsViewController * vc = [[OBAReportProblemWithRecentTripsViewController alloc] initWithStopID:self.arrivalsAndDepartures.stop.stopId];
+        UINavigationController *nav = [[UINavigationController alloc] initWithRootViewController:vc];
+        [self presentViewController:nav animated:YES completion:nil];
+    }];
+    [rows addObject:problem];
+
+    OBATableSection *section = [[OBATableSection alloc] initWithTitle:NSLocalizedString(@"stop_header_view.menu_button_accessibility_label", @"This is the '...' button in the stop header view.") rows:rows];
+
+    return section;
+}
 
 - (OBATableSection *)buildClassicDepartureSectionWithDeparture:(OBAArrivalsAndDeparturesForStopV2 *)result {
     NSMutableArray *departureRows = [NSMutableArray array];
@@ -432,7 +589,7 @@ static NSUInteger const kDefaultMinutesAfter = 35;
 
 - (OBATableSection*)createLoadMoreDeparturesSection {
     OBATableRow *moreDeparturesRow = [[OBATableRow alloc] initWithTitle:NSLocalizedString(@"msg_load_more_departures_dots", @"") action:^(OBABaseRow *r2) {
-        [OBAAnalytics reportEventWithCategory:OBAAnalyticsCategoryUIAction action:@"button_press" label:@"Clicked load more arrivals button" value:nil];
+        [OBAAnalytics.sharedInstance reportEventWithCategory:OBAAnalyticsCategoryUIAction action:@"button_press" label:@"Clicked load more arrivals button" value:nil];
         self.minutesAfter += 30;
         [self reloadDataAnimated:NO];
     }];
@@ -472,9 +629,9 @@ static NSUInteger const kDefaultMinutesAfter = 35;
     OBAArrivalAndDepartureSectionBuilder *builder = [[OBAArrivalAndDepartureSectionBuilder alloc] initWithModelDAO:self.modelDAO];
     OBADepartureRow *row = [builder createDepartureRowForStop:dep];
 
-    [row setAction:^(OBABaseRow *blockRow){
+    [row setAction:^(OBABaseRow *blockRow) {
         OBAArrivalAndDepartureViewController *vc = [[OBAArrivalAndDepartureViewController alloc] initWithArrivalAndDeparture:dep];
-        [self.navigationController pushViewController:vc animated:YES];
+        [self pushViewController:vc animated:YES];
     }];
 
     @weakify(row);
@@ -544,56 +701,10 @@ static NSUInteger const kDefaultMinutesAfter = 35;
     [self presentViewController:nav animated:YES completion:nil];
 }
 
-- (void)showActionsMenu:(id)sender {
-    OBAStopV2 *stop = self.arrivalsAndDepartures.stop;
-
-    UIAlertController *actionSheet = [UIAlertController alertControllerWithTitle:nil message:nil preferredStyle:UIAlertControllerStyleActionSheet];
-
-    // Add Bookmark
-    UIAlertAction *addBookmark = [UIAlertAction actionWithTitle:NSLocalizedString(@"msg_add_bookmark", @"") style:UIAlertActionStyleDefault handler:^(UIAlertAction *action) {
-        OBABookmarkRouteDisambiguationViewController *disambiguator = [[OBABookmarkRouteDisambiguationViewController alloc] initWithArrivalsAndDeparturesForStop:self.arrivalsAndDepartures];
-        UINavigationController *nav = [[UINavigationController alloc] initWithRootViewController:disambiguator];
-        [self presentViewController:nav animated:YES completion:nil];
-    }];
-    [actionSheet addAction:addBookmark];
-
-    // Nearby Stops
-    UIAlertAction *nearbyStops = [UIAlertAction actionWithTitle:NSLocalizedString(@"msg_nearby_stops", @"") style:UIAlertActionStyleDefault handler:^(UIAlertAction *action) {
-        NearbyStopsViewController *nearby = [[NearbyStopsViewController alloc] initWithStop:stop];
-        nearby.pushesResultsOntoStack = YES;
-        [self.navigationController pushViewController:nearby animated:YES];
-    }];
-    [actionSheet addAction:nearbyStops];
-
-    // Walking Directions (Apple Maps)
-    NSURL *appleMapsURL = [AppInterop appleMapsWalkingDirectionsURLWithCoordinate:stop.coordinate];
-    UIAlertAction *walkingDirectionsApple = [UIAlertAction actionWithTitle:NSLocalizedString(@"stop.walking_directions_apple_action_title", @"Title of the 'Get Walking Directions (Apple Maps)' option in the action sheet.") style:UIAlertActionStyleDefault handler:^(UIAlertAction *action) {
-        [UIApplication.sharedApplication openURL:appleMapsURL options:@{} completionHandler:nil];
-    }];
-    [actionSheet addAction:walkingDirectionsApple];
-
-    // Walking Directions (Google Maps)
-
-    NSURL *googleMapsURL = [AppInterop googleMapsWalkingDirectionsURLWithCoordinate:stop.coordinate];
-    if ([UIApplication.sharedApplication canOpenURL:googleMapsURL]) {
-        UIAlertAction *walkingDirections = [UIAlertAction actionWithTitle:NSLocalizedString(@"stop.walking_directions_google_action_title", @"Title of the 'Get Walking Directions (Google Maps)' option in the action sheet.") style:UIAlertActionStyleDefault handler:^(UIAlertAction *action) {
-            [UIApplication.sharedApplication openURL:googleMapsURL options:@{} completionHandler:nil];
-        }];
-        [actionSheet addAction:walkingDirections];
-    }
-
-    // Report a Problem
-    UIAlertAction *problem = [UIAlertAction actionWithTitle:NSLocalizedString(@"msg_report_a_problem", @"") style:UIAlertActionStyleDefault handler:^(UIAlertAction *action) {
-        OBAReportProblemWithRecentTripsViewController * vc = [[OBAReportProblemWithRecentTripsViewController alloc] initWithStopID:self.arrivalsAndDepartures.stop.stopId];
-        UINavigationController *nav = [[UINavigationController alloc] initWithRootViewController:vc];
-        [self presentViewController:nav animated:YES completion:nil];
-    }];
-    [actionSheet addAction:problem];
-
-    // Cancel
-    [actionSheet addAction:[UIAlertAction actionWithTitle:OBAStrings.cancel style:UIAlertActionStyleCancel handler:nil]];
-
-    [self oba_presentViewController:actionSheet fromView:sender];
+- (void)addBookmark {
+    OBABookmarkRouteDisambiguationViewController *disambiguator = [[OBABookmarkRouteDisambiguationViewController alloc] initWithArrivalsAndDeparturesForStop:self.arrivalsAndDepartures];
+    UINavigationController *nav = [[UINavigationController alloc] initWithRootViewController:disambiguator];
+    [self presentViewController:nav animated:YES completion:nil];
 }
 
 - (void)createTableHeaderView {
@@ -622,23 +733,19 @@ static NSUInteger const kDefaultMinutesAfter = 35;
     return [NSDictionary dictionaryWithDictionary:dict];
 }
 
-#pragma mark - Hover Bar
-
-- (void)createHoverBar {
-    NSString *label = NSLocalizedString(@"stop_header_view.menu_button_accessibility_label", @"This is the '...' button in the stop header view.");
-    UIBarButtonItem *menuButton = [OBAUIBuilder wrappedImageButton:[UIImage imageNamed:@"ellipsis_button"] accessibilityLabel:label target:self action:@selector(showActionsMenu:)];
-
-    label = NSLocalizedString(@"stop_header_view.filter_button_accessibility_label", @"This is the Filter button in the stop header view.");
-    UIBarButtonItem *filterButton = [OBAUIBuilder wrappedImageButton:[UIImage imageNamed:@"filter"] accessibilityLabel:label target:self action:@selector(showFilterAndSortUI)];
-
-    self.hoverBar = [[ISHHoverBar alloc] init];
-    self.hoverBar.items = @[menuButton, filterButton];
-    [self.view addSubview:self.hoverBar];
-    [self.hoverBar mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.bottom.equalTo(self.mas_bottomLayoutGuideTop).offset(-OBATheme.defaultMargin);
-        make.trailing.equalTo(self).offset(-OBATheme.defaultMargin);
-    }];
+- (void)pushViewController:(UIViewController*)viewController animated:(BOOL)animated {
+    if (self.inEmbedMode) {
+        [self.embedDelegate embeddedStopController:self pushViewController:viewController animated:YES];
+    }
+    else {
+        [self.navigationController pushViewController:viewController animated:animated];
+    }
 }
 
+#pragma mark - Embed UI
+
+- (void)closePane {
+    [self.embedDelegate embeddedStopControllerClosePane:self];
+}
 
 @end

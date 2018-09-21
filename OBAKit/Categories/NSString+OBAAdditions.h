@@ -7,7 +7,15 @@
 //
 
 @import Foundation;
+@import UIKit;
+
+NS_ASSUME_NONNULL_BEGIN
 
 @interface NSString (OBAAdditions)
 @property(nonatomic,copy,readonly,nullable) NSString *oba_SHA1;
+
+- (CGFloat)oba_heightWithConstrainedWidth:(CGFloat)width font:(UIFont*)font;
+
 @end
+
+NS_ASSUME_NONNULL_END

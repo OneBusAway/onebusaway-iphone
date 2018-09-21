@@ -19,9 +19,6 @@
 NS_ASSUME_NONNULL_BEGIN
 
 @protocol OBANavigationTargetAware<NSObject>
-- (OBANavigationTarget*)navigationTarget;
-
-@optional
 - (void)setNavigationTarget:(OBANavigationTarget*)navigationTarget;
 @end
 

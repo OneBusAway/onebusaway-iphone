@@ -20,6 +20,9 @@
 #import <OBAKit/OBATheme.h>
 #import <OBAKit/OBAMacros.h>
 
+// For the simple getIconForStop call, here are the default dimensions
+CGFloat const OBADefaultAnnotationSize = 54.f;
+
 @implementation OBAStopIconFactory
 
 // . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .
@@ -58,27 +61,21 @@
 #define ChevronWidthPercentage      0.25f   // Width of chevron, relative to overall size (assuming N chevron)
 #define ChevronHeightPercentage     0.15f   // Height of chevron, relative to overall size (assuming N chevron)
 
-// For the simple getIconForStop call, here are the default dimensions
-#define StopIconDefaultWidth        54
-#define StopIconDefaultHeight       54
-
 // . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .
 
 static NSDictionary *rotationAngles = nil;
-static UIColor *strokeColor = nil;
 static UIColor *iconBackgroundColor = nil;
-static UIColor *textBackgroundColor = nil;
 static UIColor *chevronFillColor = nil;
 static UIColor *textColor = nil;
 static NSString *stopLabelFaceName = nil;
 static NSString *stopLabelText = nil;
 static NSCache *iconCache = nil;
 
-+ (UIImage *)getIconForStop:(OBAStopV2 *)stop {
-    return [self getIconForStop:stop withSize:CGSizeMake(StopIconDefaultWidth, StopIconDefaultHeight)];
++ (UIImage *)getIconForStop:(OBAStopV2 *)stop strokeColor:(nonnull UIColor *)strokeColor {
+    return [self getIconForStop:stop withSize:CGSizeMake(OBADefaultAnnotationSize, OBADefaultAnnotationSize) strokeColor:strokeColor];
 }
 
-+ (UIImage *)getIconForStop:(OBAStopV2 *)stop withSize:(CGSize)size {
++ (UIImage *)getIconForStop:(OBAStopV2 *)stop withSize:(CGSize)size strokeColor:(UIColor*)strokeColor {
     static dispatch_once_t onceToken;
     dispatch_once(&onceToken, ^{
         iconCache = [[NSCache alloc] init];
@@ -90,9 +87,7 @@ static NSCache *iconCache = nil;
 
         // Color selections
         // TODO: Consider OBATheme here?
-        strokeColor = [UIColor blackColor];
         iconBackgroundColor = [UIColor whiteColor];
-        textBackgroundColor = strokeColor;
         chevronFillColor = [UIColor redColor];
         textColor = [UIColor whiteColor];
 
@@ -111,10 +106,14 @@ static NSCache *iconCache = nil;
     // First, let's compose the cache key out of the name and orientation, then
     // see if we've already got one that matches.
     NSString *routeIconType = [self imageNameForRouteType:stop.firstAvailableRouteTypeForStop];
-    NSString *cachedImageKey = [NSString stringWithFormat:@"%@:%@(%fx%f)",
+
+
+    NSString *cachedImageKey = [NSString stringWithFormat:@"%@:%@(%fx%f)-%@",
                                 routeIconType,
                                 stop.direction ?: @"",
-                                size.width, size.height];
+                                size.width, size.height,
+                                [self colorToString:strokeColor]
+                                ];
 
     UIImage *image = [iconCache objectForKey:cachedImageKey];
 
@@ -123,7 +122,7 @@ static NSCache *iconCache = nil;
     }
 
     // First time for one of these, so we need to build it up.
-    UIView *view = [self createCompositeViewForStop:stop withSize:size];
+    UIView *view = [self createCompositeViewForStop:stop withSize:size strokeColor:strokeColor];
 
     // Render the composited UIView into a UIImage
     UIGraphicsBeginImageContextWithOptions(view.frame.size, NO, 0.0f);
@@ -137,12 +136,25 @@ static NSCache *iconCache = nil;
     return image;
 }
 
++ (NSString*)colorToString:(UIColor*)color {
+    CGFloat *components = (CGFloat*)CGColorGetComponents(color.CGColor);
+
+    CGFloat R = components[0] * 255.f;
+    CGFloat G = components[1] * 255.f;
+    CGFloat B = components[2] * 255.f;
+
+    NSString *str = [NSString stringWithFormat:@"(%.0f,%.0f,%.0f)", R, G, B];
+    return str;
+}
+
 #pragma mark - Private
 
-+ (UIView *)createCompositeViewForStop:(OBAStopV2 *)stop withSize:(CGSize)size {
++ (UIView *)createCompositeViewForStop:(OBAStopV2 *)stop withSize:(CGSize)size strokeColor:(UIColor*)strokeColor {
     // Some basic geometry using the constants defined at the top of the file
     CGFloat cornerRadius = size.width * IconCornerRadiusPercentage;
     CGFloat strokeWidth = size.width * StrokeWidthPercentage;
+
+    UIColor *textBackgroundColor = strokeColor;
 
     CGRect mainViewRect = CGRectMake(0, 0, size.width, size.height);
     CGRect iconRect = CGRectInset(mainViewRect, (size.width * IconInsetPercentage), (size.height * IconInsetPercentage));

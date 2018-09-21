@@ -13,7 +13,7 @@ import Foundation
     @objc static let activityType = "org.onebusaway.iphone.handoff"
     @objc static let stopIDKey = "stop_ID"
     @objc static let regionIDKey = "region_id"
-    
+
     open internal(set) var activity: NSUserActivity! {
         didSet {
             activity.title = "OneBusAway"
@@ -21,11 +21,11 @@ import Foundation
             activity.requiredUserInfoKeys = [OBAHandoff.stopIDKey, OBAHandoff.regionIDKey]
         }
     }
-    
+
     override init() {
         activity = NSUserActivity(activityType: OBAHandoff.activityType)
     }
-    
+
     /// Begin broadcasting the specified URL
     /// - parameter URL: URL to broadcast, if `nil`,
     /// this will stop broadcasting
@@ -33,7 +33,7 @@ import Foundation
         activity.webpageURL = URL
         activity.becomeCurrent()
     }
-    
+
     /// Begin broadcasting the specified stop using its stop ID
     ///
     /// - Parameters:
@@ -47,7 +47,7 @@ import Foundation
         activity.userInfo = userInfo
         activity.becomeCurrent()
     }
-    
+
     /// Stop broadcasting to other devices.
     @objc open func stopBroadcasting() {
         activity.userInfo = nil

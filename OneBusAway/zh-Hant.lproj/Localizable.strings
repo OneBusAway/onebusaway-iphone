@@ -17,7 +17,7 @@
 "today_screen.no_region_description" = "無法讀取你所在地區，請在OneBusAway裡選擇你的地區。";
 
 /* No departures in the next {MINUTES} minutes */
-"today_screen.no_departures_in_next_n_minutes_format" = "在@%分鐘內無任何離站公車";
+"stops.no_departures_in_next_n_minutes_format" = "在@%分鐘內無任何離站公車";
 
 /* Tap for more information subheading on Today view */
 "today_screen.tap_for_more_information" = "點選讀取更多資訊";
@@ -162,7 +162,7 @@
 "msg_eastbound" = "往東";
 
 /* OBABookmarkEditExisting */
-"msg_edit_bookmark" = "修改書籤";
+"edit_bookmark.title" = "修改書籤";
 
 /* No comment provided by engineer. */
 "msg_edit_group_name" = "修改群組名稱";
@@ -326,9 +326,6 @@
 
 /* As in 'going to the north.' */
 "msg_northbound" = "往北";
-
-/* code == 404 */
-"msg_not_found" = "查無";
 
 /* cell.label.text */
 "msg_number" = "車號";
@@ -778,9 +775,6 @@
 /* This is the ... button shown on the right side of a departure cell. Tapping it shows a menu with more options. */
 "classic_departure_cell.context_button_accessibility_label" = "選項";
 
-/* Title for the context menu button's alert controller. */
-"classic_departure_cell.context_alert.title" = "到達 & 離開 選項";
-
 /* Title for alert controller's Set Alarm option. */
 "classic_departure_cell.context_alert.set_alarm" = "設定提醒鬧鈴";
 
@@ -802,6 +796,8 @@
 /* The empty data set description for the search controller */
 "map_search.empty_data_set_description" = "在此輸入地址,路線號碼或是站牌號碼來搜尋站牌";
 
+/* 'Route: {TEXT}' prefix */
+"map_table.route_prefix" = "路線: %@";
 
 /* The section title on the 'Nearby' controller that says 'Routes' */
 "nearby_stops.routes_section_title" = "路線";
@@ -893,8 +889,8 @@
 /* Error message displayed when the stop ID provided doesn't match a known stop ID. */
 "map_controller.no_matching_stop_warning_body" = "我們無法找到任何跟你提供的ID相關的站牌，請確認輸入內容並再次一次！";
 
-/* Accessibility label for toggle map type button on map. */
-"map_controller.toggle_map_type_accessibility_label" = "切換地圖形式";
+/* Button title for changing the map type */
+"map_table.toggle_map_type_button" = "切換地圖形式";
 
 /* Title for Standard Map toggle option. */
 "map_controller.standard_map_type_title" = "一般地圖";

@@ -18,19 +18,14 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
-@interface OBAListWithRangeAndReferencesV2 : OBAHasReferencesV2 {
-    BOOL _limitExceeded;
-    BOOL _outOfRange;
-    NSMutableArray * _values;
-}
+@interface OBAListWithRangeAndReferencesV2 : OBAHasReferencesV2
+@property(nonatomic,assign) BOOL limitExceeded;
+@property(nonatomic,assign) BOOL outOfRange;
+@property(nonatomic,strong,readonly) NSArray *values;
 
-@property (nonatomic) BOOL limitExceeded;
-@property (nonatomic) BOOL outOfRange;
-@property (nonatomic,strong) NSArray * values;
+@property(nonatomic,readonly) NSUInteger count;
 
-@property (nonatomic,readonly) NSUInteger count;
-
-- (void) addValue:(id)value;
+- (void)addValue:(id)value;
 
 @end
 

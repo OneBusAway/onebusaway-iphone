@@ -50,11 +50,6 @@
     [self loadData];
 }
 
-- (void)viewWillAppear:(BOOL)animated {
-    [super viewWillAppear:animated];
-    [OBAAnalytics reportScreenView:[NSString stringWithFormat:@"View: %@", [self class]]];
-}
-
 #pragma mark - Actions
 
 - (void)cancel {

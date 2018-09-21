@@ -98,7 +98,7 @@ class TodayViewController: UIViewController {
 
         self.view.addSubview(outerStackView)
         outerStackView.snp.makeConstraints { (make) in
-            let inset = UIEdgeInsetsMake(OBATheme.compactPadding, 10, OBATheme.compactPadding, 10)
+            let inset = UIEdgeInsets(top: OBATheme.compactPadding, left: 10, bottom: OBATheme.compactPadding, right: 10)
             make.leading.top.trailing.equalToSuperview().inset(inset)
         }
 
@@ -222,7 +222,7 @@ extension TodayViewController {
 
         refreshControl.beginRefreshing()
 
-        let promises: [Promise<Any>] = group.bookmarks.flatMap { self.promiseStop(bookmark: $0) }
+        let promises: [Promise<Any>] = group.bookmarks.compactMap { self.promiseStop(bookmark: $0) }
         _ = when(resolved: promises).then { _ -> Void in
             self.lastUpdatedAt = Date.init()
             self.refreshControl.stopRefreshing()
@@ -269,6 +269,7 @@ extension TodayViewController {
 
         let promiseWrapper = app.modelService.requestStopArrivalsAndDepartures(withID: bookmark.stopId, minutesBefore: 0, minutesAfter: kMinutes)
         return promiseWrapper.promise.then { networkResponse -> Void in
+            // swiftlint:disable force_cast
             let departures: [OBAArrivalAndDepartureV2] = bookmark.matchingArrivalsAndDepartures(forStop: networkResponse.object as! OBAArrivalsAndDeparturesForStopV2)
                 view.departures = departures
                 view.loadingState = .complete

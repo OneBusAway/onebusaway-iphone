@@ -32,8 +32,11 @@
         CGFloat triangleWidth = 20.f;
         CGFloat triangleOffsetFromRight = 18.f;
 
-        [self.contentView mas_makeConstraints:^(MASConstraintMaker *make) {
-            make.height.equalTo(@(barHeight+triangleHeight));
+        UIView *sizingView = [UIView oba_autolayoutNew];
+        [self.contentView addSubview:sizingView];
+        [sizingView mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.height.equalTo(@(barHeight+triangleHeight)).priorityMedium();
+            make.edges.equalTo(self.contentView);
         }];
 
         _fillView = [[OBACanvasView alloc] initWithFrame:self.bounds drawRectBlock:^(CGRect rect) {

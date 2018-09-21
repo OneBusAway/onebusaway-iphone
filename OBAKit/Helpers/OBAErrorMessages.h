@@ -19,6 +19,8 @@ NS_ASSUME_NONNULL_BEGIN
 + (NSError*)connectionError:(NSHTTPURLResponse*)response;
 @property(nonatomic,copy,class,readonly) NSError *cannotRegisterAlarm;
 
+@property(nonatomic,copy,class,readonly) NSError *vehicleNotFoundError;
+
 + (nullable NSError*)errorFromHttpResponse:(NSHTTPURLResponse*)httpResponse;
 
 + (NSError*)unknownErrorFromResponse:(NSHTTPURLResponse*)httpResponse;

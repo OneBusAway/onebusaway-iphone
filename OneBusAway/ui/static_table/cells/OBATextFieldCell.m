@@ -11,6 +11,8 @@
 @import Masonry;
 #import "SMFloatingLabelTextField.h"
 
+#define kDebugColors NO
+
 @interface OBATextFieldCell ()<UITextFieldDelegate>
 @property(nonatomic,strong) SMFloatingLabelTextField *textField;
 @end
@@ -25,16 +27,22 @@
         _textField = [[SMFloatingLabelTextField alloc] initWithFrame:CGRectZero];
         _textField.userInteractionEnabled = YES;
         _textField.delegate = self;
+        _textField.contentVerticalAlignment = UIControlContentVerticalAlignmentBottom;
         [self.contentView addSubview:_textField];
 
         UIEdgeInsets layoutMargins = self.layoutMargins;
-        layoutMargins.bottom = 0;
-        layoutMargins.top = 0;
+        layoutMargins.bottom = OBATheme.compactPadding;
+        layoutMargins.top = OBATheme.compactPadding;
 
         [_textField mas_makeConstraints:^(MASConstraintMaker *make) {
             make.edges.equalTo(self.contentView).insets(layoutMargins);
             make.height.greaterThanOrEqualTo(@44).priorityMedium();
         }];
+
+        if (kDebugColors) {
+            self.contentView.backgroundColor = [UIColor magentaColor];
+            _textField.backgroundColor = [UIColor greenColor];
+        }
     }
 
     return self;

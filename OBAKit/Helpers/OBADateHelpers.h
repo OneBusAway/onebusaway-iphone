@@ -23,6 +23,8 @@ NS_ASSUME_NONNULL_BEGIN
 + (NSString*)formatAccessibilityLabelMinutesUntilDate:(NSDate*)date;
 + (NSString*)formatMinutesUntilDate:(NSDate*)date;
 
++ (nullable NSString*)formatDateForMessageStyle:(nullable NSDate*)date;
+
 /**
  Creates a date from the provided millisecond value.
 
