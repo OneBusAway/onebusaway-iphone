@@ -1,0 +1,4 @@
+framework module Hue {
+  header "Hue-Swift.h"
+  requires objc
+}

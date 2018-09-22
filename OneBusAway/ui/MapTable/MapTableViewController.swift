@@ -544,6 +544,9 @@ extension MapTableViewController: VehicleDisambiguationDelegate {
                     AlertPresenter.showWarning(OBAStrings.notFound, body: body)
                 }
             }
+            else {
+                AlertPresenter.showError(error as NSError, presentingController: self)
+            }
         }.always {
             SVProgressHUD.dismiss()
         }
