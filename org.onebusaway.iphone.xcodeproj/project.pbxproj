@@ -163,10 +163,12 @@
 		9341B82420B66FB0006450FC /* StopCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9341B82320B66FB0006450FC /* StopCell.swift */; };
 		9341B82720B66FDE006450FC /* StopSectionController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9341B82620B66FDE006450FC /* StopSectionController.swift */; };
 		9341B82920B683A5006450FC /* StopViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9341B82820B683A5006450FC /* StopViewModel.swift */; };
-		9341B82B20B68FBB006450FC /* ForecastCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9341B82A20B68FBB006450FC /* ForecastCell.swift */; };
 		934C50A01E2B69E300DFDCA0 /* GKActionSheetPicker.m in Sources */ = {isa = PBXBuildFile; fileRef = 934C509D1E2B69E300DFDCA0 /* GKActionSheetPicker.m */; };
 		934C50A11E2B69E300DFDCA0 /* GKActionSheetPickerItem.m in Sources */ = {isa = PBXBuildFile; fileRef = 934C509F1E2B69E300DFDCA0 /* GKActionSheetPickerItem.m */; };
 		934C50AE1E2B6D5B00DFDCA0 /* OBAPushManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 934C50AD1E2B6D5B00DFDCA0 /* OBAPushManager.m */; };
+		934CE83A2154D4FA0059B8A2 /* SwiftEntryKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 934CE8382154D4F90059B8A2 /* SwiftEntryKit.framework */; };
+		934CE83B2154D4FA0059B8A2 /* QuickLayout.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 934CE8392154D4FA0059B8A2 /* QuickLayout.framework */; };
+		934CE84021569F920059B8A2 /* Hue.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 934CE83F21569F920059B8A2 /* Hue.framework */; };
 		93528AAE1C8D50D200783E9A /* MapKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 93528AAD1C8D50D200783E9A /* MapKit.framework */; };
 		93528AB11C8D517100783E9A /* CloudKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 93528AB01C8D517100783E9A /* CloudKit.framework */; };
 		9353FF921E08E70A00B7A5C3 /* VehicleMapController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9353FF911E08E70A00B7A5C3 /* VehicleMapController.swift */; };
@@ -175,7 +177,6 @@
 		9358CDB61DEA265200132CDE /* OBADepartureCellHelpers_Tests.m in Sources */ = {isa = PBXBuildFile; fileRef = 9358CDB51DEA265200132CDE /* OBADepartureCellHelpers_Tests.m */; };
 		9359D1281DB92B4200CABFBD /* OBAModelService_Tests.m in Sources */ = {isa = PBXBuildFile; fileRef = 9359D1271DB92B4200CABFBD /* OBAModelService_Tests.m */; };
 		935C39111F76EEAD00737DC4 /* Launch Screen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 935C39101F76EEAD00737DC4 /* Launch Screen.storyboard */; };
-		935C39151F7707FF00737DC4 /* AlertPresenterView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 935C39141F7707FF00737DC4 /* AlertPresenterView.swift */; };
 		9362C5B72047EF9A00C2C164 /* TodayRowView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9362C5B62047EF9A00C2C164 /* TodayRowView.swift */; };
 		93631E4C1604F96800CB7209 /* OBAApplicationDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 93631E4B1604F96800CB7209 /* OBAApplicationDelegate.m */; };
 		93656B852105388A009A3524 /* StopAnnotationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 93656B842105388A009A3524 /* StopAnnotationView.swift */; };
@@ -214,7 +215,6 @@
 		93BC49DD1FB8D5FB008B710D /* CocoaLumberjack.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 93BC49DB1FB8D5FB008B710D /* CocoaLumberjack.framework */; };
 		93BC49E51FB8D60F008B710D /* PromiseKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 93BC49E41FB8D60F008B710D /* PromiseKit.framework */; };
 		93BC49E81FB8D61D008B710D /* Masonry.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 93BC49E61FB8D61C008B710D /* Masonry.framework */; };
-		93BC49E91FB8D61D008B710D /* SwiftMessages.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 93BC49E71FB8D61D008B710D /* SwiftMessages.framework */; };
 		93BC49EC1FB8D628008B710D /* SVProgressHUD.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 93BC49EA1FB8D628008B710D /* SVProgressHUD.framework */; };
 		93BC49ED1FB8D628008B710D /* GoogleAnalytics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 93BC49EB1FB8D628008B710D /* GoogleAnalytics.framework */; };
 		93C21DA0214A287600F422DA /* TableRowController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 93C21D9F214A287600F422DA /* TableRowController.swift */; };
@@ -522,7 +522,6 @@
 		9341B82320B66FB0006450FC /* StopCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StopCell.swift; sourceTree = "<group>"; };
 		9341B82620B66FDE006450FC /* StopSectionController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StopSectionController.swift; sourceTree = "<group>"; };
 		9341B82820B683A5006450FC /* StopViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StopViewModel.swift; sourceTree = "<group>"; };
-		9341B82A20B68FBB006450FC /* ForecastCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ForecastCell.swift; sourceTree = "<group>"; };
 		934445F81AB105FB005B3333 /* capitolhill.gpx */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = capitolhill.gpx; sourceTree = "<group>"; };
 		9347860D1D3453E9002A5627 /* sandiego.gpx */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = sandiego.gpx; sourceTree = "<group>"; };
 		934C509C1E2B69E300DFDCA0 /* GKActionSheetPicker.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GKActionSheetPicker.h; sourceTree = "<group>"; };
@@ -531,6 +530,9 @@
 		934C509F1E2B69E300DFDCA0 /* GKActionSheetPickerItem.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GKActionSheetPickerItem.m; sourceTree = "<group>"; };
 		934C50AC1E2B6D5B00DFDCA0 /* OBAPushManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OBAPushManager.h; sourceTree = "<group>"; };
 		934C50AD1E2B6D5B00DFDCA0 /* OBAPushManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OBAPushManager.m; sourceTree = "<group>"; };
+		934CE8382154D4F90059B8A2 /* SwiftEntryKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SwiftEntryKit.framework; path = Carthage/Build/iOS/SwiftEntryKit.framework; sourceTree = "<group>"; };
+		934CE8392154D4FA0059B8A2 /* QuickLayout.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuickLayout.framework; path = Carthage/Build/iOS/QuickLayout.framework; sourceTree = "<group>"; };
+		934CE83F21569F920059B8A2 /* Hue.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Hue.framework; path = Carthage/Build/iOS/Hue.framework; sourceTree = "<group>"; };
 		93528AAD1C8D50D200783E9A /* MapKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MapKit.framework; path = System/Library/Frameworks/MapKit.framework; sourceTree = SDKROOT; };
 		93528AAF1C8D50E900783E9A /* OneBusAway.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; name = OneBusAway.entitlements; path = OneBusAway/Resources/OneBusAway.entitlements; sourceTree = "<group>"; };
 		93528AB01C8D517100783E9A /* CloudKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CloudKit.framework; path = System/Library/Frameworks/CloudKit.framework; sourceTree = SDKROOT; };
@@ -544,7 +546,6 @@
 		9359D1271DB92B4200CABFBD /* OBAModelService_Tests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OBAModelService_Tests.m; sourceTree = "<group>"; };
 		935BB9ED1F745E0500062E31 /* CoreTelephony.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreTelephony.framework; path = System/Library/Frameworks/CoreTelephony.framework; sourceTree = SDKROOT; };
 		935C39101F76EEAD00737DC4 /* Launch Screen.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = "Launch Screen.storyboard"; sourceTree = "<group>"; };
-		935C39141F7707FF00737DC4 /* AlertPresenterView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlertPresenterView.swift; sourceTree = "<group>"; };
 		9362C5B62047EF9A00C2C164 /* TodayRowView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TodayRowView.swift; sourceTree = "<group>"; };
 		93631E4A1604F96800CB7209 /* OBAApplicationDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = OBAApplicationDelegate.h; path = OneBusAway/OBAApplicationDelegate.h; sourceTree = "<group>"; };
 		93631E4B1604F96800CB7209 /* OBAApplicationDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; name = OBAApplicationDelegate.m; path = OneBusAway/OBAApplicationDelegate.m; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objc; };
@@ -602,7 +603,6 @@
 		93BC49DB1FB8D5FB008B710D /* CocoaLumberjack.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CocoaLumberjack.framework; path = Carthage/Build/iOS/CocoaLumberjack.framework; sourceTree = "<group>"; };
 		93BC49E41FB8D60F008B710D /* PromiseKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = PromiseKit.framework; path = Carthage/Build/iOS/PromiseKit.framework; sourceTree = "<group>"; };
 		93BC49E61FB8D61C008B710D /* Masonry.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Masonry.framework; path = Carthage/Build/iOS/Masonry.framework; sourceTree = "<group>"; };
-		93BC49E71FB8D61D008B710D /* SwiftMessages.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SwiftMessages.framework; path = Carthage/Build/iOS/SwiftMessages.framework; sourceTree = "<group>"; };
 		93BC49EA1FB8D628008B710D /* SVProgressHUD.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SVProgressHUD.framework; path = Carthage/Build/iOS/SVProgressHUD.framework; sourceTree = "<group>"; };
 		93BC49EB1FB8D628008B710D /* GoogleAnalytics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = GoogleAnalytics.framework; path = Carthage/Build/iOS/GoogleAnalytics.framework; sourceTree = "<group>"; };
 		93C21D9F214A287600F422DA /* TableRowController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TableRowController.swift; sourceTree = "<group>"; };
@@ -639,8 +639,10 @@
 				93BC49E51FB8D60F008B710D /* PromiseKit.framework in Frameworks */,
 				93C3936D1D8A3A530080F370 /* Foundation.framework in Frameworks */,
 				93BC49E81FB8D61D008B710D /* Masonry.framework in Frameworks */,
+				934CE83B2154D4FA0059B8A2 /* QuickLayout.framework in Frameworks */,
 				93BC49ED1FB8D628008B710D /* GoogleAnalytics.framework in Frameworks */,
 				931131F1214C17590063D400 /* nanopb.framework in Frameworks */,
+				934CE84021569F920059B8A2 /* Hue.framework in Frameworks */,
 				93BC49D91FB8D5EB008B710D /* SnapKit.framework in Frameworks */,
 				93BC49DC1FB8D5FB008B710D /* CocoaLumberjackSwift.framework in Frameworks */,
 				93BC49EC1FB8D628008B710D /* SVProgressHUD.framework in Frameworks */,
@@ -651,7 +653,6 @@
 				93528AAE1C8D50D200783E9A /* MapKit.framework in Frameworks */,
 				931131EE214C17590063D400 /* GoogleAppMeasurement.framework in Frameworks */,
 				931131EC214C17590063D400 /* FirebaseAnalytics.framework in Frameworks */,
-				93BC49E91FB8D61D008B710D /* SwiftMessages.framework in Frameworks */,
 				93E1039821349FCA0090E7AF /* SwipeCellKit.framework in Frameworks */,
 				93BC49D71FB8D5E0008B710D /* OneSignal.framework in Frameworks */,
 				93BC49DD1FB8D5FB008B710D /* CocoaLumberjack.framework in Frameworks */,
@@ -662,6 +663,7 @@
 				931131F0214C17590063D400 /* FirebaseInstanceID.framework in Frameworks */,
 				931131EB214C17590063D400 /* GoogleUtilities.framework in Frameworks */,
 				93302B4A20CB189D003699C6 /* IGListKit.framework in Frameworks */,
+				934CE83A2154D4FA0059B8A2 /* SwiftEntryKit.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -737,13 +739,15 @@
 		29B97323FDCFA39411CA2CEA /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				934CE83F21569F920059B8A2 /* Hue.framework */,
+				934CE8392154D4FA0059B8A2 /* QuickLayout.framework */,
+				934CE8382154D4F90059B8A2 /* SwiftEntryKit.framework */,
 				931131F4214C182B0063D400 /* libsqlite3.tbd */,
 				93E1039621349FC90090E7AF /* SwipeCellKit.framework */,
 				93302B4920CB189C003699C6 /* IGListKit.framework */,
 				93BC49EB1FB8D628008B710D /* GoogleAnalytics.framework */,
 				93BC49EA1FB8D628008B710D /* SVProgressHUD.framework */,
 				93BC49E61FB8D61C008B710D /* Masonry.framework */,
-				93BC49E71FB8D61D008B710D /* SwiftMessages.framework */,
 				93BC49E41FB8D60F008B710D /* PromiseKit.framework */,
 				93BC49DB1FB8D5FB008B710D /* CocoaLumberjack.framework */,
 				93BC49DA1FB8D5FB008B710D /* CocoaLumberjackSwift.framework */,
@@ -938,7 +942,6 @@
 				934196EA1DB0C13F004BBBB7 /* AlertPresenter.swift */,
 				934196EB1DB0C13F004BBBB7 /* OBAAlerts.h */,
 				934196EC1DB0C13F004BBBB7 /* OBAAlerts.m */,
-				935C39141F7707FF00737DC4 /* AlertPresenterView.swift */,
 			);
 			path = alerts;
 			sourceTree = "<group>";
@@ -1555,7 +1558,6 @@
 			isa = PBXGroup;
 			children = (
 				9341B82520B66FC6006450FC /* Stops */,
-				93A1C68820B3F62700E176DE /* Forecast */,
 				93C48E482096EF0F001FB95C /* MapTableViewController.swift */,
 				93A637E420A2CDE50005248C /* LabelCell.swift */,
 				93A637E220A2CDDC0005248C /* CenterLabelCell.swift */,
@@ -1568,14 +1570,6 @@
 				93C21DA2214A364000F422DA /* ChevronCardCell.swift */,
 			);
 			path = MapTable;
-			sourceTree = "<group>";
-		};
-		93A1C68820B3F62700E176DE /* Forecast */ = {
-			isa = PBXGroup;
-			children = (
-				9341B82A20B68FBB006450FC /* ForecastCell.swift */,
-			);
-			path = Forecast;
 			sourceTree = "<group>";
 		};
 		93A6E5211E6CB23500BEFECE /* ISHHoverBar */ = {
@@ -1911,7 +1905,6 @@
 				"$(SRCROOT)/Carthage/Build/iOS/GoogleAnalytics.framework",
 				"$(SRCROOT)/Carthage/Build/iOS/PromiseKit.framework",
 				"$(SRCROOT)/Carthage/Build/iOS/SVProgressHUD.framework",
-				"$(SRCROOT)/Carthage/Build/iOS/SwiftMessages.framework",
 				"$(SRCROOT)/Carthage/Build/iOS/Masonry.framework",
 				"$(SRCROOT)/Carthage/Build/iOS/CocoaLumberjack.framework",
 				"$(SRCROOT)/Carthage/Build/iOS/CocoaLumberjackSwift.framework",
@@ -1921,6 +1914,9 @@
 				"$(SRCROOT)/Carthage/Build/iOS/IGListKit.framework",
 				"$(SRCROOT)/Carthage/Build/iOS/SwiftProtobuf.framework",
 				"$(SRCROOT)/Carthage/Build/iOS/SwipeCellKit.framework",
+				"$(SRCROOT)/Carthage/Build/iOS/QuickLayout.framework",
+				"$(SRCROOT)/Carthage/Build/iOS/SwiftEntryKit.framework",
+				"$(SRCROOT)/Carthage/Build/iOS/Hue.framework",
 			);
 			name = "Carthage Integration";
 			outputPaths = (
@@ -2028,7 +2024,6 @@
 				9341981D1DB0C1BA004BBBB7 /* OBALabelAndSwitchTableViewCell.m in Sources */,
 				93A637DC20A2CCE30005248C /* DisplaySectionController.swift in Sources */,
 				6B24C8761EC7F99E00A1F7B7 /* OBANavigationTitleView.m in Sources */,
-				9341B82B20B68FBB006450FC /* ForecastCell.swift in Sources */,
 				934196E41DB0C124004BBBB7 /* UITableViewCell+oba_Additions.m in Sources */,
 				934197851DB0C140004BBBB7 /* OBADrawerViewController.m in Sources */,
 				934C50A11E2B69E300DFDCA0 /* GKActionSheetPickerItem.m in Sources */,
@@ -2049,7 +2044,6 @@
 				936EB1C11E92F30C00F4F3A7 /* OnboardingViewController.swift in Sources */,
 				9341981F1DB0C1BA004BBBB7 /* OBALabelAndTextFieldTableViewCell.m in Sources */,
 				93DE556D2152AD6A0030D67D /* CreditsViewController.swift in Sources */,
-				935C39151F7707FF00737DC4 /* AlertPresenterView.swift in Sources */,
 				93D5480520B778F700334939 /* SectionHeaderCell.swift in Sources */,
 				9368E5C01DB1584900C329D0 /* OBAEmptyDataSetSource.m in Sources */,
 				934198241DB0C1BA004BBBB7 /* OBATextEditViewController.m in Sources */,

@@ -19,9 +19,6 @@ github "SnapKit/Masonry" ~>1.1.0
 # https://github.com/SnapKit/SnapKit/releases
 github "SnapKit/SnapKit" ~>4.0.0
 
-# https://github.com/SwiftKickMobile/SwiftMessages/releases
-github "SwiftKickMobile/SwiftMessages" ~>4.1.0
-
 # https://github.com/AzimoLabs/SMFloatingLabelTextField/releases
 github "AzimoLabs/SMFloatingLabelTextField" ~>0.3.2
 
@@ -35,6 +32,11 @@ github "CocoaLumberjack/CocoaLumberjack" ~>3.4.1
 
 # https://github.com/SwipeCellKit/SwipeCellKit/releases
 github "SwipeCellKit/SwipeCellKit" ~>2.5.0
+
+# https://github.com/huri000/SwiftEntryKit/releases
+github "huri000/SwiftEntryKit" ~>0.6.0
+
+github "hyperoslo/Hue" "master"
 
 # This repository does not work properly with Carthage.
 # I am currently copying the source files present in Carthage/Checkouts

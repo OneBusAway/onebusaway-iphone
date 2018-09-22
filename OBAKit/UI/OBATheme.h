@@ -7,6 +7,9 @@
 //
 
 @import UIKit;
+
+NS_ASSUME_NONNULL_BEGIN
+
 @interface OBATheme : NSObject
 
 /**
@@ -276,3 +279,5 @@
 @property(class,nonatomic,assign,readonly) CGFloat preferredPopoverWidth;
 
 @end
+
+NS_ASSUME_NONNULL_END
