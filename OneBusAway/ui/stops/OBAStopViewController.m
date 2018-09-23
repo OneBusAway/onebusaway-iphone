@@ -38,6 +38,8 @@ static NSInteger kNegligibleWalkingTimeToStop = 25;
 static NSUInteger const kDefaultMinutesBefore = 5;
 static NSUInteger const kDefaultMinutesAfter = 35;
 
+static void * arrivalsAndDeparturesContext = &arrivalsAndDeparturesContext;
+
 @interface OBAStopViewController ()<UIScrollViewDelegate, UIActivityItemSource, OBAArrivalDepartureOptionsSheetDelegate>
 @property(nonatomic,strong) NSDateIntervalFormatter *timeframeFormatter;
 @property(nonatomic,strong) UIRefreshControl *refreshControl;
@@ -63,11 +65,15 @@ static NSUInteger const kDefaultMinutesAfter = 35;
         _stopID = [stopID copy];
         _minutesBefore = kDefaultMinutesBefore;
         _minutesAfter = kDefaultMinutesAfter;
+
+
+        [self addObserver:self forKeyPath:NSStringFromSelector(@selector(arrivalsAndDepartures)) options:NSKeyValueObservingOptionNew|NSKeyValueObservingOptionOld context:arrivalsAndDeparturesContext];
     }
     return self;
 }
 
 - (void)dealloc {
+    [self removeObserver:self forKeyPath:NSStringFromSelector(@selector(arrivalsAndDepartures))];
     [self cancelTimers];
     [self.promiseWrapper cancel];
 }
@@ -75,6 +81,18 @@ static NSUInteger const kDefaultMinutesAfter = 35;
 - (void)cancelTimers {
     [self.refreshTimer invalidate];
     self.refreshTimer = nil;
+}
+
+#pragma mark - KVO
+
+- (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary<NSKeyValueChangeKey,id> *)change context:(void *)context {
+    if (object == self && [keyPath isEqual:NSStringFromSelector(@selector(arrivalsAndDepartures))]) {
+        BOOL oldIsNull = change[NSKeyValueChangeOldKey] == NSNull.null;
+        BOOL newIsntNull = change[NSKeyValueChangeNewKey] != NSNull.null && change[NSKeyValueChangeNewKey] != nil;
+        if (oldIsNull && newIsntNull) {
+            [self beginUserActivity];
+        }
+    }
 }
 
 #pragma mark - UIViewController
@@ -104,19 +122,20 @@ static NSUInteger const kDefaultMinutesAfter = 35;
 
     OBALogFunction();
 
+    if (self.arrivalsAndDepartures) {
+        [self beginUserActivity];
+    }
+
     self.refreshTimer = [NSTimer scheduledTimerWithTimeInterval:kRefreshTimeInterval target:self selector:@selector(reloadData:) userInfo:nil repeats:YES];
 
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(willEnterForeground:) name:UIApplicationWillEnterForegroundNotification object:nil];
 
     [self populateTableFromArrivalsAndDeparturesModel:self.arrivalsAndDepartures];
     [self reloadDataAnimated:NO];
-    
-    [[OBAHandoff shared] broadcastWithStopID:self.stopID withRegion:self.modelDAO.currentRegion];
 }
 
 - (void)viewWillDisappear:(BOOL)animated {
     [super viewWillDisappear:animated];
-    [[OBAHandoff shared] stopBroadcasting];
 
     // Nil these out to ensure that they are recreated once the
     // view comes back into focus, which is important if the user
@@ -184,6 +203,12 @@ static NSUInteger const kDefaultMinutesAfter = 35;
 
     // And then reload remote data.
     [self reloadData:nil];
+}
+
+#pragma mark - User Activity
+
+- (void)beginUserActivity {
+    self.userActivity = [OBAHandoff createUserActivityWithName:self.arrivalsAndDepartures.stop.nameWithDirection stopID:self.arrivalsAndDepartures.stopId regionID:self.modelDAO.currentRegion.identifier];
 }
 
 #pragma mark - Accessors

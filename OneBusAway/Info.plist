@@ -32,7 +32,7 @@
 		</dict>
 	</array>
 	<key>CFBundleVersion</key>
-	<string>20180919.22</string>
+	<string>20180923.12</string>
 	<key>Fabric</key>
 	<dict>
 		<key>APIKey</key>
@@ -160,7 +160,8 @@
 	<string>Your screenshots can help us diagnose problems that you experience with OneBusAway.</string>
 	<key>NSUserActivityTypes</key>
 	<array>
-		<string>org.onebusaway.iphone.handoff</string>
+		<string>org.onebusaway.iphone.handoff.stop</string>
+		<string>org.onebusaway.iphone.handoff.tripurl</string>
 	</array>
 	<key>UIApplicationShortcutItems</key>
 	<array>

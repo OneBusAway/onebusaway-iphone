@@ -261,7 +261,7 @@ static NSString * const OBALastRegionRefreshDateUserDefaultsKey = @"OBALastRegio
 }
 
 - (OBADeepLinkRouter*)setupDeepLinkRouterWithModelDAO:(OBAModelDAO*)modelDAO appDelegate:(OBAApplicationDelegate*)appDelegate {
-    OBADeepLinkRouter *deepLinkRouter = [[OBADeepLinkRouter alloc] initWithDeepLinkBaseURL:[NSURL URLWithString:OBADeepLinkServerAddress]];
+    OBADeepLinkRouter *deepLinkRouter = [[OBADeepLinkRouter alloc] initWithBaseURL:[NSURL URLWithString:OBADeepLinkServerAddress]];
 
     [deepLinkRouter routePattern:OBADeepLinkTripRegexPattern toAction:^(NSArray<NSString *> *matchGroupResults, NSURLComponents *URLComponents) {
         [self routeDeepLinkTrip:URLComponents appDelegate:appDelegate matchGroupResults:matchGroupResults];
@@ -274,40 +274,28 @@ static NSString * const OBALastRegionRefreshDateUserDefaultsKey = @"OBALastRegio
     return deepLinkRouter;
 }
 
-// TODO: Remove me after Xcode 10/iOS 12 SDK ship.
-// The signature of this method changed in the iOS 12 SDK, and Xcode gets grumpy when you try using one in the other.
-#if __IPHONE_OS_VERSION_MAX_ALLOWED >= 120000
 - (BOOL)application:(UIApplication *)application continueUserActivity:(NSUserActivity *)userActivity restorationHandler:(void (^)(NSArray<id<UIUserActivityRestoring>> * _Nullable))restorationHandler {
-#else
-- (BOOL)application:(UIApplication *)application continueUserActivity:(NSUserActivity *)userActivity restorationHandler:(void (^)(NSArray * _Nullable))restorationHandler {
-#endif
-    NSInteger regionID = [userActivity.userInfo[OBAHandoff.regionIDKey] integerValue];
-
-    NSURL *URL = userActivity.webpageURL;
-
-    // Use deep link URL above all else
-    if (userActivity.userInfo && !URL) {
-        // Make sure regions of both clients match
-        if (self.application.modelDao.currentRegion.identifier == regionID) {
-            NSString *stopID = userActivity.userInfo[OBAHandoff.stopIDKey];
-            OBANavigationTarget *target = [OBANavigationTarget navigationTarget:OBANavigationTargetTypeMap parameters:@{@"stop":@YES, @"stopID":stopID}];
-            [self.applicationUI navigateToTargetInternal:target];
-            return YES;
-        }
-        else {
+    if ([userActivity.activityType isEqual:OBAHandoff.activityTypeStop]) {
+        NSInteger regionID = [userActivity.userInfo[OBAHandoff.regionIDKey] integerValue];
+        if (regionID != self.application.modelDao.currentRegion.identifier) {
             NSString *title = NSLocalizedString(@"msg_handoff_failure_title", @"Error message title displayed to the user when handoff failed to work.");
             NSString *body = NSLocalizedString(@"msg_handoff_region_mismatch_body", @"Error message body displayed to the user when handoff regions did not match both clients.");
 
             [AlertPresenter showError:title body:body];
             return NO;
         }
-    }
 
-    if (!URL) {
+        NSString *stopID = userActivity.userInfo[OBAHandoff.stopIDKey];
+        OBANavigationTarget *target = [OBANavigationTarget navigationTarget:OBANavigationTargetTypeMap parameters:@{@"stop":@YES, @"stopID":stopID}];
+        [self.applicationUI navigateToTargetInternal:target];
+        return YES;
+    }
+    else if ([userActivity.activityType isEqual:OBAHandoff.activityTypeTripURL]) {
+        return [self.deepLinkRouter performActionForURL:userActivity.webpageURL];
+    }
+    else {
         return NO;
     }
-
-    return [self.deepLinkRouter performActionForURL:URL];
 }
 
 /*
