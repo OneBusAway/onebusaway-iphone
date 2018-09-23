@@ -23,7 +23,7 @@ let kMinutes: UInt = 60
 
 class TodayViewController: UIViewController {
     let app = OBAApplication.init()
-    let deepLinkRouter = OBADeepLinkRouter.init(deepLinkBaseURL: URL.init(string: OBADeepLinkServerAddress)!)
+    let deepLinkRouter = DeepLinkRouter(baseURL: URL(string: OBADeepLinkServerAddress)!)
     var group: OBABookmarkGroup = OBABookmarkGroup.init(bookmarkGroupType: .todayWidget)
 
     var bookmarkViewsMap: [OBABookmarkV2: TodayRowView] = [:]
@@ -171,7 +171,7 @@ extension TodayViewController {
             return
         }
 
-        let url = deepLinkRouter.deepLinkURL(forStopID: bookmark.stopId, regionIdentifier: bookmark.regionIdentifier) ?? URL.init(string: OBADeepLinkServerAddress)!
+        let url = deepLinkRouter.deepLinkURL(stopID: bookmark.stopId, regionID: bookmark.regionIdentifier) ?? URL.init(string: OBADeepLinkServerAddress)!
         extensionContext?.open(url, completionHandler: nil)
     }
 
