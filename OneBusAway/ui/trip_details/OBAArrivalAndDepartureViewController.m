@@ -148,8 +148,7 @@ static NSTimeInterval const kRefreshTimeInterval = 30;
     [self reloadDataAnimated:NO];
     
     OBATripDeepLink *deepLink = [[OBATripDeepLink alloc] initWithArrivalAndDeparture:self.arrivalAndDeparture region:self.modelDAO.currentRegion];
-
-    [[OBAHandoff shared] broadcast:deepLink.deepLinkURL];
+    self.userActivity = [OBAHandoff createUserActivityForTripWithName:self.arrivalAndDeparture.bestAvailableName URL:deepLink.deepLinkURL];
 }
 
 - (void)viewWillDisappear:(BOOL)animated {
@@ -158,7 +157,6 @@ static NSTimeInterval const kRefreshTimeInterval = 30;
     [[NSNotificationCenter defaultCenter] removeObserver:self name:UIApplicationWillEnterForegroundNotification object:nil];
 
     [self cancelTimer];
-    [[OBAHandoff shared] stopBroadcasting];
 }
 
 #pragma mark - Traits
