@@ -1,0 +1,13 @@
+disabled_rules:
+    - file_length
+    - identifier_name
+    - line_length
+    - opening_brace
+    - shorthand_operator
+    - type_body_length
+    - statement_position
+    - type_name
+    - todo
+function_body_length: 70
+excluded:
+  - Carthage

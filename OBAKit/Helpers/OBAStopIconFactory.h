@@ -19,10 +19,11 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
+extern CGFloat const OBADefaultAnnotationSize;
+
 @interface OBAStopIconFactory : NSObject
 
-+ (UIImage*)getIconForStop:(OBAStopV2 *)stop;
-+ (UIImage *)getIconForStop:(OBAStopV2 *)stop withSize:(CGSize)size;
++ (UIImage*)getIconForStop:(OBAStopV2 *)stop strokeColor:(UIColor*)strokeColor;
 + (UIImage*)imageForRouteType:(OBARouteType)routeType;
 
 @end

@@ -26,14 +26,17 @@ NSString * const kApplicationShortcutMap = @"org.onebusaway.iphone.shortcut.map"
 NSString * const kApplicationShortcutRecents = @"org.onebusaway.iphone.shortcut.recents";
 NSString * const kApplicationShortcutBookmarks = @"org.onebusaway.iphone.shortcut.bookmarks";
 
-NSString * const OBAExperimentalUseDrawerUIDefaultsKey = @"OBAExperimentalUseDrawerUIDefaultsKey";
 NSString * const OBADisplayUserHeadingOnMapDefaultsKey = @"OBADisplayUserHeadingOnMapDefaultsKey";
 NSString * const OBAOptInToTrackingDefaultsKey = @"OBAOptInToTrackingDefaultsKey";
 NSString * const OBAOptInToCrashReportingDefaultsKey = @"OBAOptInToCrashReportingDefaultsKey";
 NSString * const OBAMapSelectedTypeDefaultsKey = @"OBAMapSelectedTypeDefaultsKey";
 NSString * const OBADebugModeUserDefaultsKey = @"OBADebugModeUserDefaultsKey";
+NSString * const OBAForecastUpdatedAtDefaultsKey = @"OBAForecastUpdatedAtDefaultsKey";
+NSString * const OBAForecastDataDefaultsKey = @"OBAForecastDataDefaultsKey";
 
-NSString * const OBADeepLinkServerAddress = @"https://www.onebusaway.co";
+NSString * const OBAForecastUpdatedNotification = @"OBAForecastUpdatedNotification";
+
+NSString * const OBADeepLinkServerAddress = @"http://alerts.onebusaway.org";
 
 NSString * OBAStringFromBool(BOOL yn) {
     return yn ? @"YES" : @"NO";

@@ -24,6 +24,11 @@ NS_ASSUME_NONNULL_BEGIN
 @property(class,nonatomic,copy,readonly) NSString *close;
 
 /**
+ The text 'Continue'.
+ */
+@property(class,nonatomic,copy,readonly) NSString *continueString;
+
+/**
  The text 'Delete'.
  */
 @property(class,nonatomic,copy,readonly) NSString *delete;
@@ -93,6 +98,16 @@ NS_ASSUME_NONNULL_BEGIN
  Learn More
  */
 @property(class,nonatomic,copy,readonly) NSString *learnMore;
+
+/**
+ Not Found
+ */
+@property(class,nonatomic,copy,readonly) NSString *notFound;
+
+/**
+ Offline
+ */
+@property(class,nonatomic,copy,readonly) NSString *offline;
 
 /**
  Created an attributed string with a prepended image.

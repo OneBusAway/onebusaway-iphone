@@ -9,49 +9,42 @@
 import Foundation
 
 @objc public class OBAHandoff: NSObject {
-    @objc static let shared = OBAHandoff()
-    @objc static let activityType = "org.onebusaway.iphone.handoff"
-    @objc static let stopIDKey = "stop_ID"
-    @objc static let regionIDKey = "region_id"
-    
-    open internal(set) var activity: NSUserActivity! {
-        didSet {
-            activity.title = "OneBusAway"
-            activity.isEligibleForHandoff = true
-            activity.requiredUserInfoKeys = [OBAHandoff.stopIDKey, OBAHandoff.regionIDKey]
+    @objc static let activityTypeStop = "org.onebusaway.iphone.handoff.stop"
+    @objc static let activityTypeTripURL = "org.onebusaway.iphone.handoff.tripurl"
+    @objc static let stopIDKey = "stopID"
+    @objc static let regionIDKey = "regionID"
+
+    @objc
+    public class func createUserActivity(name: String, stopID: String, regionID: Int) -> NSUserActivity {
+        let activity = NSUserActivity(activityType: OBAHandoff.activityTypeStop)
+        activity.title = name
+        activity.isEligibleForHandoff = true
+
+        // Per WWDC 2018 Session "Intro to Siri Shortcuts", this must be set to `true`
+        // for `isEligibleForPrediction` to have any effect. Timecode: 8:30
+        activity.isEligibleForSearch = true
+
+        if #available(iOS 12.0, *) {
+            activity.isEligibleForPrediction = true
         }
+
+        activity.requiredUserInfoKeys = [OBAHandoff.stopIDKey, OBAHandoff.regionIDKey]
+        activity.userInfo = [OBAHandoff.stopIDKey: stopID, OBAHandoff.regionIDKey: regionID]
+
+        let deepLinkRouter = DeepLinkRouter(baseURL: URL(string: OBADeepLinkServerAddress)!)
+        activity.webpageURL = deepLinkRouter.deepLinkURL(stopID: stopID, regionID: regionID)
+
+        return activity
     }
-    
-    override init() {
-        activity = NSUserActivity(activityType: OBAHandoff.activityType)
-    }
-    
-    /// Begin broadcasting the specified URL
-    /// - parameter URL: URL to broadcast, if `nil`,
-    /// this will stop broadcasting
-    @objc open func broadcast(_ URL: URL?) {
+
+    @objc
+    public class func createUserActivityForTrip(name: String, URL: URL) -> NSUserActivity {
+        let activity = NSUserActivity(activityType: OBAHandoff.activityTypeTripURL)
+        activity.title = name
+        activity.isEligibleForHandoff = true
+
         activity.webpageURL = URL
-        activity.becomeCurrent()
-    }
-    
-    /// Begin broadcasting the specified stop using its stop ID
-    ///
-    /// - Parameters:
-    ///   - stop: Stop ID to broadcast
-    ///   - region: The OBARegionV2 object associated with the specified stopID
-    @objc open func broadcast(stopID stop: String, withRegion region: OBARegionV2) {
-        let userInfo: [AnyHashable: Any] = [
-            OBAHandoff.stopIDKey: stop,
-            OBAHandoff.regionIDKey: region.identifier
-        ]
-        activity.userInfo = userInfo
-        activity.becomeCurrent()
-    }
-    
-    /// Stop broadcasting to other devices.
-    @objc open func stopBroadcasting() {
-        activity.userInfo = nil
-        activity.webpageURL = nil
-        activity.resignCurrent()
+
+        return activity
     }
 }

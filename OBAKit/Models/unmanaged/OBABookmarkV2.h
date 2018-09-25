@@ -37,6 +37,9 @@ NS_ASSUME_NONNULL_BEGIN
 @property(nonatomic,copy) NSString *stopId;
 @property(nonatomic,copy) NSString *tripHeadsign;
 @property(nonatomic,copy) NSString *routeID;
+
+@property(nonatomic,copy,readonly,nullable) NSString *routeWithHeadsign;
+
 @property(nonatomic,copy,nullable) OBAStopV2 *stop;
 @property(nonatomic,strong,nullable) OBABookmarkGroup *group;
 @property(nonatomic,assign) NSInteger regionIdentifier;

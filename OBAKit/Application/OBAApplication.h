@@ -24,8 +24,8 @@
 
 @class OBAApplicationConfiguration;
 @class OBAConsoleLogger;
-@class RegionalAlertsManager;
 @class PromisedModelService;
+@class OBAForecastManager;
 @class OBAMapDataLoader;
 @class OBAMapRegionManager;
 
@@ -35,20 +35,22 @@ NS_ASSUME_NONNULL_BEGIN
  This notification is posted when the region changes and the app cannot generate an API URL from it.
  */
 extern NSString *const OBARegionServerInvalidNotification;
+extern NSString *const OBAShowTestAlertsDefaultsKey;
 
 @interface OBAApplication : NSObject
 @property (nonatomic, strong, readonly) OBAReferencesV2 *references;
 @property (nonatomic, strong, readonly) OBAModelDAO *modelDao;
 @property (nonatomic, strong, readonly) PromisedModelService *modelService;
 @property (nonatomic, strong, readonly) OBALocationManager *locationManager;
-@property (nonatomic, strong, readonly) RegionalAlertsManager *regionalAlertsManager;
 @property (nonatomic, strong, readonly) OBARegionHelper *regionHelper;
 @property (nonatomic, strong, readonly) OBAConsoleLogger *consoleLogger;
 @property (nonatomic, strong, readonly) OBAMapDataLoader *mapDataLoader;
 @property (nonatomic, strong, readonly) OBAMapRegionManager *mapRegionManager;
+@property (nonatomic, strong, readonly) OBAForecastManager *forecastManager;
 @property (nonatomic, strong, readonly) NSUserDefaults *userDefaults;
 
 @property (nonatomic, copy, readonly) NSString *googleAnalyticsID;
+@property (nonatomic, copy, readonly) NSString *firebaseAnalyticsConfigFilePath;
 @property (nonatomic, copy, readonly) NSString *oneSignalAPIKey;
 @property (nonatomic, copy, readonly) NSString *appStoreAppID;
 

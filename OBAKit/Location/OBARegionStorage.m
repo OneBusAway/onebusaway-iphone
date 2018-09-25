@@ -72,7 +72,7 @@ static NSString * const OBALocalRegionsFileName = @"regions.json";
 - (NSArray<OBARegionV2*>*)bundledRegions {
     NSData *data = [[NSData alloc] initWithContentsOfFile:[[NSBundle mainBundle] pathForResource:@"regions-v3" ofType:@"json"]];
     id JSON = [NSJSONSerialization JSONObjectWithData:data options:(NSJSONReadingOptions)0 error:nil];
-    OBAListWithRangeAndReferencesV2 *references = [self.modelFactory getRegionsV2FromJson:JSON error:nil];
+    OBAListWithRangeAndReferencesV2 *references = [self.modelFactory getRegionsV2FromJson:JSON[@"data"] error:nil];
 
     return references.values;
 }

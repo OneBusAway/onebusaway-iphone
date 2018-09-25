@@ -40,7 +40,11 @@
         sz = CGSizeMake(350, 350); // arbitrary choice. Let's see how it looks.
     }
 
-    UINavigationController *nav = [PopoverPresenter popoverMenuWith:viewController preferredContentSize:sz presentingView:view];
+    [self oba_presentPopoverViewController:viewController fromView:view popoverSize:sz hideNavigationBar:YES];
+}
+
+- (void)oba_presentPopoverViewController:(UIViewController*)viewController fromView:(UIView*)view popoverSize:(CGSize)popoverSize hideNavigationBar:(BOOL)hideNavigationBar {
+    UINavigationController *nav = [PopoverPresenter popoverMenuWith:viewController preferredContentSize:popoverSize presentingView:view hideNavigationBar:hideNavigationBar];
     [self presentViewController:nav animated:YES completion:nil];
 }
 

@@ -16,12 +16,11 @@
 
 @import UIKit;
 @import OBAKit;
-#import "OBAApplicationDelegate.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
 @interface OBAAgenciesListViewController : OBAStaticTableViewController
-@property(nonatomic,strong) OBAModelService *modelService;
+@property(nonatomic,strong) PromisedModelService *modelService;
 @end
 
 NS_ASSUME_NONNULL_END

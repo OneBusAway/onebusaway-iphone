@@ -16,22 +16,30 @@
 
 #import <OBAKit/OBAListWithRangeAndReferencesV2.h>
 
+@interface OBAListWithRangeAndReferencesV2 ()
+@property(nonatomic,strong) NSMutableArray *mutableValues;
+@end
+
 @implementation OBAListWithRangeAndReferencesV2
 
-- (id) initWithReferences:(OBAReferencesV2*)refs {
+- (instancetype)initWithReferences:(OBAReferencesV2*)refs {
     self = [super initWithReferences:refs];
     if (self) {
-        _values = [[NSMutableArray alloc] init];
+        _mutableValues = [[NSMutableArray alloc] init];
     }
     return self;
 }
 
-
-- (void) addValue:(id)value {
-    [_values addObject:value];
+- (NSArray*)values {
+    return [NSArray arrayWithArray:_mutableValues];
 }
 
-- (NSUInteger) count {
-    return _values.count;
+- (void)addValue:(id)value {
+    [_mutableValues addObject:value];
 }
+
+- (NSUInteger)count {
+    return _mutableValues.count;
+}
+
 @end

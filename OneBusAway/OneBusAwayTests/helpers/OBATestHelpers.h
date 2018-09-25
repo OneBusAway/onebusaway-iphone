@@ -31,6 +31,7 @@
 NS_ASSUME_NONNULL_BEGIN
 
 @class OBARegionV2;
+@class OABDataSouceConfig;
 
 @interface OBATestHelpers : NSObject
 
@@ -63,10 +64,17 @@ NS_ASSUME_NONNULL_BEGIN
  */
 + (NSString*)contentsOfTestFile:(NSString*)fileName;
 
++ (NSData*)dataFromFile:(NSString*)fileName;
+
 /**
  Returns the deserialized object from the JSON file specified.
  */
 + (id)jsonObjectFromFile:(NSString*)fileName;
+
+/**
+ Returns the deserialized dictionary from the JSON file specified.
+ */
++ (NSDictionary<NSString*, id>*)jsonDictionaryFromFile:(NSString*)file;
 
 /**
  Creates a deserialized object from the specified string.
@@ -74,7 +82,7 @@ NS_ASSUME_NONNULL_BEGIN
 + (id)jsonObjectFromString:(NSString*)string;
 
 /**
- Used to help create test fixture data. It archives the NSCoding-conforming object to path, which can be outside of the iOS app sandbox.
+ Used to help create test fixture data. It archives the NSCoding-conforming object to `path`, which can be outside of the iOS app sandbox.
 
  @param object Any object that conforms to NSCoding
  @param path   The full output path for the plist.
@@ -89,6 +97,8 @@ NS_ASSUME_NONNULL_BEGIN
  @return The unarchived object
  */
 + (id)unarchiveBundledTestFile:(NSString*)fileName;
+
++ (OBADataSourceConfig*)dataSourceConfigWithURL:(NSURL*)URL;
 
 // Fixture Helpers
 

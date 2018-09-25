@@ -35,7 +35,12 @@
         return OBAErrorMessages.serverError;
     }
     else if (httpResponse.statusCode == 404) {
-        return OBAErrorMessages.stopNotFoundError;
+        if ([httpResponse.URL.path containsString:@"trip-for-vehicle"]) {
+            return OBAErrorMessages.vehicleNotFoundError;
+        }
+        else {
+            return OBAErrorMessages.stopNotFoundError;
+        }
     }
     else if (httpResponse.statusCode >= 300 && httpResponse.statusCode <= 399) {
         return [OBAErrorMessages connectionError:httpResponse];
@@ -61,6 +66,10 @@
 
 + (NSError*)stopNotFoundError {
     return [NSError errorWithDomain:NSURLErrorDomain code:404 userInfo:@{NSLocalizedDescriptionKey: OBALocalized(@"mgs_stop_not_found", @"code == 404")}];
+}
+
++ (NSError*)vehicleNotFoundError {
+    return [NSError errorWithDomain:OBAErrorDomain code:404 userInfo:@{NSLocalizedDescriptionKey: OBALocalized(@"error_messages.vehicle_not_found", @"Search for Vehicle ID produced no results.")}];
 }
 
 + (NSError*)connectionError:(NSHTTPURLResponse*)response {

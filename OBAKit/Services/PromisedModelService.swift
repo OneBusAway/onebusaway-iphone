@@ -7,7 +7,8 @@
 //
 
 import PromiseKit
-import Mantle
+
+// swiftlint:disable force_cast
 
 // MARK: Stop -> OBAArrivalAndDepartureV2
 @objc public class PromisedModelService: OBAModelService {
@@ -23,8 +24,6 @@ import Mantle
         return promiseWrapper
     }
 
-    // TODO: extract this URL generation code into a new, separate class somewhere that is
-    // solely focused on URL generation.
     @objc public func buildURLRequestForStopArrivalsAndDepartures(withID stopID: String, minutesBefore: UInt, minutesAfter: UInt) -> OBAURLRequest {
         let args = ["minutesBefore": minutesBefore, "minutesAfter": minutesAfter]
         let escapedStopID = OBAURLHelpers.escapePathVariable(stopID)
@@ -36,7 +35,7 @@ import Mantle
     private func decodeStopArrivals(json: Any) throws -> OBAArrivalsAndDeparturesForStopV2 {
         var error: NSError?
 
-        let modelObjects = self.modelFactory.getArrivalsAndDeparturesForStopV2(fromJSON: json as! [AnyHashable : Any], error: &error)
+        let modelObjects = self.modelFactory.getArrivalsAndDeparturesForStopV2(fromJSON: json as! [AnyHashable: Any], error: &error)
         if let error = error {
             throw error
         }
@@ -81,48 +80,42 @@ import Mantle
     }
 }
 
-// MARK: - Regional Alerts
+// MARK: - Weather
 @objc extension PromisedModelService {
-    /// Retrieves a list of alert messages for the specified `region` since `date`. The completion block's responseData is [OBARegionalAlert]
+
+    /// Request the forecasted weather for the user's region and/or location.
     ///
     /// - Parameters:
-    ///   - region: The region from which alerts are desired.
-    ///   - date: The last date that alerts were requested. Specify nil for all time.
-    /// - Returns: A promise wrapper that resolves to [OBARegionalAlert]
-    @objc func requestAlerts(for region: OBARegionV2, since date: Date?) -> PromiseWrapper {
-        let request = buildURLRequestForRegionalAlerts(region: region, since: date)
-        let wrapper = PromiseWrapper.init(request: request)
+    ///   - region: The user's current region
+    ///   - location: An optional location used to determine more accurate weather data.
+    /// - Returns: A promise wrapper that resolves to a WeatherForecast object.
+    @objc public func requestWeather(in region: OBARegionV2, location: CLLocation?) -> PromiseWrapper {
+        let request = buildURLRequestForWeather(in: region, location: location)
+        let wrapper = PromiseWrapper(request: request, dataDecodingStrategy: .noStrategy)
 
         wrapper.promise = wrapper.promise.then { networkResponse -> NetworkResponse in
-            let alerts = try self.decodeRegionalAlerts(json: networkResponse.object as! [Any])
-            return NetworkResponse.init(object: alerts, URLResponse: networkResponse.URLResponse, urlRequest: networkResponse.urlRequest)
+            let forecast = try self.decodeWeather(data: networkResponse.object as! Data)
+            return NetworkResponse.init(object: forecast, URLResponse: networkResponse.URLResponse, urlRequest: networkResponse.urlRequest)
         }
 
         return wrapper
     }
 
-    @nonobjc private func buildURLRequestForRegionalAlerts(region: OBARegionV2, since date: Date?) -> OBAURLRequest {
-        var params = ["since": 0]
-
-        if let date = date {
-            params["since"] = Int(date.timeIntervalSince1970)
-        }
-
-        let path = "/regions/\(region.identifier)/alert_feed_items"
-
-        return self.obacoJsonDataSource.buildGETRequest(withPath: path, queryParameters: params)
+    @nonobjc private func decodeWeather(data: Data) throws -> WeatherForecast {
+        let forecast = try WeatherForecast.decoder.decode(WeatherForecast.self, from: data)
+        return forecast
     }
 
-    @nonobjc private func decodeRegionalAlerts(json: [Any]) throws -> [OBARegionalAlert] {
-        let models: [OBARegionalAlert] = try MTLJSONAdapter.models(of: OBARegionalAlert.self, fromJSONArray: json) as! [OBARegionalAlert]
+    @nonobjc private func buildURLRequestForWeather(in region: OBARegionV2, location: CLLocation?) -> OBAURLRequest {
+        let path = "/api/v1/regions/\(region.identifier)/weather"
 
-        // Mark all alerts older than one day as 'read' automatically.
-        return models.map {
-            if let published = $0.publishedAt {
-                $0.unread = abs(published.timeIntervalSinceNow) < 86400 // Number of seconds in 1 day.
-            }
-            return $0
+        var params: [AnyHashable: Any] = [:]
+        if let location = location {
+            params["lat"] = location.coordinate.latitude
+            params["lng"] = location.coordinate.longitude
         }
+
+        return obacoJsonDataSource.buildGETRequest(withPath: path, queryParameters: params)
     }
 }
 
@@ -139,7 +132,12 @@ import Mantle
         let wrapper = PromiseWrapper.init(request: request)
 
         wrapper.promise = wrapper.promise.then { networkResponse -> NetworkResponse in
-            let dict = networkResponse.object as! Dictionary<String, Any>
+            let dict = networkResponse.object as! [String: Any]
+
+            if dict["error"] != nil {
+                throw OBAErrorMessages.cannotRegisterAlarm
+            }
+
             let url = URL.init(string: dict["url"] as! String)!
 
             return NetworkResponse.init(object: url, URLResponse: networkResponse.URLResponse, urlRequest: networkResponse.urlRequest)
@@ -151,15 +149,15 @@ import Mantle
     @nonobjc private func createAlarmRequest(_ alarm: OBAAlarm, userPushNotificationID: String) -> OBAURLRequest {
         let params: [String: Any] = [
             "seconds_before": alarm.timeIntervalBeforeDeparture,
-            "stop_id":        alarm.stopID,
-            "trip_id":        alarm.tripID,
-            "service_date":   alarm.serviceDate,
-            "vehicle_id":     alarm.vehicleID,
-            "stop_sequence":  alarm.stopSequence,
-            "user_push_id":   userPushNotificationID
+            "stop_id": alarm.stopID,
+            "trip_id": alarm.tripID,
+            "service_date": alarm.serviceDate,
+            "vehicle_id": alarm.vehicleID,
+            "stop_sequence": alarm.stopSequence,
+            "user_push_id": userPushNotificationID
         ]
 
-        return self.obacoJsonDataSource.buildRequest(withPath: "/regions/\(alarm.regionIdentifier)/alarms", httpMethod: "POST", queryParameters: nil, formBody: params)
+        return self.obacoJsonDataSource.buildRequest(withPath: "/api/v1/regions/\(alarm.regionIdentifier)/alarms", httpMethod: "POST", queryParameters: nil, formBody: params)
     }
 }
 
@@ -174,7 +172,7 @@ import Mantle
         let wrapper = PromiseWrapper.init(request: request)
 
         wrapper.promise = wrapper.promise.then { networkResponse -> NetworkResponse in
-            let tripDetails = try self.decodeTripDetails(json: networkResponse.object as! [AnyHashable : Any])
+            let tripDetails = try self.decodeTripDetails(json: networkResponse.object as! [AnyHashable: Any])
             return NetworkResponse.init(object: tripDetails, URLResponse: networkResponse.URLResponse, urlRequest: networkResponse.urlRequest)
         }
 
@@ -206,5 +204,144 @@ import Mantle
         let escapedTripID = OBAURLHelpers.escapePathVariable(tripInstance.tripId)
 
         return self.obaJsonDataSource.buildGETRequest(withPath: "/api/where/trip-details/\(escapedTripID).json", queryParameters: args)
+    }
+}
+
+// MARK: - Agencies with Coverage
+@objc extension PromisedModelService {
+    @objc public func requestAgenciesWithCoverage() -> PromiseWrapper {
+        let request = buildRequest()
+        let wrapper = PromiseWrapper.init(request: request)
+
+        wrapper.promise = wrapper.promise.then { networkResponse -> NetworkResponse in
+            let agencies = try self.decodeData(json: networkResponse.object as! [AnyHashable: Any])
+            return NetworkResponse.init(object: agencies, URLResponse: networkResponse.URLResponse, urlRequest: networkResponse.urlRequest)
+        }
+
+        return wrapper
+    }
+
+    @nonobjc private func buildRequest() -> OBAURLRequest {
+        return obaJsonDataSource.buildGETRequest(withPath: "/api/where/agencies-with-coverage.json", queryParameters: nil)
+    }
+
+    @nonobjc private func decodeData(json: [AnyHashable: Any]) throws -> [OBAAgencyWithCoverageV2] {
+        var error: NSError? = nil
+        let listWithRange = modelFactory.getAgenciesWithCoverageV2(fromJson: json, error: &error)
+
+        if let error = error {
+            throw error
+        }
+
+        let entries = listWithRange.values as! [OBAAgencyWithCoverageV2]
+        return entries
+    }
+}
+
+// MARK: - Regional Alerts
+extension PromisedModelService {
+    public func requestRegionalAlerts() -> Promise<[AgencyAlert]> {
+        return requestAgenciesWithCoverage().promise.then { networkResponse -> Promise<[AgencyAlert]> in
+            let agencies = networkResponse.object as! [OBAAgencyWithCoverageV2]
+            var requests = agencies.map { self.buildRequest(agency: $0) }
+
+            let obacoRequest = self.buildObacoRequest(region: self.modelDao.currentRegion!)
+            requests.append(obacoRequest)
+
+            let promises = requests.map { request -> Promise<[TransitRealtime_FeedEntity]> in
+                return CancellablePromise.go(request: request).then { networkResponse -> Promise<[TransitRealtime_FeedEntity]> in
+                    let data = networkResponse.object as! Data
+                    let message = try TransitRealtime_FeedMessage(serializedData: data)
+                    return Promise(value: message.entity)
+                }
+            }
+
+            return when(fulfilled: promises).then { nestedEntities in
+                let allAlerts: [AgencyAlert] = nestedEntities.reduce(into: [], { (acc, entities) in
+                    let alerts = entities.filter { (entity) -> Bool in
+                        return entity.hasAlert && AgencyAlert.isAgencyWideAlert(alert: entity.alert)
+                    }.compactMap { try? AgencyAlert(feedEntity: $0, agencies: agencies) }
+                    acc.append(contentsOf: alerts)
+                })
+                return Promise.init(value: allAlerts)
+            }
+        }
+    }
+
+    private func buildObacoRequest(region: OBARegionV2) -> OBAURLRequest {
+        var params: [String: Any]? = nil
+        if OBAApplication.shared().userDefaults.bool(forKey: OBAShowTestAlertsDefaultsKey) {
+            params = ["test": "1"]
+        }
+        let url = obacoJsonDataSource.constructURL(fromPath: "/api/v1/regions/\(region.identifier)/alerts.pb", params: params)
+        let obacoRequest = OBAURLRequest.init(url: url, cachePolicy: .useProtocolCachePolicy, timeoutInterval: 10)
+        return obacoRequest
+    }
+
+    private func buildRequest(agency: OBAAgencyWithCoverageV2) -> OBAURLRequest {
+        let encodedID = OBAURLHelpers.escapePathVariable(agency.agencyId)
+        let path = "/api/gtfs_realtime/alerts-for-agency/\(encodedID).pb"
+        return unparsedDataSource.buildGETRequest(withPath: path, queryParameters: nil)
+    }
+}
+
+// MARK: - Vehicle Search
+@objc extension PromisedModelService {
+    /// Returns a PromiseWrapper that resolves to an array of `MatchingAgencyVehicle` objects,
+    /// suitable for passing along to `requestVehicleTrip()`.
+    ///
+    /// - Parameter matching: A substring that must appear in all returned vehicles
+    /// - Parameter region: The region from which to load all vehicle IDs
+    /// - Returns: A `PromiseWrapper` that resolves to `[MatchingAgencyVehicle]`
+    @objc public func requestVehicles(matching: String, in region: OBARegionV2) -> PromiseWrapper {
+        let request = buildVehicleListRequest(matching: matching, region: region)
+        let wrapper = PromiseWrapper(request: request, dataDecodingStrategy: .noStrategy)
+
+        wrapper.promise = wrapper.promise.then { networkResponse -> NetworkResponse in
+            let decoder = JSONDecoder()
+            let objects = try decoder.decode([MatchingAgencyVehicle].self, from: networkResponse.object as! Data)
+
+            if objects.count == 0 {
+                throw OBAErrorMessages.vehicleNotFoundError
+            }
+
+            return NetworkResponse.init(object: objects, URLResponse: networkResponse.URLResponse, urlRequest: networkResponse.urlRequest)
+        }
+
+        return wrapper
+    }
+
+    private func buildVehicleListRequest(matching: String, region: OBARegionV2) -> OBAURLRequest {
+        let path = "/api/v1/regions/\(region.identifier)/vehicles"
+        let url = obacoJsonDataSource.constructURL(fromPath: path, params: ["query": matching])
+        let obacoRequest = OBAURLRequest.init(url: url, cachePolicy: .useProtocolCachePolicy, timeoutInterval: 10)
+        return obacoRequest
+    }
+
+    /// Returns a PromiseWrapper that resolves to an OBATripDetailsV2 object.
+    ///
+    /// - Parameter vehicleID: The vehicle for which to retrieve trip details.
+    /// - Returns: a PromiseWrapper that resolves to trip details.
+    @objc public func requestVehicleTrip(_ vehicleID: String) -> PromiseWrapper {
+        let request = buildTripForVehicleRequest(vehicleID)
+        let wrapper = PromiseWrapper(request: request)
+
+        wrapper.promise = wrapper.promise.then { response -> NetworkResponse in
+            var error: NSError?
+            let entryWithRefs = self.modelFactory.getTripDetailsV2(fromJSON: response.object as! [AnyHashable: Any], error: &error)
+            if let error = error { throw error }
+
+            let tripDetails = entryWithRefs.entry as! OBATripDetailsV2
+
+            return NetworkResponse.init(object: tripDetails, response: response)
+        }
+
+        return wrapper
+    }
+
+    private func buildTripForVehicleRequest(_ vehicleID: String) -> OBAURLRequest {
+        let encodedID = OBAURLHelpers.escapePathVariable(vehicleID)
+        let path = "/api/where/trip-for-vehicle/\(encodedID).json"
+        return obaJsonDataSource.buildGETRequest(withPath: path, queryParameters: nil)
     }
 }

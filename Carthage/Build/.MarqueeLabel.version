@@ -1,13 +1,13 @@
 {
-  "commitish" : "6257cc167a60a371159da1db2c7130cc774222ca",
+  "commitish" : "d7cdb1708910f030c28d0118e26f6bac24dcad8a",
   "iOS" : [
     {
       "name" : "MarqueeLabel",
-      "hash" : "f3de01b4af81e889570eff7ad85c71fb4ff77bc2d47bd236a3c9912900072793"
+      "hash" : "cd2f78400899ec4e375208f5389662acd67ca500eaf61bb003015e219134af9e"
     },
     {
       "name" : "MarqueeLabelSwift",
-      "hash" : "d5ff159a5c2420c953fda0973c16e907ed2ec2fd23faa62781a86f9ae1e47004"
+      "hash" : "94bd9a422f13c038ce95ffc9460ea75e56af03e81a81ee91e1346307d396d417"
     }
   ]
 }

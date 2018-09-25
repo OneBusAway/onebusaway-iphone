@@ -16,19 +16,24 @@
 #import <OBAKit/OBADepartureCellHelpers.h>
 #import <OBAKit/OBAMacros.h>
 #import <OBAKit/OBABookmarkedRouteRow.h>
+#import <OBAKit/UIView+OBAAdditions.h>
 
 #define kUseDebugColors NO
 
 @interface OBAClassicDepartureView ()
-@property(nonatomic,strong,readwrite) UIButton *contextMenuButton;
+
+@property(nonatomic,strong) UIStackView *leftLabelStack;
 @property(nonatomic,strong) UILabel *topLineLabel;
 @property(nonatomic,strong) UILabel *middleLineLabel;
 @property(nonatomic,strong) UILabel *bottomLineLabel;
 
+@property(nonatomic,strong) UIStackView *departureLabelStack;
 @property(nonatomic,strong,readwrite) OBADepartureTimeLabel *firstDepartureLabel;
 @property(nonatomic,strong,readwrite) OBADepartureTimeLabel *secondDepartureLabel;
 @property(nonatomic,strong,readwrite) OBADepartureTimeLabel *thirdDepartureLabel;
 @property(nonatomic,strong) UIView *departureLabelSpacer;
+
+@property(nonatomic,strong,readwrite) UIButton *contextMenuButton;
 @end
 
 @implementation OBAClassicDepartureView
@@ -39,88 +44,49 @@
     if (self) {
         self.clipsToBounds = YES;
 
-        _topLineLabel = [[UILabel alloc] init];
-        _topLineLabel.font = OBATheme.boldBodyFont;
-        _topLineLabel.numberOfLines = 1;
-        _topLineLabel.adjustsFontSizeToFitWidth = YES;
-        _topLineLabel.minimumScaleFactor = 0.8f;
-        [_topLineLabel setContentCompressionResistancePriority:UILayoutPriorityRequired forAxis:UILayoutConstraintAxisVertical];
-        [_topLineLabel setContentHuggingPriority:UILayoutPriorityDefaultLow forAxis:UILayoutConstraintAxisVertical];
+        UIView *leftLabelStackWrapper = [self.leftLabelStack oba_embedInWrapperView];
+        UIView *departureLabelStackWrapper = [self.departureLabelStack oba_embedInWrapperView];
+        [departureLabelStackWrapper setContentHuggingPriority:UILayoutPriorityRequired forAxis:UILayoutConstraintAxisHorizontal];
+        [departureLabelStackWrapper mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.width.greaterThanOrEqualTo(@10);
+        }];
 
-        _middleLineLabel = [self.class buildLineLabel];
-        _bottomLineLabel = [self.class buildLineLabel];
-
-        _firstDepartureLabel = [[OBADepartureTimeLabel alloc] init];
-        _firstDepartureLabel.font = [OBATheme bodyFont];
-        [_firstDepartureLabel setContentCompressionResistancePriority:UILayoutPriorityRequired forAxis:UILayoutConstraintAxisHorizontal];
-
-        _secondDepartureLabel = [[OBADepartureTimeLabel alloc] init];
-        _secondDepartureLabel.font = [OBATheme footnoteFont];
-        [_secondDepartureLabel setContentCompressionResistancePriority:UILayoutPriorityRequired forAxis:UILayoutConstraintAxisHorizontal];
-
-        _thirdDepartureLabel = [[OBADepartureTimeLabel alloc] init];
-        _thirdDepartureLabel.font = [OBATheme footnoteFont];
-        [_thirdDepartureLabel setContentCompressionResistancePriority:UILayoutPriorityRequired forAxis:UILayoutConstraintAxisHorizontal];
-
-        _departureLabelSpacer = [UIView new];
-
-        _contextMenuButton = [OBAUIBuilder contextMenuButton];
-
-        if (kUseDebugColors) {
-            self.backgroundColor = [UIColor purpleColor];
-            _topLineLabel.backgroundColor = [UIColor redColor];
-            _middleLineLabel.backgroundColor = [UIColor greenColor];
-            _bottomLineLabel.backgroundColor = [UIColor blueColor];
-
-            _firstDepartureLabel.backgroundColor = [UIColor magentaColor];
-            _secondDepartureLabel.backgroundColor = [UIColor blueColor];
-            _thirdDepartureLabel.backgroundColor = [UIColor greenColor];
-
-            _contextMenuButton.backgroundColor = [UIColor yellowColor];
-        }
-
-        UIStackView *labelStack = [[UIStackView alloc] initWithArrangedSubviews:@[_topLineLabel, _middleLineLabel, _bottomLineLabel, [UIView new]]];
-        labelStack.axis = UILayoutConstraintAxisVertical;
-        labelStack.distribution = UIStackViewDistributionFill;
-        labelStack.spacing = 0;
-
-
-        NSArray *labelStackViews = @[
-                                     [OBAClassicDepartureView wrapDepartureLabel:_firstDepartureLabel],
-                                     [OBAClassicDepartureView wrapDepartureLabel:_secondDepartureLabel],
-                                     [OBAClassicDepartureView wrapDepartureLabel:_thirdDepartureLabel],
-                                     _departureLabelSpacer
-                                     ];
-        UIStackView *departureLabelStack = [[UIStackView alloc] initWithArrangedSubviews:labelStackViews];
-        departureLabelStack.axis = UILayoutConstraintAxisVertical;
-        departureLabelStack.distribution = UIStackViewDistributionFill;
-        departureLabelStack.spacing = 0;
-
-        UIStackView *horizontalStack = ({
-            UIStackView *stack = [[UIStackView alloc] initWithArrangedSubviews:@[labelStack, departureLabelStack, _contextMenuButton]];
-            stack.axis = UILayoutConstraintAxisHorizontal;
-            stack.distribution = UIStackViewDistributionFill;
-            stack.spacing = OBATheme.compactPadding;
-            stack;
-        });
+        NSArray *views = @[leftLabelStackWrapper, departureLabelStackWrapper, self.contextMenuButton];
+        UIStackView *horizontalStack = [[UIStackView alloc] initWithArrangedSubviews:views];
+        horizontalStack.translatesAutoresizingMaskIntoConstraints = NO;
+        horizontalStack.axis = UILayoutConstraintAxisHorizontal;
+        horizontalStack.distribution = UIStackViewDistributionFill;
+        horizontalStack.spacing = OBATheme.compactPadding;
         [self addSubview:horizontalStack];
 
         [horizontalStack mas_makeConstraints:^(MASConstraintMaker *make) {
             make.edges.equalTo(self);
         }];
 
-        [_contextMenuButton mas_makeConstraints:^(MASConstraintMaker *make) {
+        [self.contextMenuButton mas_makeConstraints:^(MASConstraintMaker *make) {
             make.width.equalTo(@40);
             make.height.greaterThanOrEqualTo(@40);
         }];
+
+        if (kUseDebugColors) {
+            self.backgroundColor = [UIColor purpleColor];
+            self.topLineLabel.backgroundColor = [UIColor redColor];
+            self.middleLineLabel.backgroundColor = [UIColor greenColor];
+            self.bottomLineLabel.backgroundColor = [UIColor blueColor];
+
+            self.firstDepartureLabel.backgroundColor = [UIColor magentaColor];
+            self.secondDepartureLabel.backgroundColor = [UIColor blueColor];
+            self.thirdDepartureLabel.backgroundColor = [UIColor greenColor];
+            departureLabelStackWrapper.backgroundColor = UIColor.brownColor;
+
+            self.contextMenuButton.backgroundColor = [UIColor yellowColor];
+        }
     }
     return self;
 }
 
 + (UIView*)wrapDepartureLabel:(UILabel*)label {
-    UIView *wrapper = [[UIView alloc] initWithFrame:CGRectZero];
-    wrapper.translatesAutoresizingMaskIntoConstraints = NO;
-    [wrapper addSubview:label];
+    UIView *wrapper = [label oba_embedInWrapperViewWithConstraints:NO];
 
     [label mas_makeConstraints:^(MASConstraintMaker *make) {
         make.edges.equalTo(wrapper);
@@ -128,17 +94,6 @@
 
     return wrapper;
 }
-
-+ (UILabel*)buildLineLabel {
-    UILabel *lineLabel = [[UILabel alloc] init];
-    lineLabel.numberOfLines = 0;
-    [lineLabel setContentCompressionResistancePriority:UILayoutPriorityDefaultHigh forAxis:UILayoutConstraintAxisHorizontal];
-    [lineLabel setContentCompressionResistancePriority:UILayoutPriorityRequired forAxis:UILayoutConstraintAxisVertical];
-    [lineLabel setContentHuggingPriority:UILayoutPriorityDefaultLow forAxis:UILayoutConstraintAxisVertical];
-
-    return lineLabel;
-}
-
 
 #pragma mark - Table Cell 'Proxy' Methods
 
@@ -239,6 +194,118 @@
     else {
         departureTimeLabel.hidden = YES;
     }
+}
+
+#pragma mark - Lazy UI Properties
+
+- (UIStackView*)leftLabelStack {
+    if (!_leftLabelStack) {
+        _leftLabelStack = [[UIStackView alloc] initWithArrangedSubviews:@[self.topLineLabel, self.middleLineLabel, self.bottomLineLabel, [UIView new]]];
+        _leftLabelStack.translatesAutoresizingMaskIntoConstraints = NO;
+        _leftLabelStack.axis = UILayoutConstraintAxisVertical;
+        _leftLabelStack.distribution = UIStackViewDistributionFill;
+        _leftLabelStack.spacing = 0;
+    }
+    return _leftLabelStack;
+}
+
++ (UILabel*)buildLineLabel {
+    UILabel *lineLabel = [UILabel oba_autolayoutNew];
+    lineLabel.numberOfLines = 0;
+    [lineLabel setContentCompressionResistancePriority:UILayoutPriorityDefaultHigh forAxis:UILayoutConstraintAxisHorizontal];
+    [lineLabel setContentCompressionResistancePriority:UILayoutPriorityRequired forAxis:UILayoutConstraintAxisVertical];
+    [lineLabel setContentHuggingPriority:UILayoutPriorityDefaultLow forAxis:UILayoutConstraintAxisVertical];
+
+    return lineLabel;
+}
+
+- (UILabel*)topLineLabel {
+    if (!_topLineLabel) {
+        _topLineLabel = [UILabel oba_autolayoutNew];
+        _topLineLabel.font = OBATheme.boldBodyFont;
+        _topLineLabel.numberOfLines = 1;
+        _topLineLabel.adjustsFontSizeToFitWidth = YES;
+        _topLineLabel.minimumScaleFactor = 0.8f;
+        [_topLineLabel setContentCompressionResistancePriority:UILayoutPriorityRequired forAxis:UILayoutConstraintAxisVertical];
+        [_topLineLabel setContentHuggingPriority:UILayoutPriorityDefaultHigh forAxis:UILayoutConstraintAxisVertical];
+    }
+    return _topLineLabel;
+}
+
+- (UILabel*)middleLineLabel {
+    if (!_middleLineLabel) {
+        _middleLineLabel = [self.class buildLineLabel];
+    }
+    return _middleLineLabel;
+}
+
+- (UILabel*)bottomLineLabel {
+    if (!_bottomLineLabel) {
+        _bottomLineLabel = [self.class buildLineLabel];
+    }
+    return _bottomLineLabel;
+}
+
+- (UIStackView*)departureLabelStack {
+    if (!_departureLabelStack) {
+        NSArray *labelStackViews = @[
+                                     [OBAClassicDepartureView wrapDepartureLabel:self.firstDepartureLabel],
+                                     [OBAClassicDepartureView wrapDepartureLabel:self.secondDepartureLabel],
+                                     [OBAClassicDepartureView wrapDepartureLabel:self.thirdDepartureLabel],
+                                     self.departureLabelSpacer
+                                     ];
+        _departureLabelStack = [[UIStackView alloc] initWithArrangedSubviews:labelStackViews];
+        _departureLabelStack.translatesAutoresizingMaskIntoConstraints = NO;
+        _departureLabelStack.axis = UILayoutConstraintAxisVertical;
+        _departureLabelStack.distribution = UIStackViewDistributionFill;
+        _departureLabelStack.spacing = 0;
+    }
+    return _departureLabelStack;
+}
+
+- (OBADepartureTimeLabel*)firstDepartureLabel {
+    if (!_firstDepartureLabel) {
+        _firstDepartureLabel = [OBADepartureTimeLabel oba_autolayoutNew];
+        _firstDepartureLabel.font = [OBATheme bodyFont];
+        [_firstDepartureLabel setContentCompressionResistancePriority:UILayoutPriorityRequired forAxis:UILayoutConstraintAxisHorizontal];
+        [_firstDepartureLabel setContentHuggingPriority:UILayoutPriorityDefaultHigh forAxis:UILayoutConstraintAxisVertical];
+    }
+    return _firstDepartureLabel;
+}
+
+- (OBADepartureTimeLabel*)secondDepartureLabel {
+    if (!_secondDepartureLabel) {
+        _secondDepartureLabel = [OBADepartureTimeLabel oba_autolayoutNew];
+        _secondDepartureLabel.font = [OBATheme footnoteFont];
+        [_secondDepartureLabel setContentCompressionResistancePriority:UILayoutPriorityRequired forAxis:UILayoutConstraintAxisHorizontal];
+        [_secondDepartureLabel setContentHuggingPriority:UILayoutPriorityDefaultHigh forAxis:UILayoutConstraintAxisVertical];
+    }
+    return _secondDepartureLabel;
+}
+
+- (OBADepartureTimeLabel*)thirdDepartureLabel {
+    if (!_thirdDepartureLabel) {
+        _thirdDepartureLabel = [OBADepartureTimeLabel oba_autolayoutNew];
+        _thirdDepartureLabel.font = [OBATheme footnoteFont];
+        [_thirdDepartureLabel setContentCompressionResistancePriority:UILayoutPriorityRequired forAxis:UILayoutConstraintAxisHorizontal];
+        [_thirdDepartureLabel setContentHuggingPriority:UILayoutPriorityDefaultHigh forAxis:UILayoutConstraintAxisVertical];
+    }
+    return _thirdDepartureLabel;
+}
+
+- (UIView*)departureLabelSpacer {
+    if (!_departureLabelSpacer) {
+        _departureLabelSpacer = [UIView oba_autolayoutNew];
+    }
+    return _departureLabelSpacer;
+}
+
+- (UIButton*)contextMenuButton {
+    if (!_contextMenuButton) {
+        _contextMenuButton = [OBAUIBuilder contextMenuButton];
+        _contextMenuButton.translatesAutoresizingMaskIntoConstraints = NO;
+    }
+    return _contextMenuButton;
 }
 
 @end

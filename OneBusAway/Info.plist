@@ -17,7 +17,7 @@
 	<key>CFBundlePackageType</key>
 	<string>APPL</string>
 	<key>CFBundleShortVersionString</key>
-	<string>18.1.1</string>
+	<string>18.2.0</string>
 	<key>CFBundleSignature</key>
 	<string>????</string>
 	<key>CFBundleURLTypes</key>
@@ -32,7 +32,7 @@
 		</dict>
 	</array>
 	<key>CFBundleVersion</key>
-	<string>20180324.12</string>
+	<string>20180923.12</string>
 	<key>Fabric</key>
 	<dict>
 		<key>APIKey</key>
@@ -54,6 +54,9 @@
 		<string>fb</string>
 		<string>twitter</string>
 		<string>comgooglemaps</string>
+		<string>fb313213768708402HART</string>
+		<string>org.sdmts.riderapp.compassmobile.payments</string>
+		<string>co.bytemark.tgt</string>
 	</array>
 	<key>LSRequiresIPhoneOS</key>
 	<true/>
@@ -157,7 +160,8 @@
 	<string>Your screenshots can help us diagnose problems that you experience with OneBusAway.</string>
 	<key>NSUserActivityTypes</key>
 	<array>
-		<string>org.onebusaway.iphone.handoff</string>
+		<string>org.onebusaway.iphone.handoff.stop</string>
+		<string>org.onebusaway.iphone.handoff.tripurl</string>
 	</array>
 	<key>UIApplicationShortcutItems</key>
 	<array>

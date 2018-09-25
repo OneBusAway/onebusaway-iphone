@@ -15,24 +15,23 @@
  */
 
 #import "OBAApplicationDelegate.h"
-@import SystemConfiguration;
-@import GoogleAnalytics;
-@import OBAKit;
-@import SVProgressHUD;
-@import Fabric;
-@import Crashlytics;
-@import PMKCoreLocation;
-
-#import "OBAPushManager.h"
-#import "OBAStopViewController.h"
-
 #import "OneBusAway-Swift.h"
 
+@import SystemConfiguration;
+@import OBAKit;
+@import SVProgressHUD;
+
+@import Crashlytics;
+@import Fabric;
+@import Firebase;
+@import GoogleAnalytics;
 #import "OBAAnalytics.h"
+#import "OBACrashlyticsLogger.h"
 
 #import "OBAApplicationUI.h"
 #import "OBAClassicApplicationUI.h"
-#import "OBACrashlyticsLogger.h"
+#import "OBAPushManager.h"
+#import "OBAStopViewController.h"
 #import "UIWindow+OBAAdditions.h"
 
 static NSString * const OBALastRegionRefreshDateUserDefaultsKey = @"OBALastRegionRefreshDateUserDefaultsKey";
@@ -71,8 +70,7 @@ static NSString * const OBALastRegionRefreshDateUserDefaultsKey = @"OBALastRegio
     self.window = [[UIWindow alloc] initWithFrame:[UIScreen mainScreen].bounds];
     self.window.backgroundColor = [UIColor whiteColor];
 
-
-    BOOL showDrawer = [self.application.userDefaults boolForKey:OBAExperimentalUseDrawerUIDefaultsKey];
+    BOOL showDrawer = YES;
 
     if (showDrawer) {
         self.applicationUI = [[DrawerApplicationUI alloc] initWithApplication:self.application];
@@ -98,17 +96,23 @@ static NSString * const OBALastRegionRefreshDateUserDefaultsKey = @"OBALastRegio
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
     [self initializeFabric];
 
+    NSURLCache *cache = [[NSURLCache alloc] initWithMemoryCapacity:(10 * 1024 * 1024) // 10MB
+                                                      diskCapacity:(25 * 1024 * 1024) // 25MB
+                                                          diskPath:nil];
+    [NSURLCache setSharedURLCache:cache];
+
+#if TARGET_OS_SIMULATOR
+    NSLog(@"Running on Simulator. Not starting the push manager!");
+#else
     [[OBAPushManager pushManager] startWithLaunchOptions:launchOptions delegate:self APIKey:self.application.oneSignalAPIKey];
+#endif
 
-    // Set up Google Analytics. User must be able to opt out of tracking.
-    id<GAITracker> tracker = [[GAI sharedInstance] trackerWithTrackingId:self.application.googleAnalyticsID];
-    BOOL optOut = ![OBAApplication.sharedApplication.userDefaults boolForKey:OBAOptInToTrackingDefaultsKey];
-    [GAI sharedInstance].optOut = optOut;
-    [GAI sharedInstance].trackUncaughtExceptions = YES;
-    [GAI sharedInstance].logger.logLevel = kGAILogLevelWarning;
-    [tracker set:[GAIFields customDimensionForIndex:1] value:self.application.modelDao.currentRegion.regionName];
+    [OBAAnalytics.sharedInstance configureVoiceOverStatus];
 
-    [OBAAnalytics configureVoiceOverStatus];
+    UIFont *font = [UIFont preferredFontForTextStyle:UIFontTextStyleBody];
+    [OBAAnalytics.sharedInstance setReportedFontSize:font.pointSize];
+
+    [OBAAnalytics.sharedInstance setUsesHighConstrast:OBATheme.useHighContrastUI];
 
     // On first launch, this refresh process should be deferred.
     if (!OBALocationManager.awaitingLocationAuthorization && [self hasEnoughTimeElapsedToRefreshRegions]) {
@@ -137,17 +141,17 @@ static NSString * const OBALastRegionRefreshDateUserDefaultsKey = @"OBALastRegio
 
     [self.application.locationManager startUpdatingLocation];
     [self.application startReachabilityNotifier];
-    [self.application.regionalAlertsManager update];
 
     [self.applicationUI applicationDidBecomeActive];
 
-    [GAI sharedInstance].optOut = ![OBAApplication.sharedApplication.userDefaults boolForKey:OBAOptInToTrackingDefaultsKey];
+    [OBAAnalytics.sharedInstance updateOptOutState];
 
     NSString *label = [NSString stringWithFormat:@"API Region: %@", self.application.modelDao.currentRegion.regionName];
+    DDLogInfo(@"Region: %@", self.application.modelDao.currentRegion.regionName);
 
-    [OBAAnalytics reportEventWithCategory:OBAAnalyticsCategoryAppSettings action:@"configured_region" label:label value:nil];
+    [OBAAnalytics.sharedInstance reportEventWithCategory:OBAAnalyticsCategoryAppSettings action:@"configured_region" label:label value:nil];
 
-    [OBAAnalytics reportEventWithCategory:OBAAnalyticsCategoryAppSettings action:@"general" label:[NSString stringWithFormat:@"Set Region Automatically: %@", OBAStringFromBool(self.application.modelDao.automaticallySelectRegion)] value:nil];
+    [OBAAnalytics.sharedInstance reportEventWithCategory:OBAAnalyticsCategoryAppSettings action:@"general" label:[NSString stringWithFormat:@"Set Region Automatically: %@", OBAStringFromBool(self.application.modelDao.automaticallySelectRegion)] value:nil];
 }
 
 - (void)applicationWillResignActive:(UIApplication *)application {
@@ -170,8 +174,6 @@ static NSString * const OBALastRegionRefreshDateUserDefaultsKey = @"OBALastRegio
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(invalidRegionNotification:) name:OBARegionServerInvalidNotification object:nil];
 
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(recentStopsChanged:) name:OBAMostRecentStopsChangedNotification object:nil];
-
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(highPriorityRegionalAlertReceived:) name:RegionalAlertsManager.highPriorityRegionalAlertReceivedNotification object:nil];
 }
 
 - (void)invalidRegionNotification:(NSNotification*)note {
@@ -182,20 +184,6 @@ static NSString * const OBALastRegionRefreshDateUserDefaultsKey = @"OBALastRegio
 
 - (void)recentStopsChanged:(NSNotification*)note {
     [self updateShortcutItemsForRecentStops];
-}
-
-- (void)highPriorityRegionalAlertReceived:(NSNotification*)note {
-    OBARegionalAlert *alert = note.userInfo[RegionalAlertsManager.highPriorityRegionalAlertUserInfoKey];
-
-    UIAlertController *alertController = [UIAlertController alertControllerWithTitle:alert.title message:alert.summary preferredStyle:UIAlertControllerStyleAlert];
-
-    [alertController addAction:[UIAlertAction actionWithTitle:OBAStrings.dismiss style:UIAlertActionStyleCancel handler:nil]];
-    [alertController addAction:[UIAlertAction actionWithTitle:OBAStrings.readMore style:UIAlertActionStyleDefault handler:^(UIAlertAction *action) {
-        OBANavigationTarget *regionalAlertTarget = [OBANavigationTarget navigationTargetForRegionalAlert:alert];
-        [self navigateToTarget:regionalAlertTarget];
-    }]];
-
-    [self.topViewController presentViewController:alertController animated:YES completion:nil];
 }
 
 #pragma mark - OBANavigator
@@ -273,7 +261,7 @@ static NSString * const OBALastRegionRefreshDateUserDefaultsKey = @"OBALastRegio
 }
 
 - (OBADeepLinkRouter*)setupDeepLinkRouterWithModelDAO:(OBAModelDAO*)modelDAO appDelegate:(OBAApplicationDelegate*)appDelegate {
-    OBADeepLinkRouter *deepLinkRouter = [[OBADeepLinkRouter alloc] initWithDeepLinkBaseURL:[NSURL URLWithString:OBADeepLinkServerAddress]];
+    OBADeepLinkRouter *deepLinkRouter = [[OBADeepLinkRouter alloc] initWithBaseURL:[NSURL URLWithString:OBADeepLinkServerAddress]];
 
     [deepLinkRouter routePattern:OBADeepLinkTripRegexPattern toAction:^(NSArray<NSString *> *matchGroupResults, NSURLComponents *URLComponents) {
         [self routeDeepLinkTrip:URLComponents appDelegate:appDelegate matchGroupResults:matchGroupResults];
@@ -286,34 +274,28 @@ static NSString * const OBALastRegionRefreshDateUserDefaultsKey = @"OBALastRegio
     return deepLinkRouter;
 }
 
-- (BOOL)application:(UIApplication *)application continueUserActivity:(NSUserActivity *)userActivity restorationHandler:(void (^)(NSArray *))restorationHandler {
-    NSInteger regionID = [userActivity.userInfo[OBAHandoff.regionIDKey] integerValue];
-
-    NSURL *URL = userActivity.webpageURL;
-
-    // Use deep link URL above all else
-    if (userActivity.userInfo && !URL) {
-        // Make sure regions of both clients match
-        if (self.application.modelDao.currentRegion.identifier == regionID) {
-            NSString *stopID = userActivity.userInfo[OBAHandoff.stopIDKey];
-            OBANavigationTarget *target = [OBANavigationTarget navigationTarget:OBANavigationTargetTypeMap parameters:@{@"stop":@YES, @"stopID":stopID}];
-            [self.applicationUI navigateToTargetInternal:target];
-            return YES;
-        }
-        else {
+- (BOOL)application:(UIApplication *)application continueUserActivity:(NSUserActivity *)userActivity restorationHandler:(void (^)(NSArray<id<UIUserActivityRestoring>> * _Nullable))restorationHandler {
+    if ([userActivity.activityType isEqual:OBAHandoff.activityTypeStop]) {
+        NSInteger regionID = [userActivity.userInfo[OBAHandoff.regionIDKey] integerValue];
+        if (regionID != self.application.modelDao.currentRegion.identifier) {
             NSString *title = NSLocalizedString(@"msg_handoff_failure_title", @"Error message title displayed to the user when handoff failed to work.");
             NSString *body = NSLocalizedString(@"msg_handoff_region_mismatch_body", @"Error message body displayed to the user when handoff regions did not match both clients.");
 
             [AlertPresenter showError:title body:body];
             return NO;
         }
-    }
 
-    if (!URL) {
+        NSString *stopID = userActivity.userInfo[OBAHandoff.stopIDKey];
+        OBANavigationTarget *target = [OBANavigationTarget navigationTarget:OBANavigationTargetTypeMap parameters:@{@"stop":@YES, @"stopID":stopID}];
+        [self.applicationUI navigateToTargetInternal:target];
+        return YES;
+    }
+    else if ([userActivity.activityType isEqual:OBAHandoff.activityTypeTripURL]) {
+        return [self.deepLinkRouter performActionForURL:userActivity.webpageURL];
+    }
+    else {
         return NO;
     }
-
-    return [self.deepLinkRouter performActionForURL:URL];
 }
 
 /*
@@ -327,7 +309,7 @@ static NSString * const OBALastRegionRefreshDateUserDefaultsKey = @"OBALastRegio
 
 - (void)application:(UIApplication *)application performActionForShortcutItem:(UIApplicationShortcutItem *)shortcutItem completionHandler:(void (^)(BOOL))completionHandler {
 
-    [self.applicationUI performActionForShortcutItem:(UIApplicationShortcutItem *)shortcutItem completionHandler:(void (^)(BOOL))completionHandler];
+    [self.applicationUI performActionForShortcutItem:shortcutItem completionHandler:(void (^)(BOOL))completionHandler];
 }
 
 - (void)updateShortcutItemsForRecentStops {
@@ -335,13 +317,20 @@ static NSString * const OBALastRegionRefreshDateUserDefaultsKey = @"OBALastRegio
     UIApplicationShortcutIcon *clockIcon = [UIApplicationShortcutIcon iconWithType:UIApplicationShortcutIconTypeTime];
 
     for (OBAStopAccessEventV2 *stopEvent in self.application.modelDao.mostRecentStops) {
+        if (stopEvent.stopID.length == 0) {
+            continue;
+        }
+
         UIApplicationShortcutItem *shortcutItem =
                 [[UIApplicationShortcutItem alloc] initWithType:kApplicationShortcutRecents
                                                  localizedTitle:stopEvent.title
                                               localizedSubtitle:nil
                                                            icon:clockIcon
-                                                       userInfo:@{ @"stopIds": stopEvent.stopIds }];
-        [dynamicShortcuts addObject:shortcutItem];
+                                                       userInfo:@{ @"stopID": stopEvent.stopID }];
+
+        if (shortcutItem) {
+            [dynamicShortcuts addObject:shortcutItem];
+        }
     }
 
     [UIApplication sharedApplication].shortcutItems = [dynamicShortcuts oba_pickFirst:4];
@@ -350,7 +339,6 @@ static NSString * const OBALastRegionRefreshDateUserDefaultsKey = @"OBALastRegio
 #pragma mark - Reachability
 
 - (void)reachabilityChanged:(NSNotification*)note {
-
     OBAReachability *reachability = note.object;
 
     if (!reachability.isReachable) {
@@ -438,7 +426,7 @@ static NSString * const OBALastRegionRefreshDateUserDefaultsKey = @"OBALastRegio
 - (void)initializeFabric {
     NSMutableArray *fabricKits = [[NSMutableArray alloc] initWithArray:@[Crashlytics.class]];
 
-    if ([OBAAnalytics OKToTrack]) {
+    if (OBAAnalytics.sharedInstance.OKToTrack) {
         [fabricKits addObject:Answers.class];
     }
 

@@ -8,6 +8,7 @@
 
 #import <XCTest/XCTest.h>
 @import OBAKit;
+#import "OBATestHelpers.h"
 
 @interface OBADataSourceConfig_Tests : XCTestCase
 
@@ -17,10 +18,11 @@
 
 - (void)testSimpleAPIConstruction {
     NSURL *URL = [NSURL URLWithString:@"http://api.pugetsound.onebusaway.org"];
-    OBADataSourceConfig *config = [[OBADataSourceConfig alloc] initWithURL:URL args:nil];
-    NSURL *fooURL = [config constructURL:@"/foo.json" withArgs:nil];
+    OBADataSourceConfig *config = [OBATestHelpers dataSourceConfigWithURL:URL];
 
-    XCTAssertEqualObjects([NSURL URLWithString:@"http://api.pugetsound.onebusaway.org/foo.json?"], fooURL);
+   NSURL *fooURL = [config constructURL:@"/foo.json" withArgs:nil];
+
+    XCTAssertEqualObjects([NSURL URLWithString:@"http://api.pugetsound.onebusaway.org/foo.json?key=org.onebusaway.iphone&app_uid=8F97F623-B527-4E99-9268-42AC6F27DCA5&app_ver=20160920.00&version=2"], fooURL);
 }
 
 - (void)testTampaConstruction {
@@ -56,27 +58,11 @@
     XCTAssertEqualObjects([NSSet setWithArray:constructedQueryItems], [NSSet setWithArray:goodQueryItems]);
 }
 
-- (void)testDefaultParameters {
-    OBADataSourceConfig *googleMapsDataSourceConfig = [[OBADataSourceConfig alloc] initWithURL:[NSURL URLWithString:@"https://maps.googleapis.com"] args:@{@"sensor": @"true"}];
-
-    NSURL *testURL = [googleMapsDataSourceConfig constructURL:@"/something-goes-here.json" withArgs:@{@"hello": @"world", @"foo": @"bar"}];
-
-    BOOL nonDeterminismSucks = ([testURL.absoluteString isEqual:@"https://maps.googleapis.com/something-goes-here.json?sensor=true&foo=bar&hello=world"] ||
-                                [testURL.absoluteString isEqual:@"https://maps.googleapis.com/something-goes-here.json?sensor=true&hello=world&foo=bar"]);
-
-    XCTAssert(nonDeterminismSucks);
-}
-
 #pragma mark - Helpers
 
 - (OBADataSourceConfig*)buildTampaConfig {
-    return [[OBADataSourceConfig alloc] initWithURL:[NSURL URLWithString:@"http://api.tampa.onebusaway.org/api/"]
-                                               args:@{
-                                                      @"app_uid": @"8F97F623-B527-4E99-9268-42AC6F27DCA5",
-                                                      @"app_ver": @"20160920.00",
-                                                      @"key": @"org.onebusaway.iphone",
-                                                      @"version": @2
-                                                      }];
+    NSURL *URL = [NSURL URLWithString:@"http://api.tampa.onebusaway.org/api/"];
+    return [OBATestHelpers dataSourceConfigWithURL:URL];
 }
 
 @end

@@ -12,6 +12,18 @@
 
 @implementation OBARegionBoundsV2
 
+- (instancetype)initWithLat:(double)lat latSpan:(double)latSpan lon:(double)lon lonSpan:(double)lonSpan {
+    self = [super init];
+
+    if (self) {
+        _lat = lat;
+        _latSpan = latSpan;
+        _lon = lon;
+        _lonSpan = lonSpan;
+    }
+    return self;
+}
+
 #pragma mark - NSCoder
 
 - (id)initWithCoder:(NSCoder *)decoder {

@@ -11,6 +11,7 @@
 #import <OBAKit/OBATripStopTimeV2.h>
 #import <OBAKit/NSDate+DateTools.h>
 #import <OBAKit/OBAMacros.h>
+#import <OBAKit/OBAStrings.h>
 
 @implementation OBADateHelpers
 
@@ -100,4 +101,21 @@
 + (NSDate*)dateWithMillisecondsSince1970:(long long)milliseconds {
     return [NSDate dateWithTimeIntervalSince1970:(milliseconds / 1000)];
 }
+
++ (NSString*)formatDateForMessageStyle:(nullable NSDate*)date {
+    if (!date) {
+        return nil;
+    }
+
+    if (date.isToday) {
+        return [OBADateHelpers formatShortTimeNoDate:date];
+    }
+    else if (date.isYesterday) {
+        return OBAStrings.yesterday;
+    }
+    else {
+        return [OBADateHelpers formatNoTimeShortDate:date];
+    }
+}
+
 @end

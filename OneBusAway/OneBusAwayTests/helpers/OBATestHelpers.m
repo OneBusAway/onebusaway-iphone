@@ -28,10 +28,21 @@
     return [NSString stringWithContentsOfFile:[self pathToTestFile:fileName] encoding:NSUTF8StringEncoding error:nil];
 }
 
-+ (id)jsonObjectFromFile:(NSString*)fileName {
++ (NSData*)dataFromFile:(NSString*)fileName {
     NSString *filePath = [OBATestHelpers pathToTestFile:fileName];
     NSData *data = [[NSData alloc] initWithContentsOfFile:filePath];
+
+    return data;
+}
+
++ (id)jsonObjectFromFile:(NSString*)fileName {
+    NSData *data = [self dataFromFile:fileName];
+    assert(data.length > 0);
     return [NSJSONSerialization JSONObjectWithData:data options:(NSJSONReadingOptions)0 error:nil];
+}
+
++ (NSDictionary<NSString*, id>*)jsonDictionaryFromFile:(NSString*)file {
+    return [self jsonObjectFromFile:file];
 }
 
 + (id)jsonObjectFromString:(NSString*)string {
@@ -47,6 +58,7 @@
 + (id)unarchiveBundledTestFile:(NSString*)fileName {
     NSString *filePath = [OBATestHelpers pathToTestFile:fileName];
     NSData *data = [[NSData alloc] initWithContentsOfFile:filePath];
+    assert(data.length > 0);
     return [NSKeyedUnarchiver unarchiveObjectWithData:data];
 }
 
@@ -63,6 +75,10 @@
     id jsonData = [OBATestHelpers jsonObjectFromFile:@"regions-v3.json"][@"data"];
     OBAListWithRangeAndReferencesV2 *list = [modelFactory getRegionsV2FromJson:jsonData error:nil];
     return list.values;
+}
+
++ (OBADataSourceConfig*)dataSourceConfigWithURL:(NSURL*)URL {
+    return [[OBADataSourceConfig alloc] initWithBaseURL:URL userID:@"8F97F623-B527-4E99-9268-42AC6F27DCA5" checkStatusCodeInBody:YES apiKey:@"org.onebusaway.iphone" bundleVersion:@"20160920.00" apiVersion:@"2"];
 }
 
 #pragma mark - Time and Time Zones

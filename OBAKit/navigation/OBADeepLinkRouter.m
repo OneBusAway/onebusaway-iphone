@@ -18,7 +18,7 @@ NSString * const OBADeepLinkTripRegexPattern = @"\\/regions\\/(\\d+).*\\/stops\\
 
 @implementation OBADeepLinkRouter
 
-- (instancetype)initWithDeepLinkBaseURL:(NSURL*)baseURL {
+- (instancetype)initWithBaseURL:(NSURL*)baseURL {
     self = [super init];
     if (self) {
         _baseURL = [baseURL copy];

@@ -21,7 +21,6 @@
 #import "OBAStopViewController.h"
 #import "OBAAnalytics.h"
 #import "OBAAlerts.h"
-#import "OBAMapActivityIndicatorView.h"
 #import "OneBusAway-Swift.h"
 #import "SVPulsingAnnotationView.h"
 #import "UIViewController+OBAContainment.h"
@@ -31,26 +30,27 @@
 #import "ISHHoverBar.h"
 #import "OBAToastView.h"
 #import "OBAApplicationDelegate.h"
+#import "OBAArrivalAndDepartureViewController.h"
 
 static const NSUInteger kShowNClosestStops = 4;
 static const double kStopsInRegionRefreshDelayOnDrag = 0.1;
 
-@interface OBAMapViewController ()<MKMapViewDelegate, UISearchBarDelegate, UISearchControllerDelegate, MapSearchDelegate, OBANavigator, OBAMapRegionDelegate>
+@interface OBAMapViewController ()<MKMapViewDelegate, UISearchBarDelegate, UISearchControllerDelegate, MapSearchDelegate, OBANavigator, OBAMapRegionDelegate, OBAVehicleDisambiguationDelegate>
+
+@property(nonatomic,strong) OBAApplication *application;
 
 // Map UI
 @property(nonatomic,strong) MKMapView *mapView;
 @property(nonatomic,strong) ISHHoverBar *locationHoverBar;
-@property(nonatomic,strong) ISHHoverBar *secondaryHoverBar;
 @property(nonatomic,strong) OBAToastView *toastView;
 @property(nonatomic,strong) UIImageView *mapCenterImage;
+@property(nonatomic,strong) UIButton *forecastButton;
 
 // Search
 @property(nonatomic,strong) UISearchController *searchController;
 @property(nonatomic,strong) MapSearchViewController *mapSearchResultsController;
 
 // Programmatic UI
-@property(nonatomic,strong) OBAMapActivityIndicatorView *mapActivityIndicatorView;
-@property(nonatomic,strong) UIBarButtonItem *listBarButtonItem;
 @property(nonatomic,strong) SVPulsingAnnotationView *userLocationAnnotationView;
 
 // Everything Else
@@ -67,14 +67,22 @@ static const double kStopsInRegionRefreshDelayOnDrag = 0.1;
 
 @implementation OBAMapViewController
 
-- (instancetype)initWithMapDataLoader:(OBAMapDataLoader*)mapDataLoader mapRegionManager:(OBAMapRegionManager*)mapRegionManager {
+- (instancetype)initWithApplication:(OBAApplication*)application {
     self = [super initWithNibName:nil bundle:nil];
 
     if (self) {
-        _mapDataLoader = mapDataLoader;
+        _standaloneMode = YES;
+
+        MKCoordinateRegion region = [OBAMapViewController decodeMostRecentRegionFromUserDefaults:application.userDefaults];
+        if (CLLocationCoordinate2DIsValid(region.center)) {
+            _mostRecentRegion = region;
+        }
+
+        _application = application;
+        _mapDataLoader = application.mapDataLoader;
         [_mapDataLoader addDelegate:self];
 
-        _mapRegionManager = mapRegionManager;
+        _mapRegionManager = application.mapRegionManager;
         [_mapRegionManager addDelegate:self];
 
         self.title = NSLocalizedString(@"msg_map", @"Map tab title");
@@ -82,15 +90,18 @@ static const double kStopsInRegionRefreshDelayOnDrag = 0.1;
         self.tabBarItem.selectedImage = [UIImage imageNamed:@"Map_Selected"];
 
         [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(userHeadingDidUpdate:) name:OBAHeadingDidUpdateNotification object:nil];
+        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(weatherForecastDidUpdate:) name:OBAForecastUpdatedNotification object:nil];
 
-        [OBAApplication.sharedApplication.userDefaults addObserver:self forKeyPath:OBADisplayUserHeadingOnMapDefaultsKey options:NSKeyValueObservingOptionNew context:nil];
+        [application.userDefaults addObserver:self forKeyPath:OBADisplayUserHeadingOnMapDefaultsKey options:NSKeyValueObservingOptionNew context:nil];
+        [application.userDefaults addObserver:self forKeyPath:OBAMapSelectedTypeDefaultsKey options:NSKeyValueObservingOptionNew context:nil];
     }
     return self;
 }
 
 - (void)dealloc {
     [self.mapDataLoader cancelOpenConnections];
-    [OBAApplication.sharedApplication.userDefaults removeObserver:self forKeyPath:OBADisplayUserHeadingOnMapDefaultsKey];
+    [self.application.userDefaults removeObserver:self forKeyPath:OBADisplayUserHeadingOnMapDefaultsKey];
+    [self.application.userDefaults removeObserver:self forKeyPath:OBAMapSelectedTypeDefaultsKey];
 }
 
 #pragma mark - KVO
@@ -99,6 +110,9 @@ static const double kStopsInRegionRefreshDelayOnDrag = 0.1;
     if (object == OBAApplication.sharedApplication.userDefaults && [keyPath isEqual:OBADisplayUserHeadingOnMapDefaultsKey]) {
         BOOL value = [OBAApplication.sharedApplication.userDefaults boolForKey:OBADisplayUserHeadingOnMapDefaultsKey];
         self.userLocationAnnotationView.headingImageView.hidden = !value;
+    }
+    else if (object == OBAApplication.sharedApplication.userDefaults && [keyPath isEqual:OBAMapSelectedTypeDefaultsKey]) {
+        self.mapView.mapType = [OBAApplication.sharedApplication.userDefaults integerForKey:OBAMapSelectedTypeDefaultsKey];
     }
 }
 
@@ -109,17 +123,14 @@ static const double kStopsInRegionRefreshDelayOnDrag = 0.1;
 
     [self createMapView];
 
-    [self configureMapActivityIndicator];
-
-    self.mostRecentRegion = MKCoordinateRegionMake(CLLocationCoordinate2DMake(0, 0), MKCoordinateSpanMake(0, 0));
-
     self.mapView.rotateEnabled = NO;
-    if ([CLLocationManager authorizationStatus] == kCLAuthorizationStatusAuthorizedWhenInUse) {
-        self.mapView.showsUserLocation = YES;
-    }
+    self.mapView.showsUserLocation = YES;
 
     [self createLocationHoverBar];
-    [self createSecondaryHoverBar];
+
+    if (self.standaloneMode) {
+        [self configureSearch];
+    }
 
     self.hideFutureNetworkErrors = NO;
 
@@ -131,8 +142,6 @@ static const double kStopsInRegionRefreshDelayOnDrag = 0.1;
     }
 
     [self configureToastView];
-
-    [self configureSearch];
 
     [self reloadData];
 }
@@ -174,7 +183,7 @@ static const double kStopsInRegionRefreshDelayOnDrag = 0.1;
 #pragma mark - Drawer UI
 
 - (BOOL)usingDrawerUI {
-    return [OBAApplication.sharedApplication.userDefaults boolForKey:OBAExperimentalUseDrawerUIDefaultsKey];
+    return !self.standaloneMode;
 }
 
 #pragma mark - Search
@@ -200,15 +209,19 @@ static const double kStopsInRegionRefreshDelayOnDrag = 0.1;
 }
 
 - (void)mapSearch:(MapSearchViewController *)mapSearch selectedNavigationTarget:(OBANavigationTarget *)target {
-    [OBAAnalytics reportEventWithCategory:OBAAnalyticsCategoryUIAction action:@"button_press" label:@"Search button clicked" value:nil];
+    [OBAAnalytics.sharedInstance reportEventWithCategory:OBAAnalyticsCategoryUIAction action:@"button_press" label:@"Search button clicked" value:nil];
     NSString *analyticsLabel = [NSString stringWithFormat:@"Search: %@", NSStringFromOBASearchType(target.searchType)];
-    [OBAAnalytics reportEventWithCategory:OBAAnalyticsCategoryUIAction action:@"button_press" label:analyticsLabel value:nil];
+    [OBAAnalytics.sharedInstance reportEventWithCategory:OBAAnalyticsCategoryUIAction action:@"button_press" label:analyticsLabel value:nil];
 
     [self.searchController dismissViewControllerAnimated:YES completion:^{
         // abxoxo - TODO: figure out how to unify -navigateToTarget, this method, and -setNavigationTarget.
-        self.mapDataLoader.searchRegion = [OBAMapHelpers convertVisibleMapRect:self.mapView.visibleMapRect intoCircularRegionWithCenter:self.mapView.centerCoordinate];
+        self.mapDataLoader.searchRegion = self.visibleMapRegion;
         [self setNavigationTarget:target];
     }];
+}
+
+- (CLCircularRegion*)visibleMapRegion {
+    return [OBAMapHelpers convertVisibleMapRect:self.mapView.visibleMapRect intoCircularRegionWithCenter:self.mapView.centerCoordinate];
 }
 
 #pragma mark - UISearchControllerDelegate
@@ -226,41 +239,27 @@ static const double kStopsInRegionRefreshDelayOnDrag = 0.1;
 #pragma mark - UISearchBarDelegate
 
 - (void)searchBarTextDidBeginEditing:(UISearchBar *)searchBar {
-    [OBAAnalytics reportEventWithCategory:OBAAnalyticsCategoryUIAction action:@"button_press" label:@"Search box selected" value:nil];
+    [OBAAnalytics.sharedInstance reportEventWithCategory:OBAAnalyticsCategoryUIAction action:@"button_press" label:@"Search box selected" value:nil];
 }
 
 #pragma mark - Lazily Loaded Properties
 
 - (PromisedModelService*)modelService {
-    if (!_modelService) {
-        _modelService = [OBAApplication sharedApplication].modelService;
-    }
-    return _modelService;
+    return self.application.modelService;
 }
 
 - (OBAModelDAO*)modelDAO {
-    if (!_modelDAO) {
-        _modelDAO = [OBAApplication sharedApplication].modelDao;
-    }
-    return _modelDAO;
+    return self.application.modelDao;
 }
 
 - (OBALocationManager*)locationManager {
-    if (!_locationManager) {
-        _locationManager = [OBAApplication sharedApplication].locationManager;
-    }
-    return _locationManager;
+    return self.application.locationManager;
 }
 
-#pragma mark - OBANavigationTargetAware
+#pragma mark - View Controller Navigation
 
-- (OBANavigationTarget *)navigationTarget {
-    if (OBASearchTypeRegion == self.mapDataLoader.searchType) {
-        return [OBANavigationTarget navigationTargetForSearchLocationRegion:self.mapView.region];
-    }
-    else {
-        return self.mapDataLoader.searchTarget;
-    }
+- (void)pushViewController:(UIViewController*)viewController animated:(BOOL)animated {
+    [self.pulleyViewController pushViewController:viewController animated:animated];
 }
 
 - (void)setNavigationTarget:(OBANavigationTarget *)target {
@@ -270,6 +269,33 @@ static const double kStopsInRegionRefreshDelayOnDrag = 0.1;
     }
     else if (OBASearchTypeStopId == target.searchType) {
         [self displayStopControllerForStopID:target.searchArgument];
+    }
+    else if ([target isKindOfClass:OBAVehicleIDNavigationTarget.class]) {
+        [SVProgressHUD show];
+        OBAVehicleIDNavigationTarget *vehicleNavTarget = (OBAVehicleIDNavigationTarget*)target;
+        PromiseWrapper *wrapper = [self.modelService requestVehiclesMatching:vehicleNavTarget.query in:self.modelDAO.currentRegion];
+        wrapper.anyPromise.then(^(NetworkResponse *response) {
+            NSArray<OBAMatchingAgencyVehicle*> *matchingVehicles = response.object;
+
+            if (matchingVehicles.count == 1) {
+                return [self.modelService requestVehicleTrip:matchingVehicles.firstObject.vehicleID].anyPromise;
+            }
+            else {
+                // pop up a disambiguation UI.
+                [self disambiguateMatchingVehicles:matchingVehicles];
+                return [AnyPromise promiseWithValue:nil];
+            }
+        }).then(^(NetworkResponse *response) {
+            if (response) {
+                OBATripDetailsV2 *tripDetails = (OBATripDetailsV2 *)response.object;
+                OBAArrivalAndDepartureViewController *controller = [[OBAArrivalAndDepartureViewController alloc] initWithTripInstance:tripDetails.tripInstance];
+                [self pushViewController:controller animated:YES];
+            }
+        }).catch(^(NSError *error) {
+            [AlertPresenter showError:error presentingController:self];
+        }).always(^{
+            [SVProgressHUD dismiss];
+        });
     }
     else {
         [self.mapDataLoader searchWithTarget:target];
@@ -307,14 +333,6 @@ static const double kStopsInRegionRefreshDelayOnDrag = 0.1;
 
         [AlertPresenter showError:error presentingController:self];
     }
-}
-
-- (void)mapDataLoader:(OBAMapDataLoader*)mapDataLoader startedUpdatingWithNavigationTarget:(OBANavigationTarget*)target {
-    [self.mapActivityIndicatorView setAnimating:YES];
-}
-
-- (void)mapDataLoaderFinishedUpdating:(OBAMapDataLoader*)searchController {
-    [self.mapActivityIndicatorView setAnimating:NO];
 }
 
 #pragma mark - OBAMapRegionDelegate
@@ -432,41 +450,77 @@ static const double kStopsInRegionRefreshDelayOnDrag = 0.1;
 }
 
 - (MKAnnotationView *)mapView:(MKMapView *)mapView viewForAnnotation:(id<MKAnnotation>)annotation {
-    if ([annotation isKindOfClass:[MKUserLocation class]]) {
+    if ([annotation isKindOfClass:MKUserLocation.class]) {
         [self buildUserLocationAnnotationViewForAnnotation:annotation heading:self.locationManager.currentHeading];
         return self.userLocationAnnotationView;
     }
-    else if ([annotation isKindOfClass:[OBAStopV2 class]]) {
-        return [OBAMapAnnotationViewBuilder mapView:mapView annotationViewForStop:(OBAStopV2*)annotation withSearchType:self.mapDataLoader.result.searchType];
+    else if ([annotation isKindOfClass:OBAStopV2.class] || [annotation isKindOfClass:OBABookmarkV2.class]) {
+        return [OBAMapAnnotationViewBuilder viewForAnnotation:annotation forMapView:mapView];
     }
-    else if ([annotation isKindOfClass:[OBABookmarkV2 class]]) {
-        return [OBAMapAnnotationViewBuilder mapView:mapView annotationViewForBookmark:(OBABookmarkV2*)annotation];
-    }
-    else if ([annotation isKindOfClass:[OBAPlacemark class]]) {
+    else if ([annotation isKindOfClass:OBAPlacemark.class]) {
         return [OBAMapAnnotationViewBuilder mapView:mapView viewForPlacemark:(OBAPlacemark*)annotation withSearchType:self.mapDataLoader.result.searchType];
     }
-    else if ([annotation isKindOfClass:[OBANavigationTargetAnnotation class]]) {
+    else if ([annotation isKindOfClass:OBANavigationTargetAnnotation.class]) {
         return [OBAMapAnnotationViewBuilder mapView:mapView viewForNavigationTarget:annotation];
     }
 
     return nil;
 }
 
-- (void)mapView:(MKMapView *)mapView annotationView:(MKAnnotationView *)view calloutAccessoryControlTapped:(UIControl *)control {
-    id annotation = view.annotation;
+- (void)mapView:(MKMapView *)mapView didDeselectAnnotationView:(MKAnnotationView *)view {
+    [self.delegate mapController:self deselectedAnnotation:view.annotation];
+}
 
-    if ([annotation respondsToSelector:@selector(stopId)]) {
-        [self displayStopControllerForStopID:[annotation stopId]];
+- (void)mapView:(MKMapView *)mapView didSelectAnnotationView:(MKAnnotationView *)view {
+    OBAStopV2 *stop = nil;
+
+    if ([view.annotation isKindOfClass:OBABookmarkV2.class]) {
+        stop = ((OBABookmarkV2*)view.annotation).stop;
     }
-    else if ([annotation isKindOfClass:[OBAPlacemark class]]) {
-        OBAPlacemark *placemark = annotation;
+    else if ([view.annotation isKindOfClass:OBAStopV2.class]) {
+        stop = (OBAStopV2*)view.annotation;
+    }
+    else {
+        return;
+    }
+
+    // When using the drawer, move the stop around a bit on screen so it's not overlapped
+    // by the drawer.
+    if ([self.application.userDefaults boolForKey:OBAUseStopDrawerDefaultsKey]) {
+        // Center on the stop's coordinate, with a bit of offset to account for the drawer
+        // and the search bar at the top of screen.
+        CLLocationCoordinate2D translatedCenter = stop.coordinate;
+        translatedCenter.latitude -= (mapView.region.span.latitudeDelta / 3.0);
+
+        MKCoordinateRegion stopRegion = MKCoordinateRegionMake(translatedCenter, mapView.region.span);
+        [mapView setRegion:stopRegion animated:YES];
+
+        [self.delegate mapController:self displayStopWithID:stop.stopId];
+    }
+}
+
+- (void)mapView:(MKMapView *)mapView annotationView:(MKAnnotationView *)view calloutAccessoryControlTapped:(UIControl *)control {
+    [self displayAnnotation:view.annotation];
+}
+
+- (void)displayAnnotation:(id<MKAnnotation>)annotation {
+    if ([annotation isKindOfClass:OBAPlacemark.class]) {
+        OBAPlacemark *placemark = (OBAPlacemark*)annotation;
         OBANavigationTarget *target = [OBANavigationTarget navigationTargetForSearchPlacemark:placemark];
         [self.mapDataLoader searchWithTarget:target];
+    }
+    else if ([annotation isKindOfClass:OBABookmarkV2.class]) {
+        OBABookmarkV2 *bookmark = (OBABookmarkV2*)annotation;
+        [self displayStopControllerForStopID:bookmark.stopId];
+    }
+    else if ([annotation isKindOfClass:OBAStopV2.class]) {
+        OBAStopV2 *stop = (OBAStopV2*)annotation;
+        [self displayStopControllerForStopID:stop.stopId];
     }
 }
 
 - (MKOverlayRenderer *)mapView:(MKMapView *)mapView rendererForOverlay:(id<MKOverlay>)overlay {
-    if ([overlay isKindOfClass:[MKPolyline class]]) {
+    if ([overlay isKindOfClass:MKPolyline.class]) {
         MKPolylineRenderer *renderer = [[MKPolylineRenderer alloc] initWithPolyline:overlay];
         renderer.fillColor = [UIColor blackColor];
         renderer.strokeColor = [UIColor blackColor];
@@ -480,6 +534,15 @@ static const double kStopsInRegionRefreshDelayOnDrag = 0.1;
 
 #pragma mark - Actions
 
+- (void)deselectSelectedAnnotationView {
+    id<MKAnnotation> annotation = self.mapView.selectedAnnotations.firstObject;
+    if (!annotation) {
+        return;
+    }
+
+    [self.mapView deselectAnnotation:annotation animated:YES];
+}
+
 - (IBAction)updateLocation:(id)sender {
     if (!self.locationManager.locationServicesEnabled) {
         UIAlertController *alert = [OBAAlerts locationServicesDisabledAlert];
@@ -487,7 +550,7 @@ static const double kStopsInRegionRefreshDelayOnDrag = 0.1;
         return;
     }
 
-    [OBAAnalytics reportEventWithCategory:OBAAnalyticsCategoryUIAction action:@"button_press" label:@"Clicked My Location Button" value:nil];
+    [OBAAnalytics.sharedInstance reportEventWithCategory:OBAAnalyticsCategoryUIAction action:@"button_press" label:@"Clicked My Location Button" value:nil];
     DDLogInfo(@"setting auto center on current location");
     self.mapRegionManager.lastRegionChangeWasProgrammatic = YES;
     [self refreshCurrentLocation];
@@ -498,41 +561,10 @@ static const double kStopsInRegionRefreshDelayOnDrag = 0.1;
         return;
     }
 
-    [OBAAnalytics reportEventWithCategory:OBAAnalyticsCategoryUIAction action:@"button_press" label:@"My Location via Map Tab Button" value:nil];
+    [OBAAnalytics.sharedInstance reportEventWithCategory:OBAAnalyticsCategoryUIAction action:@"button_press" label:@"My Location via Map Tab Button" value:nil];
     DDLogInfo(@"setting auto center on current location (via tab bar)");
     self.mapRegionManager.lastRegionChangeWasProgrammatic = YES;
     [self refreshCurrentLocation];
-}
-
-// More map options such as Satellite views
-// see https://github.com/OneBusAway/onebusaway-iphone/issues/65
-- (IBAction)changeMapTypes:(UIButton*)sender {
-    OBATableSection *section = [[OBATableSection alloc] initWithTitle:nil];
-
-    OBATableRow *standardRow = [[OBATableRow alloc] initWithTitle:NSLocalizedString(@"map_controller.standard_map_type_title", @"Title for Standard Map toggle option.") action:^(OBABaseRow *row) {
-        self.mapView.mapType = MKMapTypeStandard;
-        [OBAApplication.sharedApplication.userDefaults setInteger:MKMapTypeStandard forKey:OBAMapSelectedTypeDefaultsKey];
-    }];
-
-    OBATableRow *hybridRow = [[OBATableRow alloc] initWithTitle:NSLocalizedString(@"map_controller.hybrid_map_type_title", @"Title for Hybrid Map toggle option.") action:^(OBABaseRow *row) {
-        self.mapView.mapType = MKMapTypeHybrid;
-        [OBAApplication.sharedApplication.userDefaults setInteger:MKMapTypeHybrid forKey:OBAMapSelectedTypeDefaultsKey];
-    }];
-
-    if (self.mapView.mapType == MKMapTypeStandard) {
-        standardRow.accessoryType = UITableViewCellAccessoryCheckmark;
-    }
-    else if (self.mapView.mapType == MKMapTypeHybrid) {
-        hybridRow.accessoryType = UITableViewCellAccessoryCheckmark;
-    }
-
-    [section addRow:standardRow];
-    [section addRow:hybridRow];
-
-    PickerViewController *picker = [[PickerViewController alloc] init];
-    picker.sections = @[section];
-
-    [self oba_presentPopoverViewController:picker fromView:sender];
 }
 
 - (IBAction)showNearbyStops {
@@ -595,13 +627,41 @@ static const double kStopsInRegionRefreshDelayOnDrag = 0.1;
 
 - (void)displayStopControllerForStopID:(NSString*)stopID {
     OBAStopViewController *stopController = [[OBAStopViewController alloc] initWithStopID:stopID];
+    [self pushViewController:stopController animated:YES];
+}
 
-    if ([self usingDrawerUI]) {
-        [self.drawerPresenter pushViewController:stopController animated:YES];
+#pragma mark - Coordinate Region
+
+- (BOOL)mostRecentRegionIsValid {
+    MKMapRect regionalServiceRect = self.application.modelDao.currentRegion.serviceRect;
+    MKMapRect candidateRect = [OBAMapHelpers mapRectForCoordinateRegion:self.mostRecentRegion];
+
+    return MKMapRectContainsRect(regionalServiceRect, candidateRect);
+}
+
+- (void)setMostRecentRegion:(MKCoordinateRegion)mostRecentRegion {
+    _mostRecentRegion = mostRecentRegion;
+
+    if (!self.application.modelDao.currentRegion) {
+        return;
     }
-    else {
-        [self.navigationController pushViewController:stopController animated:YES];
+
+    MKMapRect regionalServiceRect = self.application.modelDao.currentRegion.serviceRect;
+    MKMapRect candidateRect = [OBAMapHelpers mapRectForCoordinateRegion:mostRecentRegion];
+
+    if (!MKMapRectContainsRect(regionalServiceRect, candidateRect)) {
+        return;
     }
+
+    NSData *data = [NSKeyedArchiver archivedDataWithRootObject:[[OBABoxedCoordinateRegion alloc] initWithCoordinateRegion:_mostRecentRegion]];
+
+    [self.application.userDefaults setObject:data forKey:@"mostRecentRegion"];
+}
+
++ (MKCoordinateRegion)decodeMostRecentRegionFromUserDefaults:(NSUserDefaults*)userDefaults {
+    NSData *data = [userDefaults objectForKey:@"mostRecentRegion"];
+    OBABoxedCoordinateRegion *boxedRegion = [NSKeyedUnarchiver unarchiveObjectWithData:data];
+    return [boxedRegion coordinateRegion];
 }
 
 #pragma mark - OBAMapViewController Private Methods
@@ -615,6 +675,9 @@ static const double kStopsInRegionRefreshDelayOnDrag = 0.1;
             MKCoordinateRegion region = [OBASphericalGeometryLibrary createRegionWithCenter:location.coordinate latRadius:radius lonRadius:radius];
             [self.mapRegionManager setRegion:region changeWasProgrammatic:YES];
         }
+    }
+    else if (self.mostRecentRegionIsValid) {
+        [self.mapRegionManager setRegion:self.mostRecentRegion changeWasProgrammatic:YES];
     }
     else if (self.modelDAO.currentRegion) {
         MKCoordinateRegion coordinateRegion = MKCoordinateRegionForMapRect(self.modelDAO.currentRegion.serviceRect);
@@ -677,8 +740,6 @@ static const double kStopsInRegionRefreshDelayOnDrag = 0.1;
     OBANavigationTarget *target = nil;
 
     if (span.latitudeDelta > OBAMaxLatitudeDeltaToShowStops) {
-        // Reset the most recent region
-        self.mostRecentRegion = MKCoordinateRegionMake(CLLocationCoordinate2DMake(0, 0), MKCoordinateSpanMake(0, 0));
         target = [OBANavigationTarget navigationTargetForSearchNone];
     }
     else {
@@ -751,11 +812,11 @@ static const double kStopsInRegionRefreshDelayOnDrag = 0.1;
 
     [alert addAction:[UIAlertAction actionWithTitle:OBAStrings.cancel style:UIAlertActionStyleCancel handler:^(UIAlertAction *action) {
         self.hideFutureOutOfRangeErrors = YES;
-        [OBAAnalytics reportEventWithCategory:OBAAnalyticsCategoryUIAction action:@"button_press" label:@"Out of Region Alert: NO" value:nil];
+        [OBAAnalytics.sharedInstance reportEventWithCategory:OBAAnalyticsCategoryUIAction action:@"button_press" label:@"Out of Region Alert: NO" value:nil];
     }]];
 
     [alert addAction:[UIAlertAction actionWithTitle:OBAStrings.ok style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
-        [OBAAnalytics reportEventWithCategory:OBAAnalyticsCategoryUIAction action:@"button_press" label:@"Out of Region Alert: YES" value:nil];
+        [OBAAnalytics.sharedInstance reportEventWithCategory:OBAAnalyticsCategoryUIAction action:@"button_press" label:@"Out of Region Alert: YES" value:nil];
         [self.mapRegionManager setRegion:MKCoordinateRegionForMapRect(self.modelDAO.currentRegion.serviceRect)];
     }]];
 
@@ -961,6 +1022,34 @@ static const double kStopsInRegionRefreshDelayOnDrag = 0.1;
     return NO;
 }
 
+#pragma mark - Vehicle Search
+
+- (void)disambiguateMatchingVehicles:(NSArray<OBAMatchingAgencyVehicle*>*)matchingVehicles {
+    OBAVehicleDisambiguationViewController *d = [[OBAVehicleDisambiguationViewController alloc] initWithMatchingVehicles:matchingVehicles delegate:self];
+    UINavigationController *nav = [[UINavigationController alloc] initWithRootViewController:d];
+
+    [self presentViewController:nav animated:YES completion:nil];
+}
+
+- (void)disambiguator:(OBAVehicleDisambiguationViewController *)viewController didSelect:(OBAMatchingAgencyVehicle *)matchingVehicle {
+    [viewController dismissViewControllerAnimated:YES completion:^{
+        [SVProgressHUD show];
+
+        // abxoxo - todo - add this wrapper to a 'disposal bag' or something that can be cancelled
+        // if the user exits this view controller before this operation finishes.
+        PromiseWrapper *wrapper = [self.modelService requestVehicleTrip:matchingVehicle.vehicleID];
+        wrapper.anyPromise.then(^(NetworkResponse *response){
+            OBATripDetailsV2 *tripDetails = (OBATripDetailsV2 *)response.object;
+            OBAArrivalAndDepartureViewController *controller = [[OBAArrivalAndDepartureViewController alloc] initWithTripInstance:tripDetails.tripInstance];
+            [self pushViewController:controller animated:YES];
+        }).catch(^(NSError *error) {
+            [AlertPresenter showError:error presentingController:self];
+        }).always(^{
+            [SVProgressHUD dismiss];
+        });
+    }];
+}
+
 #pragma mark - UI Configuration
 
 - (void)createMapView {
@@ -980,15 +1069,6 @@ static const double kStopsInRegionRefreshDelayOnDrag = 0.1;
     }
 }
 
-- (void)configureMapActivityIndicator {
-    self.mapActivityIndicatorView = [[OBAMapActivityIndicatorView alloc] initWithFrame:CGRectZero];
-    [self.view addSubview:self.mapActivityIndicatorView];
-    [self.mapActivityIndicatorView mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.top.equalTo(self.mas_topLayoutGuideBottom).offset(OBATheme.defaultPadding);
-        make.leading.equalTo(self).offset(OBATheme.defaultMargin);
-    }];
-}
-
 - (void)configureToastView {
     self.toastView = [[OBAToastView alloc] initWithFrame:CGRectZero];
     [self.toastView.button addTarget:self action:@selector(cancelCurrentSearch) forControlEvents:UIControlEventTouchUpInside];
@@ -1002,38 +1082,62 @@ static const double kStopsInRegionRefreshDelayOnDrag = 0.1;
 }
 
 - (void)createLocationHoverBar {
-    UIBarButtonItem *recenterMapButton = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"Map_Selected"] landscapeImagePhone:nil style:UIBarButtonItemStylePlain target:self action:@selector(recenterMap)];
+    UIBarButtonItem *recenterMapButton = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"Map_Selected"] style:UIBarButtonItemStylePlain target:self action:@selector(recenterMap)];
+    UIBarButtonItem *tempButtonItem = [[UIBarButtonItem alloc] initWithCustomView:self.forecastButton];
+    [self weatherForecastDidUpdate:nil];
 
     self.locationHoverBar = [[ISHHoverBar alloc] init];
-    self.locationHoverBar.items = @[recenterMapButton];
+    self.locationHoverBar.shadowRadius = 2.f;
+    self.locationHoverBar.items = @[recenterMapButton, tempButtonItem];
     [self.view addSubview:self.locationHoverBar];
     [self.locationHoverBar mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.bottom.equalTo(self.mas_bottomLayoutGuideTop).offset(-OBATheme.defaultMargin);
-        make.trailing.equalTo(self).offset(-OBATheme.defaultMargin);
+        make.top.equalTo(self.mas_topLayoutGuideBottom).offset(OBATheme.defaultMargin);
+        make.trailing.equalTo(self.view).offset(-OBATheme.defaultPadding);
     }];
 }
 
-- (void)createSecondaryHoverBar {
-    self.secondaryHoverBar = [[ISHHoverBar alloc] init];
+#pragma mark - Weather Forecast
 
-    UIBarButtonItem *nearbyButton = [OBAUIBuilder wrappedImageButton:[UIImage imageNamed:@"map_signs"] accessibilityLabel:NSLocalizedString(@"msg_nearby_stops_list", @"self.listBarButtonItem.accessibilityLabel") target:self action:@selector(showNearbyStops)];
+- (UIButton*)forecastButton {
+    if (!_forecastButton) {
+        UIButton *button = [[UIButton alloc] initWithFrame:CGRectMake(0, 0, 44, 44)];
+        [button setTitleColor:OBATheme.OBADarkGreen forState:UIControlStateNormal];
 
-    NSString *label = NSLocalizedString(@"map_controller.toggle_map_type_accessibility_label", @"Accessibility label for toggle map type button on map.");
-    UIBarButtonItem *mapBarButton = [OBAUIBuilder wrappedImageButton:[UIImage imageNamed:@"map_button"] accessibilityLabel:label target:self action:@selector(changeMapTypes:)];
+        button.imageView.contentMode = UIViewContentModeScaleAspectFit;
+        button.imageEdgeInsets = [OBATheme hoverBarImageInsets];
+        [button addTarget:self action:@selector(showForecast) forControlEvents:UIControlEventTouchUpInside];
+        _forecastButton = button;
+    }
+    return _forecastButton;
+}
 
-    self.secondaryHoverBar.items = @[nearbyButton, mapBarButton];
+- (void)weatherForecastDidUpdate:(NSNotification*)note {
+    OBAWeatherForecast *forecast = self.application.forecastManager.weatherForecast;
+    if (!forecast) {
+        [self.forecastButton setTitle:@"-º" forState:UIControlStateNormal];
+        return;
+    }
 
-    [self.view addSubview:self.secondaryHoverBar];
-    [self.secondaryHoverBar mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.bottom.equalTo(self.locationHoverBar.mas_top).offset(-2 * [OBATheme defaultPadding]);
-        make.trailing.equalTo(self.locationHoverBar);
-    }];
+    NSString *temperature = [NSString stringWithFormat:@"%.0fº", forecast.currentForecast.temperature];
+
+    [self.forecastButton setTitle:temperature forState:UIControlStateNormal];
+}
+
+- (void)showForecast {
+    OBAWeatherForecast *forecast = self.application.forecastManager.weatherForecast;
+    if (!forecast) {
+        return;
+    }
+
+    UIAlertController *alert = [UIAlertController alertControllerWithTitle:nil message:forecast.todaySummary preferredStyle:UIAlertControllerStyleAlert];
+    [alert addAction:[UIAlertAction actionWithTitle:OBAStrings.dismiss style:UIAlertActionStyleCancel handler:nil]];
+    [self presentViewController:alert animated:YES completion:nil];
 }
 
 #pragma mark - Private Configuration Junk
 
 - (void)setHighContrastStyle {
-    [OBAAnalytics reportEventWithCategory:OBAAnalyticsCategoryAccessibility action:@"increase_contrast" label:[NSString stringWithFormat:@"Loaded view: %@ with Increased Contrast", [self class]] value:nil];
+    [OBAAnalytics.sharedInstance reportEventWithCategory:OBAAnalyticsCategoryAccessibility action:@"increase_contrast" label:[NSString stringWithFormat:@"Loaded view: %@ with Increased Contrast", [self class]] value:nil];
 
     self.navigationController.navigationBar.barTintColor = [UIColor whiteColor];
     self.navigationController.tabBarController.tabBar.barTintColor = [UIColor whiteColor];

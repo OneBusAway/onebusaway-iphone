@@ -15,24 +15,39 @@
  */
 
 @import OBAKit;
+@import CoreLocation;
 
 NS_ASSUME_NONNULL_BEGIN
 
 @class OBAModelDAO;
 
+@class OBAMapViewController;
+
+NS_SWIFT_NAME(MapControllerDelegate)
+@protocol OBAMapControllerDelegate
+- (void)mapController:(OBAMapViewController*)controller displayStopWithID:(NSString*)stopID;
+- (void)mapController:(OBAMapViewController*)controller deselectedAnnotation:(id<MKAnnotation>)annotation;
+@end
+
 @interface OBAMapViewController : UIViewController <OBANavigationTargetAware, OBAMapDataLoaderDelegate>
 INIT_NIB_UNAVAILABLE;
 INIT_CODER_UNAVAILABLE;
 
-@property(nonatomic,strong) OBAModelDAO *modelDAO;
-@property(nonatomic,strong) PromisedModelService *modelService;
-@property(nonatomic,strong) OBALocationManager *locationManager;
+@property(nonatomic,weak) id<OBAMapControllerDelegate> delegate;
 
-@property(nonatomic,weak) id<OBADrawerPresenter> drawerPresenter;
+/**
+ When the view controller is in standalone mode, it will display toolbars. Defaults to true.
+ Set it to false when hosting this view controller inside of another.
+ */
+@property(nonatomic,assign) BOOL standaloneMode;
 
-- (instancetype)initWithMapDataLoader:(OBAMapDataLoader*)mapDataLoader mapRegionManager:(OBAMapRegionManager*)mapRegionManager NS_DESIGNATED_INITIALIZER;
+@property(nonatomic,strong,readonly) CLCircularRegion *visibleMapRegion;
+
+- (instancetype)initWithApplication:(OBAApplication*)application NS_DESIGNATED_INITIALIZER;
 
 - (void)recenterMap;
+
+- (void)deselectSelectedAnnotationView;
 @end
 
 NS_ASSUME_NONNULL_END

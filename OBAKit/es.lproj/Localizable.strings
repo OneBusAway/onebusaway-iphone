@@ -4,6 +4,15 @@
 /* sd > 0 */
 "msg_space_late" = " tarde";
 
+/* Default title of a bookmark group. In English, this is 'Untitled'. */
+"bookmark_group.default_title" = "Sin título";
+
+/* Title of the Bookmark Group that contains the Today Screen widget's bookmarks. */
+"bookmark_group.today_widget_title" = "Favoritos Visualización Hoy";
+
+/* As in 'actively updating content' */
+"strings.updating" = "Actualizando…";
+
 /* One minute */
 "date_helpers.one_minute" = "Un minuto";
 
@@ -22,8 +31,17 @@
 /* Typically used on alerts and other modal actions. A 'cancel' button. */
 "msg_cancel" = "Cancelar";
 
+/* Not Found */
+"strings.not_found" = "No se encontró";
+
 /* The text 'Close' */
 "strings.close" = "Cerrar";
+
+/* The word 'Refresh', like a synonym for 'Reload'. */
+"strings.refresh" = "Refrescar";
+
+/* Learn More */
+"strings.learn_more" = "Aprende Más";
 
 /* No comment provided by engineer. */
 "msg_cellular" = "Celular";
@@ -72,6 +90,12 @@
 
 /* Standard 'Save' button text. */
 "msg_save" = "Guardar";
+
+/* code == 500 */
+"error_messages.server_error" = "El servidor no pudo interpretar tu solicitud, o simplemente tiene algunos problemas.";
+
+/* Search for Vehicle ID produced no results. */
+"error_messages.vehicle_not_found" = "No se pudo encontrar un vehículo correspondiente. Por favor, compruebe la identificación y vuelva a intentarlo.";
 
 /* code == 404 */
 "mgs_stop_not_found" = "La Parada no fue encontrada";
@@ -156,6 +180,9 @@
 
 /* OBASearchTypeStopId. Rendered as 'Stop ID' in English. */
 "search_type.stop_id" = "ID de Parada";
+
+/* The word 'Never' */
+"strings.never" = "Nunca";
 
 /* The word 'yesterday' */
 "strings.yesterday" = "Ayer";

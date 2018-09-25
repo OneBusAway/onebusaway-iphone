@@ -16,15 +16,16 @@ extern NSString * const OBADeepLinkTripRegexPattern;
 
 typedef void(^OBADeepLinkAction)(NSArray<NSString*> *matchGroupResults, NSURLComponents *URLComponents);
 
+NS_SWIFT_NAME(DeepLinkRouter)
 @interface OBADeepLinkRouter : NSObject
 
-- (instancetype)initWithDeepLinkBaseURL:(NSURL*)baseURL NS_DESIGNATED_INITIALIZER;
+- (instancetype)initWithBaseURL:(NSURL*)baseURL NS_DESIGNATED_INITIALIZER;
 - (instancetype)init NS_UNAVAILABLE;
 
 - (void)routePattern:(NSString*)pattern toAction:(OBADeepLinkAction)action;
 - (BOOL)performActionForURL:(NSURL*)URL;
 
-- (nullable NSURL*)deepLinkURLForStopID:(NSString*)stopID regionIdentifier:(NSInteger)regionIdentifier;
+- (nullable NSURL*)deepLinkURLForStopID:(NSString*)stopID regionIdentifier:(NSInteger)regionIdentifier NS_SWIFT_NAME(deepLinkURL(stopID:regionID:));
 
 @end
 

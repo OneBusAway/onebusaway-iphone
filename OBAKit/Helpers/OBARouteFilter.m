@@ -7,6 +7,7 @@
 //
 
 #import <OBAKit/OBARouteFilter.h>
+#import <OBAKit/OBAArrivalAndDepartureV2.h>
 
 @implementation OBARouteFilter
 
@@ -31,6 +32,18 @@
 
 - (BOOL)hasFilteredRoutes {
     return self.stopPreferences.hasFilteredRoutes;
+}
+
+- (NSArray<OBAArrivalAndDepartureV2*>*)filteredArrivalsAndDepartures:(NSArray<OBAArrivalAndDepartureV2*>*)arrivalsAndDepartures {
+    NSMutableArray *filtered = [[NSMutableArray alloc] init];
+
+    for (OBAArrivalAndDepartureV2 *dep in arrivalsAndDepartures) {
+        if ([self shouldShowRouteID:dep.routeId]) {
+            [filtered addObject:dep];
+        }
+    }
+
+    return [NSArray arrayWithArray:filtered];
 }
 
 @end

@@ -8,18 +8,21 @@
 
 import UIKit
 
+@objc(OBABorderedButton)
 public class BorderedButton: UIButton {
 
-    var borderColor: UIColor = UIColor.black
+    @objc public var borderColor: UIColor = UIColor.black {
+        didSet {
+            configure()
+        }
+    }
 
     public override var intrinsicContentSize: CGSize {
-        get {
-            var sz = super.intrinsicContentSize
-            sz.width += self.titleEdgeInsets.left + self.titleEdgeInsets.right
-            sz.height += self.titleEdgeInsets.top + self.titleEdgeInsets.bottom
+        var sz = super.intrinsicContentSize
+        sz.width += self.titleEdgeInsets.left + self.titleEdgeInsets.right
+        sz.height += self.titleEdgeInsets.top + self.titleEdgeInsets.bottom
 
-            return sz
-        }
+        return sz
     }
 
     @objc public convenience init(borderColor: UIColor, title: String) {
@@ -40,12 +43,11 @@ public class BorderedButton: UIButton {
     }
 
     func configure() {
-        self.tintColor = self.borderColor
-        self.layer.borderColor = self.borderColor.cgColor
+        self.tintColor = borderColor
+        self.layer.borderColor = borderColor.cgColor
         self.layer.borderWidth = 1.0
         self.layer.cornerRadius = 4
         self.setTitleColor(self.borderColor, for: .normal)
-        self.titleEdgeInsets = UIEdgeInsetsMake(0, 4, 0, 4)
+        self.titleEdgeInsets = UIEdgeInsets(top: 0, left: 4, bottom: 0, right: 4)
     }
-
 }

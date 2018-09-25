@@ -40,6 +40,9 @@
 /* Learn More */
 "strings.learn_more" = "Learn More";
 
+/* Continue */
+"strings.continue" = "Continue";
+
 /* No comment provided by engineer. */
 "msg_cellular" = "Cellular";
 
@@ -91,6 +94,8 @@
 /* code == 500 */
 "error_messages.server_error" = "The server was unable to interpret your request, or it is simply having some problems.";
 
+/* Search for Vehicle ID produced no results. */
+"error_messages.vehicle_not_found" = "A matching vehicle could not be found. Please check the ID and try again.";
 
 /* code == 404 */
 "mgs_stop_not_found" = "Stop not found";
@@ -184,6 +189,12 @@
 
 /* The text 'Read More…' (note that is an ellipsis, not three dots…) */
 "strings.read_more" = "Read More…";
+
+/* Not Found */
+"strings.not_found" = "Not Found";
+
+/* Offline */
+"strings.offline" = "Offline";
 
 /* An error displayed to the user when their alarm can't be created. */
 "model_service.cant_register_alarm_missing_parameters" = "Sorry, we can't create an alarm for this upcoming trip. You're welcome to try again, but it probably won't make any difference. Sorry about that :(";

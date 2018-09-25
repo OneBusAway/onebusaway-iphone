@@ -20,8 +20,8 @@
 
 @implementation OBADepartureTimeLabel
 
--(instancetype)init {
-    self = [super init];
+- (instancetype)initWithFrame:(CGRect)frame {
+    self = [super initWithFrame:frame];
 
     if (self) {
         _firstRenderPass = YES;

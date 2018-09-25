@@ -9,6 +9,8 @@
 @import Foundation;
 #import <OBAKit/OBAStopPreferencesV2.h>
 
+@class OBAArrivalAndDepartureV2;
+
 NS_ASSUME_NONNULL_BEGIN
 
 @interface OBARouteFilter : NSObject
@@ -19,6 +21,9 @@ NS_ASSUME_NONNULL_BEGIN
 
 - (BOOL)shouldShowRouteID:(NSString*)routeID;
 - (BOOL)hasFilteredRoutes;
+
+- (NSArray<OBAArrivalAndDepartureV2*>*)filteredArrivalsAndDepartures:(NSArray<OBAArrivalAndDepartureV2*>*)arrivalsAndDepartures;
+
 @end
 
 NS_ASSUME_NONNULL_END

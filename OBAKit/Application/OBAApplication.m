@@ -18,8 +18,9 @@
 
 static NSString * const kAppGroup = @"group.org.onebusaway.iphone";
 static NSString *const kOBADefaultRegionApiServerName = @"http://regions.onebusaway.org";
-NSString *const OBARegionServerInvalidNotification = @"OBARegionServerInvalidNotification";
+NSString * const OBARegionServerInvalidNotification = @"OBARegionServerInvalidNotification";
 NSString * const OBAHasMigratedDefaultsToAppGroupDefaultsKey = @"OBAHasMigratedDefaultsToAppGroupDefaultsKey";
+NSString * const OBAShowTestAlertsDefaultsKey = @"OBAShowTestAlertsDefaultsKey";
 
 @interface OBAApplication ()
 @property (nonatomic, strong, readwrite) OBAApplicationConfiguration *configuration;
@@ -29,10 +30,10 @@ NSString * const OBAHasMigratedDefaultsToAppGroupDefaultsKey = @"OBAHasMigratedD
 @property (nonatomic, strong, readwrite) OBALocationManager *locationManager;
 @property (nonatomic, strong, readwrite) OBAReachability *reachability;
 @property (nonatomic, strong, readwrite) OBARegionHelper *regionHelper;
-@property (nonatomic, strong, readwrite) RegionalAlertsManager *regionalAlertsManager;
 @property (nonatomic, strong, readwrite) OBALogging *loggingManager;
 @property (nonatomic, strong, readwrite) OBAMapDataLoader *mapDataLoader;
 @property (nonatomic, strong, readwrite) OBAMapRegionManager *mapRegionManager;
+@property (nonatomic, strong, readwrite) OBAForecastManager *forecastManager;
 @property (nonatomic, strong, readwrite) NSUserDefaults *userDefaults;
 @end
 
@@ -90,12 +91,9 @@ NSString * const OBAHasMigratedDefaultsToAppGroupDefaultsKey = @"OBAHasMigratedD
     self.mapDataLoader = [[OBAMapDataLoader alloc] initWithModelService:self.modelService];
     self.mapRegionManager = [[OBAMapRegionManager alloc] init];
 
-    if (!self.configuration.extensionMode) {
-        self.regionalAlertsManager = [[RegionalAlertsManager alloc] init];
-        self.regionalAlertsManager.region = self.modelDao.currentRegion;
-    }
-
     [self refreshSettings];
+
+    self.forecastManager = [[OBAForecastManager alloc] initWithApplication:self];
 }
 
 #pragma mark - Defaults
@@ -127,9 +125,9 @@ NSString * const OBAHasMigratedDefaultsToAppGroupDefaultsKey = @"OBAHasMigratedD
     mutableDefaults[OBAOptInToTrackingDefaultsKey] = @(YES);
     mutableDefaults[OBADisplayUserHeadingOnMapDefaultsKey] = @(YES);
     mutableDefaults[OBAMapSelectedTypeDefaultsKey] = @(MKMapTypeStandard);
-
-    // Experimental Settings
-    mutableDefaults[OBAExperimentalUseDrawerUIDefaultsKey] = @(NO);
+    mutableDefaults[OBAUseStopDrawerDefaultsKey] = @(NO);
+    mutableDefaults[OBAShowTestAlertsDefaultsKey] = @(NO);
+    mutableDefaults[OBAForecastUpdatedAtDefaultsKey] = NSDate.distantPast;
 
     defaults = mutableDefaults;
 #endif
@@ -159,7 +157,6 @@ NSString * const OBAHasMigratedDefaultsToAppGroupDefaultsKey = @"OBAHasMigratedD
     [self.locationManager stopUpdatingLocation];
 
     [self.modelService.obaJsonDataSource cancelOpenConnections];
-    [self.modelService.googleMapsJsonDataSource cancelOpenConnections];
     [self.modelService.obaRegionJsonDataSource cancelOpenConnections];
     [self.modelService.obacoJsonDataSource cancelOpenConnections];
 }
@@ -188,7 +185,6 @@ NSString * const OBAHasMigratedDefaultsToAppGroupDefaultsKey = @"OBAHasMigratedD
 #pragma mark - Region
 
 - (void)regionUpdated:(NSNotification*)note {
-    self.regionalAlertsManager.region = self.modelDao.currentRegion;
     [self refreshSettings];
 }
 
@@ -208,6 +204,10 @@ NSString * const OBAHasMigratedDefaultsToAppGroupDefaultsKey = @"OBAHasMigratedD
 
 #pragma mark - App Keys
 
+- (NSString*)firebaseAnalyticsConfigFilePath {
+    return [NSBundle.mainBundle pathForResource:@"OBA_Firebase" ofType:@"plist"];
+}
+
 - (NSString*)googleAnalyticsID {
     return @"UA-2423527-17";
 }
@@ -224,16 +224,12 @@ NSString * const OBAHasMigratedDefaultsToAppGroupDefaultsKey = @"OBAHasMigratedD
 
 - (void)refreshSettings {
     if (self.modelDao.currentRegion.baseURL) {
-        self.modelService.obaJsonDataSource = [OBAJsonDataSource JSONDataSourceWithBaseURL:self.modelDao.currentRegion.baseURL userID:[OBAUser userIdFromDefaults]];
+        self.modelService.obaJsonDataSource = [OBAJsonDataSource JSONDataSourceWithBaseURL:self.modelDao.currentRegion.baseURL userID:OBAUser.userIDFromDefaults];
+        self.modelService.unparsedDataSource = [OBAJsonDataSource unparsedDataSourceWithBaseURL:self.modelDao.currentRegion.baseURL userID:OBAUser.userIDFromDefaults];
     }
 
-    self.modelService.googleMapsJsonDataSource = [OBAJsonDataSource googleMapsJSONDataSource];
-    self.modelService.obaRegionJsonDataSource = [OBAJsonDataSource JSONDataSourceWithBaseURL:[NSURL URLWithString:kOBADefaultRegionApiServerName] userID:[OBAUser userIdFromDefaults]];
+    self.modelService.obaRegionJsonDataSource = [OBAJsonDataSource JSONDataSourceWithBaseURL:[NSURL URLWithString:kOBADefaultRegionApiServerName] userID:OBAUser.userIDFromDefaults];
     self.modelService.obacoJsonDataSource = [OBAJsonDataSource obacoJSONDataSource];
-
-    if (!self.configuration.extensionMode) {
-        [self.regionalAlertsManager update];
-    }
 }
 
 #pragma mark - Logging

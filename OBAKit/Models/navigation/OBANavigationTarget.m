@@ -145,13 +145,6 @@ NSString * const OBAUserSearchQueryKey = @"OBAUserSearchQueryKey";
     return [self navigationTargetForSearchType:OBASearchTypeStopIdSearch argument:stopID];
 }
 
-+ (instancetype)navigationTargetForRegionalAlert:(OBARegionalAlert*)regionalAlert {
-    OBANavigationTarget *target = [self navigationTargetForSearchType:OBASearchTypeRegionalAlert argument:regionalAlert];
-    target.target = OBANavigationTargetTypeContactUs;
-
-    return target;
-}
-
 + (instancetype)navigationTargetForSearchType:(OBASearchType)searchType {
     return [self navigationTargetForSearchType:searchType argument:nil];
 }

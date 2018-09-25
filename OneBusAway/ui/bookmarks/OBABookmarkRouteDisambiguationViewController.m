@@ -7,7 +7,7 @@
 //
 
 #import "OBABookmarkRouteDisambiguationViewController.h"
-#import "OBAEditStopBookmarkViewController.h"
+#import "OneBusAway-Swift.h"
 #import "OBASegmentedRow.h"
 
 @interface OBABookmarkRouteDisambiguationViewController ()
@@ -71,7 +71,7 @@
     [stopSection addRowWithBlock:^OBABaseRow *{
         OBATableRow *row = [[OBATableRow alloc] initWithTitle:self.arrivalsAndDepartures.stop.nameWithDirection action:^(OBABaseRow *r2){
             OBABookmarkV2 *bookmark = [[OBABookmarkV2 alloc] initWithStop:self.arrivalsAndDepartures.stop region:self.region];
-            OBAEditStopBookmarkViewController *bookmarkViewController = [[OBAEditStopBookmarkViewController alloc] initWithBookmark:bookmark];
+            OBAEditBookmarkViewController *bookmarkViewController = [[OBAEditBookmarkViewController alloc] initWithBookmark:bookmark modelDAO:self.modelDAO];
             [self.navigationController pushViewController:bookmarkViewController animated:YES];
         }];
         row.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
@@ -109,7 +109,7 @@
         [routeSection addRowWithBlock:^OBABaseRow *{
             OBATableRow *row = [[OBATableRow alloc] initWithTitle:[NSString stringWithFormat:@"%@ - %@", dep.bestAvailableName, dep.tripHeadsign] action:^(OBABaseRow *r2){
                 OBABookmarkV2 *bookmark = [[OBABookmarkV2 alloc] initWithArrivalAndDeparture:dep region:self.region];
-                OBAEditStopBookmarkViewController *bookmarkViewController = [[OBAEditStopBookmarkViewController alloc] initWithBookmark:bookmark];
+                OBAEditBookmarkViewController *bookmarkViewController = [[OBAEditBookmarkViewController alloc] initWithBookmark:bookmark modelDAO:self.modelDAO];
                 [self.navigationController pushViewController:bookmarkViewController animated:YES];
             }];
             row.accessoryType = UITableViewCellAccessoryDisclosureIndicator;

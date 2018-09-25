@@ -9,6 +9,8 @@
 @import Foundation;
 @import MapKit;
 
+NS_ASSUME_NONNULL_BEGIN
+
 extern const double OBADefaultMapRadiusInMeters;
 extern const double OBAMinMapRadiusInMeters;
 extern const double OBAMaxLatitudeDeltaToShowStops;
@@ -20,8 +22,11 @@ extern const double OBARegionZoomLevelThreshold;
 @class OBAPlacemark;
 @class OBARegionBoundsV2;
 @class OBAStopV2;
+@class OBABookmarkV2;
 
 NSInteger OBASortStopsByDistanceFromLocation(OBAStopV2 *stop1, OBAStopV2 *stop2, void *context);
+
+NSInteger OBASortBookmarksByDistanceFromLocation(OBABookmarkV2 *bm1, OBABookmarkV2 *bm2, void *context);
 
 @interface OBAMapHelpers : NSObject
 
@@ -29,6 +34,14 @@ NSInteger OBASortStopsByDistanceFromLocation(OBAStopV2 *stop1, OBAStopV2 *stop2,
 + (MKCoordinateRegion)coordinateRegionWithCenterCoordinate:(CLLocationCoordinate2D)centerCoordinate zoomLevel:(NSUInteger)zoomLevel viewSize:(CGSize)size;
 
 + (NSString*)stringFromDistance:(CLLocationDistance)distance;
+
+/**
+ Converts an MKCoordinateRegion
+
+ @param coordinateRegion A coordinate region
+ @return The equivalent circular region
+ */
++ (CLCircularRegion*)convertCoordinateRegionToCircularRegion:(MKCoordinateRegion)coordinateRegion;
 
 /**
  Computes distance between two CLLocationCoordinate2D points.
@@ -72,8 +85,8 @@ NSInteger OBASortStopsByDistanceFromLocation(OBAStopV2 *stop1, OBAStopV2 *stop2,
 /**
  Calculate the coordinate region for the list of placemarks provided. Falls back to the default region if it cannot compute a region from the placemarks.
 
- @param placemarks    The list of OBAPlacemarks that it will compute a region from.
- @param defaultRegion The fallback MKCoordinateRegion that will be returned if OBAPlacemarks is empty.
+ @param placemarks    The list of `OBAPlacemark`s that it will compute a region from.
+ @param defaultRegion The fallback MKCoordinateRegion that will be returned if `OBAPlacemark`s are empty.
 
  @return The bounding region for the provided placemarks.
  */
@@ -94,3 +107,5 @@ NSInteger OBASortStopsByDistanceFromLocation(OBAStopV2 *stop1, OBAStopV2 *stop2,
 + (MKCoordinateRegion)computeRegionForCenter:(CLLocation*)center nearbyStops:(NSArray*)stops;
 + (NSUInteger)zoomLevelForMapRect:(MKMapRect)mRect withMapViewSizeInPixels:(CGSize)viewSizeInPixels;
 @end
+
+NS_ASSUME_NONNULL_END

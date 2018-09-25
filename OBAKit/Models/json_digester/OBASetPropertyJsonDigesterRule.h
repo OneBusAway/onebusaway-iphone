@@ -18,14 +18,10 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
-@interface OBASetPropertyJsonDigesterRule : NSObject <OBAJsonDigesterRule> {
-    NSString * _propertyName;
-    BOOL _onlyIfNeeded;
-    BOOL _optional;
-}
+@interface OBASetPropertyJsonDigesterRule : NSObject <OBAJsonDigesterRule>
 
-- (id) initWithPropertyName:(NSString*)propertyName;
-- (id) initWithPropertyName:(NSString*)propertyName onlyIfNeeded:(BOOL)onlyIfNeeded;
+- (instancetype) initWithPropertyName:(NSString*)propertyName;
+- (instancetype) initWithPropertyName:(NSString*)propertyName onlyIfNeeded:(BOOL)onlyIfNeeded;
 
 @property (nonatomic) BOOL optional;
 

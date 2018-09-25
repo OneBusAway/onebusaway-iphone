@@ -7,6 +7,7 @@
 //
 
 #import <OBAKit/UIView+OBAAdditions.h>
+#import <OBAKit/OBAKit-Swift.h>
 @import Masonry;
 
 @implementation UIView (OBAAdditions)
@@ -18,14 +19,29 @@
     return view;
 }
 
-- (UIView*)oba_embedInWrapperView {
-    UIView *wrapper = [[UIView alloc] initWithFrame:CGRectZero];
+- (OBACardWrapper*)oba_embedInCardWrapper {
+    OBACardWrapper *wrapper = [[OBACardWrapper alloc] initWithFrame:CGRectZero];
     wrapper.translatesAutoresizingMaskIntoConstraints = NO;
-    [wrapper addSubview:self];
+    [wrapper.contentView addSubview:self];
     [self mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.edges.equalTo(wrapper);
+        make.edges.equalTo(wrapper.contentView);
     }];
 
+    return wrapper;
+}
+
+- (UIView*)oba_embedInWrapperView {
+    return [self oba_embedInWrapperViewWithConstraints:YES];
+}
+
+- (UIView*)oba_embedInWrapperViewWithConstraints:(BOOL)constrained {
+    UIView *wrapper = [UIView oba_autolayoutNew];
+    [wrapper addSubview:self];
+    if (constrained) {
+        [self mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.edges.equalTo(wrapper);
+        }];
+    }
     return wrapper;
 }
 

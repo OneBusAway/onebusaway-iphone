@@ -144,6 +144,12 @@
     XCTAssertEqual(tampa.bounds.count, 2);
     XCTAssertEqualObjects(tampa.bounds, regionBounds);
     XCTAssertTrue(MKMapRectEqualToRect(tampa.serviceRect, tampaServiceRect));
+
+    XCTAssertNil(tampa.paymentWarningBody);
+    XCTAssertNil(tampa.paymentWarningTitle);
+    XCTAssertEqualObjects(tampa.paymentAppURLScheme, @"fb313213768708402HART");
+    XCTAssertEqualObjects(tampa.paymentAppDeepLinkURL.absoluteString, @"fb313213768708402HART://onebusaway");
+    XCTAssertEqualObjects(tampa.paymentAppStoreIdentifier, @"1140553099");
 }
 
 #pragma mark - Boston

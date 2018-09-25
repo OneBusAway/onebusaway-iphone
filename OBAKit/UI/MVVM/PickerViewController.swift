@@ -8,7 +8,7 @@
 
 import UIKit
 
-@objc public class PickerViewController: OBAStaticTableViewController {
+@objc open class PickerViewController: OBAStaticTableViewController {
 
     override public init(nibName nibNameOrNil: String?, bundle nibBundleOrNil: Bundle?) {
         super.init(nibName: nibNameOrNil, bundle: nibBundleOrNil)
@@ -20,7 +20,7 @@ import UIKit
         fatalError("init(coder:) has not been implemented")
     }
 
-    override public func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+    override open func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         super.tableView(tableView, didSelectRowAt: indexPath)
 
         for cell in tableView.visibleCells {

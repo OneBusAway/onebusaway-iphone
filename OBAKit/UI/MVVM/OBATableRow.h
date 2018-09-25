@@ -21,7 +21,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface OBATableRow : OBABaseRow
 @property(nonatomic,copy,nullable) UIColor *titleColor;
-@property(nonatomic,copy,nullable) NSString *title;
+@property(nonatomic,copy) NSString *title;
 
 /**
  An attributed string that will be used to draw the title label. This takes
@@ -30,7 +30,10 @@ NS_ASSUME_NONNULL_BEGIN
 @property(nonatomic,copy,nullable) NSAttributedString *attributedTitle;
 
 @property(nonatomic,copy,nullable) NSString *subtitle;
+
 @property(nonatomic,copy,nullable) UIFont *titleFont;
+@property(nonatomic,copy,nullable) UIFont *subtitleFont;
+
 @property(nonatomic,assign) UITableViewCellStyle style;
 @property(nonatomic,strong,nullable) UIImage *image;
 @property(nonatomic,assign) NSTextAlignment textAlignment;
@@ -39,6 +42,9 @@ NS_ASSUME_NONNULL_BEGIN
 
 - (instancetype)initWithTitle:(NSString*)title action:(nullable OBARowAction)action;
 - (instancetype)initWithAttributedTitle:(NSAttributedString*)attributedTitle action:(nullable OBARowAction)action;
+
++ (instancetype)disabledInfoRowWithText:(NSString*)text;
+
 @end
 
 NS_ASSUME_NONNULL_END

@@ -20,7 +20,7 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
-@interface OBADiversionViewController : UIViewController <MKMapViewDelegate> 
+@interface OBADiversionViewController : UIViewController
 
 +(OBADiversionViewController*) loadFromNibWithappDelegate:(OBAApplicationDelegate*)context;
 

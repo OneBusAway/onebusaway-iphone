@@ -8,8 +8,13 @@
 
 import OBAKit
 import UIKit
-import SwiftMessages
+import SwiftEntryKit
 import SafariServices
+import Hue
+
+public enum Theme {
+    case success, warning, error
+}
 
 @objc open class AlertPresenter: NSObject {
 
@@ -18,7 +23,7 @@ import SafariServices
     /// - parameter title: The title of the alert
     /// - parameter body:  The body of the alert
     @objc open class func showSuccess(_ title: String, body: String) {
-        self.showMessage(withTheme: .success, title: title, body: body)
+        showMessage(withTheme: .success, title: title, body: body)
     }
 
     /// Displays an alert on screen at the status bar level indicating an unsuccessful operation.
@@ -26,7 +31,7 @@ import SafariServices
     /// - parameter title: The title of the alert
     /// - parameter body:  The body of the alert
     @objc open class func showWarning(_ title: String, body: String) {
-        self.showMessage(withTheme: .warning, title: title, body: body)
+        showMessage(withTheme: .warning, title: title, body: body)
     }
 
     /// Displays an alert on screen at the status bar level indicating an error.
@@ -34,7 +39,7 @@ import SafariServices
     /// - parameter title: The title of the alert
     /// - parameter body:  The body of the alert
     @objc open class func showError(_ title: String, body: String) {
-        self.showMessage(withTheme: .error, title: title, body: body)
+        showMessage(withTheme: .error, title: title, body: body)
     }
 
     /// Displays an error alert on screen generated from an error object.
@@ -66,39 +71,33 @@ import SafariServices
             userInfo["reference"] = referenceID
         }
         Crashlytics.sharedInstance().recordError(error, withAdditionalUserInfo: userInfo)
-        self.showError(OBAStrings.error, body: errorMessage(from: error, referenceID: referenceID))
+        showError(OBAStrings.error, body: errorMessage(from: error, referenceID: referenceID))
     }
 
     open class func showMessage(withTheme theme: Theme, title: String, body: String) {
-        var config = SwiftMessages.Config()
-        config.presentationContext = .window(windowLevel: UIWindowLevelStatusBar)
-        config.duration = theme == .error ? .forever : .seconds(seconds: 5)
-        config.dimMode = .gray(interactive: true)
-        config.interactiveHide = true
-        config.preferredStatusBarStyle = .lightContent
+        let attributes = buildTopEntryAttributes(theme: theme)
 
-        let view = AlertPresenterView.init()
-        view.configureContent(title: title, body: body, iconImage: nil, iconText: nil, buttonImage: nil, buttonTitle: NSLocalizedString("msg_close", comment: "close"), buttonTapHandler: { _ in
-            SwiftMessages.hide()
-        })
-        view.configureTheme(theme)
+        let textColor = UIColor.white
+        let titleContent = EKProperty.LabelContent(text: title, style: .init(font: OBATheme.boldBodyFont, color: textColor))
+        let description = EKProperty.LabelContent(text: body, style: .init(font: OBATheme.bodyFont, color: textColor))
 
-        // Show the message.
-        SwiftMessages.show(config: config, view: view)
+        let notificationMessage = EKNotificationMessage(simpleMessage: EKSimpleMessage(image: nil, title: titleContent, description: description))
+
+        let contentView = EKNotificationMessageView(with: notificationMessage)
+        SwiftEntryKit.display(entry: contentView, using: attributes)
     }
 
     private class func errorMessage(from error: NSError, referenceID: String?) -> String {
         let wifiName = OBAReachability.wifiNetworkName
-        
-        var message: String
 
-        if (errorPotentiallyFromWifiCaptivePortal(error) && wifiName != nil) {
+        var message: String
+        if errorPotentiallyFromWifiCaptivePortal(error) && wifiName != nil {
             message = NSLocalizedString("alert_presenter.captive_wifi_portal_error_message", comment: "Error message displayed when the user is connecting to a Wi-Fi captive portal landing page.")
         }
         else {
             message = error.localizedDescription
         }
-        
+
         // If the error includes an URL, append the SHA-1 hash
         // value of that URL to the error for legibility's sake.
         if let referenceID = referenceID {
@@ -106,12 +105,12 @@ import SafariServices
             let referenceLine = String.init(format: formatString, referenceID)
             message = "\(message)\r\n\r\n\(referenceLine)"
         }
-        
+
         return message
     }
 
     /// Returns true if the value of error.userInfo[NSURLErrorFailingURLStringErrorKey] should be displayed in a
-    /// modal safari view controller, and false if it shouldn't be. Currently only looks for cases where the user
+    /// modal Safari view controller, and false if it shouldn't be. Currently only looks for cases where the user
     /// is on what appears to be a captive portal wifi network.
     ///
     /// - Parameter error: The error in question
@@ -138,5 +137,33 @@ import SafariServices
         }
 
         return false
+    }
+}
+
+extension AlertPresenter {
+    private class func buildTopEntryAttributes(theme: Theme) -> EKAttributes {
+        var attributes = EKAttributes.topNote
+        attributes.displayDuration = 5.0
+        attributes.statusBar = .light
+        attributes.entryBackground = entryBackgroundStyle(theme: theme)
+        attributes.shadow = .active(with: EKAttributes.Shadow.Value(color: .black, opacity: 0.5, radius: 4, offset: .zero))
+        attributes.roundCorners = .bottom(radius: OBATheme.defaultCornerRadius)
+
+        return attributes
+    }
+
+    private class func entryBackgroundStyle(theme: Theme) -> EKAttributes.BackgroundStyle {
+        let themeColor: UIColor
+        switch theme {
+        case .success:
+            themeColor = OBATheme.obaGreen
+        case .error:
+            themeColor = .red
+        case .warning:
+            themeColor = .orange
+        }
+
+        let colors = [themeColor, themeColor.add(hue: 0.0, saturation: 0.0, brightness: -0.20, alpha: 0.0)]
+        return .gradient(gradient: EKAttributes.BackgroundStyle.Gradient(colors: colors, startPoint: CGPoint(x: 0, y: 0), endPoint: CGPoint(x: 0, y: 1)))
     }
 }

@@ -328,7 +328,7 @@ typedef NS_ENUM (NSInteger, OBASectionType) {
             return;
         }
 
-        [OBAAnalytics reportEventWithCategory:OBAAnalyticsCategorySubmit action:@"report_problem" label:@"Reported Problem" value:nil];
+        [OBAAnalytics.sharedInstance reportEventWithCategory:OBAAnalyticsCategorySubmit action:@"report_problem" label:@"Reported Problem" value:nil];
 
         [self dismissViewControllerAnimated:YES completion:^{
             [AlertPresenter showSuccess:NSLocalizedString(@"msg_submission_successful",) body:NSLocalizedString(@"msg_sucessfull_report_send",)];

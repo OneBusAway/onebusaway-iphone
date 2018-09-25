@@ -49,7 +49,7 @@
     return _agencies[agencyId];
 }
 
-- (NSDictionary*)getAllAgencies {
+- (NSDictionary*)agencies {
     return [NSDictionary dictionaryWithDictionary:_agencies];
 }
 

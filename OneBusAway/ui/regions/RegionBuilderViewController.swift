@@ -16,10 +16,9 @@ import SVProgressHUD
 }
 
 class RegionBuilderViewController: OBAStaticTableViewController {
-
-    var modelService: OBAModelService?
-
     weak var delegate: RegionBuilderDelegate?
+
+    fileprivate var promiseWrapper: PromiseWrapper?
 
     /*
      This sidecar userDataModel object is required in order to shuttle data
@@ -77,6 +76,13 @@ class RegionBuilderViewController: OBAStaticTableViewController {
         return row
     }()
 
+    deinit {
+        self.promiseWrapper?.cancel()
+    }
+}
+
+// MARK: - UIViewController
+extension RegionBuilderViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
@@ -102,13 +108,14 @@ class RegionBuilderViewController: OBAStaticTableViewController {
         super.viewDidAppear(animated)
 
         let indexPath = self.indexPath(for: self.baseURLRow)
-        if let cell: OBATextFieldCell = self.tableView.cellForRow(at: indexPath!) as! OBATextFieldCell? {
+        if let cell = self.tableView.cellForRow(at: indexPath!) as? OBATextFieldCell {
             cell.textField.becomeFirstResponder()
         }
     }
+}
 
-    // MARK: - Actions
-
+// MARK: - Actions
+extension RegionBuilderViewController {
     @objc func cancel() {
         self.dismiss(animated: true, completion: nil)
     }
@@ -118,28 +125,33 @@ class RegionBuilderViewController: OBAStaticTableViewController {
 
         self.loadDataIntoRegion()
 
-        guard self.region.isValidModel() else {
+        guard
+            self.region.isValidModel(),
+            let baseURL = self.region.baseURL
+        else {
             let alert = UIAlertController.init(title: NSLocalizedString("msg_invalid_region", comment: ""), message: NSLocalizedString("msg_alert_custom_region_not_valid", comment: "Invalid region error message"), preferredStyle: .alert)
             alert.addAction(UIAlertAction.init(title: OBAStrings.dismiss, style: .default, handler: nil))
             self.present(alert, animated: true, completion: nil)
             return
         }
 
+        let modelService = PromisedModelService(baseURL: baseURL)
+
         SVProgressHUD.show()
 
-        self.modelService = OBAModelService(baseURL: self.region.baseURL!)
-        let URL = self.modelService!.obaJsonDataSource.config.constructURL(OBAAgenciesWithCoverageAPIPath, withArgs: nil)
+        let URL = modelService.obaJsonDataSource.config.constructURL(OBAAgenciesWithCoverageAPIPath, withArgs: nil)
 
-        self.modelService!.requestAgenciesWithCoverage().then { agencies -> Void in
-            for agency in (agencies as! [OBAAgencyWithCoverageV2]) {
-                if let bounds = agency.regionBounds {
-                    self.region.addBound(bounds)
+        let wrapper = modelService.requestAgenciesWithCoverage()
+        wrapper.promise.then { networkResponse -> Void in
+            if let agencies = networkResponse.object as? [OBAAgencyWithCoverageV2] {
+                agencies.forEach { a in
+                    if let bounds = a.regionBounds {
+                        self.region.addBound(bounds)
+                    }
                 }
             }
 
-            if let delegate = self.delegate {
-                delegate.regionBuilderDidCreateRegion(self.region)
-            }
+            self.delegate?.regionBuilderDidCreateRegion(self.region)
 
             self.dismiss(animated: true, completion: nil)
         }.always {
@@ -151,9 +163,10 @@ class RegionBuilderViewController: OBAStaticTableViewController {
             self.present(alert, animated: true, completion: nil)
         }
     }
+}
 
-    // MARK: - Private
-
+// MARK: - Private
+extension RegionBuilderViewController {
     /**
         Common configuration for lazily loaded properties.
      */
@@ -164,22 +177,22 @@ class RegionBuilderViewController: OBAStaticTableViewController {
 
     fileprivate func loadDataIntoRegion() {
         // Required Fields
-        if let text = self.userDataModel[self.baseURLRow.dataKey!] {
-            self.region.obaBaseUrl = text as! String
+        if let text = self.userDataModel[self.baseURLRow.dataKey!] as? String {
+            self.region.obaBaseUrl = text
         }
 
-        if let text = self.userDataModel[self.nameRow.dataKey!] {
-            self.region.regionName = text as! String
+        if let text = self.userDataModel[self.nameRow.dataKey!] as? String {
+            self.region.regionName = text
         }
 
         // Optional Fields
         self.region.contactEmail = self.userDataModel[self.contactEmailRow.dataKey!] as? String
 
-        if let val = self.userDataModel[self.obaRealTimeRow.dataKey!] as! Bool? {
+        if let val = self.userDataModel[self.obaRealTimeRow.dataKey!] as? Bool {
             self.region.supportsObaRealtimeApis = val
         }
 
-        if let val = self.userDataModel[self.isActiveRow.dataKey!] as! Bool? {
+        if let val = self.userDataModel[self.isActiveRow.dataKey!] as? Bool {
             self.region.active = val
         }
     }

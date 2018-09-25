@@ -1,11 +1,29 @@
 /* No comment provided by engineer. */
 " - " = " - ";
 
+/* Bookmarks toggle item */
+"bookmarks.toggle.bookmarks" = "Favoritos";
+
+/* Today View toggle item */
+"bookmarks.toggle.today_view" = "Visualización Hoy";
+
 /* No Bookmarks - empty data set title. */
 "today_screen.no_data_title" = "Sin Favoritos";
 
 /* Add bookmarks to Today Screen Bookmarks to see them here. - empty data set description. */
 "today_screen.no_data_description" = "Agregar favoritos a los Favoritos de la Pantalla Hoy para verlos ahí.";
+
+/* We don't know where you're located. Please choose a region in OneBusAway. */
+"today_screen.no_region_description" = "No sabemos donde estás ubicado. Por favor elige una región en OneBusAway.";
+
+/* No departures in the next {MINUTES} minutes */
+"stops.no_departures_in_next_n_minutes_format" = "Sin salidas en los siguientes %@ minutos";
+
+/* Tap for more information subheading on Today view */
+"today_screen.tap_for_more_information" = "Toca para maás información";
+
+/* Displayed on today screen extension, shows last time the data was reloaded. e.g. "Last updated: 3:30PM" */
+"refresh_cell.last_updated_format" = "Última Actualización: %@";
 
 /* ID: {Reference ID Number} */
 "alerts.reference_format" = "ID: %@";
@@ -144,7 +162,7 @@
 "msg_eastbound" = "hacia el Este";
 
 /* OBABookmarkEditExisting */
-"msg_edit_bookmark" = "Editar Favorito";
+"edit_bookmark.title" = "Editar Favorito";
 
 /* No comment provided by engineer. */
 "msg_edit_group_name" = "Editar Nombre del Grupo";
@@ -309,9 +327,6 @@
 /* As in 'going to the north.' */
 "msg_northbound" = "hacia el Norte";
 
-/* code == 404 */
-"msg_not_found" = "No se encontró";
-
 /* cell.label.text */
 "msg_number" = "Número";
 
@@ -353,6 +368,9 @@
 
 /* view.message */
 "msg_set_up_mail_to_send_email" = "Por favor configure tu aplicación de Correo antes de intentar enviar un correo electrónico.";
+
+/* Attribution text for the Dark Sky weather service. */
+"info.dark_sky_attribution" = "Las previsiones meteorológicas son proporcionadas por Dark Sky";
 
 /* Title of the the alert that appears when you try sending an email without Mail.app set up */
 "info.email_app_not_set_up_title" = "No se Puede Enviar Correo por medio de la app Mail";
@@ -437,6 +455,9 @@
 
 /* Info tab's table row title for sending logs to support. */
 "info_controller.send_info_to_support_row" = "Enviar Información para Soporte";
+
+/* Row title for Export Defaults action */
+"info_controller.export_user_defaults_row" = "Exportar Opciones de Usuario";
 
 /* code # 404 */
 "msg_server_error" = "Error de Servidor";
@@ -564,6 +585,9 @@
 "stops_controller.title.updating" = "Actualizando...";
 
 "stops_controller.cell.add_bookmark_title" = "Favorito";
+
+/* Formatted string for a list of routes - Routes: %@ */
+"stops_controller.routes_list_fmt" = "Rutas: %@";
 
 /* cell.statusLabel.text */
 "msg_mayus_vehicle" = "Vehículo";
@@ -756,9 +780,6 @@
 /* This is the ... button shown on the right side of a departure cell. Tapping it shows a menu with more options. */
 "classic_departure_cell.context_button_accessibility_label" = "Opciones";
 
-/* Title for the context menu button's alert controller. */
-"classic_departure_cell.context_alert.title" = "Opciones para Llegadas & Salidas";
-
 /* Title for alert controller's Set Alarm option. */
 "classic_departure_cell.context_alert.set_alarm" = "Establecer Alarma";
 
@@ -776,6 +797,9 @@
 
 /* e.g. Last report: 2m 43s ago */
 "trip_status.last_report_format" = "Último reporte: hace %@m %@s";
+
+/* 'Route: {TEXT}' prefix */
+"map_table.route_prefix" = "Ruta: %@";
 
 /* The empty data set description for the search controller */
 "map_search.empty_data_set_description" = "Escriba una dirección, número de ruta o número de parada aquí para buscar.";
@@ -795,11 +819,17 @@
 /* Formatted string for Search for Stop Number: */
 "map_search.search_for_stop_number" = "Número de Parada:";
 
+/* Vehicle ID: <VEHICLE ID> */
+"map_search.search_for_vehicle_id" = "Vehículo ID:";
+
 /* Map Search: Recent Stops section title */
 "map_search.recent_stops_section_title" = "Paradas Recientes";
 
 /* Map Search: Bookmarks section title */
 "map_search.bookmarks_section_title" = "Favoritos";
+
+/* Title of the Vehicle Search disambiguator view controller */
+"vehicle_disambiguator.title" = "Elija un Vehículo";
 
 /* Clear Search button text */
 "toast_view.clear_search" = "Limpiar Búsqueda";
@@ -837,6 +867,15 @@
 /* Segmented control item title: 'Sort by Proximity' */
 "bookmarks_controller.sort_by_proximity_item" = "Ordenar por Proximidad";
 
+/* Empty data set title when there are no Today View bookmarks. */
+"bookmarks_controller.today_view.no_content_title" = "Visualización Hoy";
+
+/* Empty data set description when there are no Today View bookmarks. */
+"bookmarks_controller.today_view.no_content_description" = "Agrega Favoritos al grupo Visualización Hoy para tener un rápido acceso a los tiempos de buses. Toca el siguiente botón para más opciones.";
+
+/* Accessibility label for sorting popover button */
+"bookmarks_controller.sorting_accessibility_label" = "Ordenar Favoritos";
+
 /* "Title of the Onboarding Controller. 'Welcome to OneBusAway!' */
 "onboarding_controller.title" = "¡Bienvenido a OneBusAway!";
 
@@ -861,6 +900,15 @@
 /* Error message displayed when the stop ID provided doesn't match a known stop ID. */
 "map_controller.no_matching_stop_warning_body" = "No hemos podido encontrar una parada que coincida con el ID que proporcionaste. Por favor, combrueba tu número e inténtalo nuevamente.";
 
+/* Button title for changing the map type */
+"map_table.toggle_map_type_button" = "Cambiar el Tipo de Mapa";
+
+/* Title for Standard Map toggle option. */
+"map_controller.standard_map_type_title" = "Mapa Estándar";
+
+/* Title for Hybrid Map toggle option. */
+"map_controller.hybrid_map_type_title" = "Mapa Híbrido";
+
 /* Error message shown when the user denies the app the ability to send push notifications. */
 "push_manager.authorization_denied" = "Las Alarmas solo funcionan cuando las notificaciones push estan permitidas.";
 
@@ -875,6 +923,9 @@
 
 /* Mark All as Read toolbar button title */
 "regional_alerts_controller.mark_all_as_read" = "Marcar Todas como Leídas";
+
+/* View Stop button in embed mode */
+"stop.view_stop_button_title" = "Ver parada";
 
 /* This is the '...' button in the stop header view. */
 "stop_header_view.menu_button_accessibility_label" = "Más Opciones";

@@ -21,7 +21,6 @@
 #import <OBAKit/OBAMacros.h>
 #import <OBAKit/OBASphericalGeometryLibrary.h>
 #import <OBAKit/OBASearchResult.h>
-#import <OBAKit/OBARegionalAlert.h>
 
 static const CLLocationAccuracy kSearchRadius = 400;
 static const CLLocationAccuracy kBigSearchRadius = 15000;
@@ -42,7 +41,7 @@ static const CLLocationAccuracy kRegionalRadius = 40000;
 
 + (instancetype)modelServiceWithBaseURL:(NSURL*)URL {
     OBAModelService *service = [[self.class alloc] init];
-    OBAModelFactory *modelFactory = [OBAModelFactory modelFactory];
+    OBAModelFactory *modelFactory = [[OBAModelFactory alloc] init];
     service.modelFactory = modelFactory;
     service.references = modelFactory.references;
     service.obaJsonDataSource = [OBAJsonDataSource JSONDataSourceWithBaseURL:URL userID:@"test"];
@@ -76,14 +75,6 @@ static const CLLocationAccuracy kRegionalRadius = 40000;
     }];
 }
 
-- (AnyPromise*)requestAgenciesWithCoverage {
-    return [AnyPromise promiseWithResolverBlock:^(PMKResolver resolve) {
-        [self requestAgenciesWithCoverage:^(id responseData, NSHTTPURLResponse *response, NSError *error) {
-            resolve(error ?: [responseData values]);
-        }];
-    }];
-}
-
 - (AnyPromise*)requestVehicleForID:(NSString*)vehicleID {
     return [AnyPromise promiseWithResolverBlock:^(PMKResolver resolve) {
         [self requestVehicleForId:vehicleID completionBlock:^(OBAEntryWithReferencesV2 *responseData, NSHTTPURLResponse *response, NSError *error) {
@@ -106,7 +97,7 @@ static const CLLocationAccuracy kRegionalRadius = 40000;
     return [AnyPromise promiseWithResolverBlock:^(PMKResolver resolve) {
         [self requestShapeForId:shapeID completionBlock:^(NSString *polylineString, NSHTTPURLResponse *response, NSError *error) {
             if (polylineString) {
-                resolve([OBASphericalGeometryLibrary decodePolylineStringAsMKPolyline:polylineString]);
+                resolve([OBASphericalGeometryLibrary polylineFromEncodedShape:polylineString]);
             }
             else {
                 resolve(error);
@@ -256,34 +247,29 @@ static const CLLocationAccuracy kRegionalRadius = 40000;
     OBAGuardClass(address, NSString) else {
         return nil;
     }
+
+    CLLocationCoordinate2D coord = [self currentOrDefaultLocationToSearch].coordinate;
+    MKLocalSearchRequest *request = [[MKLocalSearchRequest alloc] init];
+    request.naturalLanguageQuery = address;
+    request.region = MKCoordinateRegionMakeWithDistance(coord, 10000, 10000); // todo: reconsider this size of region.
+    MKLocalSearch *search = [[MKLocalSearch alloc] initWithRequest:request];
+
     return [AnyPromise promiseWithResolverBlock:^(PMKResolver resolve) {
-        [self placemarksForAddress:address completionBlock:^(id responseData, NSHTTPURLResponse *response, NSError *error) {
-            resolve(error ?: [responseData placemarks]);
+        [search startWithCompletionHandler:^(MKLocalSearchResponse *response, NSError *error) {
+            if (error) {
+                resolve(error);
+                return;
+            }
+
+            NSMutableArray<OBAPlacemark*> *placemarks = [[NSMutableArray alloc] init];
+            for (MKMapItem *mapItem in response.mapItems) {
+                OBAPlacemark *placemark = [[OBAPlacemark alloc] initWithMapItem:mapItem];
+                [placemarks addObject:placemark];
+            }
+
+            resolve([NSArray arrayWithArray:placemarks]);
         }];
     }];
-}
-
-- (OBAModelServiceRequest*)placemarksForAddress:(NSString *)address completionBlock:(OBADataSourceCompletion)completion {
-    CLLocationCoordinate2D coord = [self currentOrDefaultLocationToSearch].coordinate;
-
-    NSDictionary *args = @{
-                           @"bounds": [NSString stringWithFormat:@"%@,%@|%@,%@", @(coord.latitude), @(coord.longitude), @(coord.latitude), @(coord.longitude)],
-                           @"address": address
-                           };
-
-    return [self request:_googleMapsJsonDataSource
-                     url:@"/maps/api/geocode/json"
-                    args:args
-                selector:@selector(getPlacemarksFromJSONObject:error:)
-         completionBlock:completion];
-}
-
-- (OBAModelServiceRequest*)requestAgenciesWithCoverage:(OBADataSourceCompletion)completion {
-    return [self request:self.obaJsonDataSource
-                     url:OBAAgenciesWithCoverageAPIPath
-                    args:nil
-                selector:@selector(getAgenciesWithCoverageV2FromJson:error:)
-         completionBlock:completion];
 }
 
 - (OBAModelServiceRequest*)requestArrivalAndDepartureForStop:(OBAArrivalAndDepartureInstanceRef *)instance completionBlock:(OBADataSourceCompletion)completion {

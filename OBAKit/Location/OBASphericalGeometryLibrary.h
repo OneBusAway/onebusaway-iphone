@@ -26,12 +26,14 @@ NS_ASSUME_NONNULL_BEGIN
 + (BOOL) isCoordinate:(CLLocationCoordinate2D)coordinate containedBy:(MKCoordinateRegion)region;
 + (NSString*) regionAsString:(MKCoordinateRegion)region;
 
-+ (NSArray*) decodePolylineString:(NSString*)encodedPolyline;
-+ (MKPolyline*) createMKPolylineFromLocations:(NSArray*) locations;
-+ (MKPolyline*) decodePolylineStringAsMKPolyline:(NSString*)polylineString;
++ (NSArray<CLLocation*>*)decodePolylineString:(NSString*)encodedPolyline;
+
++ (OBACoordinateBounds*)coordinateBoundsFromPolylineString:(NSString*)polylineString;
 
 + (OBACoordinateBounds*) boundsForLocations:(NSArray*)locations;
 + (OBACoordinateBounds*) boundsForMKPolyline:(MKPolyline*)polyline;
+
++ (MKPolyline*)polylineFromEncodedShape:(NSString*)encodedShape;
 
 @end
 

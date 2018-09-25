@@ -24,6 +24,8 @@
 #import <OBAKit/OBAModelPersistenceLayer.h>
 #import <OBAKit/OBATripDeepLink.h>
 
+@class OBAAgencyAlert;
+
 NS_ASSUME_NONNULL_BEGIN
 
 extern NSString * const OBAUngroupedBookmarksIdentifier;
@@ -64,6 +66,15 @@ extern NSString * const OBARegionDidUpdateNotification;
 // Bookmarks
 @property(nonatomic,assign,readonly) NSUInteger allBookmarksCount;
 
+/**
+ Returns a sorted, filtered list of bookmarks that are within `distance` meters of `coordinate`
+
+ @param coordinate The center coordinate
+ @param distance The maximum distance a bookmark can be to be returned
+ @return A list of bookmarks
+ */
+- (NSArray<OBABookmarkV2*>*)sortBookmarksByDistanceToCoordinate:(CLLocationCoordinate2D)coordinate withDistance:(CLLocationDistance)distance;
+
 - (NSArray<OBABookmarkV2*>*)bookmarksMatchingPredicate:(NSPredicate*)predicate;
 - (NSArray<OBABookmarkV2*>*)mappableBookmarksMatchingString:(NSString*)matching;
 - (nullable OBABookmarkV2*)bookmarkForArrivalAndDeparture:(OBAArrivalAndDepartureV2*)arrival;
@@ -93,12 +104,24 @@ extern NSString * const OBARegionDidUpdateNotification;
 - (void)setVisited:(BOOL)visited forSituationWithId:(NSString*)situationId;
 - (OBAServiceAlertsModel*) getServiceAlertsModelForSituations:(NSArray*)situations;
 
+// Agency Alerts
+- (void)markAlertAsRead:(OBAAgencyAlert*)alert;
+- (BOOL)isAlertUnread:(OBAAgencyAlert*)alert;
+
 // Recent Stops
 
 - (void)clearMostRecentStops;
 - (void)viewedArrivalsAndDeparturesForStop:(OBAStopV2*)stop;
 - (void)removeRecentStop:(OBAStopAccessEventV2*)recentStop;
 - (NSArray<OBAStopAccessEventV2*>*)recentStopsMatchingString:(NSString*)matching;
+
+/**
+ Creates and returns a sorted list of recent stops within one mile of the specified coordinate.
+
+ @param coordinate The coordinate from which to return recent stops.
+ @return An array of recent stop objects.
+ */
+- (NSArray<OBAStopAccessEventV2*>*)recentStopsNearCoordinate:(CLLocationCoordinate2D)coordinate;
 
 // Regions
 

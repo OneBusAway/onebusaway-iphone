@@ -18,11 +18,8 @@
 
 static NSString *kOBASelectedTabIndexDefaultsKey = @"OBASelectedTabIndexDefaultsKey";
 
-@interface OBAClassicApplicationUI ()<UITabBarControllerDelegate, OBADrawerPresenter>
+@interface OBAClassicApplicationUI ()<UITabBarControllerDelegate>
 @property(nonatomic, strong,readwrite) UITabBarController *tabBarController;
-
-// Map/Drawer/Nearby
-@property(nonatomic,strong) PulleyViewController *pulleyController;
 
 @property(nonatomic,strong) NearbyStopsViewController *nearbyStopsController;
 @property(nonatomic,strong) UINavigationController *nearbyStopsNavigation;
@@ -49,7 +46,7 @@ static NSString *kOBASelectedTabIndexDefaultsKey = @"OBASelectedTabIndexDefaults
     if (self) {
         _tabBarController = [[UITabBarController alloc] init];
 
-        _mapViewController = [[OBAMapViewController alloc] initWithMapDataLoader:application.mapDataLoader mapRegionManager:application.mapRegionManager];
+        _mapViewController = [[OBAMapViewController alloc] initWithApplication:application];
         _mapNavigationController = [[UINavigationController alloc] initWithRootViewController:_mapViewController];
 
         _recentsViewController = [[OBARecentStopsViewController alloc] init];
@@ -86,9 +83,9 @@ static NSString *kOBASelectedTabIndexDefaultsKey = @"OBASelectedTabIndexDefaults
     }
     else if ([shortcutItem.type isEqual:kApplicationShortcutRecents]) {
         navigationTargetType = OBANavigationTargetTypeRecentStops;
-        NSArray *stopIDs = (NSArray*)shortcutItem.userInfo[@"stopIds"];
-        if (stopIDs.count > 0) {
-            parameters = @{OBAStopIDNavigationTargetParameter: stopIDs.firstObject};
+        NSString *stopID = (NSString*)shortcutItem.userInfo[@"stopID"];
+        if (stopID.length > 0) {
+            parameters = @{OBAStopIDNavigationTargetParameter: stopID};
         }
     }
 
@@ -134,7 +131,7 @@ static NSString *kOBASelectedTabIndexDefaultsKey = @"OBASelectedTabIndexDefaults
             break;
     }
 
-    [OBAAnalytics reportEventWithCategory:OBAAnalyticsCategoryAppSettings action:@"startup" label:[NSString stringWithFormat:@"Startup View: %@", startingTab] value:nil];
+    [OBAAnalytics.sharedInstance reportEventWithCategory:OBAAnalyticsCategoryAppSettings action:@"startup" label:[NSString stringWithFormat:@"Startup View: %@", startingTab] value:nil];
 }
 
 - (void)navigateToTargetInternal:(OBANavigationTarget*)navigationTarget {
@@ -190,12 +187,6 @@ static NSString *kOBASelectedTabIndexDefaultsKey = @"OBASelectedTabIndexDefaults
 
     // update kOBASelectedTabIndexDefaultsKey, otherwise -applicationDidBecomeActive: will switch us away.
     [self tabBarController:self.tabBarController didSelectViewController:self.tabBarController.selectedViewController];
-}
-
-#pragma mark - OBADrawerPresenter
-
-- (void)pushViewController:(UIViewController *)viewController animated:(BOOL)animated {
-    [self.nearbyStopsNavigation pushViewController:viewController animated:animated];
 }
 
 #pragma mark - UITabBarControllerDelegate

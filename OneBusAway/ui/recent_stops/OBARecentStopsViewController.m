@@ -189,7 +189,7 @@
 
     for (OBAStopAccessEventV2* stop in self.modelDAO.mostRecentStops) {
         OBATableRow *tableRow = [[OBATableRow alloc] initWithTitle:stop.title action:^(OBABaseRow *r2){
-            [self showStopViewControllerWithStopID:stop.stopIds[0]];
+            [self showStopViewControllerWithStopID:stop.stopID];
         }];
         tableRow.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
         tableRow.style = UITableViewCellStyleSubtitle;
@@ -221,10 +221,6 @@
 }
 
 #pragma mark - OBANavigationTargetAware
-
-- (OBANavigationTarget *)navigationTarget {
-    return [OBANavigationTarget navigationTarget:OBANavigationTargetTypeRecentStops];
-}
 
 - (void)setNavigationTarget:(OBANavigationTarget *)target {
     if ([target isKindOfClass:OBADeepLinkNavigationTarget.class]) {

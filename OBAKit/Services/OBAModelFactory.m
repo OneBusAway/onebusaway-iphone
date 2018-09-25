@@ -31,7 +31,6 @@ static NSString * const kReferences = @"references";
 
 @interface OBAModelFactory ()
 @property(nonatomic,strong,readwrite) OBAReferencesV2 *references;
-@property(nonatomic,strong) NSMutableDictionary *entityIdMappings;
 @end
 
 @interface OBAModelFactory (Private)
@@ -81,31 +80,14 @@ static NSString * const kReferences = @"references";
 - (instancetype)initWithReferences:(OBAReferencesV2*)references {
     self = [super init];
     
-    if( self ) {
+    if (self) {
         _references = references;
-        _entityIdMappings = [[NSMutableDictionary alloc] init];
     }
     return self;
 }
 
-+ (instancetype)modelFactory {
-
-    OBAModelFactory *modelFactory = [[OBAModelFactory alloc] initWithReferences:[[OBAReferencesV2 alloc] init]];
-    return modelFactory;
-}
-
-- (OBAEntryWithReferencesV2*) getStopFromJSON:(NSDictionary*)jsonDictionary error:(NSError**)error {
-    
-    OBAEntryWithReferencesV2 * entry = [[OBAEntryWithReferencesV2 alloc] initWithReferences:_references];
-    
-    OBAJsonDigester * digester = [[OBAJsonDigester alloc] init];
-    [digester addReferencesRulesWithPrefix:@"/references"];
-    [digester addStopV2RulesWithPrefix:@"/entry"];
-    [digester addSetNext:@selector(setEntry:) forPrefix:@"/entry"];
-    
-    [digester parse:jsonDictionary withRoot:entry parameters:[self getDigesterParameters] error:error];
-    
-    return entry;
+- (instancetype)init {
+    return [self initWithReferences:[[OBAReferencesV2 alloc] init]];
 }
 
 - (OBAListWithRangeAndReferencesV2*) getStopsV2FromJSON:(NSDictionary*)jsonDictionary error:(NSError**)error {
@@ -213,50 +195,6 @@ static NSString * const kReferences = @"references";
     [digester parse:jsonDictionary withRoot:entry parameters:[self getDigesterParameters] error:error];
     
     return entry;
-}
-
-- (OBAPlacemarks*) getPlacemarksFromJSONObject:(id)jsonObject error:(NSError**)error {
-    
-    OBAPlacemarks * placemarks = [[OBAPlacemarks alloc] init];
-    
-    OBAJsonDigester * digester = [[OBAJsonDigester alloc] init];
-    [digester addObjectCreateRule:[OBAPlacemark class] forPrefix:@"/results/[]"];
-    [digester addSetPropertyRule:@"address" forPrefix:@"/results/[]/formatted_address"];
-    
-    OBASetCoordinatePropertyJsonDigesterRule * rule = [[OBASetCoordinatePropertyJsonDigesterRule alloc] initWithPropertyName:@"coordinate" method:OBASetCoordinatePropertyMethodLatLon];
-    rule.lonJsonName = @"lng";
-    [digester addRule:rule forPrefix:@"/results/[]/geometry/location"];
-    [digester addSetNext:@selector(addPlacemark:) forPrefix:@"/results/[]"];
-    
-    
-    
-    [digester parse:jsonObject withRoot:placemarks parameters:[self getDigesterParameters] error:error];
-    
-    return placemarks;
-}
-
-
-- (OBAPlacemarks*) getPlacemarksFromGooglePlacesJSONObject:(id)jsonObject error:(NSError**)error {
-    
-    OBAPlacemarks * placemarks = [[OBAPlacemarks alloc] init];
-    
-    OBAJsonDigester * digester = [[OBAJsonDigester alloc] init];
-    [digester addObjectCreateRule:[OBAPlacemark class] forPrefix:@"/results/[]"];
-    [digester addSetPropertyRule:@"name" forPrefix:@"/results/[]/name"];
-    [digester addSetPropertyRule:@"address" forPrefix:@"/results/[]/vicinity"];
-    [digester addSetPropertyRule:@"icon" forPrefix:@"/results/[]/icon"];
-    
-    OBASetCoordinatePropertyJsonDigesterRule * rule = [[OBASetCoordinatePropertyJsonDigesterRule alloc] initWithPropertyName:@"coordinate" method:OBASetCoordinatePropertyMethodLatLon];
-    rule.lonJsonName = @"lng";
-    [digester addRule:rule forPrefix:@"/results/[]/geometry/location"];
-    
-    [digester addSetNext:@selector(addPlacemark:) forPrefix:@"/results/[]"];
-    
-    [digester addCallMethodRule:@selector(addAttribution:) forPrefix:@"/html_attributions/[]"];
-    
-    [digester parse:jsonObject withRoot:placemarks parameters:[self getDigesterParameters] error:error];
-    
-    return placemarks;
 }
 
 - (OBAEntryWithReferencesV2*) getTripDetailsV2FromJSON:(NSDictionary*)json error:(NSError**)error {
@@ -500,6 +438,12 @@ static NSString * const kReferences = @"references";
     [self addSetPropertyRule:@"obaBaseUrl" forPrefix:[self extendPrefix:prefix withValue:@"obaBaseUrl"]];
     [self addSetPropertyRule:@"identifier" forPrefix:[self extendPrefix:prefix withValue:@"id"]];
     [self addSetPropertyRule:@"regionName" forPrefix:[self extendPrefix:prefix withValue:@"regionName"]];
+
+    // Payments
+    [self addSetPropertyRule:@"paymentWarningBody" forPrefix:[self extendPrefix:prefix withValue:@"paymentWarningBody"]];
+    [self addSetPropertyRule:@"paymentWarningTitle" forPrefix:[self extendPrefix:prefix withValue:@"paymentWarningTitle"]];
+    [self addSetPropertyRule:@"paymentAppStoreIdentifier" forPrefix:[self extendPrefix:prefix withValue:@"paymentiOSAppStoreIdentifier"]];
+    [self addSetPropertyRule:@"paymentAppURLScheme" forPrefix:[self extendPrefix:prefix withValue:@"paymentiOSAppUrlScheme"]];
 }
 
 - (void) addRegionBoundsV2RulesWithPrefix:(NSString*)prefix {
@@ -585,9 +529,7 @@ static NSString * const kReferences = @"references";
     OBAReferencesV2 * refs = [context getParameterForKey:kReferences];
     [refs addSituation:situation];
     situation.references = refs;
-    
 }
-                                        
 
 - (void) setReferencesForContext:(id<OBAJsonDigesterContext>)context name:(NSString*)name value:(id)value {
     OBAHasReferencesV2 * top = [context peek:0];

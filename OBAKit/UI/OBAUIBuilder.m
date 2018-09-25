@@ -14,14 +14,6 @@
 
 @implementation OBAUIBuilder
 
-+ (UILabel*)label {
-    UILabel *label = [[UILabel alloc] initWithFrame:CGRectZero];
-    label.numberOfLines = 1;
-    label.adjustsFontSizeToFitWidth = YES;
-    label.minimumScaleFactor = 0.8f;
-    return label;
-}
-
 + (UIView*)footerViewWithText:(NSString*)text maximumWidth:(CGFloat)width {
     UILabel *label = [[UILabel alloc] initWithFrame:CGRectMake([OBATheme defaultPadding], [OBATheme defaultPadding], width - (2 * [OBATheme defaultPadding]), 10)];
     label.autoresizingMask = UIViewAutoresizingFlexibleWidth;
@@ -60,6 +52,7 @@
 + (UIBarButtonItem*)wrappedImageButton:(UIImage*)image accessibilityLabel:(NSString*)label target:(id)target action:(SEL)action {
     UIButton *button = [[UIButton alloc] initWithFrame:CGRectMake(0, 0, 44, 44)];
     button.tintColor = OBATheme.OBADarkGreen;
+    button.imageView.contentMode = UIViewContentModeScaleAspectFit;
     [button setImage:image forState:UIControlStateNormal];
     button.imageEdgeInsets = [OBATheme hoverBarImageInsets];
     [button addTarget:target action:action forControlEvents:UIControlEventTouchUpInside];

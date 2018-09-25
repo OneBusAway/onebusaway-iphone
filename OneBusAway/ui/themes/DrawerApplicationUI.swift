@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import FirebaseAnalytics
 import OBAKit
 
 @objc class DrawerApplicationUI: NSObject {
@@ -14,11 +15,11 @@ import OBAKit
     let tabBarController = UITabBarController.init()
 
     // MARK: - Map Tab
+    var mapTableController: MapTableViewController
+    var mapPulley: PulleyViewController
+    let mapPulleyNav: UINavigationController
     var mapController: OBAMapViewController
-    var mapNavigationController: UINavigationController
-    var nearbyStopsController: NearbyStopsViewController
-    var nearbyStopsNavigation: UINavigationController
-    var pulleyController: PulleyViewController
+    let drawerNavigation: UINavigationController
 
     // MARK: - Recents Tab
     let recentsController = OBARecentStopsViewController.init()
@@ -42,26 +43,79 @@ import OBAKit
     required init(application: OBAApplication) {
         self.application = application
 
-        mapController = OBAMapViewController.init(mapDataLoader: application.mapDataLoader, mapRegionManager: application.mapRegionManager)
-        mapNavigationController = UINavigationController.init(rootViewController: mapController)
+        let useStopDrawer = application.userDefaults.bool(forKey: OBAUseStopDrawerDefaultsKey)
 
-        nearbyStopsController = NearbyStopsViewController.init(mapDataLoader: application.mapDataLoader, mapRegionManager: application.mapRegionManager)
-        nearbyStopsNavigation = UINavigationController.init(rootViewController: nearbyStopsController)
+        mapTableController = MapTableViewController.init(application: application)
+        drawerNavigation = UINavigationController(rootViewController: mapTableController)
+        drawerNavigation.setNavigationBarHidden(true, animated: false)
 
-        pulleyController = PulleyViewController.init(contentViewController: mapNavigationController, drawerViewController: nearbyStopsNavigation)
-        pulleyController.displayMode = .automatic
-        pulleyController.title = mapController.title
-        pulleyController.tabBarItem.image = mapController.tabBarItem.image
-        pulleyController.tabBarItem.selectedImage = mapController.tabBarItem.selectedImage
+        mapController = OBAMapViewController(application: application)
+        mapController.standaloneMode = !useStopDrawer
+        mapController.delegate = mapTableController
+
+        mapPulley = PulleyViewController(contentViewController: mapController, drawerViewController: drawerNavigation)
+        mapPulley.defaultCollapsedHeight = DrawerApplicationUI.calculateCollapsedHeightForCurrentDevice()
+        mapPulley.initialDrawerPosition = .collapsed
+
+        if #available(iOS 11.0, *) {
+            // nop
+        }
+        else {
+            // iOS 10
+            mapPulley.backgroundDimmingColor = .clear
+        }
+
+        mapPulley.title = mapTableController.title
+        mapPulley.tabBarItem.image = mapTableController.tabBarItem.image
+        mapPulley.tabBarItem.selectedImage = mapTableController.tabBarItem.selectedImage
+
+        mapPulleyNav = UINavigationController(rootViewController: mapPulley)
 
         super.init()
 
-        tabBarController.viewControllers = [pulleyController, recentsNavigation, bookmarksNavigation, infoNavigation]
+        mapPulley.delegate = self
+
+        tabBarController.viewControllers = [mapPulleyNav, recentsNavigation, bookmarksNavigation, infoNavigation]
         tabBarController.delegate = self
+    }
+}
 
-        pulleyController.delegate = self
+// MARK: - Pulley Delegate
+extension DrawerApplicationUI: PulleyDelegate {
+    func drawerPositionDidChange(drawer: PulleyViewController, bottomSafeArea: CGFloat) {
+        mapTableController.collectionView.isScrollEnabled = drawer.drawerPosition == .open
+    }
 
-        mapController.drawerPresenter = self
+    private static func calculateCollapsedHeightForCurrentDevice() -> CGFloat {
+        let height = UIScreen.main.bounds.height
+
+        var totalDrawerHeight: CGFloat
+
+        if #available(iOS 11.0, *) {
+            totalDrawerHeight = 0.0
+        }
+        else {
+            // PulleyLib seems to have a few layout bugs on iOS 10.
+            // Given the very small number of users on this platform, I am not
+            // super-excited about the prospect of debugging this issue and am
+            // choosing instead to just work around it.
+            totalDrawerHeight = 40.0
+        }
+
+        if height >= 812.0 { // X, Xs, iPad, etc.
+            totalDrawerHeight += 200.0
+        }
+        else if height >= 736.0 { // Plus
+            totalDrawerHeight += 150.0
+        }
+        else if height >= 667.0 { // 6, 7, 8
+            totalDrawerHeight += 150.0
+        }
+        else { // iPhone SE, etc.
+            totalDrawerHeight += 120.0
+        }
+
+        return totalDrawerHeight
     }
 }
 
@@ -70,9 +124,7 @@ extension DrawerApplicationUI: OBAApplicationUI {
     private static let kOBASelectedTabIndexDefaultsKey = "OBASelectedTabIndexDefaultsKey"
 
     public var rootViewController: UIViewController {
-        get {
-            return tabBarController
-        }
+        return tabBarController
     }
 
     func performAction(for shortcutItem: UIApplicationShortcutItem, completionHandler: @escaping (Bool) -> Void) {
@@ -91,6 +143,9 @@ extension DrawerApplicationUI: OBAApplicationUI {
                let firstObject = stopIDs.firstObject {
                 parameters = [OBAStopIDNavigationTargetParameter: firstObject]
             }
+            else if let stopID = shortcutItem.userInfo?["stopID"] as? String {
+                parameters = [OBAStopIDNavigationTargetParameter: stopID]
+            }
         }
 
         let target = OBANavigationTarget.init(navigationTargetType, parameters: parameters)
@@ -108,79 +163,49 @@ extension DrawerApplicationUI: OBAApplicationUI {
                            2: "OBABookmarksViewController",
                            3: "OBAInfoViewController"][selectedIndex] ?? "Unknown"
 
-        OBAAnalytics.reportEvent(withCategory: OBAAnalyticsCategoryAppSettings, action: "startup", label: "Startup View: \(startingTab)", value: nil)
+        OBAAnalytics.shared().reportEvent(withCategory: OBAAnalyticsCategoryAppSettings, action: "startup", label: "Startup View: \(startingTab)", value: nil)
+        Analytics.logEvent(OBAAnalyticsStartupScreen, parameters: ["startingTab": startingTab])
     }
 
     func navigate(toTargetInternal navigationTarget: OBANavigationTarget) {
-        mapNavigationController.popViewController(animated: false)
-
-        var viewController: (UIViewController & OBANavigationTargetAware)?
-        var navController: UINavigationController?
+        let viewController: (UIViewController & OBANavigationTargetAware)
+        let topController: UIViewController
 
         switch navigationTarget.target {
         case .map, .searchResults:
-            viewController = mapController
-            navController = mapNavigationController
+            viewController = mapTableController
+            topController = mapPulleyNav
         case .recentStops:
             viewController = recentsController
-            navController = recentsNavigation
+            topController = recentsNavigation
         case .bookmarks:
             viewController = bookmarksController
-            navController = bookmarksNavigation
+            topController = bookmarksNavigation
         case .contactUs:
             viewController = infoController
-            navController = infoNavigation
+            topController = infoNavigation
         case .undefined:
+            // swiftlint:disable no_fallthrough_only fallthrough
             fallthrough
+            // swiftlint:enable no_fallthrough_only fallthrough
         default:
             DDLogError("Unhandled target in #file #line: \(navigationTarget.target)")
+            return
         }
 
-        if let navController = navController {
-            tabBarController.selectedViewController = navController
-        }
+        tabBarController.selectedViewController = topController
+        viewController.setNavigationTarget(navigationTarget)
 
-        if let viewController = viewController {
-            viewController.setNavigationTarget!(navigationTarget)
-        }
-
-        if navigationTarget.parameters["stop"] != nil,
-           let stopID = navigationTarget.parameters["stopID"] as? String {
-            let vc = OBAStopViewController.init(stopID: stopID)
-            push(vc, animated: true)
+        if navigationTarget.parameters["stop"] != nil, let stopID = navigationTarget.parameters["stopID"] as? String {
+            let vc = StopViewController.init(stopID: stopID)
+            let nav = mapPulley.navigationController ?? drawerNavigation
+            nav.pushViewController(vc, animated: true)
         }
 
         // update kOBASelectedTabIndexDefaultsKey, otherwise -applicationDidBecomeActive: will switch us away.
-        if let selected = tabBarController.selectedViewController {
+         if let selected = tabBarController.selectedViewController {
             tabBarController(tabBarController, didSelect: selected)
         }
-    }
-}
-
-// MARK: - Pulley Controller
-extension DrawerApplicationUI: PulleyDrawerViewControllerDelegate {
-    func supportedDrawerPositions() -> [PulleyPosition] {
-        return [
-            .collapsed,
-            .partiallyRevealed,
-            .open
-        ]
-    }
-
-    func collapsedDrawerHeight(bottomSafeArea: CGFloat) -> CGFloat {
-        return 180
-    }
-
-    func partialRevealDrawerHeight(bottomSafeArea: CGFloat) -> CGFloat {
-        return 300
-    }
-}
-
-// MARK: - OBADrawerPresenter
-extension DrawerApplicationUI: OBADrawerPresenter {
-    func push(_ viewController: UIViewController, animated: Bool) {
-        pulleyController.setDrawerPosition(position: .open, animated: animated)
-        nearbyStopsNavigation.pushViewController(viewController, animated: false)
     }
 }
 
@@ -188,5 +213,22 @@ extension DrawerApplicationUI: OBADrawerPresenter {
 extension DrawerApplicationUI: UITabBarControllerDelegate {
     func tabBarController(_ tabBarController: UITabBarController, didSelect viewController: UIViewController) {
         application.userDefaults.set(tabBarController.selectedIndex, forKey: DrawerApplicationUI.kOBASelectedTabIndexDefaultsKey)
+    }
+
+    func tabBarController(_ tabBarController: UITabBarController, shouldSelect viewController: UIViewController) -> Bool {
+        guard
+            let selectedController = tabBarController.selectedViewController,
+            let controllers = tabBarController.viewControllers else {
+                return true
+        }
+
+        let oldIndex = controllers.index(of: selectedController)
+        let newIndex = controllers.index(of: viewController)
+
+        if newIndex == 0 && oldIndex == 0 {
+            mapController.recenterMap()
+        }
+
+        return true
     }
 }

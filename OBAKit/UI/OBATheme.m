@@ -14,6 +14,7 @@ static UIFont *_headlineFont = nil;
 static UIFont *_subheadFont = nil;
 static UIFont *_boldSubheadFont = nil;
 static UIFont *_bodyFont = nil;
+static UIFont *_italicBodyFont = nil;
 static UIFont *_boldBodyFont = nil;
 static UIFont *_largeTitleFont = nil;
 static UIFont *_titleFont = nil;
@@ -30,6 +31,7 @@ static UIFont *_italicFootnoteFont = nil;
     _headlineFont = nil;
     _subheadFont = nil;
     _bodyFont = nil;
+    _italicBodyFont = nil;
     _boldBodyFont = nil;
     _largeTitleFont = nil;
     _titleFont = nil;
@@ -57,6 +59,10 @@ static UIFont *_italicFootnoteFont = nil;
 
     [[UITableViewCell appearance] setPreservesSuperviewLayoutMargins:YES];
     [[[UITableViewCell appearance] contentView] setPreservesSuperviewLayoutMargins:YES];
+
+    // Per:
+    // https://github.com/Instagram/IGListKit/blob/master/Guides/Working%20with%20UICollectionView.md
+    [[UICollectionView appearance] setPrefetchingEnabled:NO];
 }
 
 #pragma mark - UIFont
@@ -87,6 +93,13 @@ static UIFont *_italicFootnoteFont = nil;
         _bodyFont = [self fontWithTextStyle:UIFontTextStyleBody];
     }
     return _bodyFont;
+}
+
++ (UIFont*)italicBodyFont {
+    if (!_italicBodyFont) {
+        _italicBodyFont = [self italicFontWithTextStyle:UIFontTextStyleBody];
+    }
+    return _italicBodyFont;
 }
 
 + (UIFont*)boldBodyFont {
@@ -160,6 +173,10 @@ static UIFont *_italicFootnoteFont = nil;
 }
 
 #pragma mark - Colors
+
++ (UIColor*)mapTableBackgroundColor {
+    return UIColor.clearColor;
+}
 
 + (BOOL)useHighContrastUI {
     return UIAccessibilityDarkerSystemColorsEnabled() || UIAccessibilityIsReduceTransparencyEnabled();
@@ -284,6 +301,10 @@ static UIFont *_italicFootnoteFont = nil;
     return [self compactPadding];
 }
 
++ (CGFloat)compactCornerRadius {
+    return [self minimalPadding];
+}
+
 + (UIEdgeInsets)marginSizedEdgeInsets {
     return UIEdgeInsetsMake(self.defaultMargin, self.defaultMargin, self.defaultMargin, self.defaultMargin);
 }
@@ -299,6 +320,15 @@ static UIFont *_italicFootnoteFont = nil;
 
 + (UIEdgeInsets)hoverBarImageInsets {
     return self.defaultEdgeInsets;
+}
+
++ (CGFloat)preferredPopoverWidth {
+    if (UIScreen.mainScreen.traitCollection.horizontalSizeClass == UIUserInterfaceSizeClassRegular) {
+        return 320.f;
+    }
+    else {
+        return CGFLOAT_MAX;
+    }
 }
 
 @end

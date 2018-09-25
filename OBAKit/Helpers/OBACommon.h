@@ -38,7 +38,12 @@ extern NSString * const OBAOptInToTrackingDefaultsKey;
 extern NSString * const OBAOptInToCrashReportingDefaultsKey;
 extern NSString * const OBAMapSelectedTypeDefaultsKey;
 extern NSString * const OBADebugModeUserDefaultsKey;
-extern NSString * const OBAExperimentalUseDrawerUIDefaultsKey;
+extern NSString * const OBAUseStopDrawerDefaultsKey;
+extern NSString * const OBAForecastUpdatedAtDefaultsKey;
+extern NSString * const OBAForecastDataDefaultsKey;
+
+// NSNotification Names
+extern NSString * const OBAForecastUpdatedNotification;
 
 // Server Addresses
 extern NSString * const OBADeepLinkServerAddress;

@@ -16,9 +16,11 @@ import UIKit
         return (nav as UINavigationController)
     }
 
-    @objc public class func popoverMenu(with controller: UIViewController, preferredContentSize: CGSize, presentingView: UIView) -> UINavigationController {
+    @objc public class func popoverMenu(with controller: UIViewController, preferredContentSize: CGSize, presentingView: UIView, hideNavigationBar: Bool) -> UINavigationController {
         let nav = buildNavigationController(for: controller, preferredContentSize: preferredContentSize)
         configurePopover(for: nav, presentedFrom: presentingView)
+
+        nav.isNavigationBarHidden = hideNavigationBar
 
         return (nav as UINavigationController)
     }
@@ -40,11 +42,15 @@ extension PopoverPresenter {
         popoverController.permittedArrowDirections = .any
         popoverController.delegate = navigationController
 
-        if source is UIView {
-            popoverController.sourceView = (source as! UIView)
+        if let source = source as? UIView {
+            popoverController.sourceView = source
+            popoverController.sourceRect = source.bounds
+        }
+        else if let source = source as? UIBarButtonItem {
+            popoverController.barButtonItem = source
         }
         else {
-            popoverController.barButtonItem = (source as! UIBarButtonItem)
+            assert(false)
         }
     }
 }
