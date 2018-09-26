@@ -11,7 +11,7 @@
 
 ## Test latest development release
 
-If you would like to help test the latest development release, email us at [iphone-app@onebusaway.org](mailto:iphone-app@onebusaway.org) to be added to our TestFlight Beta testing group.
+Join the TestFlight beta by following this link: https://testflight.apple.com/join/xj9o3Y5y. We have capped it to only work 500 times, so if you run into a problem using it, please email us at [iphone-app@onebusaway.org](mailto:iphone-app@onebusaway.org) to be added to our TestFlight Beta testing group.
 
 ## Contributing
 
@@ -26,7 +26,7 @@ You are welcome to work on any bug or feature you would like, but we know that g
 
 ### Development environment setup
 
-1. Install the latest released version of Xcode 9.x from the Mac App Store
+1. Install the latest released version of Xcode 10.x from the Mac App Store
 2. `git clone` your fork
 3. [Install Carthage](https://github.com/Carthage/Carthage#installing-carthage)
 4. `open org.onebusaway.iphone.xcodeproj`
