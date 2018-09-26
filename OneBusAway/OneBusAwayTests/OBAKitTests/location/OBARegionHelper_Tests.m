@@ -21,7 +21,7 @@
 @interface OBARegionHelper_Tests : XCTestCase
 @property(nonatomic,strong) OBATestHarnessPersistenceLayer *persistenceLayer;
 @property(nonatomic,strong) OBAModelDAO *modelDAO;
-@property(nonatomic,strong) PromisedModelService *modelService;
+@property(nonatomic,strong) OBARegionsService *modelService;
 @property(nonatomic,strong) OBALocationManager *locationManager;
 @end
 
@@ -36,7 +36,7 @@
     [self.persistenceLayer writeSetRegionAutomatically:NO];
     [self.persistenceLayer writeOBARegion:[OBATestHelpers pugetSoundRegion]];
     self.modelDAO = [[OBAModelDAO alloc] initWithModelPersistenceLayer:self.persistenceLayer];
-    self.modelService = [OBATestHelpers tampaModelService];
+    self.modelService = [OBATestHelpers regionsService];
     self.locationManager = [[OBALocationManager alloc] initWithModelDAO:self.modelDAO];
     self.locationManager.currentLocation = tampaLocation;
 }

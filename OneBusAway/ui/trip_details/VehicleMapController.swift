@@ -16,7 +16,10 @@ import OBAKit
     func vehicleMap(_ vehicleMap: VehicleMapController, didSelectStop annotation: MKAnnotation)
 }
 
+@objc(OBAVehicleMapController)
 class VehicleMapController: UIViewController, MKMapViewDelegate {
+
+    private let application: OBAApplication
 
     static let expandedStateUserDefaultsKey = "expandedStateUserDefaultsKey"
     @objc public var expanded: Bool {
@@ -26,9 +29,10 @@ class VehicleMapController: UIViewController, MKMapViewDelegate {
         }
     }
 
-    override init(nibName nibNameOrNil: String?, bundle nibBundleOrNil: Bundle?) {
-        self.expanded = OBAApplication.shared().userDefaults.bool(forKey: VehicleMapController.expandedStateUserDefaultsKey)
-        super.init(nibName: nibNameOrNil, bundle: nibBundleOrNil)
+    @objc init(application: OBAApplication) {
+        self.application = application
+        self.expanded = application.userDefaults.bool(forKey: VehicleMapController.expandedStateUserDefaultsKey)
+        super.init(nibName: nil, bundle: nil)
     }
 
     required init?(coder aDecoder: NSCoder) {
@@ -68,11 +72,14 @@ class VehicleMapController: UIViewController, MKMapViewDelegate {
                 return
             }
 
-            guard let tripInstance = self.tripInstance else {
+            guard
+                let tripInstance = self.tripInstance,
+                let modelService = application.modelService
+            else {
                 return
             }
 
-            let wrapper = self.modelService.requestTripDetails(tripInstance: tripInstance)
+            let wrapper = modelService.requestTripDetails(tripInstance: tripInstance)
             wrapper.promise.then { resp -> Void in
                 let tripDetails = resp.object as! OBATripDetailsV2
                 self.tripDetails = tripDetails
@@ -116,10 +123,6 @@ class VehicleMapController: UIViewController, MKMapViewDelegate {
 
     @objc public weak var delegate: VehicleMapDelegate?
 
-    lazy var modelService: PromisedModelService = {
-        return OBAApplication.shared().modelService
-    }()
-
     var routePolyline: MKPolyline?
 
     lazy var routePolylineRenderer: MKPolylineRenderer = {
@@ -162,7 +165,11 @@ extension VehicleMapController {
 // MARK: - Data Loading
 extension VehicleMapController {
     func downloadRoutePolyline(shapeID: String) {
-        self.modelService.requestShape(forID: shapeID).then { polyline -> Void in
+        guard let modelService = application.modelService else {
+            return
+        }
+
+        modelService.requestShape(forID: shapeID).then { polyline -> Void in
             self.routePolyline = polyline as! MKPolyline?
             self.mapView.add(self.routePolyline!)
             self.mapView.setRegion(MKCoordinateRegionForMapRect(self.routePolyline!.boundingMapRect), animated: false)

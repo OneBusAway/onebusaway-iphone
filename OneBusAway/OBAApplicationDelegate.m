@@ -38,7 +38,7 @@ static NSString * const OBALastRegionRefreshDateUserDefaultsKey = @"OBALastRegio
 
 @interface OBAApplicationDelegate () <OBARegionHelperDelegate, RegionListDelegate, OBAPushManagerDelegate, OnboardingDelegate>
 @property(nonatomic,strong) UINavigationController *regionNavigationController;
-@property(nonatomic,strong) RegionListViewController *regionListViewController;
+@property(nonatomic,strong) OBARegionListViewController *regionListViewController;
 @property(nonatomic,strong) id<OBAApplicationUI> applicationUI;
 @property(nonatomic,strong) OBADeepLinkRouter *deepLinkRouter;
 @property(nonatomic,strong) OnboardingViewController *onboardingViewController;
@@ -397,9 +397,9 @@ static NSString * const OBALastRegionRefreshDateUserDefaultsKey = @"OBALastRegio
     return ABS(lastRefreshInterval) > 604800;
 }
 
-- (RegionListViewController*)regionListViewController {
+- (OBARegionListViewController*)regionListViewController {
     if (!_regionListViewController) {
-        _regionListViewController = [[RegionListViewController alloc] init];
+        _regionListViewController = [[OBARegionListViewController alloc] initWithApplication:[OBAApplication sharedApplication]];
         _regionListViewController.delegate = self;
     }
     return _regionListViewController;

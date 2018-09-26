@@ -15,8 +15,7 @@ NS_ASSUME_NONNULL_BEGIN
 @interface OBARegionStorage : NSObject
 @property(nonatomic,copy) NSArray<OBARegionV2*> *regions;
 
-- (instancetype)initWithModelFactory:(OBAModelFactory*)modelFactory NS_DESIGNATED_INITIALIZER;
-- (instancetype)init NS_UNAVAILABLE;
+- (instancetype)init;
 
 @end
 

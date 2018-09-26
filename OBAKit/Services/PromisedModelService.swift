@@ -44,42 +44,6 @@ import PromiseKit
     }
 }
 
-// MARK: - Regions
-@objc extension PromisedModelService {
-    ///  Retrieves all available OBA regions, including experimental and inactive regions.
-    ///
-    /// - Returns: An array of OBARegionV2 objects.
-    @objc public func requestRegions() -> PromiseWrapper {
-        let request = buildURLRequestForRegions()
-        let wrapper = PromiseWrapper.init(request: request)
-
-        wrapper.promise = wrapper.promise.then { networkResponse -> NetworkResponse in
-            let regions = try self.decodeRegions(json: networkResponse.object)
-            return NetworkResponse.init(object: regions, URLResponse: networkResponse.URLResponse, urlRequest: networkResponse.urlRequest)
-        }
-
-        return wrapper
-    }
-
-    private func decodeRegions(json: Any) throws -> [OBARegionV2] {
-        var error: NSError?
-        let listWithRangeAndReferences = self.modelFactory.getRegionsV2(fromJson: json, error: &error)
-
-        if let error = error {
-            throw error
-        }
-
-        let regions = listWithRangeAndReferences.values as! [OBARegionV2]
-
-        return regions
-    }
-
-    private func buildURLRequestForRegions() -> OBAURLRequest {
-        let path = "/regions-v3.json"
-        return self.obaRegionJsonDataSource.buildGETRequest(withPath: path, queryParameters: nil)
-    }
-}
-
 // MARK: - Weather
 @objc extension PromisedModelService {
 
@@ -245,7 +209,7 @@ extension PromisedModelService {
             let agencies = networkResponse.object as! [OBAAgencyWithCoverageV2]
             var requests = agencies.map { self.buildRequest(agency: $0) }
 
-            let obacoRequest = self.buildObacoRequest(region: self.modelDao.currentRegion!)
+            let obacoRequest = self.buildObacoRequest(region: self.modelDAO.currentRegion!)
             requests.append(obacoRequest)
 
             let promises = requests.map { request -> Promise<[TransitRealtime_FeedEntity]> in

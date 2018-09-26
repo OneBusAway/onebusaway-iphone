@@ -20,10 +20,10 @@ static NSString * const OBALocalRegionsFileName = @"regions.json";
 
 @implementation OBARegionStorage
 
-- (instancetype)initWithModelFactory:(OBAModelFactory*)modelFactory {
+- (instancetype)init {
     self = [super init];
     if (self) {
-        _modelFactory = modelFactory;
+        _modelFactory = [[OBAModelFactory alloc] init];
         _serialQueue = dispatch_queue_create("org.onebusaway.iphone.region_storage", DISPATCH_QUEUE_SERIAL);
         _regions = [self readRegionsFromDisk];
     }
