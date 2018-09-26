@@ -62,7 +62,7 @@ import PromiseKit
     }
 
     private func decodeRegions(json: Any) throws -> [OBARegionV2] {
-        var error: NSError? = nil
+        var error: NSError?
         let listWithRangeAndReferences = self.modelFactory.getRegionsV2(fromJson: json, error: &error)
 
         if let error = error {
@@ -180,7 +180,7 @@ import PromiseKit
     }
 
     @nonobjc private func decodeTripDetails(json: [AnyHashable: Any]) throws -> OBATripDetailsV2 {
-        var error: NSError? = nil
+        var error: NSError?
         let model = self.modelFactory.getTripDetailsV2(fromJSON: json, error: &error)
 
         if let error = error {
@@ -226,7 +226,7 @@ import PromiseKit
     }
 
     @nonobjc private func decodeData(json: [AnyHashable: Any]) throws -> [OBAAgencyWithCoverageV2] {
-        var error: NSError? = nil
+        var error: NSError?
         let listWithRange = modelFactory.getAgenciesWithCoverageV2(fromJson: json, error: &error)
 
         if let error = error {
@@ -269,7 +269,7 @@ extension PromisedModelService {
     }
 
     private func buildObacoRequest(region: OBARegionV2) -> OBAURLRequest {
-        var params: [String: Any]? = nil
+        var params: [String: Any]?
         if OBAApplication.shared().userDefaults.bool(forKey: OBAShowTestAlertsDefaultsKey) {
             params = ["test": "1"]
         }
