@@ -48,8 +48,6 @@ NS_ASSUME_NONNULL_BEGIN
 @property(nonatomic,copy) CLCircularRegion *searchRegion;
 @property(nonatomic,copy) NSError * error;
 
-- (instancetype)initWithModelService:(PromisedModelService*)modelService;
-
 - (BOOL)unfilteredSearch;
 - (void)searchWithTarget:(OBANavigationTarget*)target;
 - (void)searchPending;

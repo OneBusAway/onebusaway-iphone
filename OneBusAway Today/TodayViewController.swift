@@ -15,15 +15,9 @@ import SnapKit
 
 let kMinutes: UInt = 60
 
-/*
- abxoxo - todo:
- 3. Handle states!
- 4. Attributed strings in labels
- */
-
 class TodayViewController: UIViewController {
     let app = OBAApplication.init()
-    let deepLinkRouter = DeepLinkRouter(baseURL: URL(string: OBADeepLinkServerAddress)!)
+    let deepLinkRouter = DeepLinkRouter(baseURL: URL(string: OBAInAppDeepLinkSchemeAddress)!)
     var group: OBABookmarkGroup = OBABookmarkGroup.init(bookmarkGroupType: .todayWidget)
 
     var bookmarkViewsMap: [OBABookmarkV2: TodayRowView] = [:]
@@ -171,7 +165,7 @@ extension TodayViewController {
             return
         }
 
-        let url = deepLinkRouter.deepLinkURL(stopID: bookmark.stopId, regionID: bookmark.regionIdentifier) ?? URL.init(string: OBADeepLinkServerAddress)!
+        let url = deepLinkRouter.deepLinkURL(stopID: bookmark.stopId, regionID: bookmark.regionIdentifier) ?? URL.init(string: OBAInAppDeepLinkSchemeAddress)!
         extensionContext?.open(url, completionHandler: nil)
     }
 
@@ -261,18 +255,22 @@ extension TodayViewController {
     }
 
     func loadBookmarkedRoute(_ bookmark: OBABookmarkV2) -> Promise<Any>? {
-        guard let view = self.bookmarkViewsMap[bookmark] else {
+        guard
+            let view = self.bookmarkViewsMap[bookmark],
+            let modelService = app.modelService
+        else {
             // abxoxo todo: is this the best way to bail immediately?
             // maybe throw an error?
             return Promise.init(value: false)
         }
 
-        let promiseWrapper = app.modelService.requestStopArrivalsAndDepartures(withID: bookmark.stopId, minutesBefore: 0, minutesAfter: kMinutes)
+        let promiseWrapper = modelService.requestStopArrivalsAndDepartures(withID: bookmark.stopId, minutesBefore: 0, minutesAfter: kMinutes)
         return promiseWrapper.promise.then { networkResponse -> Void in
             // swiftlint:disable force_cast
             let departures: [OBAArrivalAndDepartureV2] = bookmark.matchingArrivalsAndDepartures(forStop: networkResponse.object as! OBAArrivalsAndDeparturesForStopV2)
-                view.departures = departures
-                view.loadingState = .complete
+            view.departures = departures
+            view.loadingState = .complete
+            // swiftlint:enable force_cast
         }.catch { error in
             DDLogError("Error loading data: \(error)")
         }.always {

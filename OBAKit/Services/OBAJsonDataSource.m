@@ -66,6 +66,10 @@
     return [[OBAJsonDataSource alloc] initWithConfig:config];
 }
 
++ (instancetype)regionsDataSource {
+    return [OBAJsonDataSource JSONDataSourceWithBaseURL:[NSURL URLWithString:OBARegionsServerAddress] userID:OBAUser.userIDFromDefaults];
+}
+
 #pragma mark - Public Methods
 
 - (NSURL*)constructURLFromPath:(NSString*)path params:(nullable NSDictionary*)params {

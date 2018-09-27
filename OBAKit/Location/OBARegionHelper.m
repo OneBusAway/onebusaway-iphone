@@ -14,6 +14,7 @@
 #import <OBAKit/OBAKit-Swift.h>
 
 @interface OBARegionHelper ()
+@property(nonatomic,strong) OBARegionsService* modelService;
 @property(nonatomic,strong) PromiseWrapper *promiseWrapper;
 @property(nonatomic,copy,readwrite) NSArray<OBARegionV2*> *regions;
 @property(nonatomic,strong) OBARegionStorage *regionStorage;
@@ -22,14 +23,14 @@
 
 @implementation OBARegionHelper
 
-- (instancetype)initWithLocationManager:(OBALocationManager*)locationManager modelService:(PromisedModelService*)modelService {
+- (instancetype)initWithLocationManager:(OBALocationManager*)locationManager modelService:(OBARegionsService*)modelService {
     self = [super init];
 
     if (self) {
         _refreshLock = [[NSLock alloc] init];
         _locationManager = locationManager;
         _modelService = modelService;
-        _regionStorage = [[OBARegionStorage alloc] initWithModelFactory:modelService.modelFactory];
+        _regionStorage = [[OBARegionStorage alloc] init];
         _regions = [_regionStorage regions];
 
         [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(locationManagerDidUpdateLocation:) name:OBALocationDidUpdateNotification object:self.locationManager];

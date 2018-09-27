@@ -262,6 +262,7 @@
 		9388C2B91FFEC29B0068041F /* PickerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9388C2B81FFEC29B0068041F /* PickerViewController.swift */; };
 		9388C2D32001567F0068041F /* OBAStackedMarqueeLabels.h in Headers */ = {isa = PBXBuildFile; fileRef = 9388C2D12001567F0068041F /* OBAStackedMarqueeLabels.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		9388C2D42001567F0068041F /* OBAStackedMarqueeLabels.m in Sources */ = {isa = PBXBuildFile; fileRef = 9388C2D22001567F0068041F /* OBAStackedMarqueeLabels.m */; };
+		938956FD215C3F03008AB975 /* RegionsService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 938956FC215C3F03008AB975 /* RegionsService.swift */; };
 		939A1A8421165989001D5654 /* OBAButtonRow.h in Headers */ = {isa = PBXBuildFile; fileRef = 939A1A8221165989001D5654 /* OBAButtonRow.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		939A1A8521165989001D5654 /* OBAButtonRow.m in Sources */ = {isa = PBXBuildFile; fileRef = 939A1A8321165989001D5654 /* OBAButtonRow.m */; };
 		93A6E9E21F5BC18B00AFA61C /* AppInterop.swift in Sources */ = {isa = PBXBuildFile; fileRef = 93A6E9E11F5BC18B00AFA61C /* AppInterop.swift */; };
@@ -595,6 +596,7 @@
 		9388C2B81FFEC29B0068041F /* PickerViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PickerViewController.swift; sourceTree = "<group>"; };
 		9388C2D12001567F0068041F /* OBAStackedMarqueeLabels.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = OBAStackedMarqueeLabels.h; sourceTree = "<group>"; };
 		9388C2D22001567F0068041F /* OBAStackedMarqueeLabels.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = OBAStackedMarqueeLabels.m; sourceTree = "<group>"; };
+		938956FC215C3F03008AB975 /* RegionsService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegionsService.swift; sourceTree = "<group>"; };
 		939A1A8221165989001D5654 /* OBAButtonRow.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = OBAButtonRow.h; sourceTree = "<group>"; };
 		939A1A8321165989001D5654 /* OBAButtonRow.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = OBAButtonRow.m; sourceTree = "<group>"; };
 		93A6E9E11F5BC18B00AFA61C /* AppInterop.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppInterop.swift; sourceTree = "<group>"; };
@@ -1053,6 +1055,7 @@
 				933A47151FDCCB81009EB332 /* PromiseWrapper.swift */,
 				93D5F3661FF1900700800132 /* OBAURLRequest.swift */,
 				93113205214D9D450063D400 /* ForecastManager.swift */,
+				938956FC215C3F03008AB975 /* RegionsService.swift */,
 			);
 			path = Services;
 			sourceTree = "<group>";
@@ -1592,6 +1595,7 @@
 				934196BB1DB0B0AF004BBBB7 /* OBAUIBuilder.m in Sources */,
 				934196851DB0B099004BBBB7 /* OBAStopV2.m in Sources */,
 				9341967B1DB0B099004BBBB7 /* OBASituationConsequenceV2.m in Sources */,
+				938956FD215C3F03008AB975 /* RegionsService.swift in Sources */,
 				934196211DB0B099004BBBB7 /* OBARegionChangeRequest.m in Sources */,
 				934C50AA1E2B6D2700DFDCA0 /* OBAAlarm.m in Sources */,
 				934196891DB0B099004BBBB7 /* OBATripInstanceRef.m in Sources */,

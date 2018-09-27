@@ -91,7 +91,10 @@ class RegionalAlertsViewController: OBAStaticTableViewController {
     // MARK: - Data Loading
 
     @objc private func reloadServerData() {
-        application.modelService.requestRegionalAlerts().then { alerts -> Void in
+        guard let modelService = application.modelService else {
+            return
+        }
+        modelService.requestRegionalAlerts().then { alerts -> Void in
             self.agencyAlerts = alerts
             self.reloadData()
         }.catch { [weak self] error in
