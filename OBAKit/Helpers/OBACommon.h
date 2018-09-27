@@ -46,6 +46,7 @@ extern NSString * const OBAForecastDataDefaultsKey;
 extern NSString * const OBAForecastUpdatedNotification;
 
 // Server Addresses
+extern NSString * const OBAInAppDeepLinkSchemeAddress;
 extern NSString * const OBADeepLinkServerAddress;
 extern NSString * const OBARegionsServerAddress;
 
