@@ -302,6 +302,7 @@ static NSString * const OBALastRegionRefreshDateUserDefaultsKey = @"OBALastRegio
  Necessary for onebusaway:// URLs to work.
  */
 - (BOOL)application:(UIApplication *)app openURL:(NSURL *)url options:(NSDictionary<UIApplicationOpenURLOptionsKey, id> *)options {
+    [self.deepLinkRouter performActionForURL:url];
     return YES;
 }
 

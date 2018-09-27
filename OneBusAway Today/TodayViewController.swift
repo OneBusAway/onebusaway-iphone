@@ -15,15 +15,9 @@ import SnapKit
 
 let kMinutes: UInt = 60
 
-/*
- abxoxo - todo:
- 3. Handle states!
- 4. Attributed strings in labels
- */
-
 class TodayViewController: UIViewController {
     let app = OBAApplication.init()
-    let deepLinkRouter = DeepLinkRouter(baseURL: URL(string: OBADeepLinkServerAddress)!)
+    let deepLinkRouter = DeepLinkRouter(baseURL: URL(string: OBAInAppDeepLinkSchemeAddress)!)
     var group: OBABookmarkGroup = OBABookmarkGroup.init(bookmarkGroupType: .todayWidget)
 
     var bookmarkViewsMap: [OBABookmarkV2: TodayRowView] = [:]
@@ -171,7 +165,7 @@ extension TodayViewController {
             return
         }
 
-        let url = deepLinkRouter.deepLinkURL(stopID: bookmark.stopId, regionID: bookmark.regionIdentifier) ?? URL.init(string: OBADeepLinkServerAddress)!
+        let url = deepLinkRouter.deepLinkURL(stopID: bookmark.stopId, regionID: bookmark.regionIdentifier) ?? URL.init(string: OBAInAppDeepLinkSchemeAddress)!
         extensionContext?.open(url, completionHandler: nil)
     }
 
