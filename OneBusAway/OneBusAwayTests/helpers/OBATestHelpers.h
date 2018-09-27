@@ -40,6 +40,8 @@ NS_ASSUME_NONNULL_BEGIN
  */
 @property(nonatomic,strong,class,readonly) PromisedModelService *tampaModelService;
 
+@property(nonatomic,strong,class,readonly) OBARegionsService *regionsService;
+
 /**
  First, serializes an NSCoding compatible object into an NSData object, and then deserializes it back
  into the original kind of object that it was. Useful for testing NSCoding implementations.

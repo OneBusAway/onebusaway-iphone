@@ -153,7 +153,7 @@ static NSString * const kPrivacyURLString = @"http://onebusaway.org/privacy/";
 
     OBATableRow *region = [[OBATableRow alloc] initWithTitle:NSLocalizedString(@"msg_region", @"") action:^(OBABaseRow *r2) {
         [self logRowTapAnalyticsEvent:@"Region List"];
-        [self.navigationController pushViewController:[[RegionListViewController alloc] init] animated:YES];
+        [self.navigationController pushViewController:[[OBARegionListViewController alloc] initWithApplication:OBAApplication.sharedApplication] animated:YES];
     }];
     region.style = UITableViewCellStyleValue1;
     region.accessoryType = UITableViewCellAccessoryDisclosureIndicator;

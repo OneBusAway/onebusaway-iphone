@@ -43,7 +43,7 @@ static NSTimeInterval const kRefreshTimeInterval = 30;
 @property(nonatomic,strong) NSLock *reloadLock;
 @property(nonatomic,strong) UIStackView *stackView;
 
-@property(nonatomic,strong) VehicleMapController *mapController;
+@property(nonatomic,strong) OBAVehicleMapController *mapController;
 
 @property(nonatomic,strong) OBAStackedMarqueeLabels *titleLabels;
 
@@ -105,8 +105,8 @@ static NSTimeInterval const kRefreshTimeInterval = 30;
     self.stackView.autoresizingMask = UIViewAutoresizingFlexibleHeight|UIViewAutoresizingFlexibleWidth;
     self.stackView.axis = UILayoutConstraintAxisVertical;
     self.stackView.spacing = 0.f;
-
-    self.mapController = [[VehicleMapController alloc] init];
+    
+    self.mapController = [[OBAVehicleMapController alloc] initWithApplication:[OBAApplication sharedApplication]];
     self.mapController.delegate = self;
     [self oba_prepareChildViewController:self.mapController];
     [self.stackView addArrangedSubview:self.mapController.view];
@@ -199,14 +199,14 @@ static NSTimeInterval const kRefreshTimeInterval = 30;
     self.mapController.view.hidden = traitCollection.verticalSizeClass != UIUserInterfaceSizeClassRegular;
 }
 
-- (void)vehicleMap:(VehicleMapController *)vehicleMap didToggleSize:(BOOL)expanded {
+- (void)vehicleMap:(OBAVehicleMapController *)vehicleMap didToggleSize:(BOOL)expanded {
     [self updateMapConstraints];
     [OBAAnimation performAnimations:^{
         [self.view layoutIfNeeded];
     }];
 }
 
-- (void)vehicleMap:(VehicleMapController *)vehicleMap didSelectStop:(id<MKAnnotation>)annotation {
+- (void)vehicleMap:(OBAVehicleMapController *)vehicleMap didSelectStop:(id<MKAnnotation>)annotation {
     if (![annotation isKindOfClass:OBATripStopTimeMapAnnotation.class]) {
         return;
     }

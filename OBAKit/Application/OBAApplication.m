@@ -17,7 +17,6 @@
 #import <OBAKit/OBAKit-Swift.h>
 
 static NSString * const kAppGroup = @"group.org.onebusaway.iphone";
-static NSString *const kOBADefaultRegionApiServerName = @"http://regions.onebusaway.org";
 NSString * const OBARegionServerInvalidNotification = @"OBARegionServerInvalidNotification";
 NSString * const OBAHasMigratedDefaultsToAppGroupDefaultsKey = @"OBAHasMigratedDefaultsToAppGroupDefaultsKey";
 NSString * const OBAShowTestAlertsDefaultsKey = @"OBAShowTestAlertsDefaultsKey";
@@ -26,7 +25,8 @@ NSString * const OBAShowTestAlertsDefaultsKey = @"OBAShowTestAlertsDefaultsKey";
 @property (nonatomic, strong, readwrite) OBAApplicationConfiguration *configuration;
 @property (nonatomic, strong, readwrite) OBAReferencesV2 *references;
 @property (nonatomic, strong, readwrite) OBAModelDAO *modelDao;
-@property (nonatomic, strong, readwrite) PromisedModelService *modelService;
+@property (nonatomic, strong, readwrite) OBARegionsService *regionsService;
+@property (nonatomic, strong, nullable, readwrite) PromisedModelService *modelService;
 @property (nonatomic, strong, readwrite) OBALocationManager *locationManager;
 @property (nonatomic, strong, readwrite) OBAReachability *reachability;
 @property (nonatomic, strong, readwrite) OBARegionHelper *regionHelper;
@@ -77,18 +77,11 @@ NSString * const OBAShowTestAlertsDefaultsKey = @"OBAShowTestAlertsDefaultsKey";
     self.modelDao = [[OBAModelDAO alloc] initWithModelPersistenceLayer:persistence];
     self.locationManager = [[OBALocationManager alloc] initWithModelDAO:self.modelDao];
 
-    self.modelService = [[PromisedModelService alloc] init];
-    self.modelService.references = self.references;
-    self.modelService.modelDao = self.modelDao;
+    self.regionsService = [[OBARegionsService alloc] initWithRegionsDataSource:OBAJsonDataSource.regionsDataSource];
 
-    OBAModelFactory *modelFactory = [[OBAModelFactory alloc] initWithReferences:self.references];
-    self.modelService.modelFactory = modelFactory;
+    self.regionHelper = [[OBARegionHelper alloc] initWithLocationManager:self.locationManager modelService:self.regionsService];
 
-    self.modelService.locationManager = self.locationManager;
-
-    self.regionHelper = [[OBARegionHelper alloc] initWithLocationManager:self.locationManager modelService:self.modelService];
-
-    self.mapDataLoader = [[OBAMapDataLoader alloc] initWithModelService:self.modelService];
+    self.mapDataLoader = [[OBAMapDataLoader alloc] init];
     self.mapRegionManager = [[OBAMapRegionManager alloc] init];
 
     [self refreshSettings];
@@ -155,10 +148,8 @@ NSString * const OBAShowTestAlertsDefaultsKey = @"OBAShowTestAlertsDefaultsKey";
 
 - (void)applicationDidEnterBackground {
     [self.locationManager stopUpdatingLocation];
-
-    [self.modelService.obaJsonDataSource cancelOpenConnections];
-    [self.modelService.obaRegionJsonDataSource cancelOpenConnections];
-    [self.modelService.obacoJsonDataSource cancelOpenConnections];
+    
+    [self.modelService cancelOpenConnections];
 }
 
 #pragma mark - Reachability
@@ -223,13 +214,15 @@ NSString * const OBAShowTestAlertsDefaultsKey = @"OBAShowTestAlertsDefaultsKey";
 #pragma mark - App/Region/API State
 
 - (void)refreshSettings {
-    if (self.modelDao.currentRegion.baseURL) {
-        self.modelService.obaJsonDataSource = [OBAJsonDataSource JSONDataSourceWithBaseURL:self.modelDao.currentRegion.baseURL userID:OBAUser.userIDFromDefaults];
-        self.modelService.unparsedDataSource = [OBAJsonDataSource unparsedDataSourceWithBaseURL:self.modelDao.currentRegion.baseURL userID:OBAUser.userIDFromDefaults];
+    [self.modelService cancelOpenConnections];
+    [self.mapDataLoader cancelOpenConnections];
+    
+    if (!self.modelDao.currentRegion) {
+        return;
     }
 
-    self.modelService.obaRegionJsonDataSource = [OBAJsonDataSource JSONDataSourceWithBaseURL:[NSURL URLWithString:kOBADefaultRegionApiServerName] userID:OBAUser.userIDFromDefaults];
-    self.modelService.obacoJsonDataSource = [OBAJsonDataSource obacoJSONDataSource];
+    self.modelService = [[PromisedModelService alloc] initWithModelDAO:self.modelDao references:self.references locationManager:self.locationManager];
+    self.mapDataLoader.modelService = self.modelService;
 }
 
 #pragma mark - Logging

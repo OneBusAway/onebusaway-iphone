@@ -16,27 +16,31 @@ import SVProgressHUD
     func regionSelected()
 }
 
+@objc(OBARegionListViewController)
 class RegionListViewController: OBAStaticTableViewController, RegionBuilderDelegate {
     @objc weak var delegate: RegionListDelegate?
 
-    lazy var modelDAO: OBAModelDAO = OBAApplication.shared().modelDao
-    lazy var modelService: OBAModelService = OBAModelService.init()
+    private let application: OBAApplication
+
+    @objc init(application: OBAApplication) {
+        self.application = application
+        super.init(nibName: nil, bundle: nil)
+        title = NSLocalizedString("msg_pick_your_location", comment: "Title of the Region List Controller")
+        navigationItem.rightBarButtonItem = UIBarButtonItem.init(barButtonSystemItem: .add, target: self, action: #selector(addCustomAPI))
+    }
+
+    required init?(coder aDecoder: NSCoder) { fatalError("init(coder:) has not been implemented") }
 }
 
 // MARK: - UIViewController
 extension RegionListViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
-
-        self.navigationItem.rightBarButtonItem = UIBarButtonItem.init(barButtonSystemItem: .add, target: self, action: #selector(addCustomAPI))
-
-        self.updateData()
+        updateData()
     }
 
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
-
-        self.title = NSLocalizedString("msg_pick_your_location", comment: "Title of the Region List Controller")
 
         NotificationCenter.default.addObserver(self, selector: #selector(selectedRegionDidChange), name: NSNotification.Name.OBARegionDidUpdate, object: nil)
     }
@@ -51,7 +55,7 @@ extension RegionListViewController {
 // MARK: - Region Builder
 extension RegionListViewController {
     @objc func addCustomAPI() {
-        self.buildRegion(nil)
+        buildRegion(nil)
     }
 
     func buildRegion(_ region: OBARegionV2?) {
@@ -68,11 +72,11 @@ extension RegionListViewController {
         // If the user is editing an existing region, then we
         // can ensure that it is properly updated by removing
         // it and then re-adding it.
-        modelDAO.removeCustomRegion(region)
-        modelDAO.addCustomRegion(region)
+        application.modelDao.removeCustomRegion(region)
+        application.modelDao.addCustomRegion(region)
 
-        modelDAO.automaticallySelectRegion = false
-        modelDAO.currentRegion = region
+        application.modelDao.automaticallySelectRegion = false
+        application.modelDao.currentRegion = region
 
         loadData()
     }
@@ -89,7 +93,10 @@ extension RegionListViewController {
 // MARK: - Table View
 extension RegionListViewController {
     func tableView(_ tableView: UITableView, canEditRowAtIndexPath indexPath: IndexPath) -> Bool {
-        guard let region = self.row(at: indexPath)!.model as? OBARegionV2 else {
+        guard
+            let row = row(at: indexPath),
+            let region = row.model as? OBARegionV2
+        else {
             return false
         }
 
@@ -104,8 +111,10 @@ extension RegionListViewController {
     }
 
     func tableView(_ tableView: UITableView, editActionsForRowAtIndexPath indexPath: IndexPath) -> [UITableViewRowAction]? {
-        let row = self.row(at: indexPath)
-        guard let region = row!.model as? OBARegionV2 else {
+        guard
+            let row = row(at: indexPath),
+            let region = row.model as? OBARegionV2
+        else {
             return nil
         }
 
@@ -129,7 +138,8 @@ extension RegionListViewController {
 // MARK: - Data Loading
 extension RegionListViewController {
     func updateData() {
-        guard let promise = OBAApplication.shared().regionHelper.refreshData() else {
+        guard let promise = application.regionHelper.refreshData() else {
+            AlertPresenter.showError("unable to load data", body: "TBD")
             return
         }
 
@@ -144,11 +154,11 @@ extension RegionListViewController {
      Builds a list of sections and rows from available region and location data.
      */
     func loadData() {
-        let regions = OBAApplication.shared().regionHelper.regions
+        let regions = application.regionHelper.regions
 
         let acceptableRegions = regions.filter { $0.active && $0.supportsObaRealtimeApis }
 
-        let customRows = tableRowsFromRegions(self.modelDAO.customRegions())
+        let customRows = tableRowsFromRegions(application.modelDao.customRegions())
         let activeRows = tableRowsFromRegions(acceptableRegions.filter { !$0.experimental })
         let experimentalRows = tableRowsFromRegions(acceptableRegions.filter { $0.experimental })
 
@@ -169,27 +179,27 @@ extension RegionListViewController {
         }
 
         self.sections = sections
-        self.tableView.reloadData()
+        tableView.reloadData()
     }
 
     private func buildAutoSelectRow() -> OBASwitchRow {
         let autoSelectRow = OBASwitchRow.init(title: NSLocalizedString("msg_automatically_select_region", comment: ""), action: { _ in
-            self.modelDAO.automaticallySelectRegion = !self.modelDAO.automaticallySelectRegion
+            self.application.modelDao.automaticallySelectRegion = !self.application.modelDao.automaticallySelectRegion
 
-            if self.modelDAO.automaticallySelectRegion {
-                if let refresh = OBAApplication.shared().regionHelper.refreshData() {
+            if self.application.modelDao.automaticallySelectRegion {
+                if let refresh = self.application.regionHelper.refreshData() {
                     SVProgressHUD.show()
                     refresh.then { _ -> Void in
                         // no-op?
-                        }.always {
-                            SVProgressHUD.dismiss()
+                    }.always {
+                        SVProgressHUD.dismiss()
                     }
                 }
             }
             else {
                 self.loadData()
             }
-        }, switchValue: self.modelDAO.automaticallySelectRegion)
+        }, switchValue: application.modelDao.automaticallySelectRegion)
 
         return autoSelectRow
     }
@@ -205,12 +215,12 @@ extension RegionListViewController {
         return regions.sorted { r1, r2 -> Bool in
             r1.regionName < r2.regionName
         }.map { region in
-            let autoSelect = self.modelDAO.automaticallySelectRegion
+            let autoSelect = application.modelDao.automaticallySelectRegion
             let row = OBATableRow.init(title: region.regionName) { _ in
                 if autoSelect {
                     return
                 }
-                self.modelDAO.currentRegion = region
+                self.application.modelDao.currentRegion = region
                 self.loadData()
 
                 if let delegate = self.delegate {
@@ -223,7 +233,7 @@ extension RegionListViewController {
                 let alert = UIAlertController.init(title: NSLocalizedString("msg_ask_delete_region", comment: ""), message: nil, preferredStyle: .alert)
                 alert.addAction(UIAlertAction.init(title: OBAStrings.cancel, style: .cancel, handler: nil))
                 alert.addAction(UIAlertAction.init(title: OBAStrings.delete, style: .destructive, handler: { _ in
-                    self.modelDAO.removeCustomRegion(region)
+                    self.application.modelDao.removeCustomRegion(region)
                 }))
                 self.present(alert, animated: true, completion: nil)
             }
@@ -233,7 +243,7 @@ extension RegionListViewController {
                 row.selectionStyle = .none
             }
 
-            if self.modelDAO.currentRegion == region {
+            if application.modelDao.currentRegion?.identifier == region.identifier {
                 row.accessoryType = .checkmark
             }
 
