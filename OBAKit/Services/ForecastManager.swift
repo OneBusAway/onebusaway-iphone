@@ -47,9 +47,9 @@ public class ForecastManager: NSObject {
 
         super.init()
 
-        NotificationCenter.default.addObserver(self, selector: #selector(applicationWillResignActive(_:)), name: Notification.Name.UIApplicationWillResignActive, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(applicationWillResignActive(_:)), name: UIApplication.willResignActiveNotification, object: nil)
 
-        NotificationCenter.default.addObserver(self, selector: #selector(applicationWillBecomeActive(_:)), name: Notification.Name.UIApplicationWillEnterForeground, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(applicationWillBecomeActive(_:)), name: UIApplication.willEnterForegroundNotification, object: nil)
 
         if dueForUpdate {
             loadForecast()

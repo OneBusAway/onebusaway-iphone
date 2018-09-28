@@ -1438,7 +1438,7 @@
 				TargetAttributes = {
 					934195381DB0B013004BBBB7 = {
 						CreatedOnToolsVersion = 8.0;
-						LastSwiftMigration = 0900;
+						LastSwiftMigration = 1000;
 						ProvisioningStyle = Manual;
 					};
 					934195411DB0B013004BBBB7 = {
@@ -1836,9 +1836,8 @@
 				PRODUCT_BUNDLE_IDENTIFIER = org.onebusaway.iphone.OBAKit;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
-				SWIFT_SWIFT3_OBJC_INFERENCE = Default;
 				SWIFT_TREAT_WARNINGS_AS_ERRORS = YES;
-				SWIFT_VERSION = 4.0;
+				SWIFT_VERSION = 4.2;
 			};
 			name = Debug;
 		};
@@ -1862,9 +1861,8 @@
 				PRODUCT_BUNDLE_IDENTIFIER = org.onebusaway.iphone.OBAKit;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
-				SWIFT_SWIFT3_OBJC_INFERENCE = Default;
 				SWIFT_TREAT_WARNINGS_AS_ERRORS = YES;
-				SWIFT_VERSION = 4.0;
+				SWIFT_VERSION = 4.2;
 			};
 			name = Release;
 		};
@@ -1970,9 +1968,8 @@
 				PRODUCT_BUNDLE_IDENTIFIER = org.onebusaway.iphone.OBAKit;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
-				SWIFT_SWIFT3_OBJC_INFERENCE = Default;
 				SWIFT_TREAT_WARNINGS_AS_ERRORS = YES;
-				SWIFT_VERSION = 4.0;
+				SWIFT_VERSION = 4.2;
 			};
 			name = AppStoreDistribution;
 		};

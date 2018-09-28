@@ -22,7 +22,7 @@ class MapTableViewController: UIViewController {
     lazy var collectionViewLayout: UICollectionViewLayout = {
         let layout = UICollectionViewFlowLayout()
         layout.estimatedItemSize = CGSize(width: 375, height: 40)
-        layout.itemSize = UICollectionViewFlowLayoutAutomaticSize
+        layout.itemSize = UICollectionViewFlowLayout.automaticSize
         return layout
     }()
 

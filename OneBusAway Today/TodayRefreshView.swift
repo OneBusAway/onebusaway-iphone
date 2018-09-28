@@ -27,7 +27,7 @@ class TodayRefreshView: UIControl {
     }()
 
     private lazy var activityView: UIActivityIndicatorView = {
-        let activity = UIActivityIndicatorView.init(activityIndicatorStyle: .gray)
+        let activity = UIActivityIndicatorView.init(style: .gray)
         activity.hidesWhenStopped = true
         return activity
     }()

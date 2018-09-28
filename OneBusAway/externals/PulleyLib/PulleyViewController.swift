@@ -241,9 +241,9 @@ public final class PulleyViewController: UIViewController, PulleyDrawerViewContr
                 return
             }
 
-            controller.willMove(toParentViewController: nil)
+            controller.willMove(toParent: nil)
             controller.view.removeFromSuperview()
-            controller.removeFromParentViewController()
+            controller.removeFromParent()
         }
 
         didSet {
@@ -251,13 +251,13 @@ public final class PulleyViewController: UIViewController, PulleyDrawerViewContr
                 return
             }
 
-            addChildViewController(controller)
+            addChild(controller)
 
             primaryContentContainer.addSubview(controller.view)
 
             controller.view.constrainToParent()
 
-            controller.didMove(toParentViewController: self)
+            controller.didMove(toParent: self)
 
             if isViewLoaded {
                 view.setNeedsLayout()
@@ -273,9 +273,9 @@ public final class PulleyViewController: UIViewController, PulleyDrawerViewContr
                 return
             }
 
-            currentController.willMove(toParentViewController: nil)
+            currentController.willMove(toParent: nil)
             currentController.view.removeFromSuperview()
-            currentController.removeFromParentViewController()
+            currentController.removeFromParent()
         }
 
         didSet {
@@ -283,13 +283,13 @@ public final class PulleyViewController: UIViewController, PulleyDrawerViewContr
                 return
             }
 
-            addChildViewController(controller)
+            addChild(controller)
 
             drawerContentContainer.addSubview(controller.view)
 
             controller.view.constrainToParent()
 
-            controller.didMove(toParentViewController: self)
+            controller.didMove(toParent: self)
 
             if isViewLoaded {
                 view.setNeedsLayout()
@@ -450,7 +450,7 @@ public final class PulleyViewController: UIViewController, PulleyDrawerViewContr
     }
 
     /// The animation options for setting the drawer position
-    public var animationOptions: UIViewAnimationOptions = [.curveEaseInOut]
+    public var animationOptions: UIView.AnimationOptions = [.curveEaseInOut]
 
     /// The drawer snap mode
     public var snapMode: PulleySnapMode = .nearestPositionUnlessExceeded(threshold: 20.0)
@@ -595,7 +595,7 @@ public final class PulleyViewController: UIViewController, PulleyDrawerViewContr
         let animation = CAKeyframeAnimation(keyPath: "bounds.origin.y")
         animation.repeatCount = 1
         animation.duration = (32.0/30.0) * speedMultiplier
-        animation.fillMode = kCAFillModeForwards
+        animation.fillMode = CAMediaTimingFillMode.forwards
         animation.values = values
         animation.isRemovedOnCompletion = true
         animation.autoreverses = false
@@ -683,7 +683,7 @@ extension PulleyViewController {
         drawerScrollView.canCancelContentTouches = canCancelContentTouches
 
         drawerScrollView.backgroundColor = UIColor.clear
-        drawerScrollView.decelerationRate = UIScrollViewDecelerationRateFast
+        drawerScrollView.decelerationRate = UIScrollView.DecelerationRate.fast
         drawerScrollView.scrollsToTop = false
         drawerScrollView.touchDelegate = self
 
@@ -731,7 +731,7 @@ extension PulleyViewController {
             }
 
             // Locate main content VC
-            for child in childViewControllers {
+            for child in children {
                 if primaryContentContainerView != nil && child.view == primaryContentContainerView.subviews.first {
                     primaryContentViewController = child
                 }
@@ -767,7 +767,7 @@ extension PulleyViewController {
             primary.view.superview != primaryContentContainer
         {
             primaryContentContainer.addSubview(primary.view)
-            primaryContentContainer.sendSubview(toBack: primary.view)
+            primaryContentContainer.sendSubviewToBack(primary.view)
 
             primary.view.constrainToParent()
         }
@@ -779,7 +779,7 @@ extension PulleyViewController {
             drawer.view.superview != drawerContentContainer
         {
             drawerContentContainer.addSubview(drawer.view)
-            drawerContentContainer.sendSubview(toBack: drawer.view)
+            drawerContentContainer.sendSubviewToBack(drawer.view)
 
             drawer.view.constrainToParent()
         }
@@ -885,7 +885,7 @@ extension PulleyViewController {
 
     // MARK: Propagate child view controller style / status bar presentation based on drawer state
 
-    public override var childViewControllerForStatusBarStyle: UIViewController? {
+    public override var childForStatusBarStyle: UIViewController? {
         if drawerPosition == .open {
             return drawerContentViewController
         }
@@ -893,7 +893,7 @@ extension PulleyViewController {
         return primaryContentViewController
     }
 
-    public override var childViewControllerForStatusBarHidden: UIViewController? {
+    public override var childForStatusBarHidden: UIViewController? {
         if drawerPosition == .open {
             return drawerContentViewController
         }
@@ -1194,9 +1194,9 @@ extension PulleyViewController {
         else if let childNav = childNavigationController {
             let transition = CATransition()
             transition.duration = UIView.inheritedAnimationDuration
-            transition.timingFunction = CAMediaTimingFunction(name: kCAMediaTimingFunctionEaseInEaseOut)
-            transition.type = kCATransitionMoveIn
-            transition.subtype = kCATransitionFromTop
+            transition.timingFunction = CAMediaTimingFunction(name: CAMediaTimingFunctionName.easeInEaseOut)
+            transition.type = CATransitionType.moveIn
+            transition.subtype = CATransitionSubtype.fromTop
             childNav.view.layer.add(transition, forKey: nil)
             childNav.pushViewController(viewController, animated: false)
         }
@@ -1206,9 +1206,9 @@ extension PulleyViewController {
         if let childNav = childNavigationController {
             let transition = CATransition()
             transition.duration = UIView.inheritedAnimationDuration
-            transition.timingFunction = CAMediaTimingFunction(name: kCAMediaTimingFunctionEaseInEaseOut)
-            transition.type = kCATransitionMoveIn
-            transition.subtype = kCATransitionFromTop
+            transition.timingFunction = CAMediaTimingFunction(name: CAMediaTimingFunctionName.easeInEaseOut)
+            transition.type = CATransitionType.moveIn
+            transition.subtype = CATransitionSubtype.fromTop
             childNav.view.layer.add(transition, forKey: nil)
             childNav.popViewController(animated: false)
         }
@@ -1337,7 +1337,7 @@ extension PulleyViewController {
 
         // Invert mask to cut away the bottom part of the dimming view
         path.append(UIBezierPath(rect: backgroundDimmingView.bounds))
-        maskLayer.fillRule = kCAFillRuleEvenOdd
+        maskLayer.fillRule = CAShapeLayerFillRule.evenOdd
 
         maskLayer.path = path.cgPath
         backgroundDimmingView.layer.mask = maskLayer

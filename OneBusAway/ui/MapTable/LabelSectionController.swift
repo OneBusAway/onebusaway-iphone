@@ -42,7 +42,7 @@ final class BlahLabelCell: UICollectionViewCell {
 
     static func textHeight(_ text: String, width: CGFloat) -> CGFloat {
         let constrainedSize = CGSize(width: width - insets.left - insets.right, height: CGFloat.greatestFiniteMagnitude)
-        let attributes = [ NSAttributedStringKey.font: font ]
+        let attributes = [ NSAttributedString.Key.font: font ]
         let options: NSStringDrawingOptions = [.usesFontLeading, .usesLineFragmentOrigin]
         let bounds = (text as NSString).boundingRect(with: constrainedSize, options: options, attributes: attributes, context: nil)
         return ceil(bounds.height) + insets.top + insets.bottom
@@ -85,7 +85,7 @@ final class BlahLabelCell: UICollectionViewCell {
     override func layoutSubviews() {
         super.layoutSubviews()
         let bounds = contentView.bounds
-        label.frame = UIEdgeInsetsInsetRect(bounds, BlahLabelCell.insets)
+        label.frame = bounds.inset(by: BlahLabelCell.insets)
         let height: CGFloat = 0.5
         let left = BlahLabelCell.insets.left
         separator.frame = CGRect(x: left, y: bounds.height - height, width: bounds.width - left, height: height)

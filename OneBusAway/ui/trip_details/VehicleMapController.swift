@@ -171,8 +171,8 @@ extension VehicleMapController {
 
         modelService.requestShape(forID: shapeID).then { polyline -> Void in
             self.routePolyline = polyline as! MKPolyline?
-            self.mapView.add(self.routePolyline!)
-            self.mapView.setRegion(MKCoordinateRegionForMapRect(self.routePolyline!.boundingMapRect), animated: false)
+            self.mapView.addOverlay(self.routePolyline!)
+            self.mapView.setRegion(MKCoordinateRegion.init(self.routePolyline!.boundingMapRect), animated: false)
         }.catch { error in
             DDLogError("Unable to render polyline on map: \(error)")
         }
