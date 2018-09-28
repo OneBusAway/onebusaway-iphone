@@ -26,9 +26,8 @@
 
 @implementation OBAMapDataLoader
 
-- (instancetype)initWithModelService:(PromisedModelService*)modelService {
+- (instancetype)init {
     if (self = [super init]) {
-        _modelService = modelService;
         _searchType = OBASearchTypeNone;
         _delegates = [NSHashTable weakObjectsHashTable];
     }

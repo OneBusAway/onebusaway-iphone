@@ -163,7 +163,10 @@ extension MapTableViewController {
 // MARK: - Regional Alerts
 extension MapTableViewController {
     fileprivate func loadAlerts() {
-        application.modelService.requestRegionalAlerts().then { (alerts: [AgencyAlert]) -> Void in
+        guard let modelService = application.modelService else {
+            return
+        }
+        modelService.requestRegionalAlerts().then { (alerts: [AgencyAlert]) -> Void in
             let now = Date()
             self.agencyAlerts = alerts.filter { alert -> Bool in
                 guard let end = alert.endDate else {
@@ -255,7 +258,7 @@ extension MapTableViewController: ListAdapterDataSource {
                     guard let self = self else {
                         return
                     }
-                    let nearby = NearbyStopsViewController(withSearchResult: searchResult)
+                    let nearby = NearbyStopsViewController(searchResult: searchResult)
                     nearby.presentedModally = true
                     let nav = UINavigationController(rootViewController: nearby)
                     self.present(nav, animated: true, completion: nil)
@@ -482,9 +485,13 @@ extension MapTableViewController: MapSearchDelegate, UISearchControllerDelegate,
 extension MapTableViewController: VehicleDisambiguationDelegate {
     func disambiguator(_ viewController: VehicleDisambiguationViewController, didSelect matchingVehicle: MatchingAgencyVehicle) {
         viewController.dismiss(animated: true) {
+            guard let modelService = self.application.modelService else {
+                return
+            }
+
             SVProgressHUD.show()
 
-            let wrapper = self.application.modelService.requestVehicleTrip(matchingVehicle.vehicleID)
+            let wrapper = modelService.requestVehicleTrip(matchingVehicle.vehicleID)
             wrapper.promise.then { [weak self] networkResponse in
                 self?.displayVehicleFromTripDetails(networkResponse)
             }.catch { [weak self] error in
@@ -510,13 +517,16 @@ extension MapTableViewController: VehicleDisambiguationDelegate {
         }
         // swiftlint:enable nesting
 
-        guard let region = application.modelDao.currentRegion else {
+        guard
+            let region = application.modelDao.currentRegion,
+            let modelService = application.modelService
+        else {
             // abxoxo TODO: better error handling.
             return
         }
         SVProgressHUD.show()
 
-        let wrapper = application.modelService.requestVehicles(matching: vehicleNavTarget.query, in: region)
+        let wrapper = modelService.requestVehicles(matching: vehicleNavTarget.query, in: region)
         wrapper.promise.then { [weak self] networkResponse -> Promise<NetworkResponse> in
             let matchingVehicles = networkResponse.object as! [MatchingAgencyVehicle]
 

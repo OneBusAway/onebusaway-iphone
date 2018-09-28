@@ -36,20 +36,24 @@ NS_ASSUME_NONNULL_BEGIN
 extern NSString * const OBAAgenciesWithCoverageAPIPath;
 
 @interface OBAModelService : NSObject
-@property (nonatomic, strong) OBAReferencesV2 *references;
-@property (nonatomic, strong) OBAModelDAO *modelDao;
-@property (nonatomic, strong) OBAModelFactory *modelFactory;
-@property (nonatomic, strong) OBAJsonDataSource *obaJsonDataSource;
-@property (nonatomic, strong) OBAJsonDataSource *obaRegionJsonDataSource;
-@property (nonatomic, strong) OBAJsonDataSource *obacoJsonDataSource;
-@property (nonatomic, strong) OBAJsonDataSource *unparsedDataSource;
-@property (nonatomic, strong) OBALocationManager *locationManager;
+@property(nonatomic, strong, readonly) OBAModelDAO *modelDAO;
+@property(nonatomic, strong, readonly) OBAModelFactory *modelFactory;
+@property(nonatomic, strong, readonly) OBAJsonDataSource *obaJsonDataSource;
+@property(nonatomic, strong, readonly) OBAJsonDataSource *obacoJsonDataSource;
+@property(nonatomic, strong, readonly) OBAJsonDataSource *unparsedDataSource;
 
 /**
  Convenience method for constructing an entire
  model service/factory/references stack.
  */
 + (instancetype)modelServiceWithBaseURL:(NSURL*)URL;
+
+- (instancetype)initWithModelDAO:(OBAModelDAO*)modelDAO references:(OBAReferencesV2*)references locationManager:(OBALocationManager*)locationManager;
+
+/**
+ Cancels all open network requests.
+ */
+- (void)cancelOpenConnections;
 
 #pragma mark - OBAArrivalAndDepartureInstanceRef -> OBAArrivalAndDepartureV2
 

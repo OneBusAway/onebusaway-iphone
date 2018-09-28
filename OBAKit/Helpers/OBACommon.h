@@ -46,7 +46,9 @@ extern NSString * const OBAForecastDataDefaultsKey;
 extern NSString * const OBAForecastUpdatedNotification;
 
 // Server Addresses
+extern NSString * const OBAInAppDeepLinkSchemeAddress;
 extern NSString * const OBADeepLinkServerAddress;
+extern NSString * const OBARegionsServerAddress;
 
 /**
  We report "YES" and "NO" to Google Analytics in several places. This method

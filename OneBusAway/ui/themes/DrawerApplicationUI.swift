@@ -129,7 +129,7 @@ extension DrawerApplicationUI: OBAApplicationUI {
 
     func performAction(for shortcutItem: UIApplicationShortcutItem, completionHandler: @escaping (Bool) -> Void) {
         var navigationTargetType: OBANavigationTargetType = .undefined
-        var parameters: [AnyHashable: Any]? = nil
+        var parameters: [AnyHashable: Any]?
 
         if shortcutItem.type == kApplicationShortcutMap {
             navigationTargetType = .map

@@ -64,7 +64,7 @@ public enum Theme {
 
     private class func showMessage(from error: NSError) {
         var userInfo: [String: Any] = [:]
-        var referenceID: String? = nil
+        var referenceID: String?
         if let url = error.userInfo[NSURLErrorFailingURLStringErrorKey] as? NSString,
             let substr = url.oba_SHA1?.prefix(10) {
             referenceID = String(describing: substr)

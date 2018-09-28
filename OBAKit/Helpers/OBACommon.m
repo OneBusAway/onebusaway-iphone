@@ -36,7 +36,9 @@ NSString * const OBAForecastDataDefaultsKey = @"OBAForecastDataDefaultsKey";
 
 NSString * const OBAForecastUpdatedNotification = @"OBAForecastUpdatedNotification";
 
+NSString * const OBAInAppDeepLinkSchemeAddress = @"onebusaway://deep-link";
 NSString * const OBADeepLinkServerAddress = @"http://alerts.onebusaway.org";
+NSString * const OBARegionsServerAddress = @"http://regions.onebusaway.org";
 
 NSString * OBAStringFromBool(BOOL yn) {
     return yn ? @"YES" : @"NO";

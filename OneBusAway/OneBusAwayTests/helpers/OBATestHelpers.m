@@ -15,6 +15,10 @@
     return [PromisedModelService modelServiceWithBaseURL:URL];
 }
 
++ (OBARegionsService*)regionsService {
+    return [[OBARegionsService alloc] initWithRegionsDataSource:[OBAJsonDataSource regionsDataSource]];
+}
+
 + (id)roundtripObjectThroughNSCoding:(id<NSCoding>)obj {
     NSData *data = [NSKeyedArchiver archivedDataWithRootObject:obj];
     return [NSKeyedUnarchiver unarchiveObjectWithData:data];

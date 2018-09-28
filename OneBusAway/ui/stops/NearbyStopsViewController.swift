@@ -17,6 +17,7 @@ class NearbyStopsViewController: OBAStaticTableViewController {
     var stop: OBAStopV2?
     var searchResult: OBASearchResult?
 
+    private let application: OBAApplication
     var mapDataLoader: OBAMapDataLoader?
     var mapRegionManager: OBAMapRegionManager?
 
@@ -28,31 +29,17 @@ class NearbyStopsViewController: OBAStaticTableViewController {
         return (UIApplication.shared.delegate as? OBAApplicationDelegate)!
     }()
 
-    lazy var modelService: OBAModelService = {
-        return OBAApplication.shared().modelService
-    }()
-
     public var currentCoordinate: CLLocationCoordinate2D?
 
-    @objc init(application: OBAApplication) {
-        super.init(nibName: nil, bundle: nil)
-
-        self.pushesResultsOntoStack = true
-
-        self.mapDataLoader = application.mapDataLoader
-        self.mapDataLoader?.add(self)
-
-        self.mapRegionManager = application.mapRegionManager
-        self.mapRegionManager?.add(delegate: self)
-    }
-
-    @objc init(withStop stop: OBAStopV2) {
+    @objc init(stop: OBAStopV2) {
+        self.application = OBAApplication.shared()
         self.stop = stop
         self.currentCoordinate = self.stop?.coordinate
         super.init(nibName: nil, bundle: nil)
     }
 
-    @objc init(withSearchResult searchResult: OBASearchResult?) {
+    @objc init(searchResult: OBASearchResult?) {
+        self.application = OBAApplication.shared()
         self.searchResult = searchResult
         super.init(nibName: nil, bundle: nil)
     }
@@ -106,9 +93,12 @@ extension NearbyStopsViewController {
         if let searchResult = self.searchResult {
             self.populateTable(searchResult)
         }
-        else if let stop = self.stop {
+        else if
+            let stop = self.stop,
+            let modelService = application.modelService
+        {
             SVProgressHUD.show()
-            self.modelService.requestStopsNear(stop.coordinate).then { searchResult -> Void in
+            modelService.requestStopsNear(stop.coordinate).then { searchResult -> Void in
                 if let searchResult = searchResult as? OBASearchResult {
                     self.populateTable(searchResult)
                 }

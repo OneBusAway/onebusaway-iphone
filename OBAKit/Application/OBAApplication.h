@@ -40,7 +40,8 @@ extern NSString *const OBAShowTestAlertsDefaultsKey;
 @interface OBAApplication : NSObject
 @property (nonatomic, strong, readonly) OBAReferencesV2 *references;
 @property (nonatomic, strong, readonly) OBAModelDAO *modelDao;
-@property (nonatomic, strong, readonly) PromisedModelService *modelService;
+@property (nonatomic, strong, readonly) OBARegionsService *regionsService;
+@property (nonatomic, strong, nullable, readonly) PromisedModelService *modelService;
 @property (nonatomic, strong, readonly) OBALocationManager *locationManager;
 @property (nonatomic, strong, readonly) OBARegionHelper *regionHelper;
 @property (nonatomic, strong, readonly) OBAConsoleLogger *consoleLogger;

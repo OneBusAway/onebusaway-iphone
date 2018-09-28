@@ -21,6 +21,7 @@
 #import <OBAKit/OBAMacros.h>
 #import <OBAKit/OBASphericalGeometryLibrary.h>
 #import <OBAKit/OBASearchResult.h>
+#import <OBAKit/OBAUser.h>
 
 static const CLLocationAccuracy kSearchRadius = 400;
 static const CLLocationAccuracy kBigSearchRadius = 15000;
@@ -37,6 +38,16 @@ NSString * const OBAAgenciesWithCoverageAPIPath = @"/api/where/agencies-with-cov
  */
 static const CLLocationAccuracy kRegionalRadius = 40000;
 
+@interface OBAModelService ()
+@property(nonatomic, strong) OBAReferencesV2 *references;
+@property(nonatomic, strong, readwrite) OBAModelDAO *modelDAO;
+@property(nonatomic, strong, readwrite) OBAModelFactory *modelFactory;
+@property(nonatomic, strong, readwrite) OBAJsonDataSource *obaJsonDataSource;
+@property(nonatomic, strong, readwrite) OBAJsonDataSource *obacoJsonDataSource;
+@property(nonatomic, strong, readwrite) OBAJsonDataSource *unparsedDataSource;
+@property(nonatomic, strong) OBALocationManager *locationManager;
+@end
+
 @implementation OBAModelService
 
 + (instancetype)modelServiceWithBaseURL:(NSURL*)URL {
@@ -47,6 +58,31 @@ static const CLLocationAccuracy kRegionalRadius = 40000;
     service.obaJsonDataSource = [OBAJsonDataSource JSONDataSourceWithBaseURL:URL userID:@"test"];
 
     return service;
+}
+
+- (instancetype)initWithModelDAO:(OBAModelDAO*)modelDAO references:(OBAReferencesV2*)references locationManager:(OBALocationManager*)locationManager {
+    self = [super init];
+    
+    if (self) {
+        _modelDAO = modelDAO;
+        _references = references;
+        _locationManager = locationManager;
+        
+        _modelFactory = [[OBAModelFactory alloc] initWithReferences:_references];
+        
+        OBARegionV2 *currentRegion = _modelDAO.currentRegion;
+        _obaJsonDataSource = [OBAJsonDataSource JSONDataSourceWithBaseURL:currentRegion.baseURL userID:OBAUser.userIDFromDefaults];
+        _unparsedDataSource = [OBAJsonDataSource unparsedDataSourceWithBaseURL:currentRegion.baseURL userID:OBAUser.userIDFromDefaults];
+        _obacoJsonDataSource = [OBAJsonDataSource obacoJSONDataSource];
+    }
+    
+    return self;
+}
+
+- (void)cancelOpenConnections {
+    [self.obaJsonDataSource cancelOpenConnections];
+    [self.obacoJsonDataSource cancelOpenConnections];
+    [self.unparsedDataSource cancelOpenConnections];
 }
 
 #pragma mark - Promise-based Requests
@@ -424,7 +460,7 @@ static const CLLocationAccuracy kRegionalRadius = 40000;
     CLLocation *location = _locationManager.currentLocation;
 
     if (!location) {
-        location = _modelDao.mostRecentLocation ?: [[CLLocation alloc] initWithLatitude:47.61229680032385 longitude:-122.3386001586914];
+        location = _modelDAO.mostRecentLocation ?: [[CLLocation alloc] initWithLatitude:47.61229680032385 longitude:-122.3386001586914];
     }
 
     return location;
