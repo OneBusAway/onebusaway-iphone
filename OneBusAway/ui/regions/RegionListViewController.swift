@@ -104,7 +104,7 @@ extension RegionListViewController {
         return region.custom
     }
 
-    func tableView(_ tableView: UITableView, commitEditingStyle editingStyle: UITableViewCellEditingStyle, forRowAtIndexPath indexPath: IndexPath) {
+    func tableView(_ tableView: UITableView, commitEditingStyle editingStyle: UITableViewCell.EditingStyle, forRowAtIndexPath indexPath: IndexPath) {
         if editingStyle == .delete {
             deleteRow(at: indexPath)
         }
