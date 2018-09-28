@@ -37,6 +37,8 @@ extern NSString * const OBAHeadingUserInfoKey;
 @property(nonatomic,copy,nullable,readonly) CLLocation *currentLocation;
 @property(nonatomic,copy,nullable,readonly) CLHeading *currentHeading;
 
+@property(nonatomic,assign,readonly) BOOL shouldForceRegionSelection;
+
 /**
  Informs the caller whether or not location services are enabled for the app.
 

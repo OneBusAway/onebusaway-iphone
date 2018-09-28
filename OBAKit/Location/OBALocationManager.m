@@ -101,6 +101,10 @@ NSString * const OBAHeadingUserInfoKey = @"OBAHeadingUserInfoKey";
     }
 }
 
+- (BOOL)shouldForceRegionSelection {
+    return self.hasRequestedInUseAuthorization && self.modelDao.currentRegion == nil;
+}
+
 #pragma mark - Notifications
 
 - (void)applicationDidEnterBackground:(NSNotification*)note {
