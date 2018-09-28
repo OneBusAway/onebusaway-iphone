@@ -734,6 +734,14 @@ static const double kStopsInRegionRefreshDelayOnDrag = 0.1;
 - (void)refreshStopsInRegion {
     self.refreshTimer = nil;
 
+    // If we do not have a region assigned at this point, we cannot make a
+    // request. Terminate the data loading process and force the user to
+    // select a region.
+    if ([self.application.locationManager shouldForceRegionSelection]) {
+        [self.application.regionHelper setNearestRegion];
+        return;
+    }
+
     MKCoordinateRegion region = self.mapView.region;
     MKCoordinateSpan span = region.span;
 
