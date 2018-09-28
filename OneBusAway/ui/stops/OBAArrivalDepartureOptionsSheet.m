@@ -34,8 +34,8 @@
 - (void)presentAlertToRemoveBookmarkForArrivalAndDeparture:(OBAArrivalAndDepartureV2*)dep {
     UIAlertController *alert = [UIAlertController alertControllerWithTitle:NSLocalizedString(@"msg_ask_remove_bookmark", @"Tap on Remove Bookmarks on OBAStopViewController.") message:nil preferredStyle:UIAlertControllerStyleAlert];
     [alert addAction:[UIAlertAction actionWithTitle:NSLocalizedString(@"msg_remove", @"") style:UIAlertActionStyleDestructive handler:^(UIAlertAction *action) {
-        OBABookmarkV2 *bookmark = [self.modelDAO bookmarkForArrivalAndDeparture:dep];
-        [self.modelDAO removeBookmark:bookmark];
+        OBABookmarkV2 *bookmark = [self.application.modelDao bookmarkForArrivalAndDeparture:dep];
+        [self.application.modelDao removeBookmark:bookmark];
     }]];
     [alert addAction:[UIAlertAction actionWithTitle:OBAStrings.cancel style:UIAlertActionStyleCancel handler:nil]];
 
@@ -80,16 +80,16 @@
 }
 
 - (void)registerAlarmForArrivalAndDeparture:(OBAArrivalAndDepartureV2*)arrivalDeparture timeInterval:(NSTimeInterval)timeInterval {
-    OBAAlarm *alarm = [[OBAAlarm alloc] initWithArrivalAndDeparture:arrivalDeparture regionIdentifier:self.modelDAO.currentRegion.identifier timeIntervalBeforeDeparture:timeInterval];
+    OBAAlarm *alarm = [[OBAAlarm alloc] initWithArrivalAndDeparture:arrivalDeparture regionIdentifier:self.application.modelDao.currentRegion.identifier timeIntervalBeforeDeparture:timeInterval];
 
     [SVProgressHUD show];
 
     [OBAPushManager.pushManager requestUserPushNotificationID].then(^(NSString *pushNotificationID) {
-        PromiseWrapper *wrapper = [self.modelService createAlarm:alarm userPushNotificationID:pushNotificationID];
+        PromiseWrapper *wrapper = [self.application.obacoService createAlarm:alarm userPushNotificationID:pushNotificationID];
         return wrapper.anyPromise;
     }).then(^(NetworkResponse *response) {
         alarm.alarmURL = response.object;
-        [self.modelDAO addAlarm:alarm];
+        [self.application.modelDao addAlarm:alarm];
 
         id<OBAArrivalDepartureOptionsSheetDelegate> delegate = self.delegate;
         if ([delegate respondsToSelector:@selector(optionsSheet:addedAlarm:forArrivalAndDeparture:)]) {
@@ -108,32 +108,25 @@
 }
 
 - (void)deleteAlarmForArrivalAndDeparture:(OBAArrivalAndDepartureV2*)dep {
-    OBAAlarm *alarm = [self.modelDAO alarmForKey:dep.alarmKey];
+    OBAAlarm *alarm = [self.application.modelDao alarmForKey:dep.alarmKey];
     id<OBAArrivalDepartureOptionsSheetDelegate> delegate = self.delegate;
 
-    NSURLRequest *request = [self.modelService.obaJsonDataSource buildRequestWithURL:alarm.alarmURL HTTPMethod:@"DELETE" formBody:nil];
-    [self.modelService.obaJsonDataSource performRequest:request completionBlock:^(id responseData, NSHTTPURLResponse *response, NSError *error) {
+    NSURLRequest *request = [self.application.modelService.obaJsonDataSource buildRequestWithURL:alarm.alarmURL HTTPMethod:@"DELETE" formBody:nil];
+    [self.application.modelService.obaJsonDataSource performRequest:request completionBlock:^(id responseData, NSHTTPURLResponse *response, NSError *error) {
         if ([delegate respondsToSelector:@selector(optionsSheet:deletedAlarmForArrivalAndDeparture:)]) {
             [delegate optionsSheet:self deletedAlarmForArrivalAndDeparture:dep];
         }
-        [self.modelDAO removeAlarmWithKey:alarm.alarmKey];
+        [self.application.modelDao removeAlarmWithKey:alarm.alarmKey];
     }];
 }
 
 #pragma mark - Accessors
 
-- (OBAModelDAO*)modelDAO {
-    if (!_modelDAO) {
-        _modelDAO = [OBAApplication sharedApplication].modelDao;
+- (OBAApplication*)application {
+    if (!_application) {
+        _application = [OBAApplication sharedApplication];
     }
-    return _modelDAO;
-}
-
-- (PromisedModelService*)modelService {
-    if (!_modelService) {
-        _modelService = [OBAApplication sharedApplication].modelService;
-    }
-    return _modelService;
+    return _application;
 }
 
 #pragma mark - Action Menu
@@ -171,12 +164,12 @@
 #pragma mark - Row Actions
 
 - (void)toggleBookmarkActionForArrivalAndDeparture:(OBAArrivalAndDepartureV2*)dep {
-    if ([self.modelDAO bookmarkForArrivalAndDeparture:dep]) {
+    if ([self.application.modelDao bookmarkForArrivalAndDeparture:dep]) {
         [self presentAlertToRemoveBookmarkForArrivalAndDeparture:dep];
     }
     else {
-        OBABookmarkV2 *bookmark = [[OBABookmarkV2 alloc] initWithArrivalAndDeparture:dep region:self.modelDAO.currentRegion];
-        OBAEditBookmarkViewController *bookmarkViewController = [[OBAEditBookmarkViewController alloc] initWithBookmark:bookmark modelDAO:self.modelDAO];
+        OBABookmarkV2 *bookmark = [[OBABookmarkV2 alloc] initWithArrivalAndDeparture:dep region:self.application.modelDao.currentRegion];
+        OBAEditBookmarkViewController *bookmarkViewController = [[OBAEditBookmarkViewController alloc] initWithBookmark:bookmark modelDAO:self.application.modelDao];
         UINavigationController *nav = [[UINavigationController alloc] initWithRootViewController:bookmarkViewController];
 
         [self.delegate optionsSheet:self presentViewController:nav fromView:nil];
@@ -191,7 +184,7 @@
     id<OBAArrivalDepartureOptionsSheetDelegate> delegate = self.delegate;
 
     OBAArrivalAndDepartureV2 *dep = row.model;
-    OBATripDeepLink *deepLink = [[OBATripDeepLink alloc] initWithArrivalAndDeparture:dep region:self.modelDAO.currentRegion];
+    OBATripDeepLink *deepLink = [[OBATripDeepLink alloc] initWithArrivalAndDeparture:dep region:self.application.modelDao.currentRegion];
     NSURL *URL = deepLink.deepLinkURL;
 
     UIActivityViewController *controller = [[UIActivityViewController alloc] initWithActivityItems:@[self, URL] applicationActivities:nil];
@@ -208,7 +201,7 @@
         return;
     }
 
-    if ([self.modelDAO alarmForKey:dep.alarmKey]) {
+    if ([self.application.modelDao alarmForKey:dep.alarmKey]) {
         [self presentAlertToRemoveAlarmForArrivalAndDeparture:dep];
     }
     else {
@@ -219,7 +212,7 @@
 #pragma mark - Labels
 
 - (NSString*)bookmarkButtonTitleForArrivalAndDeparture:(OBAArrivalAndDepartureV2*)arrivalDeparture {
-    if ([self.modelDAO bookmarkForArrivalAndDeparture:arrivalDeparture]) {
+    if ([self.application.modelDao bookmarkForArrivalAndDeparture:arrivalDeparture]) {
         return NSLocalizedString(@"msg_remove_bookmark", @"Title for the alert controller option that removes an existing bookmark");
     }
     else {

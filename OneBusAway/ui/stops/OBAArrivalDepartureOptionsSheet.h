@@ -63,8 +63,7 @@ NS_ASSUME_NONNULL_BEGIN
 @end
 
 @interface OBAArrivalDepartureOptionsSheet : NSObject
-@property(nonatomic,strong) OBAModelDAO *modelDAO;
-@property(nonatomic,strong) PromisedModelService *modelService;
+@property(nonatomic,strong) OBAApplication *application;
 
 - (instancetype)initWithDelegate:(id<OBAArrivalDepartureOptionsSheetDelegate>)delegate;
 

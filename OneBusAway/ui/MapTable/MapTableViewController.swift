@@ -485,13 +485,9 @@ extension MapTableViewController: MapSearchDelegate, UISearchControllerDelegate,
 extension MapTableViewController: VehicleDisambiguationDelegate {
     func disambiguator(_ viewController: VehicleDisambiguationViewController, didSelect matchingVehicle: MatchingAgencyVehicle) {
         viewController.dismiss(animated: true) {
-            guard let modelService = self.application.modelService else {
-                return
-            }
-
             SVProgressHUD.show()
 
-            let wrapper = modelService.requestVehicleTrip(matchingVehicle.vehicleID)
+            let wrapper = self.application.obacoService.requestVehicleTrip(matchingVehicle.vehicleID)
             wrapper.promise.then { [weak self] networkResponse in
                 self?.displayVehicleFromTripDetails(networkResponse)
             }.catch { [weak self] error in
@@ -517,16 +513,13 @@ extension MapTableViewController: VehicleDisambiguationDelegate {
         }
         // swiftlint:enable nesting
 
-        guard
-            let region = application.modelDao.currentRegion,
-            let modelService = application.modelService
-        else {
+        guard let region = application.modelDao.currentRegion else {
             // abxoxo TODO: better error handling.
             return
         }
         SVProgressHUD.show()
 
-        let wrapper = modelService.requestVehicles(matching: vehicleNavTarget.query, in: region)
+        let wrapper = application.obacoService.requestVehicles(matching: vehicleNavTarget.query, in: region)
         wrapper.promise.then { [weak self] networkResponse -> Promise<NetworkResponse> in
             let matchingVehicles = networkResponse.object as! [MatchingAgencyVehicle]
 
@@ -536,14 +529,14 @@ extension MapTableViewController: VehicleDisambiguationDelegate {
 
             guard
                 let vehicle = matchingVehicles.first,
-                let modelService = self?.application.modelService
+                let modelService = self?.application.obacoService
                 else {
                     throw VehicleError.noMatchesFound
             }
 
             return modelService.requestVehicleTrip(vehicle.vehicleID).promise
         }.then { [weak self] (networkResponse: NetworkResponse?) -> Void in
-                self?.displayVehicleFromTripDetails(networkResponse)
+            self?.displayVehicleFromTripDetails(networkResponse)
         }.catch { error in
             if let err = error as? VehicleError {
                 switch err {

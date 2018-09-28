@@ -57,10 +57,7 @@ public class ForecastManager: NSObject {
     }
 
     @objc private func loadForecast() {
-        guard
-            let region = application.modelDao.currentRegion,
-            let modelService = application.modelService
-        else {
+        guard let region = application.modelDao.currentRegion else {
             return
         }
 
@@ -70,7 +67,7 @@ public class ForecastManager: NSObject {
         timer = nil
 
         let loc = application.locationManager.currentLocation
-        let wrapper = modelService.requestWeather(in: region, location: loc)
+        let wrapper = application.obacoService.requestWeather(in: region, location: loc)
         wrapper.promise.then { [weak self] networkResponse -> Void in
             // swiftlint:disable force_cast
             let forecast = networkResponse.object as! WeatherForecast
