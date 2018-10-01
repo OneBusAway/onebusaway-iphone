@@ -2,6 +2,8 @@
 # Xcode
 #
 
+GoogleService-Info.plist
+
 ## Build generated
 build/
 DerivedData

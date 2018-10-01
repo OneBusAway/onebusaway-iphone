@@ -203,19 +203,19 @@ NSString * const OBAShowTestAlertsDefaultsKey = @"OBAShowTestAlertsDefaultsKey";
 #pragma mark - App Keys
 
 - (NSString*)firebaseAnalyticsConfigFilePath {
-    return [NSBundle.mainBundle pathForResource:@"OBA_Firebase" ofType:@"plist"];
+    return [NSBundle.mainBundle pathForResource:@"GoogleService-Info" ofType:@"plist"];
 }
 
 - (NSString*)googleAnalyticsID {
-    return @"UA-2423527-17";
+    return self.configuration.appProperties[OBAAppConfigPropertyGoogleAnalyticsKey];
 }
 
 - (NSString*)oneSignalAPIKey {
-    return @"d5d0d28a-6091-46cd-9627-0ce01ffa9f9e";
+    return self.configuration.appProperties[OBAAppConfigPropertyOneSignalKey];
 }
 
 - (NSString*)appStoreAppID {
-    return @"329380089";
+    return self.configuration.appProperties[OBAAppConfigPropertyAppStoreKey];
 }
 
 #pragma mark - App/Region/API State
