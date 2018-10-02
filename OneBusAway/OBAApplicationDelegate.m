@@ -58,6 +58,7 @@ static NSString * const OBALastRegionRefreshDateUserDefaultsKey = @"OBALastRegio
 
         OBAApplicationConfiguration *configuration = [[OBAApplicationConfiguration alloc] init];
         configuration.loggers = @[[OBACrashlyticsLogger sharedInstance]];
+        configuration.appPropertiesFilePath = [NSBundle.mainBundle pathForResource:@"OBAProperties" ofType:@"plist"];
         [self.application startWithConfiguration:configuration];
 
         self.application.regionHelper.delegate = self;

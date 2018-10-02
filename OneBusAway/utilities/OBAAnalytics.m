@@ -70,6 +70,11 @@ NSInteger const OBAAnalyticsDimensionVoiceOver = 4;
 }
 
 - (void)configureFirebaseAnalytics {
+    if (![NSFileManager.defaultManager fileExistsAtPath:self.application.firebaseAnalyticsConfigFilePath]) {
+        NSLog(@"Firebase analytics config file does not exist. Please add it to the bundle to enable Firebase support.");
+        return;
+    }
+
     FIROptions *options = [[FIROptions alloc] initWithContentsOfFile:self.application.firebaseAnalyticsConfigFilePath];
     [FIRApp configureWithOptions:options];
 

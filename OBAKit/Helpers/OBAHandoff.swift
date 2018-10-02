@@ -7,6 +7,7 @@
 //
 
 import Foundation
+import Intents
 
 @objc public class OBAHandoff: NSObject {
     @objc static let activityTypeStop = "org.onebusaway.iphone.handoff.stop"
@@ -14,8 +15,7 @@ import Foundation
     @objc static let stopIDKey = "stopID"
     @objc static let regionIDKey = "regionID"
 
-    @objc
-    public class func createUserActivity(name: String, stopID: String, regionID: Int) -> NSUserActivity {
+    @objc public class func createUserActivity(name: String, stopID: String, regionID: Int) -> NSUserActivity {
         let activity = NSUserActivity(activityType: OBAHandoff.activityTypeStop)
         activity.title = name
         activity.isEligibleForHandoff = true
@@ -26,6 +26,8 @@ import Foundation
 
         if #available(iOS 12.0, *) {
             activity.isEligibleForPrediction = true
+            activity.suggestedInvocationPhrase = NSLocalizedString("handoff.show_me_my_bus", comment: "Suggested invocation phrase for Siri Shortcut")
+            activity.persistentIdentifier = "region_\(regionID)_stop_\(stopID)"
         }
 
         activity.requiredUserInfoKeys = [OBAHandoff.stopIDKey, OBAHandoff.regionIDKey]
