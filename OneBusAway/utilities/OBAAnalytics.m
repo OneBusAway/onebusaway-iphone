@@ -66,6 +66,7 @@ NSInteger const OBAAnalyticsDimensionVoiceOver = 4;
 - (void)configureGoogleAnalytics {
     id<GAITracker> tracker = [[GAI sharedInstance] trackerWithTrackingId:self.application.googleAnalyticsID];
     [GAI sharedInstance].logger.logLevel = kGAILogLevelWarning;
+    [tracker set:kGAISampleRate value:@"1.0"];
     [tracker set:[GAIFields customDimensionForIndex:1] value:self.application.modelDao.currentRegion.regionName];
 }
 
