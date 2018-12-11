@@ -278,7 +278,7 @@ static const double kStopsInRegionRefreshDelayOnDrag = 0.1;
             NSArray<OBAMatchingAgencyVehicle*> *matchingVehicles = response.object;
 
             if (matchingVehicles.count == 1) {
-                return [self.application.obacoService requestVehicleTrip:matchingVehicles.firstObject.vehicleID].anyPromise;
+                return [self.application.modelService requestVehicleTrip:matchingVehicles.firstObject.vehicleID].anyPromise;
             }
             else {
                 // pop up a disambiguation UI.
@@ -1043,7 +1043,7 @@ static const double kStopsInRegionRefreshDelayOnDrag = 0.1;
     [viewController dismissViewControllerAnimated:YES completion:^{
         [SVProgressHUD show];
 
-        PromiseWrapper *wrapper = [self.application.obacoService requestVehicleTrip:matchingVehicle.vehicleID];
+        PromiseWrapper *wrapper = [self.application.modelService requestVehicleTrip:matchingVehicle.vehicleID];
         wrapper.anyPromise.then(^(NetworkResponse *response){
             OBATripDetailsV2 *tripDetails = (OBATripDetailsV2 *)response.object;
             OBAArrivalAndDepartureViewController *controller = [[OBAArrivalAndDepartureViewController alloc] initWithTripInstance:tripDetails.tripInstance];

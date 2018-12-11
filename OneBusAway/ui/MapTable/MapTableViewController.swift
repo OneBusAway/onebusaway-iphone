@@ -485,9 +485,13 @@ extension MapTableViewController: MapSearchDelegate, UISearchControllerDelegate,
 extension MapTableViewController: VehicleDisambiguationDelegate {
     func disambiguator(_ viewController: VehicleDisambiguationViewController, didSelect matchingVehicle: MatchingAgencyVehicle) {
         viewController.dismiss(animated: true) {
+            guard let modelService = self.application.modelService else {
+                return
+            }
+
             SVProgressHUD.show()
 
-            let wrapper = self.application.obacoService.requestVehicleTrip(matchingVehicle.vehicleID)
+            let wrapper = modelService.requestVehicleTrip(matchingVehicle.vehicleID)
             wrapper.promise.then { [weak self] networkResponse in
                 self?.displayVehicleFromTripDetails(networkResponse)
             }.catch { [weak self] error in
@@ -513,25 +517,25 @@ extension MapTableViewController: VehicleDisambiguationDelegate {
         }
         // swiftlint:enable nesting
 
-        guard let region = application.modelDao.currentRegion else {
+        guard
+            let region = application.modelDao.currentRegion,
+            let modelService = application.modelService
+        else {
             // abxoxo TODO: better error handling.
             return
         }
         SVProgressHUD.show()
 
         let wrapper = application.obacoService.requestVehicles(matching: vehicleNavTarget.query, in: region)
-        wrapper.promise.then { [weak self] networkResponse -> Promise<NetworkResponse> in
+        wrapper.promise.then { networkResponse -> Promise<NetworkResponse> in
             let matchingVehicles = networkResponse.object as! [MatchingAgencyVehicle]
 
             if matchingVehicles.count > 1 {
                 throw VehicleError.needsDisambiguation(matchingVehicles)
             }
 
-            guard
-                let vehicle = matchingVehicles.first,
-                let modelService = self?.application.obacoService
-                else {
-                    throw VehicleError.noMatchesFound
+            guard let vehicle = matchingVehicles.first else {
+                throw VehicleError.noMatchesFound
             }
 
             return modelService.requestVehicleTrip(vehicle.vehicleID).promise

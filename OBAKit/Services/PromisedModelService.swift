@@ -88,6 +88,37 @@ import PromiseKit
 
         return obaJsonDataSource.buildGETRequest(withPath: "/api/where/trip-details/\(escapedTripID).json", queryParameters: args)
     }
+
+    /// Returns a PromiseWrapper that resolves to an OBATripDetailsV2 object.
+    ///
+    /// - Parameter vehicleID: The vehicle for which to retrieve trip details.
+    /// - Returns: a PromiseWrapper that resolves to trip details.
+    @objc public func requestVehicleTrip(_ vehicleID: String) -> PromiseWrapper {
+        let request = buildTripForVehicleRequest(vehicleID)
+        let wrapper = PromiseWrapper(request: request)
+
+        wrapper.promise = wrapper.promise.then { response -> NetworkResponse in
+            var error: NSError?
+            // swiftlint:disable force_cast
+            let entryWithRefs = self.modelFactory.getTripDetailsV2(fromJSON: response.object as! [AnyHashable: Any], error: &error)
+            // swiftlint:enable force_cast
+            if let error = error { throw error }
+
+            // swiftlint:disable force_cast
+            let tripDetails = entryWithRefs.entry as! OBATripDetailsV2
+            // swiftlint:enable force_cast
+
+            return NetworkResponse.init(object: tripDetails, response: response)
+        }
+
+        return wrapper
+    }
+
+    private func buildTripForVehicleRequest(_ vehicleID: String) -> OBAURLRequest {
+        let encodedID = OBAURLHelpers.escapePathVariable(vehicleID)
+        let path = "/api/where/trip-for-vehicle/\(encodedID).json"
+        return obaJsonDataSource.buildGETRequest(withPath: path, queryParameters: nil)
+    }
 }
 
 // MARK: - Agencies with Coverage
@@ -97,7 +128,9 @@ import PromiseKit
         let wrapper = PromiseWrapper.init(request: request)
 
         wrapper.promise = wrapper.promise.then { networkResponse -> NetworkResponse in
+            // swiftlint:disable force_cast
             let agencies = try self.decodeData(json: networkResponse.object as! [AnyHashable: Any])
+            // swiftlint:enable force_cast
             return NetworkResponse.init(object: agencies, URLResponse: networkResponse.URLResponse, urlRequest: networkResponse.urlRequest)
         }
 
@@ -116,7 +149,9 @@ import PromiseKit
             throw error
         }
 
+        // swiftlint:disable force_cast
         let entries = listWithRange.values as! [OBAAgencyWithCoverageV2]
+        // swiftlint:enable force_cast
         return entries
     }
 }
@@ -125,7 +160,9 @@ import PromiseKit
 extension PromisedModelService {
     public func requestRegionalAlerts() -> Promise<[AgencyAlert]> {
         return requestAgenciesWithCoverage().promise.then { networkResponse -> Promise<[AgencyAlert]> in
+            // swiftlint:disable force_cast
             let agencies = networkResponse.object as! [OBAAgencyWithCoverageV2]
+            // swiftlint:enable force_cast
             var requests = agencies.map { self.buildRequest(agency: $0) }
 
             let obacoRequest = self.buildObacoRequest(region: self.modelDAO.currentRegion!)
@@ -133,7 +170,9 @@ extension PromisedModelService {
 
             let promises = requests.map { request -> Promise<[TransitRealtime_FeedEntity]> in
                 return CancellablePromise.go(request: request).then { networkResponse -> Promise<[TransitRealtime_FeedEntity]> in
+                    // swiftlint:disable force_cast
                     let data = networkResponse.object as! Data
+                    // swiftlint:enable force_cast
                     let message = try TransitRealtime_FeedMessage(serializedData: data)
                     return Promise(value: message.entity)
                 }

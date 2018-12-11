@@ -144,35 +144,4 @@ import PromiseKit
         let obacoRequest = OBAURLRequest.init(url: url, cachePolicy: .useProtocolCachePolicy, timeoutInterval: 10)
         return obacoRequest
     }
-
-    /// Returns a PromiseWrapper that resolves to an OBATripDetailsV2 object.
-    ///
-    /// - Parameter vehicleID: The vehicle for which to retrieve trip details.
-    /// - Returns: a PromiseWrapper that resolves to trip details.
-    @objc public func requestVehicleTrip(_ vehicleID: String) -> PromiseWrapper {
-        let request = buildTripForVehicleRequest(vehicleID)
-        let wrapper = PromiseWrapper(request: request)
-
-        wrapper.promise = wrapper.promise.then { response -> NetworkResponse in
-            var error: NSError?
-            // swiftlint:disable force_cast
-            let entryWithRefs = self.modelFactory.getTripDetailsV2(fromJSON: response.object as! [AnyHashable: Any], error: &error)
-            // swiftlint:enable force_cast
-            if let error = error { throw error }
-
-            // swiftlint:disable force_cast
-            let tripDetails = entryWithRefs.entry as! OBATripDetailsV2
-            // swiftlint:enable force_cast
-
-            return NetworkResponse.init(object: tripDetails, response: response)
-        }
-
-        return wrapper
-    }
-
-    private func buildTripForVehicleRequest(_ vehicleID: String) -> OBAURLRequest {
-        let encodedID = OBAURLHelpers.escapePathVariable(vehicleID)
-        let path = "/api/where/trip-for-vehicle/\(encodedID).json"
-        return obacoDataSource.buildGETRequest(withPath: path, queryParameters: nil)
-    }
 }
