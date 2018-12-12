@@ -28,6 +28,7 @@
 @class OBAForecastManager;
 @class OBAMapDataLoader;
 @class OBAMapRegionManager;
+@class ObacoService;
 
 NS_ASSUME_NONNULL_BEGIN
 
@@ -40,6 +41,7 @@ extern NSString *const OBAShowTestAlertsDefaultsKey;
 @interface OBAApplication : NSObject
 @property (nonatomic, strong, readonly) OBAReferencesV2 *references;
 @property (nonatomic, strong, readonly) OBAModelDAO *modelDao;
+@property (nonatomic, strong, readonly) ObacoService *obacoService;
 @property (nonatomic, strong, readonly) OBARegionsService *regionsService;
 @property (nonatomic, strong, nullable, readonly) PromisedModelService *modelService;
 @property (nonatomic, strong, readonly) OBALocationManager *locationManager;

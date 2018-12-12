@@ -18,6 +18,14 @@ public class RegionsService: NSObject {
         self.regionsDataSource = regionsDataSource
     }
 
+    @objc public func cancelOpenConnections() {
+        regionsDataSource.cancelOpenConnections()
+    }
+
+    deinit {
+        regionsDataSource.cancelOpenConnections()
+    }
+
     ///  Retrieves all available OBA regions, including experimental and inactive regions.
     ///
     /// - Returns: An array of OBARegionV2 objects.

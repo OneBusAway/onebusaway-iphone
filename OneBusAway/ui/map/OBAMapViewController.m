@@ -273,12 +273,12 @@ static const double kStopsInRegionRefreshDelayOnDrag = 0.1;
     else if ([target isKindOfClass:OBAVehicleIDNavigationTarget.class]) {
         [SVProgressHUD show];
         OBAVehicleIDNavigationTarget *vehicleNavTarget = (OBAVehicleIDNavigationTarget*)target;
-        PromiseWrapper *wrapper = [self.modelService requestVehiclesMatching:vehicleNavTarget.query in:self.modelDAO.currentRegion];
+        PromiseWrapper *wrapper = [self.application.obacoService requestVehiclesMatching:vehicleNavTarget.query in:self.modelDAO.currentRegion];
         wrapper.anyPromise.then(^(NetworkResponse *response) {
             NSArray<OBAMatchingAgencyVehicle*> *matchingVehicles = response.object;
 
             if (matchingVehicles.count == 1) {
-                return [self.modelService requestVehicleTrip:matchingVehicles.firstObject.vehicleID].anyPromise;
+                return [self.application.modelService requestVehicleTrip:matchingVehicles.firstObject.vehicleID].anyPromise;
             }
             else {
                 // pop up a disambiguation UI.
@@ -734,6 +734,14 @@ static const double kStopsInRegionRefreshDelayOnDrag = 0.1;
 - (void)refreshStopsInRegion {
     self.refreshTimer = nil;
 
+    // If we do not have a region assigned at this point, we cannot make a
+    // request. Terminate the data loading process and force the user to
+    // select a region.
+    if ([self.application.locationManager shouldForceRegionSelection]) {
+        [self.application.regionHelper setNearestRegion];
+        return;
+    }
+
     MKCoordinateRegion region = self.mapView.region;
     MKCoordinateSpan span = region.span;
 
@@ -1035,9 +1043,7 @@ static const double kStopsInRegionRefreshDelayOnDrag = 0.1;
     [viewController dismissViewControllerAnimated:YES completion:^{
         [SVProgressHUD show];
 
-        // abxoxo - todo - add this wrapper to a 'disposal bag' or something that can be cancelled
-        // if the user exits this view controller before this operation finishes.
-        PromiseWrapper *wrapper = [self.modelService requestVehicleTrip:matchingVehicle.vehicleID];
+        PromiseWrapper *wrapper = [self.application.modelService requestVehicleTrip:matchingVehicle.vehicleID];
         wrapper.anyPromise.then(^(NetworkResponse *response){
             OBATripDetailsV2 *tripDetails = (OBATripDetailsV2 *)response.object;
             OBAArrivalAndDepartureViewController *controller = [[OBAArrivalAndDepartureViewController alloc] initWithTripInstance:tripDetails.tripInstance];

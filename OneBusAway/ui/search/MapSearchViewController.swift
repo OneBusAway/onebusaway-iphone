@@ -87,13 +87,13 @@ class MapSearchViewController: OBAStaticTableViewController, UISearchResultsUpda
     private static func quickLookupRowText(title: String, searchText: String) -> NSAttributedString {
         let str = NSMutableAttributedString.init()
 
-        let attributedTitle = NSAttributedString.init(string: title, attributes: [NSAttributedStringKey.foregroundColor: UIColor.darkGray])
+        let attributedTitle = NSAttributedString.init(string: title, attributes: [NSAttributedString.Key.foregroundColor: UIColor.darkGray])
         str.append(attributedTitle)
 
         // Needs a space tokeepwordsfromrunningtogether
         str.append(NSAttributedString.init(string: " "))
 
-        let attributedSearchText = NSAttributedString.init(string: searchText, attributes: [NSAttributedStringKey.font: OBATheme.boldBodyFont])
+        let attributedSearchText = NSAttributedString.init(string: searchText, attributes: [NSAttributedString.Key.font: OBATheme.boldBodyFont])
         str.append(attributedSearchText)
 
         return str

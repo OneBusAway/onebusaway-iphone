@@ -263,6 +263,7 @@
 		9388C2D32001567F0068041F /* OBAStackedMarqueeLabels.h in Headers */ = {isa = PBXBuildFile; fileRef = 9388C2D12001567F0068041F /* OBAStackedMarqueeLabels.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		9388C2D42001567F0068041F /* OBAStackedMarqueeLabels.m in Sources */ = {isa = PBXBuildFile; fileRef = 9388C2D22001567F0068041F /* OBAStackedMarqueeLabels.m */; };
 		938956FD215C3F03008AB975 /* RegionsService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 938956FC215C3F03008AB975 /* RegionsService.swift */; };
+		93895708215D88C4008AB975 /* ObacoService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 93895707215D88C4008AB975 /* ObacoService.swift */; };
 		939A1A8421165989001D5654 /* OBAButtonRow.h in Headers */ = {isa = PBXBuildFile; fileRef = 939A1A8221165989001D5654 /* OBAButtonRow.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		939A1A8521165989001D5654 /* OBAButtonRow.m in Sources */ = {isa = PBXBuildFile; fileRef = 939A1A8321165989001D5654 /* OBAButtonRow.m */; };
 		93A6E9E21F5BC18B00AFA61C /* AppInterop.swift in Sources */ = {isa = PBXBuildFile; fileRef = 93A6E9E11F5BC18B00AFA61C /* AppInterop.swift */; };
@@ -597,6 +598,7 @@
 		9388C2D12001567F0068041F /* OBAStackedMarqueeLabels.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = OBAStackedMarqueeLabels.h; sourceTree = "<group>"; };
 		9388C2D22001567F0068041F /* OBAStackedMarqueeLabels.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = OBAStackedMarqueeLabels.m; sourceTree = "<group>"; };
 		938956FC215C3F03008AB975 /* RegionsService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegionsService.swift; sourceTree = "<group>"; };
+		93895707215D88C4008AB975 /* ObacoService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ObacoService.swift; sourceTree = "<group>"; };
 		939A1A8221165989001D5654 /* OBAButtonRow.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = OBAButtonRow.h; sourceTree = "<group>"; };
 		939A1A8321165989001D5654 /* OBAButtonRow.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = OBAButtonRow.m; sourceTree = "<group>"; };
 		93A6E9E11F5BC18B00AFA61C /* AppInterop.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppInterop.swift; sourceTree = "<group>"; };
@@ -1056,6 +1058,7 @@
 				93D5F3661FF1900700800132 /* OBAURLRequest.swift */,
 				93113205214D9D450063D400 /* ForecastManager.swift */,
 				938956FC215C3F03008AB975 /* RegionsService.swift */,
+				93895707215D88C4008AB975 /* ObacoService.swift */,
 			);
 			path = Services;
 			sourceTree = "<group>";
@@ -1435,7 +1438,7 @@
 				TargetAttributes = {
 					934195381DB0B013004BBBB7 = {
 						CreatedOnToolsVersion = 8.0;
-						LastSwiftMigration = 0900;
+						LastSwiftMigration = 1000;
 						ProvisioningStyle = Manual;
 					};
 					934195411DB0B013004BBBB7 = {
@@ -1488,6 +1491,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				93895708215D88C4008AB975 /* ObacoService.swift in Sources */,
 				939A1A8521165989001D5654 /* OBAButtonRow.m in Sources */,
 				934196251DB0B099004BBBB7 /* OBASphericalGeometryLibrary.m in Sources */,
 				931C60D41EC3974E0086EC37 /* OBAApplication.m in Sources */,
@@ -1832,9 +1836,8 @@
 				PRODUCT_BUNDLE_IDENTIFIER = org.onebusaway.iphone.OBAKit;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
-				SWIFT_SWIFT3_OBJC_INFERENCE = Default;
 				SWIFT_TREAT_WARNINGS_AS_ERRORS = YES;
-				SWIFT_VERSION = 4.0;
+				SWIFT_VERSION = 4.2;
 			};
 			name = Debug;
 		};
@@ -1858,9 +1861,8 @@
 				PRODUCT_BUNDLE_IDENTIFIER = org.onebusaway.iphone.OBAKit;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
-				SWIFT_SWIFT3_OBJC_INFERENCE = Default;
 				SWIFT_TREAT_WARNINGS_AS_ERRORS = YES;
-				SWIFT_VERSION = 4.0;
+				SWIFT_VERSION = 4.2;
 			};
 			name = Release;
 		};
@@ -1966,9 +1968,8 @@
 				PRODUCT_BUNDLE_IDENTIFIER = org.onebusaway.iphone.OBAKit;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
-				SWIFT_SWIFT3_OBJC_INFERENCE = Default;
 				SWIFT_TREAT_WARNINGS_AS_ERRORS = YES;
-				SWIFT_VERSION = 4.0;
+				SWIFT_VERSION = 4.2;
 			};
 			name = AppStoreDistribution;
 		};

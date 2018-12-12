@@ -33,7 +33,6 @@
 		931131F0214C17590063D400 /* FirebaseInstanceID.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 931131E9214C17590063D400 /* FirebaseInstanceID.framework */; };
 		931131F1214C17590063D400 /* nanopb.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 931131EA214C17590063D400 /* nanopb.framework */; };
 		931131F5214C182B0063D400 /* libsqlite3.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 931131F4214C182B0063D400 /* libsqlite3.tbd */; };
-		931131FB214C1BFF0063D400 /* OBA_Firebase.plist in Resources */ = {isa = PBXBuildFile; fileRef = 931131FA214C1BFE0063D400 /* OBA_Firebase.plist */; };
 		931131FD214D6C450063D400 /* ButtonSectionController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 931131FC214D6C450063D400 /* ButtonSectionController.swift */; };
 		931131FF214D7BA20063D400 /* MapTypePickerController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 931131FE214D7BA20063D400 /* MapTypePickerController.swift */; };
 		931A6A291E03EAA100131242 /* OBATimelineBarRow.m in Sources */ = {isa = PBXBuildFile; fileRef = 931A6A281E03EAA100131242 /* OBATimelineBarRow.m */; };
@@ -56,6 +55,8 @@
 		9336B1B11FF6468B00CCC5ED /* Fabric.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 93BB1EE01E300526008A88BA /* Fabric.framework */; };
 		9336B1B21FF6468B00CCC5ED /* Crashlytics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 93BB1EE11E300526008A88BA /* Crashlytics.framework */; };
 		9336B1CB1FF95D5500CCC5ED /* test_userdefaults.xml in Resources */ = {isa = PBXBuildFile; fileRef = 9336B1C91FF95D5400CCC5ED /* test_userdefaults.xml */; };
+		93383C7F21629CA4006A9AA1 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 93383C7D21629CA3006A9AA1 /* GoogleService-Info.plist */; };
+		93383C8121629D08006A9AA1 /* OBAProperties.plist in Resources */ = {isa = PBXBuildFile; fileRef = 93383C8021629D08006A9AA1 /* OBAProperties.plist */; };
 		933BC246203936E500267965 /* DrawerApplicationUI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 933BC245203936E500267965 /* DrawerApplicationUI.swift */; };
 		93414D76207361E7001D1892 /* Fabric.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 93BB1EE01E300526008A88BA /* Fabric.framework */; };
 		93414D77207361E7001D1892 /* Crashlytics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 93BB1EE11E300526008A88BA /* Crashlytics.framework */; };
@@ -343,7 +344,6 @@
 		931131F2214C17880063D400 /* Firebase.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Firebase.h; sourceTree = "<group>"; };
 		931131F3214C17880063D400 /* module.modulemap */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = "sourcecode.module-map"; path = module.modulemap; sourceTree = "<group>"; };
 		931131F4214C182B0063D400 /* libsqlite3.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libsqlite3.tbd; path = usr/lib/libsqlite3.tbd; sourceTree = SDKROOT; };
-		931131FA214C1BFE0063D400 /* OBA_Firebase.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = OBA_Firebase.plist; sourceTree = "<group>"; };
 		931131FC214D6C450063D400 /* ButtonSectionController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ButtonSectionController.swift; sourceTree = "<group>"; };
 		931131FE214D7BA20063D400 /* MapTypePickerController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapTypePickerController.swift; sourceTree = "<group>"; };
 		931A6A271E03EAA100131242 /* OBATimelineBarRow.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OBATimelineBarRow.h; sourceTree = "<group>"; };
@@ -370,6 +370,8 @@
 		933546DF1E834BB000D83519 /* OBAMessageCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OBAMessageCell.h; sourceTree = "<group>"; };
 		933546E01E834BB000D83519 /* OBAMessageCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OBAMessageCell.m; sourceTree = "<group>"; };
 		9336B1C91FF95D5400CCC5ED /* test_userdefaults.xml */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = test_userdefaults.xml; sourceTree = "<group>"; };
+		93383C7D21629CA3006A9AA1 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
+		93383C8021629D08006A9AA1 /* OBAProperties.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = OBAProperties.plist; sourceTree = "<group>"; };
 		933BC245203936E500267965 /* DrawerApplicationUI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DrawerApplicationUI.swift; sourceTree = "<group>"; };
 		934196D61DB0C124004BBBB7 /* MKMapView+oba_Additions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "MKMapView+oba_Additions.h"; sourceTree = "<group>"; };
 		934196D71DB0C124004BBBB7 /* MKMapView+oba_Additions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "MKMapView+oba_Additions.m"; sourceTree = "<group>"; };
@@ -824,6 +826,7 @@
 		931131F8214C1BFE0063D400 /* AppIdentities */ = {
 			isa = PBXGroup;
 			children = (
+				93383C7D21629CA3006A9AA1 /* GoogleService-Info.plist */,
 				931131F9214C1BFE0063D400 /* OneBusAway */,
 			);
 			path = AppIdentities;
@@ -832,7 +835,7 @@
 		931131F9214C1BFE0063D400 /* OneBusAway */ = {
 			isa = PBXGroup;
 			children = (
-				931131FA214C1BFE0063D400 /* OBA_Firebase.plist */,
+				93383C8021629D08006A9AA1 /* OBAProperties.plist */,
 			);
 			path = OneBusAway;
 			sourceTree = "<group>";
@@ -1710,7 +1713,7 @@
 				TargetAttributes = {
 					1D6058900D05DD3D006BFB54 = {
 						DevelopmentTeam = THEWY9596Q;
-						LastSwiftMigration = 0900;
+						LastSwiftMigration = 1000;
 						ProvisioningStyle = Automatic;
 						SystemCapabilities = {
 							com.apple.ApplicationGroups.iOS = {
@@ -1729,13 +1732,14 @@
 					};
 					936F45D81C78D06600C61656 = {
 						CreatedOnToolsVersion = 7.2.1;
-						LastSwiftMigration = 0900;
+						LastSwiftMigration = 1000;
 						ProvisioningStyle = Manual;
 						TestTargetID = 1D6058900D05DD3D006BFB54;
 					};
 					93AD17B11F86C14C00E730D7 = {
 						CreatedOnToolsVersion = 9.0;
 						DevelopmentTeam = THEWY9596Q;
+						LastSwiftMigration = 1000;
 						ProvisioningStyle = Automatic;
 						SystemCapabilities = {
 							com.apple.ApplicationGroups.iOS = {
@@ -1800,8 +1804,9 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				931131FB214C1BFF0063D400 /* OBA_Firebase.plist in Resources */,
+				93383C8121629D08006A9AA1 /* OBAProperties.plist in Resources */,
 				93ADC51B1DCB1EBE0024FBD6 /* credits.html in Resources */,
+				93383C7F21629CA4006A9AA1 /* GoogleService-Info.plist in Resources */,
 				9341983C1DB0C1E9004BBBB7 /* Images.xcassets in Resources */,
 				934198201DB0C1BA004BBBB7 /* OBALabelAndTextFieldTableViewCell.xib in Resources */,
 				934198401DB0C1E9004BBBB7 /* regions-v3.json in Resources */,
@@ -2215,8 +2220,7 @@
 				PROVISIONING_PROFILE_SPECIFIER = "";
 				SDKROOT = iphoneos;
 				SWIFT_OBJC_BRIDGING_HEADER = "$(SRCROOT)/OneBusAway/OneBusAway-Bridging-Header.h";
-				SWIFT_SWIFT3_OBJC_INFERENCE = Default;
-				SWIFT_VERSION = 4.0;
+				SWIFT_VERSION = 4.2;
 				TARGETED_DEVICE_FAMILY = "1,2";
 				USER_HEADER_SEARCH_PATHS = "$(PROJECT_DIR)/OneBusAway/externals/Firebase";
 				VALIDATE_PRODUCT = YES;
@@ -2264,8 +2268,7 @@
 				PROVISIONING_PROFILE_SPECIFIER = "";
 				SDKROOT = iphoneos;
 				SWIFT_OBJC_BRIDGING_HEADER = "$(SRCROOT)/OneBusAway/OneBusAway-Bridging-Header.h";
-				SWIFT_SWIFT3_OBJC_INFERENCE = Default;
-				SWIFT_VERSION = 4.0;
+				SWIFT_VERSION = 4.2;
 				TARGETED_DEVICE_FAMILY = "1,2";
 				USER_HEADER_SEARCH_PATHS = "$(PROJECT_DIR)/OneBusAway/externals/Firebase";
 				VALIDATE_PRODUCT = YES;
@@ -2318,8 +2321,7 @@
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_OBJC_BRIDGING_HEADER = "OneBusAway/OneBusAwayTests/OneBusAwayTests-Bridging-Header.h";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
-				SWIFT_SWIFT3_OBJC_INFERENCE = Default;
-				SWIFT_VERSION = 4.0;
+				SWIFT_VERSION = 4.2;
 				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/OneBusAway.app/OneBusAway";
 			};
 			name = Debug;
@@ -2364,8 +2366,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = org.onebusaway.OneBusAwayTests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_OBJC_BRIDGING_HEADER = "OneBusAway/OneBusAwayTests/OneBusAwayTests-Bridging-Header.h";
-				SWIFT_SWIFT3_OBJC_INFERENCE = Default;
-				SWIFT_VERSION = 4.0;
+				SWIFT_VERSION = 4.2;
 				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/OneBusAway.app/OneBusAway";
 				VALIDATE_PRODUCT = YES;
 			};
@@ -2411,8 +2412,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = org.onebusaway.OneBusAwayTests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_OBJC_BRIDGING_HEADER = "OneBusAway/OneBusAwayTests/OneBusAwayTests-Bridging-Header.h";
-				SWIFT_SWIFT3_OBJC_INFERENCE = Default;
-				SWIFT_VERSION = 4.0;
+				SWIFT_VERSION = 4.2;
 				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/OneBusAway.app/OneBusAway";
 				VALIDATE_PRODUCT = YES;
 			};
@@ -2458,8 +2458,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = org.onebusaway.OneBusAwayTests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_OBJC_BRIDGING_HEADER = "OneBusAway/OneBusAwayTests/OneBusAwayTests-Bridging-Header.h";
-				SWIFT_SWIFT3_OBJC_INFERENCE = Default;
-				SWIFT_VERSION = 4.0;
+				SWIFT_VERSION = 4.2;
 				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/OneBusAway.app/OneBusAway";
 				VALIDATE_PRODUCT = YES;
 			};
@@ -2504,7 +2503,7 @@
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
 				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
-				SWIFT_VERSION = 4.0;
+				SWIFT_VERSION = 4.2;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Debug;
@@ -2543,7 +2542,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = "org.onebusaway.iphone.OneBusAway-Today";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
-				SWIFT_VERSION = 4.0;
+				SWIFT_VERSION = 4.2;
 				TARGETED_DEVICE_FAMILY = "1,2";
 				VALIDATE_PRODUCT = YES;
 			};
@@ -2583,7 +2582,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = "org.onebusaway.iphone.OneBusAway-Today";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
-				SWIFT_VERSION = 4.0;
+				SWIFT_VERSION = 4.2;
 				TARGETED_DEVICE_FAMILY = "1,2";
 				VALIDATE_PRODUCT = YES;
 			};
@@ -2623,7 +2622,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = "org.onebusaway.iphone.OneBusAway-Today";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
-				SWIFT_VERSION = 4.0;
+				SWIFT_VERSION = 4.2;
 				TARGETED_DEVICE_FAMILY = "1,2";
 				VALIDATE_PRODUCT = YES;
 			};
@@ -2869,8 +2868,7 @@
 				PROVISIONING_PROFILE_SPECIFIER = "";
 				SDKROOT = iphoneos;
 				SWIFT_OBJC_BRIDGING_HEADER = "$(SRCROOT)/OneBusAway/OneBusAway-Bridging-Header.h";
-				SWIFT_SWIFT3_OBJC_INFERENCE = Default;
-				SWIFT_VERSION = 4.0;
+				SWIFT_VERSION = 4.2;
 				TARGETED_DEVICE_FAMILY = "1,2";
 				USER_HEADER_SEARCH_PATHS = "$(PROJECT_DIR)/OneBusAway/externals/Firebase";
 				VALIDATE_PRODUCT = YES;
@@ -2982,8 +2980,7 @@
 				PROVISIONING_PROFILE_SPECIFIER = "";
 				SDKROOT = iphoneos;
 				SWIFT_OBJC_BRIDGING_HEADER = "$(SRCROOT)/OneBusAway/OneBusAway-Bridging-Header.h";
-				SWIFT_SWIFT3_OBJC_INFERENCE = Default;
-				SWIFT_VERSION = 4.0;
+				SWIFT_VERSION = 4.2;
 				TARGETED_DEVICE_FAMILY = "1,2";
 				USER_HEADER_SEARCH_PATHS = "$(PROJECT_DIR)/OneBusAway/externals/Firebase";
 				VALIDATE_PRODUCT = YES;

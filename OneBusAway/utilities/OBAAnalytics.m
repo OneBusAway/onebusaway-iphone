@@ -66,10 +66,16 @@ NSInteger const OBAAnalyticsDimensionVoiceOver = 4;
 - (void)configureGoogleAnalytics {
     id<GAITracker> tracker = [[GAI sharedInstance] trackerWithTrackingId:self.application.googleAnalyticsID];
     [GAI sharedInstance].logger.logLevel = kGAILogLevelWarning;
+    [tracker set:kGAISampleRate value:@"1.0"];
     [tracker set:[GAIFields customDimensionForIndex:1] value:self.application.modelDao.currentRegion.regionName];
 }
 
 - (void)configureFirebaseAnalytics {
+    if (![NSFileManager.defaultManager fileExistsAtPath:self.application.firebaseAnalyticsConfigFilePath]) {
+        NSLog(@"Firebase analytics config file does not exist. Please add it to the bundle to enable Firebase support.");
+        return;
+    }
+
     FIROptions *options = [[FIROptions alloc] initWithContentsOfFile:self.application.firebaseAnalyticsConfigFilePath];
     [FIRApp configureWithOptions:options];
 

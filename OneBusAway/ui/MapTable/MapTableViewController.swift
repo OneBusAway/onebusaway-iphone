@@ -22,7 +22,7 @@ class MapTableViewController: UIViewController {
     lazy var collectionViewLayout: UICollectionViewLayout = {
         let layout = UICollectionViewFlowLayout()
         layout.estimatedItemSize = CGSize(width: 375, height: 40)
-        layout.itemSize = UICollectionViewFlowLayoutAutomaticSize
+        layout.itemSize = UICollectionViewFlowLayout.automaticSize
         return layout
     }()
 
@@ -526,24 +526,21 @@ extension MapTableViewController: VehicleDisambiguationDelegate {
         }
         SVProgressHUD.show()
 
-        let wrapper = modelService.requestVehicles(matching: vehicleNavTarget.query, in: region)
-        wrapper.promise.then { [weak self] networkResponse -> Promise<NetworkResponse> in
+        let wrapper = application.obacoService.requestVehicles(matching: vehicleNavTarget.query, in: region)
+        wrapper.promise.then { networkResponse -> Promise<NetworkResponse> in
             let matchingVehicles = networkResponse.object as! [MatchingAgencyVehicle]
 
             if matchingVehicles.count > 1 {
                 throw VehicleError.needsDisambiguation(matchingVehicles)
             }
 
-            guard
-                let vehicle = matchingVehicles.first,
-                let modelService = self?.application.modelService
-                else {
-                    throw VehicleError.noMatchesFound
+            guard let vehicle = matchingVehicles.first else {
+                throw VehicleError.noMatchesFound
             }
 
             return modelService.requestVehicleTrip(vehicle.vehicleID).promise
         }.then { [weak self] (networkResponse: NetworkResponse?) -> Void in
-                self?.displayVehicleFromTripDetails(networkResponse)
+            self?.displayVehicleFromTripDetails(networkResponse)
         }.catch { error in
             if let err = error as? VehicleError {
                 switch err {

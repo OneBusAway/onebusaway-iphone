@@ -25,8 +25,12 @@ NSString * const OBAShowTestAlertsDefaultsKey = @"OBAShowTestAlertsDefaultsKey";
 @property (nonatomic, strong, readwrite) OBAApplicationConfiguration *configuration;
 @property (nonatomic, strong, readwrite) OBAReferencesV2 *references;
 @property (nonatomic, strong, readwrite) OBAModelDAO *modelDao;
+
+// Data Services
+@property (nonatomic, strong, readwrite) ObacoService *obacoService;
 @property (nonatomic, strong, readwrite) OBARegionsService *regionsService;
 @property (nonatomic, strong, nullable, readwrite) PromisedModelService *modelService;
+
 @property (nonatomic, strong, readwrite) OBALocationManager *locationManager;
 @property (nonatomic, strong, readwrite) OBAReachability *reachability;
 @property (nonatomic, strong, readwrite) OBARegionHelper *regionHelper;
@@ -78,6 +82,7 @@ NSString * const OBAShowTestAlertsDefaultsKey = @"OBAShowTestAlertsDefaultsKey";
     self.locationManager = [[OBALocationManager alloc] initWithModelDAO:self.modelDao];
 
     self.regionsService = [[OBARegionsService alloc] initWithRegionsDataSource:OBAJsonDataSource.regionsDataSource];
+    self.obacoService = [[ObacoService alloc] initWithDataSource:OBAJsonDataSource.obacoJSONDataSource];
 
     self.regionHelper = [[OBARegionHelper alloc] initWithLocationManager:self.locationManager modelService:self.regionsService];
 
@@ -148,8 +153,10 @@ NSString * const OBAShowTestAlertsDefaultsKey = @"OBAShowTestAlertsDefaultsKey";
 
 - (void)applicationDidEnterBackground {
     [self.locationManager stopUpdatingLocation];
-    
+
     [self.modelService cancelOpenConnections];
+    [self.obacoService cancelOpenConnections];
+    [self.regionsService cancelOpenConnections];
 }
 
 #pragma mark - Reachability
@@ -196,19 +203,19 @@ NSString * const OBAShowTestAlertsDefaultsKey = @"OBAShowTestAlertsDefaultsKey";
 #pragma mark - App Keys
 
 - (NSString*)firebaseAnalyticsConfigFilePath {
-    return [NSBundle.mainBundle pathForResource:@"OBA_Firebase" ofType:@"plist"];
+    return [NSBundle.mainBundle pathForResource:@"GoogleService-Info" ofType:@"plist"];
 }
 
 - (NSString*)googleAnalyticsID {
-    return @"UA-2423527-17";
+    return self.configuration.appProperties[OBAAppConfigPropertyGoogleAnalyticsKey];
 }
 
 - (NSString*)oneSignalAPIKey {
-    return @"d5d0d28a-6091-46cd-9627-0ce01ffa9f9e";
+    return self.configuration.appProperties[OBAAppConfigPropertyOneSignalKey];
 }
 
 - (NSString*)appStoreAppID {
-    return @"329380089";
+    return self.configuration.appProperties[OBAAppConfigPropertyAppStoreKey];
 }
 
 #pragma mark - App/Region/API State

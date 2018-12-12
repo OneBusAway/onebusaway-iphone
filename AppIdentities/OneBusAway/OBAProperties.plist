@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>google_analytics_id</key>
+	<string>UA-2423527-17</string>
+	<key>onesignal_api_key</key>
+	<string>d5d0d28a-6091-46cd-9627-0ce01ffa9f9e</string>
+	<key>appstore_id</key>
+	<string>329380089</string>
+</dict>
+</plist>
