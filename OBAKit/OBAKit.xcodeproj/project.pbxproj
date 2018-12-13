@@ -215,6 +215,8 @@
 		934196D31DB0C02F004BBBB7 /* NSDate+DateTools.h in Headers */ = {isa = PBXBuildFile; fileRef = 934196D11DB0C02F004BBBB7 /* NSDate+DateTools.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		934196D41DB0C02F004BBBB7 /* NSDate+DateTools.m in Sources */ = {isa = PBXBuildFile; fileRef = 934196D21DB0C02F004BBBB7 /* NSDate+DateTools.m */; };
 		9341B82E20B69327006450FC /* CardWrapper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9341B82D20B69327006450FC /* CardWrapper.swift */; };
+		934894DA21C2D064001ADDB6 /* OBAOccupancyStatus.m in Sources */ = {isa = PBXBuildFile; fileRef = 934894D921C2D064001ADDB6 /* OBAOccupancyStatus.m */; };
+		934894DB21C2D237001ADDB6 /* OBAOccupancyStatus.h in Headers */ = {isa = PBXBuildFile; fileRef = 934894D821C2CD71001ADDB6 /* OBAOccupancyStatus.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		934C50951E2A1FB500DFDCA0 /* NSCoder+OBAAdditions.h in Headers */ = {isa = PBXBuildFile; fileRef = 934C50931E2A1FB500DFDCA0 /* NSCoder+OBAAdditions.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		934C50961E2A1FB500DFDCA0 /* NSCoder+OBAAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = 934C50941E2A1FB500DFDCA0 /* NSCoder+OBAAdditions.m */; };
 		934C50991E2B656900DFDCA0 /* NSDictionary+OBAAdditions.h in Headers */ = {isa = PBXBuildFile; fileRef = 934C50971E2B656900DFDCA0 /* NSDictionary+OBAAdditions.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -550,6 +552,8 @@
 		934196D11DB0C02F004BBBB7 /* NSDate+DateTools.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSDate+DateTools.h"; sourceTree = "<group>"; };
 		934196D21DB0C02F004BBBB7 /* NSDate+DateTools.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSDate+DateTools.m"; sourceTree = "<group>"; };
 		9341B82D20B69327006450FC /* CardWrapper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CardWrapper.swift; sourceTree = "<group>"; };
+		934894D821C2CD71001ADDB6 /* OBAOccupancyStatus.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = OBAOccupancyStatus.h; sourceTree = "<group>"; };
+		934894D921C2D064001ADDB6 /* OBAOccupancyStatus.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = OBAOccupancyStatus.m; sourceTree = "<group>"; };
 		934C50931E2A1FB500DFDCA0 /* NSCoder+OBAAdditions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSCoder+OBAAdditions.h"; sourceTree = "<group>"; };
 		934C50941E2A1FB500DFDCA0 /* NSCoder+OBAAdditions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSCoder+OBAAdditions.m"; sourceTree = "<group>"; };
 		934C50971E2B656900DFDCA0 /* NSDictionary+OBAAdditions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSDictionary+OBAAdditions.h"; sourceTree = "<group>"; };
@@ -1034,6 +1038,8 @@
 				9363B6D320F50EE400F515CB /* MatchingAgencyVehicle.swift */,
 				9300CF7520F89448006AB268 /* WeatherForecast.swift */,
 				93DE557121530EAA0030D67D /* BoxedCoordinateRegion.swift */,
+				934894D821C2CD71001ADDB6 /* OBAOccupancyStatus.h */,
+				934894D921C2D064001ADDB6 /* OBAOccupancyStatus.m */,
 			);
 			path = unmanaged;
 			sourceTree = "<group>";
@@ -1359,6 +1365,7 @@
 				934196901DB0B099004BBBB7 /* OBATripV2.h in Headers */,
 				934196711DB0B099004BBBB7 /* OBARouteType.h in Headers */,
 				9385BEDC1FB040B300D122D1 /* OBAErrorMessages.h in Headers */,
+				934894DB21C2D237001ADDB6 /* OBAOccupancyStatus.h in Headers */,
 				93EA5A3F203DF41B00CE6CAC /* OBAAlarmNavigationTarget.h in Headers */,
 				934196121DB0B099004BBBB7 /* OBARouteFilter.h in Headers */,
 				934195FC1DB0B099004BBBB7 /* UILabel+OBAAdditions.h in Headers */,
@@ -1538,6 +1545,7 @@
 				93E592A51F8CACBF0079A2D8 /* OBAStaticTableViewController.m in Sources */,
 				931C60D81EC3975A0086EC37 /* OBAApplicationConfiguration.m in Sources */,
 				9388C2D42001567F0068041F /* OBAStackedMarqueeLabels.m in Sources */,
+				934894DA21C2D064001ADDB6 /* OBAOccupancyStatus.m in Sources */,
 				9388C2A91FFE1BB90068041F /* OBAPlaceholderRow.m in Sources */,
 				934196151DB0B099004BBBB7 /* OBAStopIconFactory.m in Sources */,
 				93A73BF71F87613A00F213D4 /* OBADepartureTimeLabel.m in Sources */,

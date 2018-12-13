@@ -64,6 +64,7 @@ FOUNDATION_EXPORT const unsigned char OBAKitVersionString[];
 #import <OBAKit/OBAModelPersistenceLayer.h>
 #import <OBAKit/OBAModelService.h>
 #import <OBAKit/OBAModelServiceRequest.h>
+#import <OBAKit/OBAOccupancyStatus.h>
 #import <OBAKit/OBAPlaceholderView.h>
 #import <OBAKit/OBAPlacemark.h>
 #import <OBAKit/OBAReachability.h>
