@@ -217,6 +217,7 @@
 		9341B82E20B69327006450FC /* CardWrapper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9341B82D20B69327006450FC /* CardWrapper.swift */; };
 		934894DA21C2D064001ADDB6 /* OBAOccupancyStatus.m in Sources */ = {isa = PBXBuildFile; fileRef = 934894D921C2D064001ADDB6 /* OBAOccupancyStatus.m */; };
 		934894DB21C2D237001ADDB6 /* OBAOccupancyStatus.h in Headers */ = {isa = PBXBuildFile; fileRef = 934894D821C2CD71001ADDB6 /* OBAOccupancyStatus.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		934894DD21C2D7C8001ADDB6 /* OccupancyStatusView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 934894DC21C2D7C8001ADDB6 /* OccupancyStatusView.swift */; };
 		934C50951E2A1FB500DFDCA0 /* NSCoder+OBAAdditions.h in Headers */ = {isa = PBXBuildFile; fileRef = 934C50931E2A1FB500DFDCA0 /* NSCoder+OBAAdditions.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		934C50961E2A1FB500DFDCA0 /* NSCoder+OBAAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = 934C50941E2A1FB500DFDCA0 /* NSCoder+OBAAdditions.m */; };
 		934C50991E2B656900DFDCA0 /* NSDictionary+OBAAdditions.h in Headers */ = {isa = PBXBuildFile; fileRef = 934C50971E2B656900DFDCA0 /* NSDictionary+OBAAdditions.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -554,6 +555,7 @@
 		9341B82D20B69327006450FC /* CardWrapper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CardWrapper.swift; sourceTree = "<group>"; };
 		934894D821C2CD71001ADDB6 /* OBAOccupancyStatus.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = OBAOccupancyStatus.h; sourceTree = "<group>"; };
 		934894D921C2D064001ADDB6 /* OBAOccupancyStatus.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = OBAOccupancyStatus.m; sourceTree = "<group>"; };
+		934894DC21C2D7C8001ADDB6 /* OccupancyStatusView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OccupancyStatusView.swift; sourceTree = "<group>"; };
 		934C50931E2A1FB500DFDCA0 /* NSCoder+OBAAdditions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSCoder+OBAAdditions.h"; sourceTree = "<group>"; };
 		934C50941E2A1FB500DFDCA0 /* NSCoder+OBAAdditions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSCoder+OBAAdditions.m"; sourceTree = "<group>"; };
 		934C50971E2B656900DFDCA0 /* NSDictionary+OBAAdditions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSDictionary+OBAAdditions.h"; sourceTree = "<group>"; };
@@ -1094,6 +1096,7 @@
 				9388C2D12001567F0068041F /* OBAStackedMarqueeLabels.h */,
 				9388C2D22001567F0068041F /* OBAStackedMarqueeLabels.m */,
 				93681B9521223D7700293165 /* DrawerNavigationBar.swift */,
+				934894DC21C2D7C8001ADDB6 /* OccupancyStatusView.swift */,
 			);
 			path = UI;
 			sourceTree = "<group>";
@@ -1618,6 +1621,7 @@
 				934196231DB0B099004BBBB7 /* OBARegionHelper.m in Sources */,
 				9388C29F1FFDBAEA0068041F /* FBShimmeringView.m in Sources */,
 				9341964A1DB0B099004BBBB7 /* OBAAgencyWithCoverageV2.m in Sources */,
+				934894DD21C2D7C8001ADDB6 /* OccupancyStatusView.swift in Sources */,
 				934C509A1E2B656900DFDCA0 /* NSDictionary+OBAAdditions.m in Sources */,
 				934196081DB0B099004BBBB7 /* OBAEmailHelper.m in Sources */,
 				9341967F1DB0B099004BBBB7 /* OBAStopAccessEventV2.m in Sources */,

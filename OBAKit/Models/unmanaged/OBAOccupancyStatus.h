@@ -8,6 +8,7 @@
 
 @import Foundation;
 
+NS_SWIFT_NAME(OccupancyStatus)
 typedef NS_ENUM(NSUInteger, OBAOccupancyStatus) {
     OBAOccupancyStatusUnknown = 0,
     OBAOccupancyStatusSeatsAvailable,
