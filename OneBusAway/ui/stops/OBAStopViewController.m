@@ -293,6 +293,10 @@ static void * arrivalsAndDeparturesContext = &arrivalsAndDeparturesContext;
         [self updateDrawerTitleWithArrivalsAndDepartures:self.arrivalsAndDepartures];
         [self.stopHeaderView populateTableHeaderFromArrivalsAndDeparturesModel:self.arrivalsAndDepartures];
         [self populateTableFromArrivalsAndDeparturesModel:self.arrivalsAndDepartures];
+
+        if ([self canShowCoachmarks]) {
+            // abxoxo - show an overlay!
+        }
     }).catch(^(NSError *error) {
         [AlertPresenter showError:error presentingController:self];
         DDLogError(@"An error occurred while displaying a stop: %@", error);
@@ -666,6 +670,14 @@ static void * arrivalsAndDeparturesContext = &arrivalsAndDeparturesContext;
     }];
 
     return row;
+}
+
+#pragma mark - Coachmarks
+
+- (BOOL)canShowCoachmarks {
+    BOOL tutorialViewed = [OBAApplication.sharedApplication.userDefaults boolForKey:OBAOccupancyStatusTutorialViewedDefaultsKey];
+    BOOL canShow = (self.arrivalsAndDepartures.containsOccupancyPrediction && !tutorialViewed);
+    return canShow;
 }
 
 #pragma mark - OBADepartureSheetDelegate
