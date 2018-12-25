@@ -191,6 +191,11 @@
 		93876DFB1E68AD3900B4343F /* OBAMapAnnotationViewBuilder.m in Sources */ = {isa = PBXBuildFile; fileRef = 93876DFA1E68AD3900B4343F /* OBAMapAnnotationViewBuilder.m */; };
 		939A1A8021163F60001D5654 /* EditBookmarkViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 939A1A7F21163F60001D5654 /* EditBookmarkViewController.swift */; };
 		939A1A8E21178A81001D5654 /* OBAFarePayments.m in Sources */ = {isa = PBXBuildFile; fileRef = 939A1A8D21178A81001D5654 /* OBAFarePayments.m */; };
+		93A632AC21D1D4E100A1AC9B /* AwesomeTabButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 93A632A621D1D4E100A1AC9B /* AwesomeTabButton.swift */; };
+		93A632AD21D1D4E100A1AC9B /* AwesomeSpotlightViewBundle.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 93A632A721D1D4E100A1AC9B /* AwesomeSpotlightViewBundle.bundle */; };
+		93A632AE21D1D4E100A1AC9B /* AwesomeSpotlightView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 93A632A821D1D4E100A1AC9B /* AwesomeSpotlightView.swift */; };
+		93A632AF21D1D4E100A1AC9B /* AwesomeSpotlight.swift in Sources */ = {isa = PBXBuildFile; fileRef = 93A632A921D1D4E100A1AC9B /* AwesomeSpotlight.swift */; };
+		93A632B021D1D4E100A1AC9B /* Localizator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 93A632AA21D1D4E100A1AC9B /* Localizator.swift */; };
 		93A637DB20A2CCE30005248C /* HorizontalSectionController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 93A637D820A2CCE20005248C /* HorizontalSectionController.swift */; };
 		93A637DC20A2CCE30005248C /* DisplaySectionController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 93A637D920A2CCE20005248C /* DisplaySectionController.swift */; };
 		93A637DF20A2CD8D0005248C /* EmbeddedCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 93A637DE20A2CD8C0005248C /* EmbeddedCollectionViewCell.swift */; };
@@ -573,6 +578,11 @@
 		939A1A8C21178A81001D5654 /* OBAFarePayments.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = OBAFarePayments.h; sourceTree = "<group>"; };
 		939A1A8D21178A81001D5654 /* OBAFarePayments.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = OBAFarePayments.m; sourceTree = "<group>"; };
 		939CEB241C0E406500E1D2B7 /* rvtd.gpx */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = rvtd.gpx; sourceTree = "<group>"; };
+		93A632A621D1D4E100A1AC9B /* AwesomeTabButton.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AwesomeTabButton.swift; sourceTree = "<group>"; };
+		93A632A721D1D4E100A1AC9B /* AwesomeSpotlightViewBundle.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = AwesomeSpotlightViewBundle.bundle; sourceTree = "<group>"; };
+		93A632A821D1D4E100A1AC9B /* AwesomeSpotlightView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AwesomeSpotlightView.swift; sourceTree = "<group>"; };
+		93A632A921D1D4E100A1AC9B /* AwesomeSpotlight.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AwesomeSpotlight.swift; sourceTree = "<group>"; };
+		93A632AA21D1D4E100A1AC9B /* Localizator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Localizator.swift; sourceTree = "<group>"; };
 		93A637D820A2CCE20005248C /* HorizontalSectionController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HorizontalSectionController.swift; sourceTree = "<group>"; };
 		93A637D920A2CCE20005248C /* DisplaySectionController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DisplaySectionController.swift; sourceTree = "<group>"; };
 		93A637DE20A2CD8C0005248C /* EmbeddedCollectionViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EmbeddedCollectionViewCell.swift; sourceTree = "<group>"; };
@@ -1154,6 +1164,7 @@
 		934197BF1DB0C14C004BBBB7 /* externals */ = {
 			isa = PBXGroup;
 			children = (
+				93A632A421D1D4E100A1AC9B /* AwesomeSpotlightView */,
 				931131E2214C16250063D400 /* Firebase */,
 				9300CF7820FA70BB006AB268 /* PulleyLib */,
 				93A6E5211E6CB23500BEFECE /* ISHHoverBar */,
@@ -1575,6 +1586,26 @@
 			path = MapTable;
 			sourceTree = "<group>";
 		};
+		93A632A421D1D4E100A1AC9B /* AwesomeSpotlightView */ = {
+			isa = PBXGroup;
+			children = (
+				93A632A521D1D4E100A1AC9B /* Classes */,
+			);
+			path = AwesomeSpotlightView;
+			sourceTree = "<group>";
+		};
+		93A632A521D1D4E100A1AC9B /* Classes */ = {
+			isa = PBXGroup;
+			children = (
+				93A632A621D1D4E100A1AC9B /* AwesomeTabButton.swift */,
+				93A632A721D1D4E100A1AC9B /* AwesomeSpotlightViewBundle.bundle */,
+				93A632A821D1D4E100A1AC9B /* AwesomeSpotlightView.swift */,
+				93A632A921D1D4E100A1AC9B /* AwesomeSpotlight.swift */,
+				93A632AA21D1D4E100A1AC9B /* Localizator.swift */,
+			);
+			path = Classes;
+			sourceTree = "<group>";
+		};
 		93A6E5211E6CB23500BEFECE /* ISHHoverBar */ = {
 			isa = PBXGroup;
 			children = (
@@ -1811,6 +1842,7 @@
 				934198201DB0C1BA004BBBB7 /* OBALabelAndTextFieldTableViewCell.xib in Resources */,
 				934198401DB0C1E9004BBBB7 /* regions-v3.json in Resources */,
 				934198221DB0C1BA004BBBB7 /* OBATextFieldTableViewCell.xib in Resources */,
+				93A632AD21D1D4E100A1AC9B /* AwesomeSpotlightViewBundle.bundle in Resources */,
 				935C39111F76EEAD00737DC4 /* Launch Screen.storyboard in Resources */,
 				D6575AEC0FEE13CF00D6D987 /* Entitlements.plist in Resources */,
 				934197931DB0C140004BBBB7 /* OBADiversionViewController.xib in Resources */,
@@ -1951,6 +1983,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				93A632AF21D1D4E100A1AC9B /* AwesomeSpotlight.swift in Sources */,
 				934197EE1DB0C14C004BBBB7 /* SMFloatingLabelTextField.m in Sources */,
 				9300CF8020FA70BB006AB268 /* UIView+constrainToParent.swift in Sources */,
 				931131FF214D7BA20063D400 /* MapTypePickerController.swift in Sources */,
@@ -1980,8 +2013,10 @@
 				9353FF921E08E70A00B7A5C3 /* VehicleMapController.swift in Sources */,
 				934197981DB0C140004BBBB7 /* OBASwitchCell.m in Sources */,
 				931131FD214D6C450063D400 /* ButtonSectionController.swift in Sources */,
+				93A632AC21D1D4E100A1AC9B /* AwesomeTabButton.swift in Sources */,
 				934196E71DB0C124004BBBB7 /* UIViewController+OBAContainment.m in Sources */,
 				934197941DB0C140004BBBB7 /* OBAServiceAlertsViewController.m in Sources */,
+				93A632B021D1D4E100A1AC9B /* Localizator.swift in Sources */,
 				934197B91DB0C140004BBBB7 /* OBAReportProblemWithTripViewController.m in Sources */,
 				93A637DF20A2CD8D0005248C /* EmbeddedCollectionViewCell.swift in Sources */,
 				934197A21DB0C140004BBBB7 /* OBASwitchRow.m in Sources */,
@@ -2055,6 +2090,7 @@
 				93F1C26020BCD34B00B5032B /* LoadingCell.swift in Sources */,
 				9300CF7E20FA70BB006AB268 /* UIViewController+PulleyViewController.swift in Sources */,
 				93F9574A1E9AFB020022586B /* UIWindow+OBAAdditions.m in Sources */,
+				93A632AE21D1D4E100A1AC9B /* AwesomeSpotlightView.swift in Sources */,
 				93A6E5241E6CB23500BEFECE /* ISHHoverBar.m in Sources */,
 				9341977F1DB0C140004BBBB7 /* OBABookmarkGroupsViewController.m in Sources */,
 				9341979F1DB0C140004BBBB7 /* OBASeparatorSectionView.m in Sources */,
