@@ -7,69 +7,55 @@
 //
 
 import UIKit
-import SnapKit
 
 @objc(OBAOccupancyStatusView)
 public class OccupancyStatusView: UIView {
-    private let leftImageView = OccupancyStatusView.buildImageView()
-    private let centerImageView = OccupancyStatusView.buildImageView()
-    private let rightImageView = OccupancyStatusView.buildImageView()
-    private lazy var stackView: UIStackView = {
-        let stack = UIStackView(arrangedSubviews: [leftImageView, centerImageView, rightImageView])
-        stack.axis = .horizontal
 
-        return stack
-    }()
+    private let image: UIImage
 
-    public init(image: UIImage) {
+    @objc public init(image: UIImage) {
+        self.image = image
+
         super.init(frame: .zero)
+    }
 
-        accessibilityElementsHidden = true
+    required init?(coder aDecoder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
 
-        backgroundColor = UIColor(white: 0.98, alpha: 1.0)
+    override public var intrinsicContentSize: CGSize {
+        return CGSize(width: 12.0 * CGFloat(maxSilhouetteCount), height: 12.0)
+    }
 
-        leftImageView.image = image
-        centerImageView.image = image
-        rightImageView.image = image
+    override public func draw(_ rect: CGRect) {
+        super.draw(rect)
 
-        addSubview(stackView)
-        stackView.snp.makeConstraints { (make) in
-            make.edges.equalToSuperview()
+        UIColor(white: 0.98, alpha: 1.0).set()
+        UIRectFill(rect)
+
+        let imageWidth = Int(rect.width / CGFloat(maxSilhouetteCount))
+
+        for i in 0..<silhouetteCount {
+            let imageRect = CGRect(x: i * imageWidth, y: 0, width: imageWidth, height: Int(image.size.height))
+            image.draw(in: imageRect)
         }
     }
 
-    public required init?(coder aDecoder: NSCoder) { fatalError() }
+    private let maxSilhouetteCount = 3
 
-    private static func buildImageView() -> UIImageView {
-        let imageView = UIImageView.oba_autolayoutNew()
-        imageView.tintColor = .darkGray
-        return imageView
+    private var silhouetteCount: Int {
+        switch occupancyStatus {
+        case .seatsAvailable: return 1
+        case .standingAvailable: return 2
+        case .full: return 3
+        default: return 0
+        }
     }
 
-    public var occupancyStatus: OBAOccupancyStatus = .unknown {
+    @objc public var occupancyStatus: OBAOccupancyStatus = .unknown {
         didSet {
-            if occupancyStatus == .unknown {
-                isHidden = true
-                return
-            }
-
-            leftImageView.isHidden = true
-            centerImageView.isHidden = true
-            rightImageView.isHidden = true
-            isHidden = false
-
-            switch occupancyStatus {
-            case .full:
-                leftImageView.isHidden = false
-                centerImageView.isHidden = false
-                rightImageView.isHidden = false
-            case .standingAvailable:
-                leftImageView.isHidden = false
-                centerImageView.isHidden = false
-            case .seatsAvailable:
-                leftImageView.isHidden = false
-            default: break
-            }
+            isHidden = (occupancyStatus == .unknown)
+            setNeedsDisplay()
         }
     }
 }
