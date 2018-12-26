@@ -54,6 +54,11 @@
     [self.departureView prepareForReuse];
 }
 
+- (void)setHighlighted:(BOOL)highlighted animated:(BOOL)animated {
+    [super setHighlighted:highlighted animated:animated];
+    [self.departureView setHighlighted:highlighted animated:animated];
+}
+
 #pragma mark - OBATableCell
 
 - (void)setTableRow:(OBABaseRow *)tableRow {

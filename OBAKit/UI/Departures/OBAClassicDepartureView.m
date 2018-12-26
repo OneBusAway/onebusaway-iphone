@@ -41,25 +41,6 @@
 
 @implementation OBAClassicDepartureView
 
-- (OBAOccupancyStatusView*)occupancyStatusView {
-    if (!_occupancyStatusView) {
-        _occupancyStatusView = [[OBAOccupancyStatusView alloc] initWithImage:[UIImage imageNamed:@"silhouette"]];
-        [_occupancyStatusView setContentCompressionResistancePriority:UILayoutPriorityRequired forAxis:UILayoutConstraintAxisHorizontal];
-    }
-    return _occupancyStatusView;
-}
-
-- (UIView*)occupancyStatusWrapper {
-    if (!_occupancyStatusWrapper) {
-        _occupancyStatusWrapper = [_occupancyStatusView oba_embedInWrapperViewWithConstraints:NO];
-        _occupancyStatusWrapper.mas_key = @"occupancyWrapper";
-        [_occupancyStatusView mas_makeConstraints:^(MASConstraintMaker *make) {
-            make.top.right.bottom.equalTo(_occupancyStatusWrapper);
-        }];
-    }
-    return _occupancyStatusWrapper;
-}
-
 - (instancetype)initWithFrame:(CGRect)frame {
     self = [super initWithFrame:frame];
 
@@ -126,6 +107,10 @@
     self.topLineLabel.text = nil;
     self.middleLineLabel.text = nil;
     self.bottomLineLabel.text = nil;
+}
+
+- (void)setHighlighted:(BOOL)highlighted animated:(BOOL)animated {
+    self.occupancyStatusView.isHighlighted = highlighted;
 }
 
 #pragma mark - Label Animation
@@ -224,6 +209,25 @@
 }
 
 #pragma mark - Lazy UI Properties
+
+- (OBAOccupancyStatusView*)occupancyStatusView {
+    if (!_occupancyStatusView) {
+        _occupancyStatusView = [[OBAOccupancyStatusView alloc] initWithImage:[UIImage imageNamed:@"silhouette"]];
+        [_occupancyStatusView setContentCompressionResistancePriority:UILayoutPriorityRequired forAxis:UILayoutConstraintAxisHorizontal];
+    }
+    return _occupancyStatusView;
+}
+
+- (UIView*)occupancyStatusWrapper {
+    if (!_occupancyStatusWrapper) {
+        _occupancyStatusWrapper = [_occupancyStatusView oba_embedInWrapperViewWithConstraints:NO];
+        _occupancyStatusWrapper.mas_key = @"occupancyWrapper";
+        [_occupancyStatusView mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.top.right.bottom.equalTo(_occupancyStatusWrapper);
+        }];
+    }
+    return _occupancyStatusWrapper;
+}
 
 - (UIStackView*)leftLabelStack {
     if (!_leftLabelStack) {

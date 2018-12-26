@@ -30,7 +30,8 @@ public class OccupancyStatusView: UIView {
     override public func draw(_ rect: CGRect) {
         super.draw(rect)
 
-        UIColor(white: 0.98, alpha: 1.0).set()
+        let background = isHighlighted ? UIColor.clear : UIColor(white: 0.98, alpha: 1.0)
+        background.set()
         UIRectFill(rect)
 
         let imageWidth = Int(rect.width / CGFloat(maxSilhouetteCount))
@@ -55,6 +56,12 @@ public class OccupancyStatusView: UIView {
     @objc public var occupancyStatus: OBAOccupancyStatus = .unknown {
         didSet {
             isHidden = (occupancyStatus == .unknown)
+            setNeedsDisplay()
+        }
+    }
+
+    @objc public var isHighlighted = false {
+        didSet {
             setNeedsDisplay()
         }
     }

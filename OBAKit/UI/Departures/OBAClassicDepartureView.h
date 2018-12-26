@@ -20,6 +20,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 - (void)prepareForReuse;
 - (void)setEditing:(BOOL)editing animated:(BOOL)animated;
+- (void)setHighlighted:(BOOL)highlighted animated:(BOOL)animated;
 @end
 
 NS_ASSUME_NONNULL_END
