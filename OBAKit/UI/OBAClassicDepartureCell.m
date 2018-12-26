@@ -13,7 +13,7 @@
 @import Masonry;
 
 @interface OBAClassicDepartureCell ()
-@property(nonatomic,strong) OBAClassicDepartureView *departureView;
+@property(nonatomic,strong,readwrite) OBAClassicDepartureView *departureView;
 @end
 
 @implementation OBAClassicDepartureCell

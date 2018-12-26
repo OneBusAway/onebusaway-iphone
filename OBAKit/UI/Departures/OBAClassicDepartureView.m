@@ -33,7 +33,7 @@
 @property(nonatomic,strong,readwrite) OBADepartureTimeLabel *secondDepartureLabel;
 @property(nonatomic,strong,readwrite) OBADepartureTimeLabel *thirdDepartureLabel;
 @property(nonatomic,strong) UIView *departureLabelSpacer;
-@property(nonatomic,strong) OBAOccupancyStatusView *occupancyStatusView;
+@property(nonatomic,strong,readwrite) OBAOccupancyStatusView *occupancyStatusView;
 @property(nonatomic,strong) UIView *occupancyStatusWrapper;
 
 @property(nonatomic,strong,readwrite) UIButton *contextMenuButton;

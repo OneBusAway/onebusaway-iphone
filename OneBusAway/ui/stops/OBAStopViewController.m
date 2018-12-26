@@ -40,7 +40,7 @@ static NSUInteger const kDefaultMinutesAfter = 35;
 
 static void * arrivalsAndDeparturesContext = &arrivalsAndDeparturesContext;
 
-@interface OBAStopViewController ()<UIScrollViewDelegate, UIActivityItemSource, OBAArrivalDepartureOptionsSheetDelegate>
+@interface OBAStopViewController ()<UIScrollViewDelegate, UIActivityItemSource, OBAArrivalDepartureOptionsSheetDelegate, AwesomeSpotlightViewDelegate>
 @property(nonatomic,strong) NSDateIntervalFormatter *timeframeFormatter;
 @property(nonatomic,strong) UIRefreshControl *refreshControl;
 @property(nonatomic,strong) PromiseWrapper *promiseWrapper;
@@ -53,6 +53,7 @@ static void * arrivalsAndDeparturesContext = &arrivalsAndDeparturesContext;
 @property(nonatomic,strong) OBAArrivalDepartureOptionsSheet *departureSheetHelper;
 @property(nonatomic,assign,readonly) BOOL regularUIMode;
 @property(nonatomic,strong) OBADrawerNavigationBar *drawerNavigationBar;
+@property(nonatomic,strong) AwesomeSpotlightView *spotlightView;
 @end
 
 @implementation OBAStopViewController
@@ -293,10 +294,6 @@ static void * arrivalsAndDeparturesContext = &arrivalsAndDeparturesContext;
         [self updateDrawerTitleWithArrivalsAndDepartures:self.arrivalsAndDepartures];
         [self.stopHeaderView populateTableHeaderFromArrivalsAndDeparturesModel:self.arrivalsAndDepartures];
         [self populateTableFromArrivalsAndDeparturesModel:self.arrivalsAndDepartures];
-
-        if ([self canShowCoachmarks]) {
-            // abxoxo - show an overlay!
-        }
     }).catch(^(NSError *error) {
         [AlertPresenter showError:error presentingController:self];
         DDLogError(@"An error occurred while displaying a stop: %@", error);
@@ -306,6 +303,10 @@ static void * arrivalsAndDeparturesContext = &arrivalsAndDeparturesContext;
             [self.refreshControl endRefreshing];
         }
         [self.reloadLock unlock];
+
+        if ([self canShowCoachmarks]) {
+            [self showCoachmark];
+        }
     });
 }
 
@@ -536,6 +537,7 @@ static void * arrivalsAndDeparturesContext = &arrivalsAndDeparturesContext;
     }];
     [rows addObject:appleMaps];
 
+#if !TARGET_IPHONE_SIMULATOR
     // Walking Directions (Google Maps)
     NSURL *googleMapsURL = [AppInterop googleMapsWalkingDirectionsURLWithCoordinate:stop.coordinate];
     if ([UIApplication.sharedApplication canOpenURL:googleMapsURL]) {
@@ -544,6 +546,7 @@ static void * arrivalsAndDeparturesContext = &arrivalsAndDeparturesContext;
         }];
         [rows addObject:googleMaps];
     }
+#endif
 
     // Report a Problem
     OBATableRow *problem = [[OBATableRow alloc] initWithTitle:NSLocalizedString(@"msg_report_a_problem", @"") action:^(OBABaseRow * _Nonnull row) {
@@ -678,6 +681,50 @@ static void * arrivalsAndDeparturesContext = &arrivalsAndDeparturesContext;
     BOOL tutorialViewed = [OBAApplication.sharedApplication.userDefaults boolForKey:OBAOccupancyStatusTutorialViewedDefaultsKey];
     BOOL canShow = (self.arrivalsAndDepartures.containsOccupancyPrediction && !tutorialViewed);
     return canShow;
+}
+
+- (void)showCoachmark {
+    OBAClassicDepartureCell *firstVisibleCell = nil;
+
+    for (OBAClassicDepartureCell *cell in self.tableView.visibleCells) {
+        if (![cell isKindOfClass:OBAClassicDepartureCell.class]) {
+            continue;
+        }
+
+        if (cell.departureView.occupancyStatusView.hidden) {
+            continue;
+        }
+
+        firstVisibleCell = cell;
+    }
+
+    if (!firstVisibleCell) {
+        return;
+    }
+
+    UIView *parentView = UIApplication.sharedApplication.keyWindow;
+    UIView *targetView = firstVisibleCell.departureView.occupancyStatusView;
+    CGRect targetFrame = [targetView convertRect:targetView.bounds toView:parentView];
+
+    NSShadow *shadow = [[NSShadow alloc] init];
+    shadow.shadowOffset = CGSizeMake(0, 1);
+    shadow.shadowBlurRadius = OBATheme.compactPadding;
+    shadow.shadowColor = UIColor.blackColor;
+
+    NSAttributedString *coachmarkText = [[NSAttributedString alloc] initWithString:NSLocalizedString(@"stop_view_controller.predicted_departure_coachmark", @"An explanation of the predicted departure feature on the stop controller.") attributes:@{NSFontAttributeName: OBATheme.boldBodyFont, NSShadowAttributeName: shadow}];
+
+    AwesomeSpotlight *coachmark = [[AwesomeSpotlight alloc] initWithRect:targetFrame shape:AwesomeSpotlightShapeRoundRectangle attributedText:coachmarkText margin:OBATheme.defaultEdgeInsets isAllowPassTouchesThroughSpotlight:NO];
+    self.spotlightView = [[AwesomeSpotlightView alloc] initWithFrame:parentView.bounds spotlight:@[coachmark]];
+    self.spotlightView.cutoutRadius = 8;
+    [self.spotlightView setContinueButtonEnable:YES];
+    self.spotlightView.delegate = self;
+
+    [parentView addSubview:self.spotlightView];
+    [self.spotlightView start];
+}
+
+- (void)spotlightViewDidCleanup:(AwesomeSpotlightView *)spotlightView {
+    [OBAApplication.sharedApplication.userDefaults setBool:YES forKey:OBAOccupancyStatusTutorialViewedDefaultsKey];
 }
 
 #pragma mark - OBADepartureSheetDelegate

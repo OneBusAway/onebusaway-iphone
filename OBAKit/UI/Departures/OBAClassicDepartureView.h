@@ -11,9 +11,12 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
+@class OBAOccupancyStatusView;
+
 @interface OBAClassicDepartureView : UIView
 @property(nonatomic,copy) OBADepartureRow *departureRow;
 @property(nonatomic,strong,readonly) UIButton *contextMenuButton;
+@property(nonatomic,strong,readonly) OBAOccupancyStatusView *occupancyStatusView;
 
 - (void)prepareForReuse;
 - (void)setEditing:(BOOL)editing animated:(BOOL)animated;
