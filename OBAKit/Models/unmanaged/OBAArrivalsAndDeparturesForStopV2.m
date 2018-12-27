@@ -65,9 +65,6 @@
         }
     }
     return NO;
-
-//    /// abxoxo - overriding this for now.
-//    return YES;
 }
 
 #pragma mark - OBAHasServiceAlerts

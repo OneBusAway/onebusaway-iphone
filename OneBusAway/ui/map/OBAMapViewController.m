@@ -214,7 +214,6 @@ static const double kStopsInRegionRefreshDelayOnDrag = 0.1;
     [OBAAnalytics.sharedInstance reportEventWithCategory:OBAAnalyticsCategoryUIAction action:@"button_press" label:analyticsLabel value:nil];
 
     [self.searchController dismissViewControllerAnimated:YES completion:^{
-        // abxoxo - TODO: figure out how to unify -navigateToTarget, this method, and -setNavigationTarget.
         self.mapDataLoader.searchRegion = self.visibleMapRegion;
         [self setNavigationTarget:target];
     }];

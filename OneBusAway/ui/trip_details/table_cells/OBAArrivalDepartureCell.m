@@ -23,8 +23,6 @@ static CGFloat const kTimelineWidth = 1.f;
 @property(nonatomic,strong) UIView *occupancyStatusWrapper;
 @end
 
-// abxoxo - next up: populate this cell with occupancy status info.
-
 @implementation OBAArrivalDepartureCell
 @synthesize tableRow = _tableRow;
 
@@ -122,9 +120,6 @@ static CGFloat const kTimelineWidth = 1.f;
     [labelText appendAttributedString:timeText];
 
     self.stopLabel.attributedText = labelText;
-
-    // abxoxo - remove the next line!
-    self.departureRow.historicalOccupancyStatus = OBAOccupancyStatusFull;
 
     self.occupancyStatusView.occupancyStatus = self.departureRow.historicalOccupancyStatus;
 }

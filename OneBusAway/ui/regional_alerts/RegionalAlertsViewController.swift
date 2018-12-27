@@ -23,7 +23,7 @@ class RegionalAlertsViewController: OBAStaticTableViewController {
 
     private let application: OBAApplication
 
-    private let language = "en" // abxoxo - todo FIXME
+    private let language = "en" // TODO: Derive this from the user's locale.
 
     @objc init(application: OBAApplication) {
         self.application = application
