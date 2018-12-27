@@ -22,6 +22,7 @@ NSString * const OBATimelineCellReuseIdentifier = @"OBATimelineCellReuseIdentifi
 
     if (self) {
         _routeType = OBARouteTypeBus;
+        _historicalOccupancyStatus = OBAOccupancyStatusUnknown;
     }
     return self;
 }
@@ -32,6 +33,7 @@ NSString * const OBATimelineCellReuseIdentifier = @"OBATimelineCellReuseIdentifi
     row->_closestStopToVehicle = _closestStopToVehicle;
     row->_selectedStopForRider = _selectedStopForRider;
     row->_routeType = _routeType;
+    row->_historicalOccupancyStatus = _historicalOccupancyStatus;
 
     return row;
 }

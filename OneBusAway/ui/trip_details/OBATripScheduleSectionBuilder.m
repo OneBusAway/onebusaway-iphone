@@ -80,6 +80,7 @@
         row.subtitle = [self formattedStopTime:stopTime tripDetails:tripDetails];
         row.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
         row.model = stopTime;
+        row.historicalOccupancyStatus = stopTime.historicalOccupancy;
 
         [stopsSection addRow:row];
     }

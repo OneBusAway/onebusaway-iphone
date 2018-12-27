@@ -28,6 +28,7 @@ FOUNDATION_EXPORT const unsigned char OBAKitVersionString[];
 #import <OBAKit/OBAArrivalAndDepartureV2.h>
 #import <OBAKit/OBAArrivalAndDepartureSectionBuilder.h>
 #import <OBAKit/OBAArrivalsAndDeparturesForStopV2.h>
+#import <OBAKit/OBAAutoLabel.h>
 #import <OBAKit/OBABookmarkGroup.h>
 #import <OBAKit/OBABookmarkV2.h>
 #import <OBAKit/OBACanvasView.h>
@@ -129,6 +130,7 @@ FOUNDATION_EXPORT const unsigned char OBAKitVersionString[];
 #import <OBAKit/NSObject+OBADescription.h>
 #import <OBAKit/NSString+OBAAdditions.h>
 #import <OBAKit/NSURLQueryItem+OBAAdditions.h>
+#import <OBAKit/UIImage+OBAAdditions.h>
 #import <OBAKit/UILabel+OBAAdditions.h>
 #import <OBAKit/UIStackView+OBAAdditions.h>
 #import <OBAKit/UIView+OBAAdditions.h>

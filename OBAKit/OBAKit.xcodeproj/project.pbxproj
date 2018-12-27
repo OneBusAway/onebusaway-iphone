@@ -269,6 +269,10 @@
 		93895708215D88C4008AB975 /* ObacoService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 93895707215D88C4008AB975 /* ObacoService.swift */; };
 		939A1A8421165989001D5654 /* OBAButtonRow.h in Headers */ = {isa = PBXBuildFile; fileRef = 939A1A8221165989001D5654 /* OBAButtonRow.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		939A1A8521165989001D5654 /* OBAButtonRow.m in Sources */ = {isa = PBXBuildFile; fileRef = 939A1A8321165989001D5654 /* OBAButtonRow.m */; };
+		93A632DE21D552BA00A1AC9B /* OBAAutoLabel.h in Headers */ = {isa = PBXBuildFile; fileRef = 93A632DC21D552BA00A1AC9B /* OBAAutoLabel.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		93A632DF21D552BA00A1AC9B /* OBAAutoLabel.m in Sources */ = {isa = PBXBuildFile; fileRef = 93A632DD21D552BA00A1AC9B /* OBAAutoLabel.m */; };
+		93A632E221D561A900A1AC9B /* UIImage+OBAAdditions.h in Headers */ = {isa = PBXBuildFile; fileRef = 93A632E021D561A900A1AC9B /* UIImage+OBAAdditions.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		93A632E321D561A900A1AC9B /* UIImage+OBAAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = 93A632E121D561A900A1AC9B /* UIImage+OBAAdditions.m */; };
 		93A6E9E21F5BC18B00AFA61C /* AppInterop.swift in Sources */ = {isa = PBXBuildFile; fileRef = 93A6E9E11F5BC18B00AFA61C /* AppInterop.swift */; };
 		93A73BF21F8760F600F213D4 /* OBAClassicDepartureView.h in Headers */ = {isa = PBXBuildFile; fileRef = 93A73BF01F8760F600F213D4 /* OBAClassicDepartureView.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		93A73BF31F8760F600F213D4 /* OBAClassicDepartureView.m in Sources */ = {isa = PBXBuildFile; fileRef = 93A73BF11F8760F600F213D4 /* OBAClassicDepartureView.m */; };
@@ -607,6 +611,10 @@
 		93895707215D88C4008AB975 /* ObacoService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ObacoService.swift; sourceTree = "<group>"; };
 		939A1A8221165989001D5654 /* OBAButtonRow.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = OBAButtonRow.h; sourceTree = "<group>"; };
 		939A1A8321165989001D5654 /* OBAButtonRow.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = OBAButtonRow.m; sourceTree = "<group>"; };
+		93A632DC21D552BA00A1AC9B /* OBAAutoLabel.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = OBAAutoLabel.h; sourceTree = "<group>"; };
+		93A632DD21D552BA00A1AC9B /* OBAAutoLabel.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = OBAAutoLabel.m; sourceTree = "<group>"; };
+		93A632E021D561A900A1AC9B /* UIImage+OBAAdditions.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "UIImage+OBAAdditions.h"; sourceTree = "<group>"; };
+		93A632E121D561A900A1AC9B /* UIImage+OBAAdditions.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "UIImage+OBAAdditions.m"; sourceTree = "<group>"; };
 		93A6E9E11F5BC18B00AFA61C /* AppInterop.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppInterop.swift; sourceTree = "<group>"; };
 		93A73BF01F8760F600F213D4 /* OBAClassicDepartureView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OBAClassicDepartureView.h; sourceTree = "<group>"; };
 		93A73BF11F8760F600F213D4 /* OBAClassicDepartureView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OBAClassicDepartureView.m; sourceTree = "<group>"; };
@@ -829,6 +837,8 @@
 				93DCEF6D20E54EAF0004E087 /* MKMapSnapshotter+AnyPromise.m */,
 				93681B912122215700293165 /* UIStackView+OBAAdditions.h */,
 				93681B922122215700293165 /* UIStackView+OBAAdditions.m */,
+				93A632E021D561A900A1AC9B /* UIImage+OBAAdditions.h */,
+				93A632E121D561A900A1AC9B /* UIImage+OBAAdditions.m */,
 			);
 			path = Categories;
 			sourceTree = "<group>";
@@ -1097,6 +1107,8 @@
 				9388C2D22001567F0068041F /* OBAStackedMarqueeLabels.m */,
 				93681B9521223D7700293165 /* DrawerNavigationBar.swift */,
 				934894DC21C2D7C8001ADDB6 /* OccupancyStatusView.swift */,
+				93A632DC21D552BA00A1AC9B /* OBAAutoLabel.h */,
+				93A632DD21D552BA00A1AC9B /* OBAAutoLabel.m */,
 			);
 			path = UI;
 			sourceTree = "<group>";
@@ -1255,6 +1267,7 @@
 				934196B21DB0B0AF004BBBB7 /* OBAModelFactory.h in Headers */,
 				9341967C1DB0B099004BBBB7 /* OBASituationV2.h in Headers */,
 				934196821DB0B099004BBBB7 /* OBAStopsForRouteV2.h in Headers */,
+				93A632DE21D552BA00A1AC9B /* OBAAutoLabel.h in Headers */,
 				934196001DB0B099004BBBB7 /* OBACommon.h in Headers */,
 				934196101DB0B099004BBBB7 /* OBAReachability.h in Headers */,
 				93B282C81DC68892005013D7 /* NSURLQueryItem+OBAAdditions.h in Headers */,
@@ -1290,6 +1303,7 @@
 				934196611DB0B099004BBBB7 /* OBANavigationTarget.h in Headers */,
 				932CE85120263FFB003091D3 /* OBABaseTableCell.h in Headers */,
 				934195F81DB0B099004BBBB7 /* NSArray+OBAAdditions.h in Headers */,
+				93A632E221D561A900A1AC9B /* UIImage+OBAAdditions.h in Headers */,
 				934196B61DB0B0AF004BBBB7 /* OBAModelServiceRequest.h in Headers */,
 				9341967A1DB0B099004BBBB7 /* OBASituationConsequenceV2.h in Headers */,
 				9341962C1DB0B099004BBBB7 /* OBAVehicleMapAnnotation.h in Headers */,
@@ -1617,6 +1631,7 @@
 				9341963C1DB0B099004BBBB7 /* OBASetCoordinatePropertyJsonDigesterRule.m in Sources */,
 				934196931DB0B099004BBBB7 /* OBAVehicleStatusV2.m in Sources */,
 				93F3F8A21E7BCA8C0025FC78 /* FileHelpers.swift in Sources */,
+				93A632DF21D552BA00A1AC9B /* OBAAutoLabel.m in Sources */,
 				93EA5A4B203DFEC300CE6CAC /* OBASearchType.m in Sources */,
 				934196231DB0B099004BBBB7 /* OBARegionHelper.m in Sources */,
 				9388C29F1FFDBAEA0068041F /* FBShimmeringView.m in Sources */,
@@ -1644,6 +1659,7 @@
 				934196381DB0B099004BBBB7 /* OBAJsonDigester.m in Sources */,
 				930AFE9F1DD183720092AE82 /* OBAWalkingDirections.m in Sources */,
 				934196AF1DB0B0AF004BBBB7 /* OBADataSourceConfig.m in Sources */,
+				93A632E321D561A900A1AC9B /* UIImage+OBAAdditions.m in Sources */,
 				9341964E1DB0B099004BBBB7 /* OBAArrivalAndDepartureV2.m in Sources */,
 				934196421DB0B099004BBBB7 /* OBASetNextOBAJsonDigesterRule.m in Sources */,
 				CCD30CFB1E30564600080EFF /* OBAHandoff.swift in Sources */,
