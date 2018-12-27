@@ -307,6 +307,18 @@ static void * arrivalsAndDeparturesContext = &arrivalsAndDeparturesContext;
         if ([self canShowCoachmarks]) {
             [self showCoachmark];
         }
+        else {
+            if (self.arrivalsAndDepartures.arrivalsAndDepartures.count == 0 && self.minutesAfter <= 1440) {
+                if (self.minutesAfter < 180) {
+                    self.minutesAfter += 60;
+                }
+                else if (self.minutesAfter <= 1440) {
+                    self.minutesAfter += 120;
+                }
+
+                [self reloadDataAnimated:NO];
+            }
+        }
     });
 }
 
