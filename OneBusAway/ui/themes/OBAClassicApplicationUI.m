@@ -203,7 +203,16 @@ static NSString *kOBASelectedTabIndexDefaultsKey = @"OBASelectedTabIndexDefaults
 }
 
 - (void)tabBarController:(UITabBarController *)tabBarController didSelectViewController:(UIViewController *)viewController {
-    [OBAApplication.sharedApplication.userDefaults setInteger:tabBarController.selectedIndex forKey:kOBASelectedTabIndexDefaultsKey];
+    // Users sometimes email us confused about what happened to their map. There really isn't any value
+    // in having the user returned to the info tab when they reopen the app, so let's just stop persisting
+    // it as a possible option. Instead, if the user has navigated to the info tab, we'll just default them
+    // back to the map.
+    // See: https://github.com/OneBusAway/onebusaway-iphone/issues/1410
+    NSInteger selectedIndex = tabBarController.selectedIndex;
+    if (selectedIndex == 3) {
+        selectedIndex = 0;
+    }
+    [OBAApplication.sharedApplication.userDefaults setInteger:selectedIndex forKey:kOBASelectedTabIndexDefaultsKey];
 }
 
 @end

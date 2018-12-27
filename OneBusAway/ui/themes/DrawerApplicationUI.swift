@@ -154,14 +154,22 @@ extension DrawerApplicationUI: OBAApplicationUI {
     }
 
     func applicationDidBecomeActive() {
-        let selectedIndex = application.userDefaults.object(forKey: DrawerApplicationUI.kOBASelectedTabIndexDefaultsKey) as? Int ?? 0
+        var selectedIndex = application.userDefaults.object(forKey: DrawerApplicationUI.kOBASelectedTabIndexDefaultsKey) as? Int ?? 0
+
+        // Users sometimes email us confused about what happened to their map. There really isn't any value
+        // in having the user returned to the info tab when they reopen the app, so let's just stop persisting
+        // it as a possible option. Instead, if the user has navigated to the info tab, we'll just default them
+        // back to the map.
+        // See: https://github.com/OneBusAway/onebusaway-iphone/issues/1410
+        if selectedIndex == 3 {
+            selectedIndex = 0
+        }
 
         tabBarController.selectedIndex = selectedIndex
 
         let startingTab = [0: "OBAMapViewController",
                            1: "OBARecentStopsViewController",
-                           2: "OBABookmarksViewController",
-                           3: "OBAInfoViewController"][selectedIndex] ?? "Unknown"
+                           2: "OBABookmarksViewController"][selectedIndex] ?? "Unknown"
 
         OBAAnalytics.shared().reportEvent(withCategory: OBAAnalyticsCategoryAppSettings, action: "startup", label: "Startup View: \(startingTab)", value: nil)
         Analytics.logEvent(OBAAnalyticsStartupScreen, parameters: ["startingTab": startingTab])
