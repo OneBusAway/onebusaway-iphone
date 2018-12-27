@@ -75,13 +75,7 @@ static NSString *kOBASelectedTabIndexDefaultsKey = @"OBASelectedTabIndexDefaults
     NSDictionary *parameters = nil;
     OBANavigationTargetType navigationTargetType = OBANavigationTargetTypeUndefined;
 
-    if ([shortcutItem.type isEqual:kApplicationShortcutMap]) {
-        navigationTargetType = OBANavigationTargetTypeMap;
-    }
-    else if ([shortcutItem.type isEqual:kApplicationShortcutBookmarks]) {
-        navigationTargetType = OBANavigationTargetTypeBookmarks;
-    }
-    else if ([shortcutItem.type isEqual:kApplicationShortcutRecents]) {
+    if ([shortcutItem.type isEqual:kApplicationShortcutRecents]) {
         navigationTargetType = OBANavigationTargetTypeRecentStops;
         NSString *stopID = (NSString*)shortcutItem.userInfo[@"stopID"];
         if (stopID.length > 0) {

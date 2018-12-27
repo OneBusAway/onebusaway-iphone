@@ -131,13 +131,7 @@ extension DrawerApplicationUI: OBAApplicationUI {
         var navigationTargetType: OBANavigationTargetType = .undefined
         var parameters: [AnyHashable: Any]?
 
-        if shortcutItem.type == kApplicationShortcutMap {
-            navigationTargetType = .map
-        }
-        else if shortcutItem.type == kApplicationShortcutBookmarks {
-            navigationTargetType = .bookmarks
-        }
-        else if shortcutItem.type == kApplicationShortcutRecents {
+        if shortcutItem.type == kApplicationShortcutRecents {
             navigationTargetType = .recentStops
             if let stopIDs = shortcutItem.userInfo?["stopIds"] as? NSArray,
                let firstObject = stopIDs.firstObject {
