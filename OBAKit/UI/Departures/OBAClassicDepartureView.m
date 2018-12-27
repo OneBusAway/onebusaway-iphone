@@ -192,7 +192,7 @@
     // Otherwise vertically align them to the top.
     self.departureLabelSpacer.hidden = [self departureRow].upcomingDepartures.count == 1;
 
-    self.occupancyStatusView.occupancyStatus = OBAOccupancyStatusFull;
+    self.occupancyStatusView.occupancyStatus = self.departureRow.expectedOccupancyStatus;
 }
 
 - (void)applyUpcomingDeparture:(NSArray<OBAUpcomingDeparture*>*)upcomingDepartures atIndex:(NSUInteger)index toLabel:(OBADepartureTimeLabel*)departureTimeLabel {
