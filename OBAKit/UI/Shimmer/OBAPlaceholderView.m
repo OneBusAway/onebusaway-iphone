@@ -46,8 +46,7 @@ static CGFloat const kWidth = 280.f;
 - (CGSize)intrinsicContentSize {
     CGSize sz = [super intrinsicContentSize];
 
-//    sz.width = self.frame.size.width;
-    sz.width = kWidth; // abxoxo how's this look?
+    sz.width = kWidth;
 
     [self layoutLines];
 

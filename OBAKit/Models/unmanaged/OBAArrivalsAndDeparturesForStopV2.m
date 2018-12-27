@@ -58,6 +58,15 @@
     return NO;
 }
 
+- (BOOL)containsOccupancyPrediction {
+    for (OBAArrivalAndDepartureV2 *dep in self.arrivalsAndDepartures) {
+        if (dep.historicalOccupancy != OBAOccupancyStatusUnknown || dep.predictedOccupancy != OBAOccupancyStatusUnknown) {
+            return YES;
+        }
+    }
+    return NO;
+}
+
 #pragma mark - OBAHasServiceAlerts
 
 - (NSArray<OBASituationV2*>*)situations {

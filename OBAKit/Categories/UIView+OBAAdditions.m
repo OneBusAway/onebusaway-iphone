@@ -35,6 +35,7 @@
 }
 
 - (UIView*)oba_embedInWrapperViewWithConstraints:(BOOL)constrained {
+    self.translatesAutoresizingMaskIntoConstraints = NO;
     UIView *wrapper = [UIView oba_autolayoutNew];
     [wrapper addSubview:self];
     if (constrained) {
@@ -43,6 +44,10 @@
         }];
     }
     return wrapper;
+}
+
+- (UIEdgeInsets)oba_leadingTrailingMargins {
+    return UIEdgeInsetsMake(0, self.layoutMargins.left, 0, self.layoutMargins.right);
 }
 
 - (void)printAutoLayoutTrace {

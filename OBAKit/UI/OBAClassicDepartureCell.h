@@ -9,6 +9,8 @@
 @import UIKit;
 #import <OBAKit/OBATableCell.h>
 
-@interface OBAClassicDepartureCell : UITableViewCell<OBATableCell>
+@class OBAClassicDepartureView;
 
+@interface OBAClassicDepartureCell : UITableViewCell<OBATableCell>
+@property(nonatomic,strong,readonly) OBAClassicDepartureView *departureView;
 @end

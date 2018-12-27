@@ -14,6 +14,7 @@ NS_ASSUME_NONNULL_BEGIN
 @property(nonatomic,assign) BOOL selectedStopForRider;
 @property(nonatomic,assign) BOOL closestStopToVehicle;
 @property(nonatomic,assign) OBARouteType routeType;
+@property(nonatomic,assign) OBAOccupancyStatus historicalOccupancyStatus;
 @end
 
 NS_ASSUME_NONNULL_END

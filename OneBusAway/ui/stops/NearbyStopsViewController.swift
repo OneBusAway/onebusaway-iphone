@@ -237,8 +237,6 @@ extension NearbyStopsViewController {
 
     private func navigateTo(_ target: OBANavigationTarget) {
         if self.pushesResultsOntoStack {
-            // abxoxo - make this way better! I should be able to map from
-            // an OBANavigationTarget -> UIViewController and push that.
             guard let stopID = target.searchArgument as? String else {
                 return
             }
