@@ -1101,7 +1101,15 @@ static const double kStopsInRegionRefreshDelayOnDrag = 0.1;
 
     self.locationHoverBar = [[ISHHoverBar alloc] init];
     self.locationHoverBar.shadowRadius = 2.f;
-    self.locationHoverBar.items = @[recenterMapButton, tempButtonItem];
+
+    NSMutableArray *buttons = [[NSMutableArray alloc] initWithObjects:recenterMapButton, tempButtonItem, nil];
+
+    if (UIAccessibilityIsVoiceOverRunning()) {
+        UIBarButtonItem *nearbyButton = [[UIBarButtonItem alloc] initWithTitle:NSLocalizedString(@"msg_nearby_stops", @"Nearby Stops text") style:UIBarButtonItemStylePlain target:self action:@selector(showNearbyStops)];
+        [buttons insertObject:nearbyButton atIndex:0];
+    }
+
+    self.locationHoverBar.items = buttons;
     [self.view addSubview:self.locationHoverBar];
     [self.locationHoverBar mas_makeConstraints:^(MASConstraintMaker *make) {
         make.top.equalTo(self.mas_topLayoutGuideBottom).offset(OBATheme.defaultMargin);
