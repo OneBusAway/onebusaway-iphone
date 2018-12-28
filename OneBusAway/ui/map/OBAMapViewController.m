@@ -1120,12 +1120,14 @@ static const double kStopsInRegionRefreshDelayOnDrag = 0.1;
     OBAWeatherForecast *forecast = self.application.forecastManager.weatherForecast;
     if (!forecast) {
         [self.forecastButton setTitle:@"-º" forState:UIControlStateNormal];
+        [self.forecastButton setAccessibilityLabel:nil];
         return;
     }
 
     NSString *temperature = [NSString stringWithFormat:@"%.0fº", forecast.currentForecast.temperature];
 
     [self.forecastButton setTitle:temperature forState:UIControlStateNormal];
+    self.forecastButton.accessibilityLabel = [NSString stringWithFormat:NSLocalizedString(@"map_controller.temperature_label_fmt", @"Formatted string for the current temperature."), @((NSInteger)forecast.currentForecast.temperature)];
 }
 
 - (void)showForecast {

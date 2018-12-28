@@ -933,6 +933,9 @@
 /* Error title displayed when the stop ID provided doesn't match a known stop ID. */
 "map_controller.no_matching_stop_warning_title" = "No Stops Found";
 
+/* Formatted string for the current temperature. */
+"map_controller.temperature_label_fmt" = "Current temperature: %@ degrees";
+
 /* Error message displayed when the stop ID provided doesn't match a known stop ID. */
 "map_controller.no_matching_stop_warning_body" = "We were unable to find a stop that matches the ID you provided. Please check the number and try again.";
 
