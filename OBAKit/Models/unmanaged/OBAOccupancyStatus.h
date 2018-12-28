@@ -11,9 +11,13 @@
 NS_SWIFT_NAME(OccupancyStatus)
 typedef NS_ENUM(NSUInteger, OBAOccupancyStatus) {
     OBAOccupancyStatusUnknown = 0,
-    OBAOccupancyStatusSeatsAvailable,
-    OBAOccupancyStatusStandingAvailable,
-    OBAOccupancyStatusFull
+    OBAOccupancyStatusEmpty,
+    OBAOccupancyStatusManySeatsAvailable,
+    OBAOccupancyStatusFewSeatsAvailable,
+    OBAOccupancyStatusStandingRoomOnly,
+    OBAOccupancyStatusCrushedStandingRoomOnly,
+    OBAOccupancyStatusFull,
+    OBAOccupancyStatusNotAcceptingPassengers,
 };
 
 extern OBAOccupancyStatus OBAStringToOccupancyStatus(NSString * stringValue);

@@ -52,8 +52,11 @@ public class OccupancyStatusView: UIView {
 
     private var silhouetteCount: Int {
         switch occupancyStatus {
-        case .seatsAvailable: return 1
-        case .standingAvailable: return 2
+        case .empty: return 1
+        case .manySeatsAvailable: return 1
+        case .fewSeatsAvailable: return 1
+        case .standingRoomOnly: return 2
+        case .crushedStandingRoomOnly: return 3
         case .full: return 3
         default: return 0
         }
