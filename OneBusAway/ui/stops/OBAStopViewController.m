@@ -121,6 +121,8 @@ static void * arrivalsAndDeparturesContext = &arrivalsAndDeparturesContext;
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
 
+    UIApplication.sharedApplication.idleTimerDisabled = YES;
+
     OBALogFunction();
 
     if (self.arrivalsAndDepartures) {
@@ -137,6 +139,8 @@ static void * arrivalsAndDeparturesContext = &arrivalsAndDeparturesContext;
 
 - (void)viewWillDisappear:(BOOL)animated {
     [super viewWillDisappear:animated];
+
+    UIApplication.sharedApplication.idleTimerDisabled = NO;
 
     // Nil these out to ensure that they are recreated once the
     // view comes back into focus, which is important if the user
@@ -306,6 +310,18 @@ static void * arrivalsAndDeparturesContext = &arrivalsAndDeparturesContext;
 
         if ([self canShowCoachmarks]) {
             [self showCoachmark];
+        }
+        else {
+            if (self.arrivalsAndDepartures.arrivalsAndDepartures.count == 0 && self.minutesAfter <= 1440) {
+                if (self.minutesAfter < 180) {
+                    self.minutesAfter += 60;
+                }
+                else if (self.minutesAfter <= 1440) {
+                    self.minutesAfter += 120;
+                }
+
+                [self reloadDataAnimated:NO];
+            }
         }
     });
 }

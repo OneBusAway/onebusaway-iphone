@@ -28,9 +28,7 @@ typedef NS_ENUM(NSUInteger, OBAErrorCode) {
 extern NSString * const OBAErrorDomain;
 
 // 3D Touch Quick Actions
-extern NSString * const kApplicationShortcutMap;
 extern NSString * const kApplicationShortcutRecents;
-extern NSString * const kApplicationShortcutBookmarks;
 
 // User Defaults Keys
 extern NSString * const OBADisplayUserHeadingOnMapDefaultsKey;

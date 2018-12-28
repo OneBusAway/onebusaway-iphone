@@ -163,25 +163,6 @@
 		<string>org.onebusaway.iphone.handoff.stop</string>
 		<string>org.onebusaway.iphone.handoff.tripurl</string>
 	</array>
-	<key>UIApplicationShortcutItems</key>
-	<array>
-		<dict>
-			<key>UIApplicationShortcutItemIconType</key>
-			<string>UIApplicationShortcutIconTypeLocation</string>
-			<key>UIApplicationShortcutItemTitle</key>
-			<string>Current Location</string>
-			<key>UIApplicationShortcutItemType</key>
-			<string>org.onebusaway.iphone.shortcut.map</string>
-		</dict>
-		<dict>
-			<key>UIApplicationShortcutItemIconType</key>
-			<string>UIApplicationShortcutIconTypeBookmark</string>
-			<key>UIApplicationShortcutItemTitle</key>
-			<string>Bookmarks</string>
-			<key>UIApplicationShortcutItemType</key>
-			<string>org.onebusaway.iphone.shortcut.bookmarks</string>
-		</dict>
-	</array>
 	<key>UIBackgroundModes</key>
 	<array>
 		<string>remote-notification</string>
