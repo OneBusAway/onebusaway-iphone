@@ -365,20 +365,27 @@ static void * arrivalsAndDeparturesContext = &arrivalsAndDeparturesContext;
     // Service Alerts
     OBAServiceAlertsModel *serviceAlerts = [self.modelDAO getServiceAlertsModelForSituations:result.situations];
     if (serviceAlerts.totalCount > 0) {
-        [sections addObject:[self createServiceAlertsSection:result serviceAlerts:serviceAlerts]];
+        [sections addObject:[self createServiceAlertsSection:result serviceAlerts:serviceAlerts modelDAO:self.modelDAO situationSelected:^(OBASituationV2 *situation) {
+            ServiceAlertDetailsViewController *details = [[ServiceAlertDetailsViewController alloc] initWithServiceAlert:situation];
+            [self.navigationController pushViewController:details animated:YES];
+        }]];
     }
 
     // Departures
+    NSString *depsTitle = serviceAlerts.totalCount > 0 ? NSLocalizedString(@"stops_controller.arrivals_and_departures_section_title", @"Section title for the 'Arrivals & Departures' section") : nil;
+
     if ([self.routeFilter filteredArrivalsAndDepartures:result.arrivalsAndDepartures].count == 0) {
         NSString *str = [NSString stringWithFormat:NSLocalizedString(@"stops.no_departures_in_next_n_minutes_format", @"No departures in the next {MINUTES} minutes"), @(self.minutesAfter)];
         OBATableRow *row = [OBATableRow disabledInfoRowWithText:str];
-        OBATableSection *section = [[OBATableSection alloc] initWithTitle:nil rows:@[row]];
+        OBATableSection *section = [[OBATableSection alloc] initWithTitle:depsTitle rows:@[row]];
         [sections addObject:section];
     }
     else {
         // TODO: DRY up this whole thing.
         if (self.stopPreferences.sortTripsByType == OBASortTripsByDepartureTimeV2) {
-            [sections addObject:[self buildClassicDepartureSectionWithDeparture:result]];
+            OBATableSection *section = [self buildClassicDepartureSectionWithDeparture:result];
+            section.title = depsTitle;
+            [sections addObject:section];
         }
         else {
             NSDictionary *groupedArrivals = [OBAStopViewController groupPredictedArrivalsOnRoute:result.arrivalsAndDepartures];

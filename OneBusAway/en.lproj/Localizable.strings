@@ -590,6 +590,9 @@
 /* message */
 "msg_updated" = "Updated";
 
+/* Section title for the 'Arrivals & Departures' section */
+"stops_controller.arrivals_and_departures_section_title" = "Arrivals & Departures";
+
 /* Title of the Stop UI Controller while it is updating its content. */
 "stops_controller.title.updating" = "Updating...";
 
