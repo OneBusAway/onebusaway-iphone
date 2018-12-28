@@ -31,7 +31,7 @@ class StopAnnotationView: MKAnnotationView {
     public override init(annotation: MKAnnotation?, reuseIdentifier: String?) {
         super.init(annotation: annotation, reuseIdentifier: reuseIdentifier)
 
-        canShowCallout = true
+        canShowCallout = !UIAccessibility.isVoiceOverRunning
 
         addSubview(stopImageView)
 

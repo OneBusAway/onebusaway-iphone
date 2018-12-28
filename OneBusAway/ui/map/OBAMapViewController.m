@@ -483,6 +483,14 @@ static const double kStopsInRegionRefreshDelayOnDrag = 0.1;
         return;
     }
 
+    // Selection of an annotation view with VoiceOver enabled requires initial
+    // selection followed by a double-click. Showing an annotation callout is
+    // unnecessary.
+    if (UIAccessibilityIsVoiceOverRunning()) {
+        [self displayStopControllerForStopID:stop.stopId];
+        return;
+    }
+
     // When using the drawer, move the stop around a bit on screen so it's not overlapped
     // by the drawer.
     if ([self.application.userDefaults boolForKey:OBAUseStopDrawerDefaultsKey]) {

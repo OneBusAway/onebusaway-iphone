@@ -50,7 +50,7 @@
     view.annotation = annotation;
 
     view.rightCalloutAccessoryView = nil;
-    view.canShowCallout = YES;
+    view.canShowCallout = !UIAccessibilityIsVoiceOverRunning();
 
     return view;
 }
