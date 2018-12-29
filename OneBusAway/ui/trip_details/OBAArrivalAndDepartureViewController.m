@@ -431,7 +431,10 @@ static NSTimeInterval const kRefreshTimeInterval = 30;
         return nil;
     }
 
-    return [self createServiceAlertsSection:arrivalAndDeparture serviceAlerts:serviceAlerts];
+    return [self createServiceAlertsSection:arrivalAndDeparture serviceAlerts:serviceAlerts modelDAO:self.modelDAO situationSelected:^(OBASituationV2 *situation) {
+        ServiceAlertDetailsViewController *details = [[ServiceAlertDetailsViewController alloc] initWithServiceAlert:situation];
+        [self.navigationController pushViewController:details animated:YES];
+    }];
 }
 
 + (OBATableSection*)createActionsSection:(OBAArrivalAndDepartureV2*)arrivalAndDeparture navigationController:(UINavigationController*)navigationController {

@@ -214,6 +214,7 @@
     if (!_occupancyStatusView) {
         _occupancyStatusView = [[OBAOccupancyStatusView alloc] initWithImage:[UIImage imageNamed:@"silhouette"]];
         [_occupancyStatusView setContentCompressionResistancePriority:UILayoutPriorityRequired forAxis:UILayoutConstraintAxisHorizontal];
+        [_occupancyStatusView setContentHuggingPriority:UILayoutPriorityRequired forAxis:UILayoutConstraintAxisVertical];
     }
     return _occupancyStatusView;
 }
@@ -223,7 +224,7 @@
         _occupancyStatusWrapper = [_occupancyStatusView oba_embedInWrapperViewWithConstraints:NO];
         _occupancyStatusWrapper.mas_key = @"occupancyWrapper";
         [_occupancyStatusView mas_makeConstraints:^(MASConstraintMaker *make) {
-            make.top.right.bottom.equalTo(_occupancyStatusWrapper);
+            make.top.right.equalTo(_occupancyStatusWrapper);
         }];
     }
     return _occupancyStatusWrapper;

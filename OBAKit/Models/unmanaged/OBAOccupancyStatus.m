@@ -9,14 +9,26 @@
 #import <OBAKit/OBAOccupancyStatus.h>
 
 OBAOccupancyStatus OBAStringToOccupancyStatus(NSString * stringValue) {
-    if ([stringValue isEqualToString:@"seatsAvailable"]) {
-        return OBAOccupancyStatusSeatsAvailable;
+    if ([stringValue isEqualToString:@"empty"]) {
+        return OBAOccupancyStatusEmpty;
     }
-    else if ([stringValue isEqualToString:@"standingAvailable"]) {
-        return OBAOccupancyStatusStandingAvailable;
+    else if ([stringValue isEqualToString:@"manySeatsAvailable"]) {
+        return OBAOccupancyStatusManySeatsAvailable;
+    }
+    else if ([stringValue isEqualToString:@"fewSeatsAvailable"]) {
+        return OBAOccupancyStatusFewSeatsAvailable;
+    }
+    else if ([stringValue isEqualToString:@"standingRoomOnly"]) {
+        return OBAOccupancyStatusStandingRoomOnly;
+    }
+    else if ([stringValue isEqualToString:@"crushedStandingRoomOnly"]) {
+        return OBAOccupancyStatusCrushedStandingRoomOnly;
     }
     else if ([stringValue isEqualToString:@"full"]) {
         return OBAOccupancyStatusFull;
+    }
+    else if ([stringValue isEqualToString:@"notAcceptingPassengers"]) {
+        return OBAOccupancyStatusNotAcceptingPassengers;
     }
     else {
         return OBAOccupancyStatusUnknown;
