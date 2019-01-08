@@ -13,7 +13,7 @@
 @import Masonry;
 
 @interface OBAClassicDepartureCell ()
-@property(nonatomic,strong) OBAClassicDepartureView *departureView;
+@property(nonatomic,strong,readwrite) OBAClassicDepartureView *departureView;
 @end
 
 @implementation OBAClassicDepartureCell
@@ -52,6 +52,11 @@
     [super prepareForReuse];
 
     [self.departureView prepareForReuse];
+}
+
+- (void)setHighlighted:(BOOL)highlighted animated:(BOOL)animated {
+    [super setHighlighted:highlighted animated:animated];
+    [self.departureView setHighlighted:highlighted animated:animated];
 }
 
 #pragma mark - OBATableCell

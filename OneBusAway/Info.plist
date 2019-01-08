@@ -17,7 +17,7 @@
 	<key>CFBundlePackageType</key>
 	<string>APPL</string>
 	<key>CFBundleShortVersionString</key>
-	<string>18.2.2</string>
+	<string>18.3.0</string>
 	<key>CFBundleSignature</key>
 	<string>????</string>
 	<key>CFBundleURLTypes</key>
@@ -32,7 +32,7 @@
 		</dict>
 	</array>
 	<key>CFBundleVersion</key>
-	<string>20181210.18</string>
+	<string>20190107.22</string>
 	<key>Fabric</key>
 	<dict>
 		<key>APIKey</key>
@@ -162,25 +162,6 @@
 	<array>
 		<string>org.onebusaway.iphone.handoff.stop</string>
 		<string>org.onebusaway.iphone.handoff.tripurl</string>
-	</array>
-	<key>UIApplicationShortcutItems</key>
-	<array>
-		<dict>
-			<key>UIApplicationShortcutItemIconType</key>
-			<string>UIApplicationShortcutIconTypeLocation</string>
-			<key>UIApplicationShortcutItemTitle</key>
-			<string>Current Location</string>
-			<key>UIApplicationShortcutItemType</key>
-			<string>org.onebusaway.iphone.shortcut.map</string>
-		</dict>
-		<dict>
-			<key>UIApplicationShortcutItemIconType</key>
-			<string>UIApplicationShortcutIconTypeBookmark</string>
-			<key>UIApplicationShortcutItemTitle</key>
-			<string>Bookmarks</string>
-			<key>UIApplicationShortcutItemType</key>
-			<string>org.onebusaway.iphone.shortcut.bookmarks</string>
-		</dict>
 	</array>
 	<key>UIBackgroundModes</key>
 	<array>

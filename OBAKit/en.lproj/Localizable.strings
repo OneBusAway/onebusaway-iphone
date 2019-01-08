@@ -204,3 +204,14 @@
 
 /* Route formatting string. e.g. 10 to Downtown Seattle */
 "text_route_to_orientation_newline_params" = "%@ to %@";
+
+/* Accessibility label for the occupancy status view. */
+"occupancy_status.accessibility_label" = "Predicted occupancy";
+
+"occupancy_status.empty" = "Empty";
+"occupancy_status.many_seats_available" = "Many seats available";
+"occupancy_status.few_seats_available" = "Few seats available";
+"occupancy_status.standing_room_only" = "Standing room only";
+"occupancy_status.full" = "Full";
+"occupancy_status.not_accepting_passengers" = "Not accepting passengers";
+"occupancy_status.unknown" = "Unknown";

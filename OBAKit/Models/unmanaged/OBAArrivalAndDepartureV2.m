@@ -45,7 +45,6 @@
     return NO;
 }
 
-
 #pragma mark - Instance Methods
 
 - (instancetype)init {
@@ -123,6 +122,16 @@
 
 - (BOOL)hasRealTimeData {
     return self.predictedDepartureTime > 0;
+}
+
+#pragma mark - Occupancy Status
+
+- (OBAOccupancyStatus)historicalOccupancy {
+    return OBAStringToOccupancyStatus(self.rawHistoricalOccupancy);
+}
+
+- (OBAOccupancyStatus)predictedOccupancy {
+    return OBAStringToOccupancyStatus(self.rawPredictedOccupancy);
 }
 
 #pragma mark - OBAHasServiceAlerts

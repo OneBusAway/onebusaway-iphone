@@ -430,8 +430,6 @@ extension MapTableViewController: EmbeddedStopDelegate {
 
     func embeddedStopControllerClosePane(_ stopController: StopViewController) {
         pulleyViewController?.popViewController(animated: true)
-        // abxoxo
-//        mapController.deselectSelectedAnnotationView()
     }
 
     func embeddedStopControllerBottomLayoutGuideLength() -> CGFloat {
@@ -445,7 +443,6 @@ extension MapTableViewController: EmbeddedStopDelegate {
 extension MapTableViewController: MapSearchDelegate, UISearchControllerDelegate, UISearchBarDelegate {
 
     fileprivate func configureSearchUI() {
-        // abxoxo
         pulleyViewController?.definesPresentationContext = true
         pulleyViewController?.navigationItem.titleView = searchController.searchBar
         searchController.searchBar.sizeToFit()
@@ -521,7 +518,6 @@ extension MapTableViewController: VehicleDisambiguationDelegate {
             let region = application.modelDao.currentRegion,
             let modelService = application.modelService
         else {
-            // abxoxo TODO: better error handling.
             return
         }
         SVProgressHUD.show()

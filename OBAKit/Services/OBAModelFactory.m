@@ -359,6 +359,7 @@ static NSString * const kReferences = @"references";
     [self addSetPropertyRule:@"arrivalTime" forPrefix:[self extendPrefix:stopTimesPrefix withValue:@"arrivalTime"]];
     [self addSetPropertyRule:@"departureTime" forPrefix:[self extendPrefix:stopTimesPrefix withValue:@"departureTime"]];
     [self addSetPropertyRule:@"stopId" forPrefix:[self extendPrefix:stopTimesPrefix withValue:@"stopId"]];
+    [self addSetPropertyRule:@"rawHistoricalOccupancy" forPrefix:[self extendPrefix:stopTimesPrefix withValue:@"historicalOccupancy"]];
     [self addSetNext:@selector(addObject:) forPrefix:stopTimesPrefix];
     [self addTarget:self selector:@selector(setReferencesForContext:name:value:) forRuleTarget:OBAJsonDigesterRuleTargetEnd prefix:stopTimesPrefix];
     
@@ -393,7 +394,10 @@ static NSString * const kReferences = @"references";
     
     [self addSetPropertyRule:@"stopId" forPrefix:[self extendPrefix:prefix withValue:@"stopId"]];
     [self addSetPropertyRule:@"stopSequence" forPrefix:[self extendPrefix:prefix withValue:@"stopSequence"]];
-    
+
+    [self addSetPropertyRule:@"rawHistoricalOccupancy" forPrefix:[self extendPrefix:prefix withValue:@"historicalOccupancy"]];
+    [self addSetPropertyRule:@"rawPredictedOccupancy" forPrefix:[self extendPrefix:prefix withValue:@"predictedOccupancy"]];
+
     NSString * tripStatusPrefix = [self extendPrefix:prefix withValue:@"tripStatus"];
     [self addTripStatusV2RulesWithPrefix:tripStatusPrefix];
     [self addSetNext:@selector(setTripStatus:) forPrefix:tripStatusPrefix];

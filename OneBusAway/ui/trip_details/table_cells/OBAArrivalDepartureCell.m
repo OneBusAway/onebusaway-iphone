@@ -10,12 +10,17 @@
 #import "OBAArrivalDepartureRow.h"
 @import Masonry;
 
+#define kDebugColors NO
+
 static CGFloat const kImageViewSize = 30.f;
 static CGFloat const kTimelineWidth = 1.f;
 
 @interface OBAArrivalDepartureCell ()
+@property(nonatomic,strong) UIImageView *statusImageView;
 @property(nonatomic,strong) UIView *timelineBarView;
-@property(nonatomic,strong) OBAValue1ContentsView *value1ContentsView;
+@property(nonatomic,strong) UILabel *stopLabel;
+@property(nonatomic,strong) OBAOccupancyStatusView *occupancyStatusView;
+@property(nonatomic,strong) UIView *occupancyStatusWrapper;
 @end
 
 @implementation OBAArrivalDepartureCell
@@ -26,41 +31,46 @@ static CGFloat const kTimelineWidth = 1.f;
 
     if (self) {
         self.contentView.autoresizingMask = UIViewAutoresizingFlexibleWidth|UIViewAutoresizingFlexibleHeight;
+        self.clipsToBounds = YES;
 
-        UIView *barView = [[UIView alloc] initWithFrame:CGRectZero];
-        barView.backgroundColor = [UIColor lightGrayColor];
-        [self.contentView addSubview:barView];
-        [barView mas_makeConstraints:^(MASConstraintMaker *make) {
+        [self.contentView addSubview:self.timelineBarView];
+        [self.timelineBarView mas_makeConstraints:^(MASConstraintMaker *make) {
             make.top.and.bottom.equalTo(self.contentView);
             make.left.equalTo(@(kImageViewSize / 2.f + self.layoutMargins.left));
             make.width.equalTo(@(kTimelineWidth));
         }];
-        _timelineBarView = barView;
 
-        _value1ContentsView = [[OBAValue1ContentsView alloc] initWithFrame:CGRectZero];
-
-        [self.contentView addSubview:_value1ContentsView];
-
-        [_value1ContentsView mas_makeConstraints:^(MASConstraintMaker *make) {
-            make.left.equalTo(self.contentView).insets(self.layoutMargins);
-            make.top.right.and.bottom.equalTo(self.contentView);
-            make.height.greaterThanOrEqualTo(@50);
+        UIView *imageWrapper = [self.statusImageView oba_embedInWrapperViewWithConstraints:NO];
+        [self.statusImageView mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.centerY.equalTo(imageWrapper);
+            make.leading.trailing.equalTo(imageWrapper);
+            make.width.and.height.equalTo(@(kImageViewSize));
         }];
 
-        UIImageView *imageView = _value1ContentsView.imageView;
-
-        [imageView mas_makeConstraints:^(MASConstraintMaker *make) {
-            make.height.equalTo(imageView.mas_width);
-            make.width.equalTo(@(kImageViewSize));
+        UIStackView *outerStack = [UIStackView oba_horizontalStackWithArrangedSubviews:@[imageWrapper, self.stopLabel, self.occupancyStatusWrapper]];
+        outerStack.spacing = OBATheme.defaultPadding;
+        [self.contentView addSubview:outerStack];
+        [outerStack mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.edges.equalTo(self.contentView).insets(UIEdgeInsetsMake(OBATheme.compactPadding, self.oba_leadingTrailingMargins.left, OBATheme.compactPadding, self.oba_leadingTrailingMargins.right));
         }];
 
-        UIView *bottomBorderLine = [[UIView alloc] initWithFrame:CGRectZero];
+        UIView *bottomBorderLine = [UIView oba_autolayoutNew];
         bottomBorderLine.backgroundColor = [OBATheme tableViewSeparatorLineColor];
         [self addSubview:bottomBorderLine];
         [bottomBorderLine mas_makeConstraints:^(MASConstraintMaker *make) {
             make.height.equalTo(@(0.5f));
             make.left.bottom.and.right.equalTo(self).insets(UIEdgeInsetsMake(0, self.layoutMargins.left + kImageViewSize + [OBATheme defaultPadding], 0, 0));
         }];
+
+        if (kDebugColors) {
+            imageWrapper.backgroundColor = UIColor.magentaColor;
+            self.statusImageView.backgroundColor = UIColor.blueColor;
+            self.stopLabel.backgroundColor = UIColor.redColor;
+            self.occupancyStatusWrapper.backgroundColor = UIColor.orangeColor;
+            self.occupancyStatusView.highlightedBackgroundColor = UIColor.clearColor;
+            self.occupancyStatusView.defaultBackgroundColor = UIColor.clearColor;
+            self.contentView.backgroundColor = UIColor.blueColor;
+        }
     }
 
     return self;
@@ -71,10 +81,9 @@ static CGFloat const kTimelineWidth = 1.f;
 - (void)prepareForReuse {
     [super prepareForReuse];
 
-    [self.value1ContentsView prepareForReuse];
-
-    self.value1ContentsView.imageView.accessibilityLabel = nil;
-    self.value1ContentsView.imageView.hidden = NO;
+    self.stopLabel.text = nil;
+    self.statusImageView.image = nil;
+    self.occupancyStatusView.occupancyStatus = OBAOccupancyStatusUnknown;
 }
 
 #pragma mark - OBATableCell
@@ -91,26 +100,83 @@ static CGFloat const kTimelineWidth = 1.f;
 
     if ([self departureRow].closestStopToVehicle) {
         UIImage *image = [OBAStopIconFactory imageForRouteType:[self departureRow].routeType];
-        self.value1ContentsView.imageView.image = [OBAImageHelpers circleImageWithSize:CGSizeMake(kImageViewSize, kImageViewSize) contents:image strokeColor:[OBATheme OBADarkGreen]];
+        self.statusImageView.image = [OBAImageHelpers circleImageWithSize:CGSizeMake(kImageViewSize, kImageViewSize) contents:image strokeColor:[OBATheme OBADarkGreen]];
 
         NSString *accessibilityLabel = [NSString stringWithFormat:NSLocalizedString(@"arrival_departure_cell.closest_stop", @"The vehicle is currently closest to <STOP NAME>"), [self departureRow].title];
-        self.value1ContentsView.imageView.accessibilityLabel = accessibilityLabel;
+        self.statusImageView.accessibilityLabel = accessibilityLabel;
     }
     else if ([self departureRow].selectedStopForRider) {
         UIImage *walkImage = [UIImage imageNamed:@"walkTransport"];
-        self.value1ContentsView.imageView.image = [OBAImageHelpers circleImageWithSize:CGSizeMake(kImageViewSize, kImageViewSize) contents:walkImage strokeColor:OBATheme.mapUserLocationColor];
+        self.statusImageView.image = [OBAImageHelpers circleImageWithSize:CGSizeMake(kImageViewSize, kImageViewSize) contents:walkImage strokeColor:OBATheme.mapUserLocationColor];
     }
     else {
-        self.value1ContentsView.imageView.image = [OBAImageHelpers circleImageWithSize:CGSizeMake(kImageViewSize, kImageViewSize) contents:nil];
+        self.statusImageView.image = [OBAImageHelpers circleImageWithSize:CGSizeMake(kImageViewSize, kImageViewSize) contents:nil];
     }
 
-    self.value1ContentsView.textLabel.text = [self departureRow].title;
+    NSMutableAttributedString *labelText = [[NSMutableAttributedString alloc] initWithString:self.departureRow.title attributes:@{NSFontAttributeName: OBATheme.bodyFont}];
+    [labelText appendAttributedString:[[NSAttributedString alloc] initWithString:@" "]];
 
-    self.value1ContentsView.detailTextLabel.text = [self departureRow].subtitle;
+    NSAttributedString *timeText = [[NSAttributedString alloc] initWithString:self.departureRow.subtitle attributes:@{NSFontAttributeName: OBATheme.bodyFont, NSForegroundColorAttributeName: UIColor.darkGrayColor}];
+    [labelText appendAttributedString:timeText];
+
+    self.stopLabel.attributedText = labelText;
+
+    self.occupancyStatusView.occupancyStatus = self.departureRow.historicalOccupancyStatus;
 }
 
 - (OBAArrivalDepartureRow*)departureRow {
     return (OBAArrivalDepartureRow*)[self tableRow];
+}
+
+- (UIImageView*)statusImageView {
+    if (!_statusImageView) {
+        _statusImageView = [UIImageView oba_autolayoutNew];
+        [_statusImageView setContentHuggingPriority:UILayoutPriorityDefaultHigh forAxis:UILayoutConstraintAxisHorizontal];
+        [_statusImageView setContentCompressionResistancePriority:UILayoutPriorityDefaultHigh forAxis:UILayoutConstraintAxisHorizontal];
+    }
+    return _statusImageView;
+}
+
+- (OBAOccupancyStatusView*)occupancyStatusView {
+    if (!_occupancyStatusView) {
+        _occupancyStatusView = [[OBAOccupancyStatusView alloc] initWithImage:[UIImage imageNamed:@"silhouette"]];
+        [_occupancyStatusView setContentCompressionResistancePriority:UILayoutPriorityRequired forAxis:UILayoutConstraintAxisHorizontal];
+    }
+    return _occupancyStatusView;
+}
+
+- (UIView*)occupancyStatusWrapper {
+    if (!_occupancyStatusWrapper) {
+        UIView *wrapper = [self.occupancyStatusView oba_embedInWrapperViewWithConstraints:NO];
+        wrapper.mas_key = @"occupancyWrapper";
+        [self.occupancyStatusView mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.right.centerY.equalTo(wrapper);
+        }];
+        wrapper.clipsToBounds = YES;
+        _occupancyStatusWrapper = wrapper;
+    }
+    return _occupancyStatusWrapper;
+}
+
+- (UIView*)timelineBarView {
+    if (!_timelineBarView) {
+        UIView *barView = [[UIView alloc] initWithFrame:CGRectZero];
+        barView.backgroundColor = [UIColor lightGrayColor];
+        _timelineBarView = barView;
+    }
+    return _timelineBarView;
+}
+
+- (UILabel*)stopLabel {
+    if (!_stopLabel) {
+        _stopLabel = [OBAAutoLabel oba_autolayoutNew];
+        _stopLabel.numberOfLines = 0;
+        [_stopLabel setContentCompressionResistancePriority:UILayoutPriorityRequired forAxis:UILayoutConstraintAxisHorizontal];
+        [_stopLabel setContentCompressionResistancePriority:UILayoutPriorityRequired forAxis:UILayoutConstraintAxisVertical];
+        [_stopLabel setContentHuggingPriority:UILayoutPriorityRequired forAxis:UILayoutConstraintAxisVertical];
+        [_stopLabel setContentHuggingPriority:UILayoutPriorityDefaultLow forAxis:UILayoutConstraintAxisHorizontal];
+    }
+    return _stopLabel;
 }
 
 @end

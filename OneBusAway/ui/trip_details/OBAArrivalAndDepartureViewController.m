@@ -139,6 +139,8 @@ static NSTimeInterval const kRefreshTimeInterval = 30;
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
 
+    UIApplication.sharedApplication.idleTimerDisabled = YES;
+
     OBALogFunction();
 
     self.refreshTimer = [NSTimer scheduledTimerWithTimeInterval:kRefreshTimeInterval target:self selector:@selector(reloadData:) userInfo:nil repeats:YES];
@@ -153,6 +155,8 @@ static NSTimeInterval const kRefreshTimeInterval = 30;
 
 - (void)viewWillDisappear:(BOOL)animated {
     [super viewWillDisappear:animated];
+
+    UIApplication.sharedApplication.idleTimerDisabled = NO;
 
     [[NSNotificationCenter defaultCenter] removeObserver:self name:UIApplicationWillEnterForegroundNotification object:nil];
 
@@ -427,7 +431,10 @@ static NSTimeInterval const kRefreshTimeInterval = 30;
         return nil;
     }
 
-    return [self createServiceAlertsSection:arrivalAndDeparture serviceAlerts:serviceAlerts];
+    return [self createServiceAlertsSection:arrivalAndDeparture serviceAlerts:serviceAlerts modelDAO:self.modelDAO situationSelected:^(OBASituationV2 *situation) {
+        ServiceAlertDetailsViewController *details = [[ServiceAlertDetailsViewController alloc] initWithServiceAlert:situation];
+        [self.navigationController pushViewController:details animated:YES];
+    }];
 }
 
 + (OBATableSection*)createActionsSection:(OBAArrivalAndDepartureV2*)arrivalAndDeparture navigationController:(UINavigationController*)navigationController {

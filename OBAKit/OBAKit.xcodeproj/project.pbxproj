@@ -215,6 +215,9 @@
 		934196D31DB0C02F004BBBB7 /* NSDate+DateTools.h in Headers */ = {isa = PBXBuildFile; fileRef = 934196D11DB0C02F004BBBB7 /* NSDate+DateTools.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		934196D41DB0C02F004BBBB7 /* NSDate+DateTools.m in Sources */ = {isa = PBXBuildFile; fileRef = 934196D21DB0C02F004BBBB7 /* NSDate+DateTools.m */; };
 		9341B82E20B69327006450FC /* CardWrapper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9341B82D20B69327006450FC /* CardWrapper.swift */; };
+		934894DA21C2D064001ADDB6 /* OBAOccupancyStatus.m in Sources */ = {isa = PBXBuildFile; fileRef = 934894D921C2D064001ADDB6 /* OBAOccupancyStatus.m */; };
+		934894DB21C2D237001ADDB6 /* OBAOccupancyStatus.h in Headers */ = {isa = PBXBuildFile; fileRef = 934894D821C2CD71001ADDB6 /* OBAOccupancyStatus.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		934894DD21C2D7C8001ADDB6 /* OccupancyStatusView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 934894DC21C2D7C8001ADDB6 /* OccupancyStatusView.swift */; };
 		934C50951E2A1FB500DFDCA0 /* NSCoder+OBAAdditions.h in Headers */ = {isa = PBXBuildFile; fileRef = 934C50931E2A1FB500DFDCA0 /* NSCoder+OBAAdditions.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		934C50961E2A1FB500DFDCA0 /* NSCoder+OBAAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = 934C50941E2A1FB500DFDCA0 /* NSCoder+OBAAdditions.m */; };
 		934C50991E2B656900DFDCA0 /* NSDictionary+OBAAdditions.h in Headers */ = {isa = PBXBuildFile; fileRef = 934C50971E2B656900DFDCA0 /* NSDictionary+OBAAdditions.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -266,6 +269,10 @@
 		93895708215D88C4008AB975 /* ObacoService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 93895707215D88C4008AB975 /* ObacoService.swift */; };
 		939A1A8421165989001D5654 /* OBAButtonRow.h in Headers */ = {isa = PBXBuildFile; fileRef = 939A1A8221165989001D5654 /* OBAButtonRow.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		939A1A8521165989001D5654 /* OBAButtonRow.m in Sources */ = {isa = PBXBuildFile; fileRef = 939A1A8321165989001D5654 /* OBAButtonRow.m */; };
+		93A632DE21D552BA00A1AC9B /* OBAAutoLabel.h in Headers */ = {isa = PBXBuildFile; fileRef = 93A632DC21D552BA00A1AC9B /* OBAAutoLabel.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		93A632DF21D552BA00A1AC9B /* OBAAutoLabel.m in Sources */ = {isa = PBXBuildFile; fileRef = 93A632DD21D552BA00A1AC9B /* OBAAutoLabel.m */; };
+		93A632E221D561A900A1AC9B /* UIImage+OBAAdditions.h in Headers */ = {isa = PBXBuildFile; fileRef = 93A632E021D561A900A1AC9B /* UIImage+OBAAdditions.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		93A632E321D561A900A1AC9B /* UIImage+OBAAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = 93A632E121D561A900A1AC9B /* UIImage+OBAAdditions.m */; };
 		93A6E9E21F5BC18B00AFA61C /* AppInterop.swift in Sources */ = {isa = PBXBuildFile; fileRef = 93A6E9E11F5BC18B00AFA61C /* AppInterop.swift */; };
 		93A73BF21F8760F600F213D4 /* OBAClassicDepartureView.h in Headers */ = {isa = PBXBuildFile; fileRef = 93A73BF01F8760F600F213D4 /* OBAClassicDepartureView.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		93A73BF31F8760F600F213D4 /* OBAClassicDepartureView.m in Sources */ = {isa = PBXBuildFile; fileRef = 93A73BF11F8760F600F213D4 /* OBAClassicDepartureView.m */; };
@@ -550,6 +557,9 @@
 		934196D11DB0C02F004BBBB7 /* NSDate+DateTools.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSDate+DateTools.h"; sourceTree = "<group>"; };
 		934196D21DB0C02F004BBBB7 /* NSDate+DateTools.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSDate+DateTools.m"; sourceTree = "<group>"; };
 		9341B82D20B69327006450FC /* CardWrapper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CardWrapper.swift; sourceTree = "<group>"; };
+		934894D821C2CD71001ADDB6 /* OBAOccupancyStatus.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = OBAOccupancyStatus.h; sourceTree = "<group>"; };
+		934894D921C2D064001ADDB6 /* OBAOccupancyStatus.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = OBAOccupancyStatus.m; sourceTree = "<group>"; };
+		934894DC21C2D7C8001ADDB6 /* OccupancyStatusView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OccupancyStatusView.swift; sourceTree = "<group>"; };
 		934C50931E2A1FB500DFDCA0 /* NSCoder+OBAAdditions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSCoder+OBAAdditions.h"; sourceTree = "<group>"; };
 		934C50941E2A1FB500DFDCA0 /* NSCoder+OBAAdditions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSCoder+OBAAdditions.m"; sourceTree = "<group>"; };
 		934C50971E2B656900DFDCA0 /* NSDictionary+OBAAdditions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSDictionary+OBAAdditions.h"; sourceTree = "<group>"; };
@@ -601,6 +611,10 @@
 		93895707215D88C4008AB975 /* ObacoService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ObacoService.swift; sourceTree = "<group>"; };
 		939A1A8221165989001D5654 /* OBAButtonRow.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = OBAButtonRow.h; sourceTree = "<group>"; };
 		939A1A8321165989001D5654 /* OBAButtonRow.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = OBAButtonRow.m; sourceTree = "<group>"; };
+		93A632DC21D552BA00A1AC9B /* OBAAutoLabel.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = OBAAutoLabel.h; sourceTree = "<group>"; };
+		93A632DD21D552BA00A1AC9B /* OBAAutoLabel.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = OBAAutoLabel.m; sourceTree = "<group>"; };
+		93A632E021D561A900A1AC9B /* UIImage+OBAAdditions.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "UIImage+OBAAdditions.h"; sourceTree = "<group>"; };
+		93A632E121D561A900A1AC9B /* UIImage+OBAAdditions.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "UIImage+OBAAdditions.m"; sourceTree = "<group>"; };
 		93A6E9E11F5BC18B00AFA61C /* AppInterop.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppInterop.swift; sourceTree = "<group>"; };
 		93A73BF01F8760F600F213D4 /* OBAClassicDepartureView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OBAClassicDepartureView.h; sourceTree = "<group>"; };
 		93A73BF11F8760F600F213D4 /* OBAClassicDepartureView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OBAClassicDepartureView.m; sourceTree = "<group>"; };
@@ -823,6 +837,8 @@
 				93DCEF6D20E54EAF0004E087 /* MKMapSnapshotter+AnyPromise.m */,
 				93681B912122215700293165 /* UIStackView+OBAAdditions.h */,
 				93681B922122215700293165 /* UIStackView+OBAAdditions.m */,
+				93A632E021D561A900A1AC9B /* UIImage+OBAAdditions.h */,
+				93A632E121D561A900A1AC9B /* UIImage+OBAAdditions.m */,
 			);
 			path = Categories;
 			sourceTree = "<group>";
@@ -1034,6 +1050,8 @@
 				9363B6D320F50EE400F515CB /* MatchingAgencyVehicle.swift */,
 				9300CF7520F89448006AB268 /* WeatherForecast.swift */,
 				93DE557121530EAA0030D67D /* BoxedCoordinateRegion.swift */,
+				934894D821C2CD71001ADDB6 /* OBAOccupancyStatus.h */,
+				934894D921C2D064001ADDB6 /* OBAOccupancyStatus.m */,
 			);
 			path = unmanaged;
 			sourceTree = "<group>";
@@ -1088,6 +1106,9 @@
 				9388C2D12001567F0068041F /* OBAStackedMarqueeLabels.h */,
 				9388C2D22001567F0068041F /* OBAStackedMarqueeLabels.m */,
 				93681B9521223D7700293165 /* DrawerNavigationBar.swift */,
+				934894DC21C2D7C8001ADDB6 /* OccupancyStatusView.swift */,
+				93A632DC21D552BA00A1AC9B /* OBAAutoLabel.h */,
+				93A632DD21D552BA00A1AC9B /* OBAAutoLabel.m */,
 			);
 			path = UI;
 			sourceTree = "<group>";
@@ -1246,6 +1267,7 @@
 				934196B21DB0B0AF004BBBB7 /* OBAModelFactory.h in Headers */,
 				9341967C1DB0B099004BBBB7 /* OBASituationV2.h in Headers */,
 				934196821DB0B099004BBBB7 /* OBAStopsForRouteV2.h in Headers */,
+				93A632DE21D552BA00A1AC9B /* OBAAutoLabel.h in Headers */,
 				934196001DB0B099004BBBB7 /* OBACommon.h in Headers */,
 				934196101DB0B099004BBBB7 /* OBAReachability.h in Headers */,
 				93B282C81DC68892005013D7 /* NSURLQueryItem+OBAAdditions.h in Headers */,
@@ -1281,6 +1303,7 @@
 				934196611DB0B099004BBBB7 /* OBANavigationTarget.h in Headers */,
 				932CE85120263FFB003091D3 /* OBABaseTableCell.h in Headers */,
 				934195F81DB0B099004BBBB7 /* NSArray+OBAAdditions.h in Headers */,
+				93A632E221D561A900A1AC9B /* UIImage+OBAAdditions.h in Headers */,
 				934196B61DB0B0AF004BBBB7 /* OBAModelServiceRequest.h in Headers */,
 				9341967A1DB0B099004BBBB7 /* OBASituationConsequenceV2.h in Headers */,
 				9341962C1DB0B099004BBBB7 /* OBAVehicleMapAnnotation.h in Headers */,
@@ -1359,6 +1382,7 @@
 				934196901DB0B099004BBBB7 /* OBATripV2.h in Headers */,
 				934196711DB0B099004BBBB7 /* OBARouteType.h in Headers */,
 				9385BEDC1FB040B300D122D1 /* OBAErrorMessages.h in Headers */,
+				934894DB21C2D237001ADDB6 /* OBAOccupancyStatus.h in Headers */,
 				93EA5A3F203DF41B00CE6CAC /* OBAAlarmNavigationTarget.h in Headers */,
 				934196121DB0B099004BBBB7 /* OBARouteFilter.h in Headers */,
 				934195FC1DB0B099004BBBB7 /* UILabel+OBAAdditions.h in Headers */,
@@ -1538,6 +1562,7 @@
 				93E592A51F8CACBF0079A2D8 /* OBAStaticTableViewController.m in Sources */,
 				931C60D81EC3975A0086EC37 /* OBAApplicationConfiguration.m in Sources */,
 				9388C2D42001567F0068041F /* OBAStackedMarqueeLabels.m in Sources */,
+				934894DA21C2D064001ADDB6 /* OBAOccupancyStatus.m in Sources */,
 				9388C2A91FFE1BB90068041F /* OBAPlaceholderRow.m in Sources */,
 				934196151DB0B099004BBBB7 /* OBAStopIconFactory.m in Sources */,
 				93A73BF71F87613A00F213D4 /* OBADepartureTimeLabel.m in Sources */,
@@ -1606,10 +1631,12 @@
 				9341963C1DB0B099004BBBB7 /* OBASetCoordinatePropertyJsonDigesterRule.m in Sources */,
 				934196931DB0B099004BBBB7 /* OBAVehicleStatusV2.m in Sources */,
 				93F3F8A21E7BCA8C0025FC78 /* FileHelpers.swift in Sources */,
+				93A632DF21D552BA00A1AC9B /* OBAAutoLabel.m in Sources */,
 				93EA5A4B203DFEC300CE6CAC /* OBASearchType.m in Sources */,
 				934196231DB0B099004BBBB7 /* OBARegionHelper.m in Sources */,
 				9388C29F1FFDBAEA0068041F /* FBShimmeringView.m in Sources */,
 				9341964A1DB0B099004BBBB7 /* OBAAgencyWithCoverageV2.m in Sources */,
+				934894DD21C2D7C8001ADDB6 /* OccupancyStatusView.swift in Sources */,
 				934C509A1E2B656900DFDCA0 /* NSDictionary+OBAAdditions.m in Sources */,
 				934196081DB0B099004BBBB7 /* OBAEmailHelper.m in Sources */,
 				9341967F1DB0B099004BBBB7 /* OBAStopAccessEventV2.m in Sources */,
@@ -1632,6 +1659,7 @@
 				934196381DB0B099004BBBB7 /* OBAJsonDigester.m in Sources */,
 				930AFE9F1DD183720092AE82 /* OBAWalkingDirections.m in Sources */,
 				934196AF1DB0B0AF004BBBB7 /* OBADataSourceConfig.m in Sources */,
+				93A632E321D561A900A1AC9B /* UIImage+OBAAdditions.m in Sources */,
 				9341964E1DB0B099004BBBB7 /* OBAArrivalAndDepartureV2.m in Sources */,
 				934196421DB0B099004BBBB7 /* OBASetNextOBAJsonDigesterRule.m in Sources */,
 				CCD30CFB1E30564600080EFF /* OBAHandoff.swift in Sources */,

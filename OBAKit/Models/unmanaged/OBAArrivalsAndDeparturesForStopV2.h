@@ -35,6 +35,8 @@ NS_ASSUME_NONNULL_BEGIN
  */
 - (BOOL)lacksRealTimeData;
 
+@property(nonatomic,assign,readonly) BOOL containsOccupancyPrediction;
+
 @end
 
 NS_ASSUME_NONNULL_END

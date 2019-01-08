@@ -214,7 +214,6 @@ static const double kStopsInRegionRefreshDelayOnDrag = 0.1;
     [OBAAnalytics.sharedInstance reportEventWithCategory:OBAAnalyticsCategoryUIAction action:@"button_press" label:analyticsLabel value:nil];
 
     [self.searchController dismissViewControllerAnimated:YES completion:^{
-        // abxoxo - TODO: figure out how to unify -navigateToTarget, this method, and -setNavigationTarget.
         self.mapDataLoader.searchRegion = self.visibleMapRegion;
         [self setNavigationTarget:target];
     }];
@@ -481,6 +480,14 @@ static const double kStopsInRegionRefreshDelayOnDrag = 0.1;
         stop = (OBAStopV2*)view.annotation;
     }
     else {
+        return;
+    }
+
+    // Selection of an annotation view with VoiceOver enabled requires initial
+    // selection followed by a double-click. Showing an annotation callout is
+    // unnecessary.
+    if (UIAccessibilityIsVoiceOverRunning()) {
+        [self displayStopControllerForStopID:stop.stopId];
         return;
     }
 
@@ -1094,7 +1101,15 @@ static const double kStopsInRegionRefreshDelayOnDrag = 0.1;
 
     self.locationHoverBar = [[ISHHoverBar alloc] init];
     self.locationHoverBar.shadowRadius = 2.f;
-    self.locationHoverBar.items = @[recenterMapButton, tempButtonItem];
+
+    NSMutableArray *buttons = [[NSMutableArray alloc] initWithObjects:recenterMapButton, tempButtonItem, nil];
+
+    if (UIAccessibilityIsVoiceOverRunning()) {
+        UIBarButtonItem *nearbyButton = [[UIBarButtonItem alloc] initWithTitle:NSLocalizedString(@"msg_nearby_stops", @"Nearby Stops text") style:UIBarButtonItemStylePlain target:self action:@selector(showNearbyStops)];
+        [buttons insertObject:nearbyButton atIndex:0];
+    }
+
+    self.locationHoverBar.items = buttons;
     [self.view addSubview:self.locationHoverBar];
     [self.locationHoverBar mas_makeConstraints:^(MASConstraintMaker *make) {
         make.top.equalTo(self.mas_topLayoutGuideBottom).offset(OBATheme.defaultMargin);
@@ -1121,12 +1136,14 @@ static const double kStopsInRegionRefreshDelayOnDrag = 0.1;
     OBAWeatherForecast *forecast = self.application.forecastManager.weatherForecast;
     if (!forecast) {
         [self.forecastButton setTitle:@"-º" forState:UIControlStateNormal];
+        [self.forecastButton setAccessibilityLabel:nil];
         return;
     }
 
     NSString *temperature = [NSString stringWithFormat:@"%.0fº", forecast.currentForecast.temperature];
 
     [self.forecastButton setTitle:temperature forState:UIControlStateNormal];
+    self.forecastButton.accessibilityLabel = [NSString stringWithFormat:NSLocalizedString(@"map_controller.temperature_label_fmt", @"Formatted string for the current temperature."), @((NSInteger)forecast.currentForecast.temperature)];
 }
 
 - (void)showForecast {

@@ -40,6 +40,7 @@
     row->_alarmExists = _alarmExists;
     row->_hasArrived = _hasArrived;
     row->_displayContextButton = _displayContextButton;
+    row->_expectedOccupancyStatus = _expectedOccupancyStatus;
     
     return row;
 }

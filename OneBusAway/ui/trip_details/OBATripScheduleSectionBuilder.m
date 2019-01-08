@@ -56,7 +56,9 @@
 + (OBATableSection*)buildStopsSection:(OBATripDetailsV2*)tripDetails arrivalAndDeparture:(OBAArrivalAndDepartureV2*)arrivalAndDeparture currentStopIndex:(NSUInteger)currentStopIndex navigationController:(UINavigationController*)navigationController {
     OBATripInstanceRef *tripInstance = arrivalAndDeparture.tripInstance;
     OBATripScheduleV2 *schedule = tripDetails.schedule;
-    OBATableSection *stopsSection = [[OBATableSection alloc] initWithTitle:nil];
+
+    NSString *title = arrivalAndDeparture.situations.count > 0 ? NSLocalizedString(@"stops_controller.arrivals_and_departures_section_title", @"Section title for the 'Arrivals & Departures' section") : nil;
+    OBATableSection *stopsSection = [[OBATableSection alloc] initWithTitle:title];
 
     OBATableRow *previousRow = [self buildPreviousConnectionRowWithTripDetails:tripDetails tripInstance:tripInstance navigationController:navigationController];
     OBATableRow *continuingRow = [self buildNextConnectionRowWithTripDetails:tripDetails tripInstance:tripInstance navigationController:navigationController];
@@ -80,6 +82,7 @@
         row.subtitle = [self formattedStopTime:stopTime tripDetails:tripDetails];
         row.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
         row.model = stopTime;
+        row.historicalOccupancyStatus = stopTime.historicalOccupancy;
 
         [stopsSection addRow:row];
     }

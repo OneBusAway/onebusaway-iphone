@@ -259,9 +259,7 @@ extension TodayViewController {
             let view = self.bookmarkViewsMap[bookmark],
             let modelService = app.modelService
         else {
-            // abxoxo todo: is this the best way to bail immediately?
-            // maybe throw an error?
-            return Promise.init(value: false)
+            return Promise(value: false)
         }
 
         let promiseWrapper = modelService.requestStopArrivalsAndDepartures(withID: bookmark.stopId, minutesBefore: 0, minutesAfter: kMinutes)

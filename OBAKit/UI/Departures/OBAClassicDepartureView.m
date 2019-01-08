@@ -17,6 +17,7 @@
 #import <OBAKit/OBAMacros.h>
 #import <OBAKit/OBABookmarkedRouteRow.h>
 #import <OBAKit/UIView+OBAAdditions.h>
+#import <OBAKit/OBAKit-Swift.h>
 
 #define kUseDebugColors NO
 
@@ -32,6 +33,8 @@
 @property(nonatomic,strong,readwrite) OBADepartureTimeLabel *secondDepartureLabel;
 @property(nonatomic,strong,readwrite) OBADepartureTimeLabel *thirdDepartureLabel;
 @property(nonatomic,strong) UIView *departureLabelSpacer;
+@property(nonatomic,strong,readwrite) OBAOccupancyStatusView *occupancyStatusView;
+@property(nonatomic,strong) UIView *occupancyStatusWrapper;
 
 @property(nonatomic,strong,readwrite) UIButton *contextMenuButton;
 @end
@@ -45,7 +48,9 @@
         self.clipsToBounds = YES;
 
         UIView *leftLabelStackWrapper = [self.leftLabelStack oba_embedInWrapperView];
+        leftLabelStackWrapper.mas_key = @"leftLabelStackWrapper";
         UIView *departureLabelStackWrapper = [self.departureLabelStack oba_embedInWrapperView];
+        departureLabelStackWrapper.mas_key = @"departureLabelStackWrapper";
         [departureLabelStackWrapper setContentHuggingPriority:UILayoutPriorityRequired forAxis:UILayoutConstraintAxisHorizontal];
         [departureLabelStackWrapper mas_makeConstraints:^(MASConstraintMaker *make) {
             make.width.greaterThanOrEqualTo(@10);
@@ -53,6 +58,7 @@
 
         NSArray *views = @[leftLabelStackWrapper, departureLabelStackWrapper, self.contextMenuButton];
         UIStackView *horizontalStack = [[UIStackView alloc] initWithArrangedSubviews:views];
+        horizontalStack.mas_key = @"horizontalStack";
         horizontalStack.translatesAutoresizingMaskIntoConstraints = NO;
         horizontalStack.axis = UILayoutConstraintAxisHorizontal;
         horizontalStack.distribution = UIStackViewDistributionFill;
@@ -101,6 +107,10 @@
     self.topLineLabel.text = nil;
     self.middleLineLabel.text = nil;
     self.bottomLineLabel.text = nil;
+}
+
+- (void)setHighlighted:(BOOL)highlighted animated:(BOOL)animated {
+    self.occupancyStatusView.isHighlighted = highlighted;
 }
 
 #pragma mark - Label Animation
@@ -181,6 +191,8 @@
     // vertically center the one departure label if there is only one departure.
     // Otherwise vertically align them to the top.
     self.departureLabelSpacer.hidden = [self departureRow].upcomingDepartures.count == 1;
+
+    self.occupancyStatusView.occupancyStatus = self.departureRow.expectedOccupancyStatus;
 }
 
 - (void)applyUpcomingDeparture:(NSArray<OBAUpcomingDeparture*>*)upcomingDepartures atIndex:(NSUInteger)index toLabel:(OBADepartureTimeLabel*)departureTimeLabel {
@@ -197,6 +209,26 @@
 }
 
 #pragma mark - Lazy UI Properties
+
+- (OBAOccupancyStatusView*)occupancyStatusView {
+    if (!_occupancyStatusView) {
+        _occupancyStatusView = [[OBAOccupancyStatusView alloc] initWithImage:[UIImage imageNamed:@"silhouette"]];
+        [_occupancyStatusView setContentCompressionResistancePriority:UILayoutPriorityRequired forAxis:UILayoutConstraintAxisHorizontal];
+        [_occupancyStatusView setContentHuggingPriority:UILayoutPriorityRequired forAxis:UILayoutConstraintAxisVertical];
+    }
+    return _occupancyStatusView;
+}
+
+- (UIView*)occupancyStatusWrapper {
+    if (!_occupancyStatusWrapper) {
+        _occupancyStatusWrapper = [_occupancyStatusView oba_embedInWrapperViewWithConstraints:NO];
+        _occupancyStatusWrapper.mas_key = @"occupancyWrapper";
+        [_occupancyStatusView mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.top.right.equalTo(_occupancyStatusWrapper);
+        }];
+    }
+    return _occupancyStatusWrapper;
+}
 
 - (UIStackView*)leftLabelStack {
     if (!_leftLabelStack) {
@@ -252,6 +284,7 @@
                                      [OBAClassicDepartureView wrapDepartureLabel:self.firstDepartureLabel],
                                      [OBAClassicDepartureView wrapDepartureLabel:self.secondDepartureLabel],
                                      [OBAClassicDepartureView wrapDepartureLabel:self.thirdDepartureLabel],
+                                     self.occupancyStatusView,
                                      self.departureLabelSpacer
                                      ];
         _departureLabelStack = [[UIStackView alloc] initWithArrangedSubviews:labelStackViews];
@@ -303,6 +336,7 @@
 - (UIButton*)contextMenuButton {
     if (!_contextMenuButton) {
         _contextMenuButton = [OBAUIBuilder contextMenuButton];
+        _contextMenuButton.mas_key = @"contextMenuButton";
         _contextMenuButton.translatesAutoresizingMaskIntoConstraints = NO;
     }
     return _contextMenuButton;
