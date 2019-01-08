@@ -23,6 +23,10 @@ public class OccupancyStatusView: UIView {
         self.image = image
 
         super.init(frame: .zero)
+
+        isAccessibilityElement = true
+        accessibilityLabel = Bundle(for: OccupancyStatusView.self).localizedString(forKey: "occupancy_status.accessibility_label", value: nil, table: nil)
+        accessibilityTraits = [.staticText]
     }
 
     required init?(coder aDecoder: NSCoder) {
@@ -65,6 +69,8 @@ public class OccupancyStatusView: UIView {
     @objc public var occupancyStatus: OBAOccupancyStatus = .unknown {
         didSet {
             isHidden = (occupancyStatus == .unknown)
+
+            accessibilityValue = OBALocalizedStringFromOccupancyStatus(occupancyStatus)
             setNeedsDisplay()
         }
     }

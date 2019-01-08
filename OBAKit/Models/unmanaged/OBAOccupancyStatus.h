@@ -21,3 +21,5 @@ typedef NS_ENUM(NSUInteger, OBAOccupancyStatus) {
 };
 
 extern OBAOccupancyStatus OBAStringToOccupancyStatus(NSString * stringValue);
+
+extern NSString * OBALocalizedStringFromOccupancyStatus(OBAOccupancyStatus occupancyStatus);
