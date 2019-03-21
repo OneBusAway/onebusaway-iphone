@@ -24,6 +24,7 @@
 #import <OBAKit/OBAArrivalAndDepartureInstanceRef.h>
 #import <OBAKit/OBADepartureStatus.h>
 #import <OBAKit/OBAHasServiceAlerts.h>
+#import <OBAKit/OBAOccupancyStatus.h>
 
 NS_ASSUME_NONNULL_BEGIN
 
@@ -35,6 +36,12 @@ typedef NS_ENUM(NSUInteger, OBAArrivalDepartureState) {
 @interface OBAArrivalAndDepartureV2 : OBAHasReferencesV2<OBAHasServiceAlerts>
 
 + (BOOL)hasScheduledDepartures:(NSArray<OBAArrivalAndDepartureV2*>*)departures;
+
+@property(nonatomic,copy,nullable) NSString *rawHistoricalOccupancy;
+@property(nonatomic,assign,readonly) OBAOccupancyStatus historicalOccupancy;
+
+@property(nonatomic,copy,nullable) NSString *rawPredictedOccupancy;
+@property(nonatomic,assign,readonly) OBAOccupancyStatus predictedOccupancy;
 
 /**
  the route id for the arriving vehicle

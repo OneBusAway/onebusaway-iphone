@@ -10,27 +10,6 @@
 #import <OBAKit/OBATheme.h>
 @import Masonry;
 
-@interface AutoLabel : UILabel
-@end
-
-@implementation AutoLabel
-
-- (void)setBounds:(CGRect)bounds {
-    if (bounds.size.width != self.bounds.size.width) {
-        [self setNeedsUpdateConstraints];
-    }
-    [super setBounds:bounds];
-}
-
-- (void)updateConstraints {
-    if (self.preferredMaxLayoutWidth != self.bounds.size.width) {
-        self.preferredMaxLayoutWidth = self.bounds.size.width;
-    }
-    [super updateConstraints];
-}
-
-@end
-
 @interface OBAValue1ContentsView ()
 @property(nonatomic,strong) UIStackView *stackView;
 @property(nonatomic,strong,readwrite) UILabel *textLabel;

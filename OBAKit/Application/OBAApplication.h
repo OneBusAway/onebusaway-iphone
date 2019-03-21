@@ -37,6 +37,7 @@ NS_ASSUME_NONNULL_BEGIN
  */
 extern NSString *const OBARegionServerInvalidNotification;
 extern NSString *const OBAShowTestAlertsDefaultsKey;
+extern NSString *const OBAOccupancyStatusTutorialViewedDefaultsKey;
 
 @interface OBAApplication : NSObject
 @property (nonatomic, strong, readonly) OBAReferencesV2 *references;

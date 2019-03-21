@@ -20,6 +20,7 @@ static NSString * const kAppGroup = @"group.org.onebusaway.iphone";
 NSString * const OBARegionServerInvalidNotification = @"OBARegionServerInvalidNotification";
 NSString * const OBAHasMigratedDefaultsToAppGroupDefaultsKey = @"OBAHasMigratedDefaultsToAppGroupDefaultsKey";
 NSString * const OBAShowTestAlertsDefaultsKey = @"OBAShowTestAlertsDefaultsKey";
+NSString * const OBAOccupancyStatusTutorialViewedDefaultsKey = @"OBAOccupancyStatusTutorialViewedDefaultsKey";
 
 @interface OBAApplication ()
 @property (nonatomic, strong, readwrite) OBAApplicationConfiguration *configuration;
@@ -126,6 +127,7 @@ NSString * const OBAShowTestAlertsDefaultsKey = @"OBAShowTestAlertsDefaultsKey";
     mutableDefaults[OBAUseStopDrawerDefaultsKey] = @(NO);
     mutableDefaults[OBAShowTestAlertsDefaultsKey] = @(NO);
     mutableDefaults[OBAForecastUpdatedAtDefaultsKey] = NSDate.distantPast;
+    mutableDefaults[OBAOccupancyStatusTutorialViewedDefaultsKey] = @(NO);
 
     defaults = mutableDefaults;
 #endif

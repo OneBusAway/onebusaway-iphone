@@ -236,7 +236,6 @@
         [self showStopViewControllerWithStopID:target.parameters[OBAStopIDNavigationTargetParameter]];
     }
     else {
-        // abxoxo
         DDLogError(@"Unhandled OBANavigationTarget: %@", target);
     }
 }

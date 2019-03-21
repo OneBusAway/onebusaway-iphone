@@ -590,6 +590,9 @@
 /* message */
 "msg_updated" = "Updated";
 
+/* Section title for the 'Arrivals & Departures' section */
+"stops_controller.arrivals_and_departures_section_title" = "Arrivals & Departures";
+
 /* Title of the Stop UI Controller while it is updating its content. */
 "stops_controller.title.updating" = "Updating...";
 
@@ -740,6 +743,9 @@
 
 /* No comment provided by engineer. */
 "msg_until" = "until";
+
+/* An explanation of the predicted departure feature on the stop controller. */
+"stop_view_controller.predicted_departure_coachmark" = "New: we will now show you the predicted occupancy of your transit vehicle based upon historical data, where available.";
 
 /* Title for the tutorial balloon that shows the user where to find the share and bookmark context menu items */
 "stop_view_controller.context_menu_tutorial_title" = "Swipe on a cell to add a route to your Bookmarks or share your trip with a friend.";
@@ -929,6 +935,9 @@
 
 /* Error title displayed when the stop ID provided doesn't match a known stop ID. */
 "map_controller.no_matching_stop_warning_title" = "No Stops Found";
+
+/* Formatted string for the current temperature. */
+"map_controller.temperature_label_fmt" = "Current temperature: %@ degrees";
 
 /* Error message displayed when the stop ID provided doesn't match a known stop ID. */
 "map_controller.no_matching_stop_warning_body" = "We were unable to find a stop that matches the ID you provided. Please check the number and try again.";

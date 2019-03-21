@@ -134,13 +134,6 @@ static NSString * const kPrivacyURLString = @"http://onebusaway.org/privacy/";
         [self.navigationController pushViewController:alertsController animated:YES];
     }];
 
-    // abxoxo - todo fixme!
-    NSUInteger unreadCount = 0;
-//    NSUInteger unreadCount = [OBAApplication sharedApplication].regionalAlertsManager.unreadCount;
-
-    if (unreadCount > 0) {
-        row.subtitle = [NSString stringWithFormat:@"%@", @(unreadCount)];
-    }
     row.style = UITableViewCellStyleValue1;
     row.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
 
@@ -357,7 +350,7 @@ static NSString * const kPrivacyURLString = @"http://onebusaway.org/privacy/";
 #pragma mark - OBANavigationTargetAware
 
 - (void)setNavigationTarget:(OBANavigationTarget *)navigationTarget {
-    // abxoxo - ???? - can i just delete this?
+    // nop
 }
 
 #pragma mark - Private

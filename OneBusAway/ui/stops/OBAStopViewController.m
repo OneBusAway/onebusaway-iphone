@@ -40,7 +40,7 @@ static NSUInteger const kDefaultMinutesAfter = 35;
 
 static void * arrivalsAndDeparturesContext = &arrivalsAndDeparturesContext;
 
-@interface OBAStopViewController ()<UIScrollViewDelegate, UIActivityItemSource, OBAArrivalDepartureOptionsSheetDelegate>
+@interface OBAStopViewController ()<UIScrollViewDelegate, UIActivityItemSource, OBAArrivalDepartureOptionsSheetDelegate, AwesomeSpotlightViewDelegate>
 @property(nonatomic,strong) NSDateIntervalFormatter *timeframeFormatter;
 @property(nonatomic,strong) UIRefreshControl *refreshControl;
 @property(nonatomic,strong) PromiseWrapper *promiseWrapper;
@@ -53,6 +53,7 @@ static void * arrivalsAndDeparturesContext = &arrivalsAndDeparturesContext;
 @property(nonatomic,strong) OBAArrivalDepartureOptionsSheet *departureSheetHelper;
 @property(nonatomic,assign,readonly) BOOL regularUIMode;
 @property(nonatomic,strong) OBADrawerNavigationBar *drawerNavigationBar;
+@property(nonatomic,strong) AwesomeSpotlightView *spotlightView;
 @end
 
 @implementation OBAStopViewController
@@ -120,6 +121,8 @@ static void * arrivalsAndDeparturesContext = &arrivalsAndDeparturesContext;
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
 
+    UIApplication.sharedApplication.idleTimerDisabled = YES;
+
     OBALogFunction();
 
     if (self.arrivalsAndDepartures) {
@@ -136,6 +139,8 @@ static void * arrivalsAndDeparturesContext = &arrivalsAndDeparturesContext;
 
 - (void)viewWillDisappear:(BOOL)animated {
     [super viewWillDisappear:animated];
+
+    UIApplication.sharedApplication.idleTimerDisabled = NO;
 
     // Nil these out to ensure that they are recreated once the
     // view comes back into focus, which is important if the user
@@ -302,6 +307,22 @@ static void * arrivalsAndDeparturesContext = &arrivalsAndDeparturesContext;
             [self.refreshControl endRefreshing];
         }
         [self.reloadLock unlock];
+
+        if ([self canShowCoachmarks]) {
+            [self showCoachmark];
+        }
+        else {
+            if (self.arrivalsAndDepartures.arrivalsAndDepartures.count == 0 && self.minutesAfter <= 1440) {
+                if (self.minutesAfter < 180) {
+                    self.minutesAfter += 60;
+                }
+                else if (self.minutesAfter <= 1440) {
+                    self.minutesAfter += 120;
+                }
+
+                [self reloadDataAnimated:NO];
+            }
+        }
     });
 }
 
@@ -344,20 +365,27 @@ static void * arrivalsAndDeparturesContext = &arrivalsAndDeparturesContext;
     // Service Alerts
     OBAServiceAlertsModel *serviceAlerts = [self.modelDAO getServiceAlertsModelForSituations:result.situations];
     if (serviceAlerts.totalCount > 0) {
-        [sections addObject:[self createServiceAlertsSection:result serviceAlerts:serviceAlerts]];
+        [sections addObject:[self createServiceAlertsSection:result serviceAlerts:serviceAlerts modelDAO:self.modelDAO situationSelected:^(OBASituationV2 *situation) {
+            ServiceAlertDetailsViewController *details = [[ServiceAlertDetailsViewController alloc] initWithServiceAlert:situation];
+            [self.navigationController pushViewController:details animated:YES];
+        }]];
     }
 
     // Departures
+    NSString *depsTitle = serviceAlerts.totalCount > 0 ? NSLocalizedString(@"stops_controller.arrivals_and_departures_section_title", @"Section title for the 'Arrivals & Departures' section") : nil;
+
     if ([self.routeFilter filteredArrivalsAndDepartures:result.arrivalsAndDepartures].count == 0) {
         NSString *str = [NSString stringWithFormat:NSLocalizedString(@"stops.no_departures_in_next_n_minutes_format", @"No departures in the next {MINUTES} minutes"), @(self.minutesAfter)];
         OBATableRow *row = [OBATableRow disabledInfoRowWithText:str];
-        OBATableSection *section = [[OBATableSection alloc] initWithTitle:nil rows:@[row]];
+        OBATableSection *section = [[OBATableSection alloc] initWithTitle:depsTitle rows:@[row]];
         [sections addObject:section];
     }
     else {
         // TODO: DRY up this whole thing.
         if (self.stopPreferences.sortTripsByType == OBASortTripsByDepartureTimeV2) {
-            [sections addObject:[self buildClassicDepartureSectionWithDeparture:result]];
+            OBATableSection *section = [self buildClassicDepartureSectionWithDeparture:result];
+            section.title = depsTitle;
+            [sections addObject:section];
         }
         else {
             NSDictionary *groupedArrivals = [OBAStopViewController groupPredictedArrivalsOnRoute:result.arrivalsAndDepartures];
@@ -532,6 +560,7 @@ static void * arrivalsAndDeparturesContext = &arrivalsAndDeparturesContext;
     }];
     [rows addObject:appleMaps];
 
+#if !TARGET_IPHONE_SIMULATOR
     // Walking Directions (Google Maps)
     NSURL *googleMapsURL = [AppInterop googleMapsWalkingDirectionsURLWithCoordinate:stop.coordinate];
     if ([UIApplication.sharedApplication canOpenURL:googleMapsURL]) {
@@ -540,6 +569,7 @@ static void * arrivalsAndDeparturesContext = &arrivalsAndDeparturesContext;
         }];
         [rows addObject:googleMaps];
     }
+#endif
 
     // Report a Problem
     OBATableRow *problem = [[OBATableRow alloc] initWithTitle:NSLocalizedString(@"msg_report_a_problem", @"") action:^(OBABaseRow * _Nonnull row) {
@@ -666,6 +696,58 @@ static void * arrivalsAndDeparturesContext = &arrivalsAndDeparturesContext;
     }];
 
     return row;
+}
+
+#pragma mark - Coachmarks
+
+- (BOOL)canShowCoachmarks {
+    BOOL tutorialViewed = [OBAApplication.sharedApplication.userDefaults boolForKey:OBAOccupancyStatusTutorialViewedDefaultsKey];
+    BOOL canShow = (self.arrivalsAndDepartures.containsOccupancyPrediction && !tutorialViewed);
+    return canShow;
+}
+
+- (void)showCoachmark {
+    OBAClassicDepartureCell *firstVisibleCell = nil;
+
+    for (OBAClassicDepartureCell *cell in self.tableView.visibleCells) {
+        if (![cell isKindOfClass:OBAClassicDepartureCell.class]) {
+            continue;
+        }
+
+        if (cell.departureView.occupancyStatusView.hidden) {
+            continue;
+        }
+
+        firstVisibleCell = cell;
+    }
+
+    if (!firstVisibleCell) {
+        return;
+    }
+
+    UIView *parentView = UIApplication.sharedApplication.keyWindow;
+    UIView *targetView = firstVisibleCell.departureView.occupancyStatusView;
+    CGRect targetFrame = [targetView convertRect:targetView.bounds toView:parentView];
+
+    NSShadow *shadow = [[NSShadow alloc] init];
+    shadow.shadowOffset = CGSizeMake(0, 1);
+    shadow.shadowBlurRadius = OBATheme.compactPadding;
+    shadow.shadowColor = UIColor.blackColor;
+
+    NSAttributedString *coachmarkText = [[NSAttributedString alloc] initWithString:NSLocalizedString(@"stop_view_controller.predicted_departure_coachmark", @"An explanation of the predicted departure feature on the stop controller.") attributes:@{NSFontAttributeName: OBATheme.boldBodyFont, NSShadowAttributeName: shadow}];
+
+    AwesomeSpotlight *coachmark = [[AwesomeSpotlight alloc] initWithRect:targetFrame shape:AwesomeSpotlightShapeRoundRectangle attributedText:coachmarkText margin:OBATheme.defaultEdgeInsets isAllowPassTouchesThroughSpotlight:NO];
+    self.spotlightView = [[AwesomeSpotlightView alloc] initWithFrame:parentView.bounds spotlight:@[coachmark]];
+    self.spotlightView.cutoutRadius = 8;
+    [self.spotlightView setContinueButtonEnable:YES];
+    self.spotlightView.delegate = self;
+
+    [parentView addSubview:self.spotlightView];
+    [self.spotlightView start];
+}
+
+- (void)spotlightViewDidCleanup:(AwesomeSpotlightView *)spotlightView {
+    [OBAApplication.sharedApplication.userDefaults setBool:YES forKey:OBAOccupancyStatusTutorialViewedDefaultsKey];
 }
 
 #pragma mark - OBADepartureSheetDelegate

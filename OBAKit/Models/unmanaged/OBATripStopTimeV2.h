@@ -16,6 +16,7 @@
 
 #import <OBAKit/OBAHasReferencesV2.h>
 #import <OBAKit/OBAStopV2.h>
+#import <OBAKit/OBAOccupancyStatus.h>
 
 NS_ASSUME_NONNULL_BEGIN
 
@@ -24,7 +25,8 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic) NSInteger arrivalTime;
 @property (nonatomic) NSInteger departureTime;
 @property (nonatomic,strong) NSString * stopId;
-
+@property (nonatomic,copy,nullable) NSString *rawHistoricalOccupancy;
+@property (nonatomic,assign,readonly) OBAOccupancyStatus historicalOccupancy;
 @property (weak, nonatomic,readonly) OBAStopV2 * stop;
 @end
 

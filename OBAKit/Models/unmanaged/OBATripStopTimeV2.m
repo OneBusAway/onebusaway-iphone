@@ -25,6 +25,13 @@
 
 - (NSString*)debugDescription
 {
-    return [NSString stringWithFormat:@"<%@: %p> :: {arrivalTime: %@, departureTime: %@, stopId: %@, stop: %@}", self.class, self, @(self.arrivalTime), @(self.departureTime), self.stopId, self.stop];
+    return [NSString stringWithFormat:@"<%@: %p> :: {arrivalTime: %@, departureTime: %@, stopId: %@, stop: %@, occupancy: %@}", self.class, self, @(self.arrivalTime), @(self.departureTime), self.stopId, self.stop, self.rawHistoricalOccupancy];
 }
+
+#pragma mark - Occupancy Status
+
+- (OBAOccupancyStatus)historicalOccupancy {
+    return OBAStringToOccupancyStatus(self.rawHistoricalOccupancy);
+}
+
 @end

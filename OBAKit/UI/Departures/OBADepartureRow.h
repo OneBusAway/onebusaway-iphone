@@ -9,6 +9,7 @@
 @import UIKit;
 #import <OBAKit/OBABaseRow.h>
 #import <OBAKit/OBAUpcomingDeparture.h>
+#import <OBAKit/OBAOccupancyStatus.h>
 
 NS_ASSUME_NONNULL_BEGIN
 
@@ -24,6 +25,7 @@ NS_ASSUME_NONNULL_BEGIN
 @property(nonatomic,assign) BOOL alarmExists;
 @property(nonatomic,assign) BOOL hasArrived;
 @property(nonatomic,assign) BOOL displayContextButton;
+@property(nonatomic,assign) OBAOccupancyStatus expectedOccupancyStatus;
 
 + (NSAttributedString*)buildAttributedRoute:(NSString*)route destination:(nullable NSString*)destination;
 @end
