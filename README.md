@@ -30,6 +30,8 @@ You are welcome to work on any bug or feature you would like, but we know that g
 2. `git clone` your fork
 3. [Install Carthage](https://github.com/Carthage/Carthage#installing-carthage)
 4. `open org.onebusaway.iphone.xcodeproj`
+5. Create a new Firebase app at https://firebase.google.com/ - You just need the `GoogleService-Info.plist` file that it'll spit out at you once you've created.
+6. Place `GoogleService-Info.plist` in the `(SOURCEROOT)/AppIdentities` folder.
 
 You should now be able to build. See our [contributing guidelines](CONTRIBUTING.md) for the specific workflow to add a new feature or bug fix.
 
