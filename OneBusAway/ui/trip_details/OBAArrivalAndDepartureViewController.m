@@ -13,6 +13,7 @@
 #import "OBATripScheduleSectionBuilder.h"
 #import "OBAArrivalDepartureRow.h"
 #import "UIViewController+OBAContainment.h"
+@import SwipeCellKit;
 #import "OneBusAway-Swift.h"
 #import "OBATimelineBarRow.h"
 #import "OBAPushManager.h"

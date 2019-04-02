@@ -1462,7 +1462,7 @@
 				TargetAttributes = {
 					934195381DB0B013004BBBB7 = {
 						CreatedOnToolsVersion = 8.0;
-						LastSwiftMigration = 1000;
+						LastSwiftMigration = 1020;
 						ProvisioningStyle = Manual;
 					};
 					934195411DB0B013004BBBB7 = {
@@ -1474,13 +1474,13 @@
 			};
 			buildConfigurationList = 934195331DB0B013004BBBB7 /* Build configuration list for PBXProject "OBAKit" */;
 			compatibilityVersion = "Xcode 3.2";
-			developmentRegion = English;
+			developmentRegion = en;
 			hasScannedForEncodings = 0;
 			knownRegions = (
-				English,
 				en,
 				"zh-Hant",
 				es,
+				Base,
 			);
 			mainGroup = 9341952F1DB0B013004BBBB7;
 			productRefGroup = 9341953A1DB0B013004BBBB7 /* Products */;

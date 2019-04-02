@@ -1,0 +1,438 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 46;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		3A3FD4821D489982000FE823 /* TAGContainer.h in Headers */ = {isa = PBXBuildFile; fileRef = 3A3FD47D1D489982000FE823 /* TAGContainer.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		3A3FD4831D489982000FE823 /* TAGContainerOpener.h in Headers */ = {isa = PBXBuildFile; fileRef = 3A3FD47E1D489982000FE823 /* TAGContainerOpener.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		3A3FD4841D489982000FE823 /* TAGDataLayer.h in Headers */ = {isa = PBXBuildFile; fileRef = 3A3FD47F1D489982000FE823 /* TAGDataLayer.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		3A3FD4851D489982000FE823 /* TAGLogger.h in Headers */ = {isa = PBXBuildFile; fileRef = 3A3FD4801D489982000FE823 /* TAGLogger.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		3A3FD4861D489982000FE823 /* TAGManager.h in Headers */ = {isa = PBXBuildFile; fileRef = 3A3FD4811D489982000FE823 /* TAGManager.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		3A9158411B1220A100A8FA96 /* GoogleAnalytics.h in Headers */ = {isa = PBXBuildFile; fileRef = 3A9158401B1220A100A8FA96 /* GoogleAnalytics.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		3A9158751B12223D00A8FA96 /* libGoogleAnalyticsServices.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 3A9158741B12223D00A8FA96 /* libGoogleAnalyticsServices.a */; };
+		3A9158801B12224800A8FA96 /* GAI.h in Headers */ = {isa = PBXBuildFile; fileRef = 3A9158761B12224800A8FA96 /* GAI.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		3A9158811B12224800A8FA96 /* GAIDictionaryBuilder.h in Headers */ = {isa = PBXBuildFile; fileRef = 3A9158771B12224800A8FA96 /* GAIDictionaryBuilder.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		3A9158821B12224800A8FA96 /* GAIEcommerceFields.h in Headers */ = {isa = PBXBuildFile; fileRef = 3A9158781B12224800A8FA96 /* GAIEcommerceFields.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		3A9158831B12224800A8FA96 /* GAIEcommerceProduct.h in Headers */ = {isa = PBXBuildFile; fileRef = 3A9158791B12224800A8FA96 /* GAIEcommerceProduct.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		3A9158841B12224800A8FA96 /* GAIEcommerceProductAction.h in Headers */ = {isa = PBXBuildFile; fileRef = 3A91587A1B12224800A8FA96 /* GAIEcommerceProductAction.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		3A9158851B12224800A8FA96 /* GAIEcommercePromotion.h in Headers */ = {isa = PBXBuildFile; fileRef = 3A91587B1B12224800A8FA96 /* GAIEcommercePromotion.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		3A9158861B12224800A8FA96 /* GAIFields.h in Headers */ = {isa = PBXBuildFile; fileRef = 3A91587C1B12224800A8FA96 /* GAIFields.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		3A9158871B12224800A8FA96 /* GAILogger.h in Headers */ = {isa = PBXBuildFile; fileRef = 3A91587D1B12224800A8FA96 /* GAILogger.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		3A9158881B12224800A8FA96 /* GAITrackedViewController.h in Headers */ = {isa = PBXBuildFile; fileRef = 3A91587E1B12224800A8FA96 /* GAITrackedViewController.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		3A9158891B12224800A8FA96 /* GAITracker.h in Headers */ = {isa = PBXBuildFile; fileRef = 3A91587F1B12224800A8FA96 /* GAITracker.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		3A9158931B12301400A8FA96 /* CoreData.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3A9158921B12301400A8FA96 /* CoreData.framework */; };
+		3A9158951B12301C00A8FA96 /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3A9158941B12301C00A8FA96 /* SystemConfiguration.framework */; };
+		3A9158971B12302100A8FA96 /* libsqlite3.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 3A9158961B12302100A8FA96 /* libsqlite3.dylib */; };
+		3A9158991B12302A00A8FA96 /* libz.1.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 3A9158981B12302A00A8FA96 /* libz.1.dylib */; };
+		3A91589B1B12303400A8FA96 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3A91589A1B12303400A8FA96 /* UIKit.framework */; };
+		3A91589E1B12304B00A8FA96 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3A91589D1B12304B00A8FA96 /* Foundation.framework */; };
+		3A97DBEE1B12484600276051 /* GoogleAnalytics.m in Sources */ = {isa = PBXBuildFile; fileRef = 3A97DBED1B12484600276051 /* GoogleAnalytics.m */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXFileReference section */
+		3A3FD47D1D489982000FE823 /* TAGContainer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TAGContainer.h; sourceTree = "<group>"; };
+		3A3FD47E1D489982000FE823 /* TAGContainerOpener.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TAGContainerOpener.h; sourceTree = "<group>"; };
+		3A3FD47F1D489982000FE823 /* TAGDataLayer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TAGDataLayer.h; sourceTree = "<group>"; };
+		3A3FD4801D489982000FE823 /* TAGLogger.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TAGLogger.h; sourceTree = "<group>"; };
+		3A3FD4811D489982000FE823 /* TAGManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TAGManager.h; sourceTree = "<group>"; };
+		3A91583B1B1220A100A8FA96 /* GoogleAnalytics.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = GoogleAnalytics.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		3A9158401B1220A100A8FA96 /* GoogleAnalytics.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = GoogleAnalytics.h; sourceTree = "<group>"; };
+		3A9158591B12217400A8FA96 /* Common.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = Common.xcconfig; sourceTree = "<group>"; };
+		3A91585B1B12217400A8FA96 /* Debug.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = Debug.xcconfig; sourceTree = "<group>"; };
+		3A91585C1B12217400A8FA96 /* Profile.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = Profile.xcconfig; sourceTree = "<group>"; };
+		3A91585D1B12217400A8FA96 /* Release.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = Release.xcconfig; sourceTree = "<group>"; };
+		3A91585E1B12217400A8FA96 /* Test.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = Test.xcconfig; sourceTree = "<group>"; };
+		3A9158601B12217400A8FA96 /* Application.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = Application.xcconfig; sourceTree = "<group>"; };
+		3A9158611B12217400A8FA96 /* Framework.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = Framework.xcconfig; sourceTree = "<group>"; };
+		3A9158621B12217400A8FA96 /* StaticLibrary.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = StaticLibrary.xcconfig; sourceTree = "<group>"; };
+		3A9158661B12217400A8FA96 /* iOS-Application.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = "iOS-Application.xcconfig"; sourceTree = "<group>"; };
+		3A9158671B12217400A8FA96 /* iOS-Base.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = "iOS-Base.xcconfig"; sourceTree = "<group>"; };
+		3A9158681B12217400A8FA96 /* iOS-Framework.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = "iOS-Framework.xcconfig"; sourceTree = "<group>"; };
+		3A9158691B12217400A8FA96 /* iOS-StaticLibrary.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = "iOS-StaticLibrary.xcconfig"; sourceTree = "<group>"; };
+		3A91586B1B12217400A8FA96 /* Mac-Application.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = "Mac-Application.xcconfig"; sourceTree = "<group>"; };
+		3A91586C1B12217400A8FA96 /* Mac-Base.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = "Mac-Base.xcconfig"; sourceTree = "<group>"; };
+		3A91586D1B12217400A8FA96 /* Mac-DynamicLibrary.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = "Mac-DynamicLibrary.xcconfig"; sourceTree = "<group>"; };
+		3A91586E1B12217400A8FA96 /* Mac-Framework.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = "Mac-Framework.xcconfig"; sourceTree = "<group>"; };
+		3A91586F1B12217400A8FA96 /* Mac-StaticLibrary.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = "Mac-StaticLibrary.xcconfig"; sourceTree = "<group>"; };
+		3A9158741B12223D00A8FA96 /* libGoogleAnalyticsServices.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libGoogleAnalyticsServices.a; sourceTree = "<group>"; };
+		3A9158761B12224800A8FA96 /* GAI.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GAI.h; sourceTree = "<group>"; };
+		3A9158771B12224800A8FA96 /* GAIDictionaryBuilder.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GAIDictionaryBuilder.h; sourceTree = "<group>"; };
+		3A9158781B12224800A8FA96 /* GAIEcommerceFields.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GAIEcommerceFields.h; sourceTree = "<group>"; };
+		3A9158791B12224800A8FA96 /* GAIEcommerceProduct.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GAIEcommerceProduct.h; sourceTree = "<group>"; };
+		3A91587A1B12224800A8FA96 /* GAIEcommerceProductAction.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GAIEcommerceProductAction.h; sourceTree = "<group>"; };
+		3A91587B1B12224800A8FA96 /* GAIEcommercePromotion.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GAIEcommercePromotion.h; sourceTree = "<group>"; };
+		3A91587C1B12224800A8FA96 /* GAIFields.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GAIFields.h; sourceTree = "<group>"; };
+		3A91587D1B12224800A8FA96 /* GAILogger.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GAILogger.h; sourceTree = "<group>"; };
+		3A91587E1B12224800A8FA96 /* GAITrackedViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GAITrackedViewController.h; sourceTree = "<group>"; };
+		3A91587F1B12224800A8FA96 /* GAITracker.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GAITracker.h; sourceTree = "<group>"; };
+		3A9158921B12301400A8FA96 /* CoreData.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreData.framework; path = System/Library/Frameworks/CoreData.framework; sourceTree = SDKROOT; };
+		3A9158941B12301C00A8FA96 /* SystemConfiguration.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SystemConfiguration.framework; path = System/Library/Frameworks/SystemConfiguration.framework; sourceTree = SDKROOT; };
+		3A9158961B12302100A8FA96 /* libsqlite3.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libsqlite3.dylib; path = usr/lib/libsqlite3.dylib; sourceTree = SDKROOT; };
+		3A9158981B12302A00A8FA96 /* libz.1.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libz.1.dylib; path = usr/lib/libz.1.dylib; sourceTree = SDKROOT; };
+		3A91589A1B12303400A8FA96 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
+		3A91589D1B12304B00A8FA96 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
+		3A97DBEC1B1246A000276051 /* GoogleAnalytics-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "GoogleAnalytics-Info.plist"; sourceTree = "<group>"; };
+		3A97DBED1B12484600276051 /* GoogleAnalytics.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GoogleAnalytics.m; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		3A9158371B1220A100A8FA96 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				3A91589E1B12304B00A8FA96 /* Foundation.framework in Frameworks */,
+				3A91589B1B12303400A8FA96 /* UIKit.framework in Frameworks */,
+				3A9158991B12302A00A8FA96 /* libz.1.dylib in Frameworks */,
+				3A9158971B12302100A8FA96 /* libsqlite3.dylib in Frameworks */,
+				3A9158951B12301C00A8FA96 /* SystemConfiguration.framework in Frameworks */,
+				3A9158931B12301400A8FA96 /* CoreData.framework in Frameworks */,
+				3A9158751B12223D00A8FA96 /* libGoogleAnalyticsServices.a in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		3A9158311B1220A100A8FA96 = {
+			isa = PBXGroup;
+			children = (
+				3A91583D1B1220A100A8FA96 /* Google Analytics */,
+				3A9158571B12217400A8FA96 /* Configuration */,
+				3A91589C1B12304000A8FA96 /* Frameworks */,
+				3A91583C1B1220A100A8FA96 /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		3A91583C1B1220A100A8FA96 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				3A91583B1B1220A100A8FA96 /* GoogleAnalytics.framework */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		3A91583D1B1220A100A8FA96 /* Google Analytics */ = {
+			isa = PBXGroup;
+			children = (
+				3A9158731B12221900A8FA96 /* External Binaries */,
+				3A9158721B12221200A8FA96 /* External Headers */,
+				3A9158401B1220A100A8FA96 /* GoogleAnalytics.h */,
+				3A97DBED1B12484600276051 /* GoogleAnalytics.m */,
+				3A97DBEC1B1246A000276051 /* GoogleAnalytics-Info.plist */,
+			);
+			path = "Google Analytics";
+			sourceTree = "<group>";
+		};
+		3A9158571B12217400A8FA96 /* Configuration */ = {
+			isa = PBXGroup;
+			children = (
+				3A9158581B12217400A8FA96 /* Base */,
+				3A9158631B12217400A8FA96 /* Carthage */,
+				3A9158651B12217400A8FA96 /* iOS */,
+				3A91586A1B12217400A8FA96 /* Mac OS X */,
+			);
+			name = Configuration;
+			path = Carthage/Checkouts/xcconfigs;
+			sourceTree = "<group>";
+		};
+		3A9158581B12217400A8FA96 /* Base */ = {
+			isa = PBXGroup;
+			children = (
+				3A9158591B12217400A8FA96 /* Common.xcconfig */,
+				3A91585A1B12217400A8FA96 /* Configurations */,
+				3A91585F1B12217400A8FA96 /* Targets */,
+			);
+			path = Base;
+			sourceTree = "<group>";
+		};
+		3A91585A1B12217400A8FA96 /* Configurations */ = {
+			isa = PBXGroup;
+			children = (
+				3A91585B1B12217400A8FA96 /* Debug.xcconfig */,
+				3A91585C1B12217400A8FA96 /* Profile.xcconfig */,
+				3A91585D1B12217400A8FA96 /* Release.xcconfig */,
+				3A91585E1B12217400A8FA96 /* Test.xcconfig */,
+			);
+			path = Configurations;
+			sourceTree = "<group>";
+		};
+		3A91585F1B12217400A8FA96 /* Targets */ = {
+			isa = PBXGroup;
+			children = (
+				3A9158601B12217400A8FA96 /* Application.xcconfig */,
+				3A9158611B12217400A8FA96 /* Framework.xcconfig */,
+				3A9158621B12217400A8FA96 /* StaticLibrary.xcconfig */,
+			);
+			path = Targets;
+			sourceTree = "<group>";
+		};
+		3A9158631B12217400A8FA96 /* Carthage */ = {
+			isa = PBXGroup;
+			children = (
+				3A9158641B12217400A8FA96 /* Build */,
+			);
+			path = Carthage;
+			sourceTree = "<group>";
+		};
+		3A9158641B12217400A8FA96 /* Build */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Build;
+			sourceTree = "<group>";
+		};
+		3A9158651B12217400A8FA96 /* iOS */ = {
+			isa = PBXGroup;
+			children = (
+				3A9158661B12217400A8FA96 /* iOS-Application.xcconfig */,
+				3A9158671B12217400A8FA96 /* iOS-Base.xcconfig */,
+				3A9158681B12217400A8FA96 /* iOS-Framework.xcconfig */,
+				3A9158691B12217400A8FA96 /* iOS-StaticLibrary.xcconfig */,
+			);
+			path = iOS;
+			sourceTree = "<group>";
+		};
+		3A91586A1B12217400A8FA96 /* Mac OS X */ = {
+			isa = PBXGroup;
+			children = (
+				3A91586B1B12217400A8FA96 /* Mac-Application.xcconfig */,
+				3A91586C1B12217400A8FA96 /* Mac-Base.xcconfig */,
+				3A91586D1B12217400A8FA96 /* Mac-DynamicLibrary.xcconfig */,
+				3A91586E1B12217400A8FA96 /* Mac-Framework.xcconfig */,
+				3A91586F1B12217400A8FA96 /* Mac-StaticLibrary.xcconfig */,
+			);
+			path = "Mac OS X";
+			sourceTree = "<group>";
+		};
+		3A9158721B12221200A8FA96 /* External Headers */ = {
+			isa = PBXGroup;
+			children = (
+				3A9158761B12224800A8FA96 /* GAI.h */,
+				3A9158771B12224800A8FA96 /* GAIDictionaryBuilder.h */,
+				3A9158781B12224800A8FA96 /* GAIEcommerceFields.h */,
+				3A9158791B12224800A8FA96 /* GAIEcommerceProduct.h */,
+				3A91587A1B12224800A8FA96 /* GAIEcommerceProductAction.h */,
+				3A91587B1B12224800A8FA96 /* GAIEcommercePromotion.h */,
+				3A91587C1B12224800A8FA96 /* GAIFields.h */,
+				3A91587D1B12224800A8FA96 /* GAILogger.h */,
+				3A91587E1B12224800A8FA96 /* GAITrackedViewController.h */,
+				3A91587F1B12224800A8FA96 /* GAITracker.h */,
+				3A3FD47D1D489982000FE823 /* TAGContainer.h */,
+				3A3FD47E1D489982000FE823 /* TAGContainerOpener.h */,
+				3A3FD47F1D489982000FE823 /* TAGDataLayer.h */,
+				3A3FD4801D489982000FE823 /* TAGLogger.h */,
+				3A3FD4811D489982000FE823 /* TAGManager.h */,
+			);
+			name = "External Headers";
+			path = External;
+			sourceTree = "<group>";
+		};
+		3A9158731B12221900A8FA96 /* External Binaries */ = {
+			isa = PBXGroup;
+			children = (
+				3A9158741B12223D00A8FA96 /* libGoogleAnalyticsServices.a */,
+			);
+			name = "External Binaries";
+			path = External;
+			sourceTree = "<group>";
+		};
+		3A91589C1B12304000A8FA96 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				3A91589D1B12304B00A8FA96 /* Foundation.framework */,
+				3A9158921B12301400A8FA96 /* CoreData.framework */,
+				3A9158961B12302100A8FA96 /* libsqlite3.dylib */,
+				3A9158981B12302A00A8FA96 /* libz.1.dylib */,
+				3A9158941B12301C00A8FA96 /* SystemConfiguration.framework */,
+				3A91589A1B12303400A8FA96 /* UIKit.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXHeadersBuildPhase section */
+		3A9158381B1220A100A8FA96 /* Headers */ = {
+			isa = PBXHeadersBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				3A9158811B12224800A8FA96 /* GAIDictionaryBuilder.h in Headers */,
+				3A9158861B12224800A8FA96 /* GAIFields.h in Headers */,
+				3A9158801B12224800A8FA96 /* GAI.h in Headers */,
+				3A3FD4851D489982000FE823 /* TAGLogger.h in Headers */,
+				3A3FD4821D489982000FE823 /* TAGContainer.h in Headers */,
+				3A9158821B12224800A8FA96 /* GAIEcommerceFields.h in Headers */,
+				3A9158881B12224800A8FA96 /* GAITrackedViewController.h in Headers */,
+				3A9158871B12224800A8FA96 /* GAILogger.h in Headers */,
+				3A9158891B12224800A8FA96 /* GAITracker.h in Headers */,
+				3A3FD4861D489982000FE823 /* TAGManager.h in Headers */,
+				3A3FD4831D489982000FE823 /* TAGContainerOpener.h in Headers */,
+				3A9158831B12224800A8FA96 /* GAIEcommerceProduct.h in Headers */,
+				3A9158411B1220A100A8FA96 /* GoogleAnalytics.h in Headers */,
+				3A3FD4841D489982000FE823 /* TAGDataLayer.h in Headers */,
+				3A9158851B12224800A8FA96 /* GAIEcommercePromotion.h in Headers */,
+				3A9158841B12224800A8FA96 /* GAIEcommerceProductAction.h in Headers */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXHeadersBuildPhase section */
+
+/* Begin PBXNativeTarget section */
+		3A91583A1B1220A100A8FA96 /* Google Analytics */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 3A9158511B1220A100A8FA96 /* Build configuration list for PBXNativeTarget "Google Analytics" */;
+			buildPhases = (
+				3A9158361B1220A100A8FA96 /* Sources */,
+				3A9158371B1220A100A8FA96 /* Frameworks */,
+				3A9158381B1220A100A8FA96 /* Headers */,
+				3A9158391B1220A100A8FA96 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = "Google Analytics";
+			productName = "Google Analytics";
+			productReference = 3A91583B1B1220A100A8FA96 /* GoogleAnalytics.framework */;
+			productType = "com.apple.product-type.framework";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		3A9158321B1220A100A8FA96 /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				LastUpgradeCheck = 0730;
+				ORGANIZATIONNAME = "Adrian Kashivskyy";
+				TargetAttributes = {
+					3A91583A1B1220A100A8FA96 = {
+						CreatedOnToolsVersion = 6.3.2;
+					};
+				};
+			};
+			buildConfigurationList = 3A9158351B1220A100A8FA96 /* Build configuration list for PBXProject "Google Analytics" */;
+			compatibilityVersion = "Xcode 3.2";
+			developmentRegion = English;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+			);
+			mainGroup = 3A9158311B1220A100A8FA96;
+			productRefGroup = 3A91583C1B1220A100A8FA96 /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				3A91583A1B1220A100A8FA96 /* Google Analytics */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		3A9158391B1220A100A8FA96 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		3A9158361B1220A100A8FA96 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				3A97DBEE1B12484600276051 /* GoogleAnalytics.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin XCBuildConfiguration section */
+		3A91584F1B1220A100A8FA96 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 3A91585B1B12217400A8FA96 /* Debug.xcconfig */;
+			buildSettings = {
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
+				SDKROOT = iphoneos;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		3A9158501B1220A100A8FA96 /* Release */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 3A91585D1B12217400A8FA96 /* Release.xcconfig */;
+			buildSettings = {
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
+				SDKROOT = iphoneos;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Release;
+		};
+		3A9158521B1220A100A8FA96 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 3A9158681B12217400A8FA96 /* iOS-Framework.xcconfig */;
+			buildSettings = {
+				INFOPLIST_FILE = "Google Analytics/GoogleAnalytics-Info.plist";
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/Google\\ Analytics/External",
+				);
+				OTHER_LDFLAGS = (
+					"-ObjC",
+					"-all_load",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = me.akashivskyy.lib.googleanalytics;
+				PRODUCT_NAME = GoogleAnalytics;
+			};
+			name = Debug;
+		};
+		3A9158531B1220A100A8FA96 /* Release */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 3A9158681B12217400A8FA96 /* iOS-Framework.xcconfig */;
+			buildSettings = {
+				INFOPLIST_FILE = "Google Analytics/GoogleAnalytics-Info.plist";
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/Google\\ Analytics/External",
+				);
+				OTHER_LDFLAGS = (
+					"-ObjC",
+					"-all_load",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = me.akashivskyy.lib.googleanalytics;
+				PRODUCT_NAME = GoogleAnalytics;
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		3A9158351B1220A100A8FA96 /* Build configuration list for PBXProject "Google Analytics" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				3A91584F1B1220A100A8FA96 /* Debug */,
+				3A9158501B1220A100A8FA96 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		3A9158511B1220A100A8FA96 /* Build configuration list for PBXNativeTarget "Google Analytics" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				3A9158521B1220A100A8FA96 /* Debug */,
+				3A9158531B1220A100A8FA96 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = 3A9158321B1220A100A8FA96 /* Project object */;
+}

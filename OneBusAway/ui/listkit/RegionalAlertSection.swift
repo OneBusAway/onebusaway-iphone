@@ -73,7 +73,7 @@ class RegionalAlertSectionController: ListSectionController, SwipeCollectionView
             fatalError()
         }
 
-        cell.delegate = self
+//        cell.delegate = self // abxoxo todo fixme
         cell.alertTitleLabel.text = data.title
         cell.summaryLabel.text = data.summary
         cell.timeLabel.text = OBADateHelpers.formatDate(forMessageStyle: data.date)
@@ -119,7 +119,8 @@ class RegionalAlertSectionController: ListSectionController, SwipeCollectionView
     }
 }
 
-class RegionalAlertCell: SwipeCollectionViewCell {
+// abxoxo TODO FIXME!
+class RegionalAlertCell: UICollectionViewCell/*SwipeCollectionViewCell*/ {
     fileprivate let alertTitleLabel: UILabel = {
         let label = UILabel()
         label.numberOfLines = 2

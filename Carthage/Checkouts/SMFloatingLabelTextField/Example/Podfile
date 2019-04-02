@@ -1,0 +1,18 @@
+use_frameworks!
+
+target 'SMFloatingLabelTextField_Example' do
+  pod 'SMFloatingLabelTextField', :path => '../'
+
+  target 'SMFloatingLabelTextField_Tests' do
+    inherit! :search_paths
+
+    pod 'Kiwi'
+  end
+end
+
+# Add a SMFloatingLabelTextField target to the build steps of the example project
+# so that we get code coverage reports for SMFloatingLabelTextField
+post_install do |installer|
+  require_relative "Tests/setup_code_coverage.rb"
+  enable_code_coverage "SMFloatingLabelTextField", installer
+end

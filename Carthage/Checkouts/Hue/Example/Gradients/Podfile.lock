@@ -1,0 +1,64 @@
+PODS:
+  - Cache (3.3.0):
+    - SwiftHash (~> 1.4.0)
+  - Fakery (2.0.0)
+  - Hue (2.0.1)
+  - Imaginary (2.0.0):
+    - Cache (~> 3.0)
+  - Spots (6.0.3):
+    - Spots/Core (= 6.0.3)
+  - Spots/Core (6.0.3):
+    - Cache (~> 3.0)
+    - Tailor (~> 2.0)
+  - Sugar (3.1.2)
+  - SwiftHash (1.4.0)
+  - Tailor (2.2.1)
+
+DEPENDENCIES:
+  - Cache (from `https://github.com/hyperoslo/Cache`)
+  - Fakery
+  - Hue (from `../../`)
+  - Imaginary (from `https://github.com/hyperoslo/Imaginary`)
+  - Spots (from `https://github.com/hyperoslo/Spots`)
+  - Sugar (from `https://github.com/hyperoslo/Sugar`)
+  - Tailor
+
+EXTERNAL SOURCES:
+  Cache:
+    :git: https://github.com/hyperoslo/Cache
+  Hue:
+    :path: "../../"
+  Imaginary:
+    :git: https://github.com/hyperoslo/Imaginary
+  Spots:
+    :git: https://github.com/hyperoslo/Spots
+  Sugar:
+    :git: https://github.com/hyperoslo/Sugar
+
+CHECKOUT OPTIONS:
+  Cache:
+    :commit: 4699caf4a994996840826a504270fb1ea6ac0a4f
+    :git: https://github.com/hyperoslo/Cache
+  Imaginary:
+    :commit: 3176aad7a2834a966074f859fd133497532dd4d9
+    :git: https://github.com/hyperoslo/Imaginary
+  Spots:
+    :commit: b99fce2737a2380fb516f1355c70ac5d4e85b356
+    :git: https://github.com/hyperoslo/Spots
+  Sugar:
+    :commit: 60dfbe15325ef31cce29db4b59db7e7590c095fa
+    :git: https://github.com/hyperoslo/Sugar
+
+SPEC CHECKSUMS:
+  Cache: adbacf2672fbc9d48f552e03bbd4916510c39ac0
+  Fakery: 97b99c23937d2e025d9135c75e2b17351ccd5031
+  Hue: ab7efb15270e0bc764f2f468aa6f3f2728d52f2b
+  Imaginary: 642c6eb34ff2bd52404a70044599a8e2693e1e44
+  Spots: ed7d2d6a47de7a7a0a0ed83a9b9f4484f76dc418
+  Sugar: 41f2efa0244806f524ff2d77c951a6a43e81a0f3
+  SwiftHash: acf0f29032309a5c7a7f625595eade1aca97aca2
+  Tailor: caabfebed676fab6e00c0c173e05294ccf89861e
+
+PODFILE CHECKSUM: da722dab3521a4e945220198b5ef439a564db215
+
+COCOAPODS: 1.2.1
