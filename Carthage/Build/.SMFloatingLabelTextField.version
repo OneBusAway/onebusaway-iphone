@@ -1,9 +1,0 @@
-{
-  "commitish" : "0.3.2",
-  "iOS" : [
-    {
-      "name" : "SMFloatingLabelTextField",
-      "hash" : "e1d20d39054a3de2e8df8e4e5a517b5be274a84dc432f85d7196498930c52c2b"
-    }
-  ]
-}

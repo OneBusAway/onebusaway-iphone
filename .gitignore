@@ -34,13 +34,8 @@ xcuserdata
 #
 # Add this line if you want to avoid checking in source code from Carthage dependencies.
 !Carthage
-!Carthage/Build
-Carthage/Checkouts
-Carthage/Build/Mac
-Carthage/Build/tvOS
-Carthage/Build/watchOS
-Carthage_10
-Carthage_941
+!Carthage/Checkouts
+Carthage/Build
 
 # fastlane
 #
