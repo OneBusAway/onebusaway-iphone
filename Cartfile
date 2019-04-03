@@ -1,3 +1,5 @@
+github "aaronbrethorst/PromiseKit" "pk453"
+
 # https://github.com/akashivskyy/GoogleAnalytics-Framework/releases
 github "akashivskyy/GoogleAnalytics-Framework" ~>3.17
 

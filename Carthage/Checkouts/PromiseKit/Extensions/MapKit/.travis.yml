@@ -1,0 +1,57 @@
+os: osx
+language: objective-c
+matrix:
+  include:
+    - osx_image: xcode8.2
+      env: PLAT=macOS SWFT=3.0
+    - osx_image: xcode8.2
+      env: PLAT=iOS SWFT=3.0
+    - osx_image: xcode8.2
+      env: PLAT=tvOS SWFT=3.0
+    - osx_image: xcode8.3
+      env: PLAT=macOS SWFT=3.1
+    - osx_image: xcode8.3
+      env: PLAT=iOS SWFT=3.1
+    - osx_image: xcode8.3
+      env: PLAT=tvOS SWFT=3.1
+    - osx_image: xcode9
+      env: PLAT=macOS SWFT=3.2
+    - osx_image: xcode9
+      env: PLAT=iOS SWFT=3.2
+    - osx_image: xcode9
+      env: PLAT=tvOS SWFT=3.2
+    - osx_image: xcode9
+      env: PLAT=macOS SWFT=4.0
+    - osx_image: xcode9
+      env: PLAT=iOS SWFT=4.0
+    - osx_image: xcode9
+      env: PLAT=tvOS SWFT=4.0
+before_install:
+  - case $PLAT in
+    iOS)
+      NAME="iPhone SE";;
+    tvOS)
+      NAME="Apple TV 1080p";;
+    esac;
+    if [ -n "$NAME" ]; then
+      export UUID=$(instruments -s | ruby -e "ARGF.each_line{ |ln| ln =~ /$NAME .* \[(.*)\]/; if \$1; puts(\$1); exit; end }");
+      export DESTINATION="id=$UUID";
+    fi
+install:
+  - case $PLAT in
+    macOS)
+      carthage bootstrap --platform Mac;;
+    tvOS|iOS)
+      carthage bootstrap --platform $PLAT;;
+    esac;
+script:
+  - set -o pipefail;
+    case $PLAT in
+    macOS)
+      xcodebuild -scheme PMKMapKit -quiet build clean SWIFT_VERSION=$SWFT;
+      xcodebuild -scheme PMKMapKit -quiet test;;
+    iOS|tvOS)
+      open -b com.apple.iphonesimulator --args -CurrentDeviceUDID "$UUID";
+      xcodebuild -scheme PMKMapKit -quiet -destination "$DESTINATION" build clean SWIFT_VERSION=$SWFT;
+      xcodebuild -scheme PMKMapKit -quiet -destination "$DESTINATION" test;;
+    esac
