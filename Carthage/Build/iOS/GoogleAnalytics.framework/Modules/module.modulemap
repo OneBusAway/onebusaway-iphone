@@ -1,6 +1,0 @@
-framework module GoogleAnalytics {
-  umbrella header "GoogleAnalytics.h"
-
-  export *
-  module * { export * }
-}

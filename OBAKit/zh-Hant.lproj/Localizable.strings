@@ -1,5 +1,0 @@
-/* Route formatting string. e.g. 10 to Downtown Seattle */
-"text_route_to_orientation_newline_params" = "%@ 往 %@";
-
-/* Not Found */
-"strings.not_found" = "查無";

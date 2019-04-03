@@ -651,7 +651,6 @@
 		93E592AD1F8D3C600079A2D8 /* OBABookmarkedRouteCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OBABookmarkedRouteCell.h; sourceTree = "<group>"; };
 		93E592AE1F8D3C600079A2D8 /* OBABookmarkedRouteCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OBABookmarkedRouteCell.m; sourceTree = "<group>"; };
 		93E592AF1F8D3C600079A2D8 /* OBABookmarkedRouteRow.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OBABookmarkedRouteRow.m; sourceTree = "<group>"; };
-		93E592BB1F8D778C0079A2D8 /* zh-Hant */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hant"; path = "zh-Hant.lproj/Localizable.strings"; sourceTree = "<group>"; };
 		93E6595D204098FB00053B7C /* OBAExtendedNavBarView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = OBAExtendedNavBarView.h; sourceTree = "<group>"; };
 		93E6595E204098FB00053B7C /* OBAExtendedNavBarView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = OBAExtendedNavBarView.m; sourceTree = "<group>"; };
 		93EA5A39203DF21800CE6CAC /* OBADeepLinkNavigationTarget.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = OBADeepLinkNavigationTarget.h; sourceTree = "<group>"; };
@@ -1462,7 +1461,7 @@
 				TargetAttributes = {
 					934195381DB0B013004BBBB7 = {
 						CreatedOnToolsVersion = 8.0;
-						LastSwiftMigration = 1000;
+						LastSwiftMigration = 1020;
 						ProvisioningStyle = Manual;
 					};
 					934195411DB0B013004BBBB7 = {
@@ -1474,11 +1473,12 @@
 			};
 			buildConfigurationList = 934195331DB0B013004BBBB7 /* Build configuration list for PBXProject "OBAKit" */;
 			compatibilityVersion = "Xcode 3.2";
-			developmentRegion = English;
+			developmentRegion = en;
 			hasScannedForEncodings = 0;
 			knownRegions = (
 				en,
-				"zh-Hant",
+				es,
+				Base,
 			);
 			mainGroup = 9341952F1DB0B013004BBBB7;
 			productRefGroup = 9341953A1DB0B013004BBBB7 /* Products */;
@@ -1713,7 +1713,6 @@
 			children = (
 				5B7C4A651DB96E8200853DD5 /* es */,
 				5B175F3A1DE37E7500F9E93C /* en */,
-				93E592BB1F8D778C0079A2D8 /* zh-Hant */,
 			);
 			name = Localizable.strings;
 			sourceTree = "<group>";
@@ -1865,7 +1864,7 @@
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
 				SWIFT_TREAT_WARNINGS_AS_ERRORS = YES;
-				SWIFT_VERSION = 4.2;
+				SWIFT_VERSION = 5.0;
 			};
 			name = Debug;
 		};
@@ -1890,7 +1889,7 @@
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
 				SWIFT_TREAT_WARNINGS_AS_ERRORS = YES;
-				SWIFT_VERSION = 4.2;
+				SWIFT_VERSION = 5.0;
 			};
 			name = Release;
 		};
@@ -1997,7 +1996,7 @@
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
 				SWIFT_TREAT_WARNINGS_AS_ERRORS = YES;
-				SWIFT_VERSION = 4.2;
+				SWIFT_VERSION = 5.0;
 			};
 			name = AppStoreDistribution;
 		};

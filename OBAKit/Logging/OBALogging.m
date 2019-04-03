@@ -29,7 +29,7 @@ const DDLogLevel ddLogLevel = DDLogLevelInfo;
     if (self) {
         _consoleLogger = [[OBAConsoleLogger alloc] init];
         [DDLog addLogger:_consoleLogger];
-        [DDLog addLogger:[DDASLLogger sharedInstance] withLevel:ddLogLevel]; // ASL = Apple System Logs
+        [DDLog addLogger:[DDOSLogger sharedInstance] withLevel:ddLogLevel]; // ASL = Apple System Logs
         [DDLog addLogger:[DDTTYLogger sharedInstance] withLevel:ddLogLevel]; // TTY = Xcode console
 
         for (DDAbstractLogger *logger in loggers) {

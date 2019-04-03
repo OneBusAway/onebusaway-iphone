@@ -1,9 +1,0 @@
-{
-  "commitish" : "0.6.0",
-  "iOS" : [
-    {
-      "name" : "SwiftEntryKit",
-      "hash" : "c5dd10a176bb6bb5df37bc9680e47195feedbec711279ae98d4fa56d54aa8f42"
-    }
-  ]
-}

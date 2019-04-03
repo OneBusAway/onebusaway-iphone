@@ -1,0 +1,4 @@
+swift:
+  config_file: .swiftlint.yml
+rubocop:
+  enabled: false

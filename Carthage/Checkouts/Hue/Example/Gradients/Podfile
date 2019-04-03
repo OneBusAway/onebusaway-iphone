@@ -1,0 +1,16 @@
+source 'https://github.com/CocoaPods/Specs.git'
+
+platform :ios, '9.0'
+
+use_frameworks!
+inhibit_all_warnings!
+
+target 'Gradients'
+
+pod 'Hue', path: '../../'
+pod 'Imaginary', git: 'https://github.com/hyperoslo/Imaginary'
+pod 'Cache', git: 'https://github.com/hyperoslo/Cache'
+pod 'Spots', git: 'https://github.com/hyperoslo/Spots'
+pod 'Sugar', git: 'https://github.com/hyperoslo/Sugar'
+pod 'Tailor'
+pod 'Fakery'

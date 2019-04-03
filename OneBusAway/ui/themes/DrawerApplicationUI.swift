@@ -224,8 +224,8 @@ extension DrawerApplicationUI: UITabBarControllerDelegate {
                 return true
         }
 
-        let oldIndex = controllers.index(of: selectedController)
-        let newIndex = controllers.index(of: viewController)
+        let oldIndex = controllers.firstIndex(of: selectedController)
+        let newIndex = controllers.firstIndex(of: viewController)
 
         if newIndex == 0 && oldIndex == 0 {
             mapController.recenterMap()
