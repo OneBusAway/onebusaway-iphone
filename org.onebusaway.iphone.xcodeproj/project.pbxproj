@@ -222,7 +222,7 @@
 		93BC49E81FB8D61D008B710D /* Masonry.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 93BC49E61FB8D61C008B710D /* Masonry.framework */; };
 		93BC49EC1FB8D628008B710D /* SVProgressHUD.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 93BC49EA1FB8D628008B710D /* SVProgressHUD.framework */; };
 		93BC49ED1FB8D628008B710D /* GoogleAnalytics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 93BC49EB1FB8D628008B710D /* GoogleAnalytics.framework */; };
-		93BD28A422547C5300F0D2DB /* PromiseKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 93BD28A322547C5300F0D2DB /* PromiseKit.framework */; };
+		93BD28AE22565D7700F0D2DB /* PromiseKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 93BD28AD22565D7700F0D2DB /* PromiseKit.framework */; };
 		93C21DA0214A287600F422DA /* TableRowController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 93C21D9F214A287600F422DA /* TableRowController.swift */; };
 		93C21DA3214A364000F422DA /* ChevronCardCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 93C21DA2214A364000F422DA /* ChevronCardCell.swift */; };
 		93C3936B1D8A3A4D0080F370 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 93C3936A1D8A3A4D0080F370 /* UIKit.framework */; };
@@ -613,7 +613,7 @@
 		93BC49E61FB8D61C008B710D /* Masonry.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Masonry.framework; path = Carthage/Build/iOS/Masonry.framework; sourceTree = "<group>"; };
 		93BC49EA1FB8D628008B710D /* SVProgressHUD.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SVProgressHUD.framework; path = Carthage/Build/iOS/SVProgressHUD.framework; sourceTree = "<group>"; };
 		93BC49EB1FB8D628008B710D /* GoogleAnalytics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = GoogleAnalytics.framework; path = Carthage/Build/iOS/GoogleAnalytics.framework; sourceTree = "<group>"; };
-		93BD28A322547C5300F0D2DB /* PromiseKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = PromiseKit.framework; path = Carthage/Build/iOS/PromiseKit.framework; sourceTree = "<group>"; };
+		93BD28AD22565D7700F0D2DB /* PromiseKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = PromiseKit.framework; path = Carthage/Build/iOS/PromiseKit.framework; sourceTree = "<group>"; };
 		93C21D9F214A287600F422DA /* TableRowController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TableRowController.swift; sourceTree = "<group>"; };
 		93C21DA2214A364000F422DA /* ChevronCardCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChevronCardCell.swift; sourceTree = "<group>"; };
 		93C3936A1D8A3A4D0080F370 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
@@ -659,7 +659,6 @@
 				93C3936B1D8A3A4D0080F370 /* UIKit.framework in Frameworks */,
 				93528AB11C8D517100783E9A /* CloudKit.framework in Frameworks */,
 				93A923A21C21DCD600A657C8 /* SafariServices.framework in Frameworks */,
-				93BD28A422547C5300F0D2DB /* PromiseKit.framework in Frameworks */,
 				93528AAE1C8D50D200783E9A /* MapKit.framework in Frameworks */,
 				931131EE214C17590063D400 /* GoogleAppMeasurement.framework in Frameworks */,
 				931131EC214C17590063D400 /* FirebaseAnalytics.framework in Frameworks */,
@@ -667,6 +666,7 @@
 				93BC49DD1FB8D5FB008B710D /* CocoaLumberjack.framework in Frameworks */,
 				93BBB3F91DB4B3C100694940 /* OBAKit.framework in Frameworks */,
 				93414D76207361E7001D1892 /* Fabric.framework in Frameworks */,
+				93BD28AE22565D7700F0D2DB /* PromiseKit.framework in Frameworks */,
 				931131EF214C17590063D400 /* FirebaseCore.framework in Frameworks */,
 				93414D77207361E7001D1892 /* Crashlytics.framework in Frameworks */,
 				931131F0214C17590063D400 /* FirebaseInstanceID.framework in Frameworks */,
@@ -748,7 +748,7 @@
 		29B97323FDCFA39411CA2CEA /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
-				93BD28A322547C5300F0D2DB /* PromiseKit.framework */,
+				93BD28AD22565D7700F0D2DB /* PromiseKit.framework */,
 				933EC6A322542CBE00317E96 /* SwipeCellKit.framework */,
 				934CE83F21569F920059B8A2 /* Hue.framework */,
 				934CE8392154D4FA0059B8A2 /* QuickLayout.framework */,

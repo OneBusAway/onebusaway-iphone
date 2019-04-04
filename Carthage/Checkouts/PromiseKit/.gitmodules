@@ -1,6 +1,0 @@
-[submodule "Extensions/MapKit"]
-	path = Extensions/MapKit
-	url = https://github.com/PromiseKit/MapKit.git
-[submodule "Extensions/CoreLocation"]
-	path = Extensions/CoreLocation
-	url = https://github.com/PromiseKit/CoreLocation.git
