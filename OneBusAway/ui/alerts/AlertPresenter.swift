@@ -77,13 +77,23 @@ public enum Theme {
     open class func showMessage(withTheme theme: Theme, title: String, body: String) {
         let attributes = buildTopEntryAttributes(theme: theme)
 
+        let boldFont = OBATheme.boldBodyFont
+        let font = OBATheme.bodyFont
         let textColor = UIColor.white
-        let titleContent = EKProperty.LabelContent(text: title, style: .init(font: OBATheme.boldBodyFont, color: textColor))
-        let description = EKProperty.LabelContent(text: body, style: .init(font: OBATheme.bodyFont, color: textColor))
 
-        let notificationMessage = EKNotificationMessage(simpleMessage: EKSimpleMessage(image: nil, title: titleContent, description: description))
+        let titleContent = EKProperty.LabelContent(text: title, style: .init(font: boldFont, color: textColor))
+        let description = EKProperty.LabelContent(text: body, style: .init(font: font, color: textColor))
+        let message = EKSimpleMessage(image: nil, title: titleContent, description: description)
 
-        let contentView = EKNotificationMessageView(with: notificationMessage)
+        let labelStyle = EKProperty.LabelStyle(font: boldFont, color: .white)
+        let closeButton = EKProperty.ButtonContent(label: EKProperty.LabelContent(text: OBAStrings.dismiss, style: labelStyle), backgroundColor: UIColor(white: 0.25, alpha: 0.25), highlightedBackgroundColor: UIColor(white: 0, alpha: 0.4), contentEdgeInset: 0) {
+            SwiftEntryKit.dismiss()
+        }
+        let buttons = EKProperty.ButtonBarContent(with: closeButton, separatorColor: UIColor(white: 0.9, alpha: 0.4), expandAnimatedly: false)
+
+        let alertMessage = EKAlertMessage(simpleMessage: message, buttonBarContent: buttons)
+        let contentView = EKAlertMessageView(with: alertMessage)
+
         SwiftEntryKit.display(entry: contentView, using: attributes)
     }
 
@@ -142,12 +152,13 @@ public enum Theme {
 
 extension AlertPresenter {
     private class func buildTopEntryAttributes(theme: Theme) -> EKAttributes {
-        var attributes = EKAttributes.topNote
-        attributes.displayDuration = 5.0
-        attributes.statusBar = .light
+        var attributes = EKAttributes.topFloat
+        attributes.displayDuration = 2.0
+        attributes.scroll = .enabled(swipeable: true, pullbackAnimation: .easeOut)
+        attributes.statusBar = .dark
         attributes.entryBackground = entryBackgroundStyle(theme: theme)
-        attributes.shadow = .active(with: EKAttributes.Shadow.Value(color: .black, opacity: 0.5, radius: 4, offset: .zero))
-        attributes.roundCorners = .bottom(radius: OBATheme.defaultCornerRadius)
+        attributes.shadow = .active(with: EKAttributes.Shadow.Value(color: .black, opacity: 0.5, radius: 2, offset: .zero))
+        attributes.roundCorners = .all(radius: OBATheme.defaultCornerRadius)
 
         return attributes
     }
