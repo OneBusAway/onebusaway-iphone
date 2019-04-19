@@ -141,7 +141,6 @@ static NSString * const kPrivacyURLString = @"http://onebusaway.org/privacy/";
 }
 
 - (OBATableSection*)settingsTableSection {
-
     NSMutableArray *rows = [[NSMutableArray alloc] init];
 
     OBATableRow *region = [[OBATableRow alloc] initWithTitle:NSLocalizedString(@"msg_region", @"") action:^(OBABaseRow *r2) {
@@ -225,6 +224,20 @@ static NSString * const kPrivacyURLString = @"http://onebusaway.org/privacy/";
 
 - (OBATableSection*)debugTableSection {
     OBATableSection *section = [[OBATableSection alloc] initWithTitle:NSLocalizedString(@"info_controller.debug_section_title", @"The table section title for the debugging tools.")];
+
+    OBATableRow *pushIDRow = [[OBATableRow alloc] initWithTitle:@"Push User ID" action:^(OBABaseRow *row) {
+        [UIPasteboard generalPasteboard].string = OBAPushManager.pushManager.pushNotificationUserID;
+    }];
+    pushIDRow.style = UITableViewCellStyleSubtitle;
+    pushIDRow.subtitle = OBAPushManager.pushManager.pushNotificationUserID;
+    [section addRow:pushIDRow];
+
+    OBATableRow *pushTokenRow = [[OBATableRow alloc] initWithTitle:@"Push Token" action:^(OBABaseRow *row) {
+        [UIPasteboard generalPasteboard].string = OBAPushManager.pushManager.pushNotificationToken;
+    }];
+    pushTokenRow.style = UITableViewCellStyleSubtitle;
+    pushTokenRow.subtitle = OBAPushManager.pushManager.pushNotificationToken;
+    [section addRow:pushTokenRow];
 
     OBATableRow *row = [[OBATableRow alloc] initWithTitle:NSLocalizedString(@"info_controller.browse_user_defaults_row", @"Row title for the Browse User Defaults action") action:^(OBABaseRow *r2) {
         [self logRowTapAnalyticsEvent:@"User Defaults Browser"];
