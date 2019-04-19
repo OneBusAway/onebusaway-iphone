@@ -164,6 +164,18 @@
 /* OBABookmarkEditExisting */
 "edit_bookmark.title" = "Editar Favorito";
 
+/* Label for the Bookmark Name text field */
+"edit_bookmark.bookmark_name_label" = "Nombre del Favorito";
+
+/* Label for the Add Bookmark Group section */
+"edit_bookmark.add_bookmark_group_label" = "Agregar Grupo de Favorito";
+
+/* Label for the 'No Group' table row */
+"edit_bookmark.no_group_label" = "(Sin Grupo)";
+
+/* Bookmark Group section header */
+"edit_bookmark.bookmark_group_header" = "Grupo de Favoritos";
+
 /* No comment provided by engineer. */
 "msg_edit_group_name" = "Editar Nombre del Grupo";
 
@@ -220,9 +232,6 @@
 
 /* No comment provided by engineer. */
 "msg_loading" = "Cargando";
-
-/* Progress HUD status when first locating the user on the Region List Controller */
-"msg_loading_regions" = "Cargando Regiones";
 
 /* Location section title on PII controller */
 "msg_location" = "Ubicación";
@@ -581,6 +590,9 @@
 /* message */
 "msg_updated" = "Actualizado";
 
+/* Section title for the 'Arrivals & Departures' section */
+"stops_controller.arrivals_and_departures_section_title" = "Llegadas & Salidas";
+
 /* Title of the Stop UI Controller while it is updating its content. */
 "stops_controller.title.updating" = "Actualizando...";
 
@@ -649,6 +661,12 @@
 
 /* Settings section title on info page */
 "msg_your_location" = "Tú Ubicación";
+
+/* Pay My Fare table row */
+"msg_pay_fare" = "Pagar Mi Tarifa";
+
+/* An alert button that says 'Continue and Do Not Show Again' */
+"info_controller.payment.continue_dont_show_again" = "Continuar y No Mostrar De Nuevo";
 
 /* OBASectionTypeNotes
    OBASectionTypeSubmit */
@@ -726,6 +744,9 @@
 /* No comment provided by engineer. */
 "msg_until" = "hasta";
 
+/* An explanation of the predicted departure feature on the stop controller. */
+"stop_view_controller.predicted_departure_coachmark" = "Nuevo: ahora mostraremos la ocupación prevista de su vehículo de tránsito según los datos históricos, cuando estén disponibles.";
+
 /* Title for the tutorial balloon that shows the user where to find the share and bookmark context menu items */
 "stop_view_controller.context_menu_tutorial_title" = "Desliza el dedo en una celda para agregar una ruta a tus Favoritos o compartir tu viaje con un amigo.";
 
@@ -765,6 +786,12 @@
 /* Error message displayed to the user when something goes wrong with a just-tapped notification. */
 "notifications.error_messages.formatted_cant_display" = "Lo sentinos, no podemos mostrarte ese viaje compartido. Si esto continúa, por favor háganoslo saber. Error: %@";
 
+/* Title for the enable/disable stop drawer switch on the settings controller */
+"settings.stop_drawer_switch_title" = "Usar la sección de parada";
+
+/* Footer for the stop drawer switch on the settings controller */
+"settings.stop_drawer_footer_text" = "Desactive esta configuración para ver el comportamiento clásico de la página de parada en el mapa.";
+
 /* Title for the enable/disable user heading switch on the settings controller */
 "settings.user_heading_switch_title" = "Mostrar título en el mapa";
 
@@ -798,14 +825,26 @@
 /* e.g. Last report: 2m 43s ago */
 "trip_status.last_report_format" = "Último reporte: hace %@m %@s";
 
-/* 'Route: {TEXT}' prefix */
-"map_table.route_prefix" = "Ruta: %@";
-
 /* The empty data set description for the search controller */
 "map_search.empty_data_set_description" = "Escriba una dirección, número de ruta o número de parada aquí para buscar.";
 
 /* The section title on the 'Nearby' controller that says 'Routes' */
 "nearby_stops.routes_section_title" = "Rutas";
+
+/* No results were found for your search. Please try again. */
+"map_table.vehicle_search_no_results" = "No se encontrarón resultados para su búsqueda. Inténtalo de nuevo.";
+
+/* 'Route: {TEXT}' prefix */
+"map_table.route_prefix" = "Ruta: %@";
+
+/* Header text for the Bookmarks and Recent Stops section of the map table */
+"map_table.bookmarks_and_recent_stops_header" = "Favoritos & Paradas Recientes";
+
+/* Title for the More Nearby Stops table row */
+"map_table.more_nearby_stops" = "Más Paradas Cercanas";
+
+/* Explanation for when the app is offline. */
+"map_table.offline_explanation" = "Tu red no esta disponible. Comprueba tus datos o conexión WiFi e intente de nuevo.";
 
 /* Map Search: Quick Lookup Table Section */
 "map_search.quick_lookup_section_title" = "Búsqueda Rápida";
@@ -897,6 +936,9 @@
 /* Error title displayed when the stop ID provided doesn't match a known stop ID. */
 "map_controller.no_matching_stop_warning_title" = "Paradas No Encontradas";
 
+/* Formatted string for the current temperature. */
+"map_controller.temperature_label_fmt" = "Temperatura Actual: %@ grados";
+
 /* Error message displayed when the stop ID provided doesn't match a known stop ID. */
 "map_controller.no_matching_stop_warning_body" = "No hemos podido encontrar una parada que coincida con el ID que proporcionaste. Por favor, combrueba tu número e inténtalo nuevamente.";
 
@@ -932,6 +974,9 @@
 
 /* This is the Filter button in the stop header view. */
 "stop_header_view.filter_button_accessibility_label" = "Ordenar & Filtrar Rutas";
+
+/* This is the Filter button title in the stop header view. */
+"stop_header_view.filter_button_title" = "Filtrar";
 
 /* No comment provided by engineer. */
 "msg_scheduled_explanatory" = "*'Programado': sin datos ubicación de vehículos disponibles";
