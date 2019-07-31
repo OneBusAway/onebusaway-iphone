@@ -67,11 +67,9 @@ static NSString * const OBALastRegionRefreshDateUserDefaultsKey = @"OBALastRegio
     return self;
 }
 
-- (void)_constructUI {
+- (void)_constructUI:(BOOL)showDrawer {
     self.window = [[UIWindow alloc] initWithFrame:[UIScreen mainScreen].bounds];
     self.window.backgroundColor = [UIColor whiteColor];
-
-    BOOL showDrawer = YES;
 
     if (showDrawer) {
         self.applicationUI = [[DrawerApplicationUI alloc] initWithApplication:self.application];
@@ -120,7 +118,8 @@ static NSString * const OBALastRegionRefreshDateUserDefaultsKey = @"OBALastRegio
         [self.application.regionHelper refreshData];
     }
 
-    [self _constructUI];
+    BOOL showDrawer = [[NSUserDefaults standardUserDefaults] boolForKey:@"display-bookmark-drawer-preference"];
+    [self _constructUI: showDrawer];
 
     return YES;
 }
