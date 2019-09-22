@@ -248,7 +248,6 @@ static UIFont *_italicFootnoteFont = nil;
 
 + (UIColor*)userLocationFillColor {
 	return [UIColor colorNamed:@"userLocationFillColor"];
-//    return [self colorWithRed:25 green:131 blue:247 alpha:1.f];
 }
 
 + (UIColor*)onTimeDepartureColor {
@@ -258,7 +257,6 @@ static UIFont *_italicFootnoteFont = nil;
 
 + (UIColor*)earlyDepartureColor {
 	return [UIColor colorNamed:@"EarlyDepartureColor"];
-//    return [UIColor redColor];
 }
 
 + (UIColor*)delayedDepartureColor {
@@ -268,7 +266,6 @@ static UIFont *_italicFootnoteFont = nil;
 
 + (UIColor*)tableViewSectionHeaderBackgroundColor {
 	return [UIColor colorNamed:@"TableViewSectionHeaderBackgroundColor"];
-//    return [OBATheme colorWithRed:247.f green:247.f blue:247.f alpha:1.f];
 }
 
 + (UIColor*)darkBlurLabelTextColor {

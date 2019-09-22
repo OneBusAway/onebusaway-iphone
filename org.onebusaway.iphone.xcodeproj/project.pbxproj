@@ -240,6 +240,10 @@
 		93F3F88E1E7A7B2D0025FC78 /* RegionalAlertsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 93F3F88D1E7A7B2D0025FC78 /* RegionalAlertsViewController.swift */; };
 		93F9574A1E9AFB020022586B /* UIWindow+OBAAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = 93F957491E9AFB020022586B /* UIWindow+OBAAdditions.m */; };
 		93FE60261E0B2F34006EC9FB /* SVPulsingAnnotationView.m in Sources */ = {isa = PBXBuildFile; fileRef = 93FE60251E0B2F34006EC9FB /* SVPulsingAnnotationView.m */; };
+		CC74531A2336FEB700A6EDE2 /* OBAArrivalAndDepartureViewController.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = CC7453192336FEB700A6EDE2 /* OBAArrivalAndDepartureViewController.storyboard */; };
+		CC74531D233700C000A6EDE2 /* OBAArrivalAndDepartureViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CC74531C233700C000A6EDE2 /* OBAArrivalAndDepartureViewController.swift */; };
+		CC74531F2337147300A6EDE2 /* OBATripScheduleTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CC74531E2337147300A6EDE2 /* OBATripScheduleTableViewController.swift */; };
+		CCFFCEBB2337378400DF41D0 /* OBATripScheduleTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = CCFFCEBA2337378400DF41D0 /* OBATripScheduleTableViewCell.swift */; };
 		D6575AEC0FEE13CF00D6D987 /* Entitlements.plist in Resources */ = {isa = PBXBuildFile; fileRef = D6575AEB0FEE13CF00D6D987 /* Entitlements.plist */; };
 /* End PBXBuildFile section */
 
@@ -636,6 +640,10 @@
 		93F957491E9AFB020022586B /* UIWindow+OBAAdditions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIWindow+OBAAdditions.m"; sourceTree = "<group>"; };
 		93FE60241E0B2F34006EC9FB /* SVPulsingAnnotationView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SVPulsingAnnotationView.h; sourceTree = "<group>"; };
 		93FE60251E0B2F34006EC9FB /* SVPulsingAnnotationView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SVPulsingAnnotationView.m; sourceTree = "<group>"; };
+		CC7453192336FEB700A6EDE2 /* OBAArrivalAndDepartureViewController.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = OBAArrivalAndDepartureViewController.storyboard; sourceTree = "<group>"; };
+		CC74531C233700C000A6EDE2 /* OBAArrivalAndDepartureViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OBAArrivalAndDepartureViewController.swift; sourceTree = "<group>"; };
+		CC74531E2337147300A6EDE2 /* OBATripScheduleTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OBATripScheduleTableViewController.swift; sourceTree = "<group>"; };
+		CCFFCEBA2337378400DF41D0 /* OBATripScheduleTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OBATripScheduleTableViewCell.swift; sourceTree = "<group>"; };
 		D6575AEB0FEE13CF00D6D987 /* Entitlements.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = Entitlements.plist; path = OneBusAway/Entitlements.plist; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -1153,6 +1161,7 @@
 				934197791DB0C140004BBBB7 /* OBATripScheduleSectionBuilder.h */,
 				9341977A1DB0C140004BBBB7 /* OBATripScheduleSectionBuilder.m */,
 				9353FF911E08E70A00B7A5C3 /* VehicleMapController.swift */,
+				CC7453202337148E00A6EDE2 /* storyboard */,
 			);
 			path = trip_details;
 			sourceTree = "<group>";
@@ -1662,6 +1671,17 @@
 			path = SVPulsingAnnotationView;
 			sourceTree = "<group>";
 		};
+		CC7453202337148E00A6EDE2 /* storyboard */ = {
+			isa = PBXGroup;
+			children = (
+				CC7453192336FEB700A6EDE2 /* OBAArrivalAndDepartureViewController.storyboard */,
+				CC74531C233700C000A6EDE2 /* OBAArrivalAndDepartureViewController.swift */,
+				CC74531E2337147300A6EDE2 /* OBATripScheduleTableViewController.swift */,
+				CCFFCEBA2337378400DF41D0 /* OBATripScheduleTableViewCell.swift */,
+			);
+			path = storyboard;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -1841,6 +1861,7 @@
 				935C39111F76EEAD00737DC4 /* Launch Screen.storyboard in Resources */,
 				D6575AEC0FEE13CF00D6D987 /* Entitlements.plist in Resources */,
 				934197931DB0C140004BBBB7 /* OBADiversionViewController.xib in Resources */,
+				CC74531A2336FEB700A6EDE2 /* OBAArrivalAndDepartureViewController.storyboard in Resources */,
 				9341983B1DB0C1E9004BBBB7 /* feedback_message_body.html in Resources */,
 				9336B1CB1FF95D5500CCC5ED /* test_userdefaults.xml in Resources */,
 				5B7C4A5A1DB96E6A00853DD5 /* Localizable.strings in Resources */,
@@ -1986,6 +2007,7 @@
 				9327DEFC1E023BE400502F06 /* OBAArrivalDepartureCell.m in Sources */,
 				93A637E520A2CDE50005248C /* LabelCell.swift in Sources */,
 				9385EC3B1DCF14C60020CCB2 /* OBASettingsViewController.m in Sources */,
+				CC74531F2337147300A6EDE2 /* OBATripScheduleTableViewController.swift in Sources */,
 				934197B81DB0C140004BBBB7 /* OBAArrivalAndDepartureViewController.m in Sources */,
 				9385EC401DCF1D910020CCB2 /* ServiceAlertDetailsViewController.swift in Sources */,
 				9341978C1DB0C140004BBBB7 /* RegionBuilderViewController.swift in Sources */,
@@ -2054,6 +2076,7 @@
 				93DB91ED20F743570028A7BF /* VehicleDisambiguationViewController.swift in Sources */,
 				934197971DB0C140004BBBB7 /* OBASegmentedControlCell.m in Sources */,
 				93B781AD1E64BAC900F2C38D /* OBAMapViewController.m in Sources */,
+				CCFFCEBB2337378400DF41D0 /* OBATripScheduleTableViewCell.swift in Sources */,
 				934197A91DB0C140004BBBB7 /* OBAReportProblemWithStopViewController.m in Sources */,
 				9341981D1DB0C1BA004BBBB7 /* OBALabelAndSwitchTableViewCell.m in Sources */,
 				93A637DC20A2CCE30005248C /* DisplaySectionController.swift in Sources */,
@@ -2082,6 +2105,7 @@
 				9368E5C01DB1584900C329D0 /* OBAEmptyDataSetSource.m in Sources */,
 				934198241DB0C1BA004BBBB7 /* OBATextEditViewController.m in Sources */,
 				93F1C26020BCD34B00B5032B /* LoadingCell.swift in Sources */,
+				CC74531D233700C000A6EDE2 /* OBAArrivalAndDepartureViewController.swift in Sources */,
 				9300CF7E20FA70BB006AB268 /* UIViewController+PulleyViewController.swift in Sources */,
 				93F9574A1E9AFB020022586B /* UIWindow+OBAAdditions.m in Sources */,
 				93A632AE21D1D4E100A1AC9B /* AwesomeSpotlightView.swift in Sources */,
