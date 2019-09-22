@@ -5,6 +5,7 @@
         <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14824"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
+        <capability name="Stack View standard spacing" minToolsVersion="9.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
@@ -77,24 +78,24 @@
                         <inset key="separatorInset" minX="48" minY="0.0" maxX="0.0" maxY="0.0"/>
                         <prototypes>
                             <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" accessoryType="disclosureIndicator" indentationWidth="10" reuseIdentifier="OBATripScheduleTableViewCell_ReuseIdentifier" id="6fg-rf-NeW" customClass="OBATripScheduleTableViewCell" customModule="OneBusAway" customModuleProvider="target">
-                                <rect key="frame" x="0.0" y="28" width="414" height="81"/>
+                                <rect key="frame" x="0.0" y="28" width="414" height="65"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="6fg-rf-NeW" id="5GN-uV-odN">
-                                    <rect key="frame" x="0.0" y="0.0" width="382.5" height="81"/>
+                                    <rect key="frame" x="0.0" y="0.0" width="382.5" height="65"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                     <subviews>
                                         <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="f4D-gC-Y81" userLabel="Indicator">
-                                            <rect key="frame" x="0.0" y="0.0" width="48" height="81"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="48" height="65"/>
                                             <subviews>
                                                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="PX1-nC-Nu9" userLabel="Connecting Line">
-                                                    <rect key="frame" x="23.5" y="0.0" width="1" height="81"/>
+                                                    <rect key="frame" x="23.5" y="0.0" width="1" height="65"/>
                                                     <color key="backgroundColor" systemColor="opaqueSeparatorColor" red="0.77647058820000003" green="0.77647058820000003" blue="0.7843137255" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                     <constraints>
                                                         <constraint firstAttribute="width" constant="1" id="xjc-xR-vWX"/>
                                                     </constraints>
                                                 </view>
                                                 <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="kH0-bc-4Yt">
-                                                    <rect key="frame" x="8" y="24.5" width="32" height="32"/>
+                                                    <rect key="frame" x="8" y="16.5" width="32" height="32"/>
                                                     <constraints>
                                                         <constraint firstAttribute="width" constant="32" id="Ace-2h-ody"/>
                                                         <constraint firstAttribute="height" constant="32" id="npd-0h-b6B"/>
@@ -110,38 +111,39 @@
                                                 <constraint firstItem="PX1-nC-Nu9" firstAttribute="centerX" secondItem="f4D-gC-Y81" secondAttribute="centerX" id="n8x-x4-bhg"/>
                                             </constraints>
                                         </view>
-                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="SE Eastgate Way &amp; 146th Pl SE asdfasdfasdfasdfasdfa asdfasdfasdfasdfasdfasdf" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsLetterSpacingToFitWidth="YES" adjustsFontForContentSizeCategory="YES" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="r6R-ov-f5E">
-                                            <rect key="frame" x="52" y="8" width="224" height="65"/>
-                                            <constraints>
-                                                <constraint firstAttribute="width" relation="lessThanOrEqual" priority="750" constant="256" id="eix-gi-QM3"/>
-                                            </constraints>
-                                            <fontDescription key="fontDescription" style="UICTFontTextStyleHeadline"/>
-                                            <nil key="textColor"/>
-                                            <nil key="highlightedColor"/>
-                                        </label>
-                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="7:56 PM" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontForContentSizeCategory="YES" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="CD4-88-KtL">
-                                            <rect key="frame" x="294.5" y="31" width="80" height="19.5"/>
-                                            <constraints>
-                                                <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="80" id="St4-a1-2dA"/>
-                                            </constraints>
-                                            <fontDescription key="fontDescription" style="UICTFontTextStyleCallout"/>
-                                            <nil key="textColor"/>
-                                            <nil key="highlightedColor"/>
-                                        </label>
+                                        <stackView opaque="NO" contentMode="scaleToFill" spacingType="standard" translatesAutoresizingMaskIntoConstraints="NO" id="xw9-Yp-2fT">
+                                            <rect key="frame" x="48" y="11" width="326.5" height="43"/>
+                                            <subviews>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="SE Eastgate Way &amp; 146th Pl SE " lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsLetterSpacingToFitWidth="YES" adjustsFontForContentSizeCategory="YES" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="r6R-ov-f5E">
+                                                    <rect key="frame" x="0.0" y="0.0" width="238.5" height="43"/>
+                                                    <fontDescription key="fontDescription" style="UICTFontTextStyleHeadline"/>
+                                                    <nil key="textColor"/>
+                                                    <nil key="highlightedColor"/>
+                                                </label>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="7:56 PM" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontForContentSizeCategory="YES" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="CD4-88-KtL">
+                                                    <rect key="frame" x="246.5" y="0.0" width="80" height="43"/>
+                                                    <constraints>
+                                                        <constraint firstAttribute="width" constant="80" id="f57-OD-7rN"/>
+                                                    </constraints>
+                                                    <fontDescription key="fontDescription" style="UICTFontTextStyleCallout"/>
+                                                    <nil key="textColor"/>
+                                                    <nil key="highlightedColor"/>
+                                                </label>
+                                            </subviews>
+                                        </stackView>
                                     </subviews>
                                     <constraints>
-                                        <constraint firstItem="CD4-88-KtL" firstAttribute="centerY" secondItem="5GN-uV-odN" secondAttribute="centerY" id="1U4-Dd-ZA1"/>
-                                        <constraint firstItem="CD4-88-KtL" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="r6R-ov-f5E" secondAttribute="trailing" constant="8" id="HuJ-VI-Dfd"/>
+                                        <constraint firstItem="xw9-Yp-2fT" firstAttribute="top" secondItem="5GN-uV-odN" secondAttribute="topMargin" id="3qO-7o-TlY"/>
+                                        <constraint firstAttribute="trailingMargin" secondItem="xw9-Yp-2fT" secondAttribute="trailing" id="FlI-Se-wC8"/>
                                         <constraint firstAttribute="bottom" secondItem="f4D-gC-Y81" secondAttribute="bottom" id="QCp-B1-Lzi"/>
-                                        <constraint firstAttribute="bottom" secondItem="r6R-ov-f5E" secondAttribute="bottom" constant="8" id="a83-oB-bgl"/>
-                                        <constraint firstItem="r6R-ov-f5E" firstAttribute="leading" secondItem="f4D-gC-Y81" secondAttribute="trailing" constant="4" id="hpc-hZ-mKz"/>
-                                        <constraint firstItem="r6R-ov-f5E" firstAttribute="top" secondItem="5GN-uV-odN" secondAttribute="top" constant="8" id="tkZ-LP-kGW"/>
+                                        <constraint firstItem="xw9-Yp-2fT" firstAttribute="leading" secondItem="f4D-gC-Y81" secondAttribute="trailing" id="Toi-BN-r7e"/>
                                         <constraint firstItem="f4D-gC-Y81" firstAttribute="leading" secondItem="5GN-uV-odN" secondAttribute="leading" id="v9U-j7-Hut"/>
+                                        <constraint firstItem="xw9-Yp-2fT" firstAttribute="bottom" secondItem="5GN-uV-odN" secondAttribute="bottomMargin" id="wdz-Kz-64V"/>
                                         <constraint firstItem="f4D-gC-Y81" firstAttribute="top" secondItem="5GN-uV-odN" secondAttribute="top" id="wj2-u5-hs2"/>
-                                        <constraint firstAttribute="trailingMargin" secondItem="CD4-88-KtL" secondAttribute="trailing" id="wxc-OM-Aeo"/>
                                     </constraints>
                                 </tableViewCellContentView>
                                 <connections>
+                                    <outlet property="stackView" destination="xw9-Yp-2fT" id="aYP-T4-7Hj"/>
                                     <outlet property="stateImageView" destination="kH0-bc-4Yt" id="sAN-C5-GkU"/>
                                     <outlet property="stopLabel" destination="r6R-ov-f5E" id="dds-Oj-T9c"/>
                                     <outlet property="timeLabel" destination="CD4-88-KtL" id="bQj-mZ-KI9"/>
@@ -156,7 +158,7 @@
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="C9i-P8-NUR" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="930" y="242"/>
+            <point key="canvasLocation" x="928.98550724637687" y="241.74107142857142"/>
         </scene>
     </scenes>
 </document>

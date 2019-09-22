@@ -18,12 +18,13 @@ public class OBATripScheduleTableViewCell: UITableViewCell {
 	
 	@IBOutlet var stopLabel: UILabel!
 	@IBOutlet var timeLabel: UILabel!
+	@IBOutlet var stackView: UIStackView!
 	@IBOutlet var stateImageView: UIImageView!
-	
+
 	public func update(with tripStopTime: OBATripStopTimeV2, tripDetails: OBATripDetailsV2, properties: PropertiesToSet) {
 		self.stopLabel.text = tripStopTime.stop!.name
 		self.timeLabel.text = self.formattedStopTime(tripStopTime: tripStopTime, tripDetails: tripDetails)
-		
+
 		// Set state image
 		let imageViewSize = CGSize(width: self.stateImageView.bounds.width, height: self.stateImageView.bounds.height)
 		if properties.closestStopToVehicle {
@@ -39,6 +40,11 @@ public class OBATripScheduleTableViewCell: UITableViewCell {
 			self.stateImageView.image = OBAImageHelpers.circleImage(with: imageViewSize, contents: nil)
 			self.stateImageView.accessibilityLabel = nil
 		}
+		
+		// Adjusts layout to better fit text when dynamic type font size is set to a large size.
+		let isAccessibility = UIApplication.shared.preferredContentSizeCategory.isAccessibilityCategory
+		self.stackView.axis = isAccessibility ? .vertical : .horizontal
+		self.timeLabel.textAlignment = isAccessibility ? .left : .right
 	}
 	
 	fileprivate func formattedStopTime(tripStopTime: OBATripStopTimeV2, tripDetails: OBATripDetailsV2) -> String {

@@ -12,6 +12,21 @@ import OBAKit
 public class OBATripScheduleTableViewController: UITableViewController {
 	public var arrivalAndDepartureViewDelegate: OBAArrivalAndDepartureViewDelegate!
 	
+	override public func viewDidLoad() {
+		super.viewDidLoad()
+		
+		NotificationCenter.default.addObserver(self,
+											   selector: #selector(contentSizeDidChange),
+											   name: UIContentSizeCategory.didChangeNotification,
+											   object: nil)
+	}
+	
+	deinit { NotificationCenter.default.removeObserver(self) }
+	
+	@objc func contentSizeDidChange() {
+		self.tableView.reloadData()
+	}
+	
 	override public func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
 		guard let tripDetails = self.arrivalAndDepartureViewDelegate.tripDetails else { return 0 }
 		return tripDetails.schedule.stopTimes.count
