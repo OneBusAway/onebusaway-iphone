@@ -528,7 +528,7 @@ static const double kStopsInRegionRefreshDelayOnDrag = 0.1;
 
 - (MKOverlayRenderer *)mapView:(MKMapView *)mapView rendererForOverlay:(id<MKOverlay>)overlay {
     if ([overlay isKindOfClass:MKPolyline.class]) {
-        MKPolylineRenderer *renderer = [[MKPolylineRenderer alloc] initWithPolyline:overlay];
+        MKPolylineRenderer *renderer = [[MKPolylineRenderer alloc] initWithOverlay:overlay];
         renderer.fillColor = [UIColor blackColor];
         renderer.strokeColor = [UIColor blackColor];
         renderer.lineWidth = 5;

@@ -435,7 +435,7 @@ extension MapTableViewController: EmbeddedStopDelegate {
     func embeddedStopControllerBottomLayoutGuideLength() -> CGFloat {
         // TODO: figure out why tacking on an extra 20pt to the tab bar size fixes the underlap issue that we see otherwise.
         // is it because of the height of the status bar or something equally irritating?
-        return bottomLayoutGuide.length + 20.0
+        return view.safeAreaInsets.bottom + 20.0
     }
 }
 

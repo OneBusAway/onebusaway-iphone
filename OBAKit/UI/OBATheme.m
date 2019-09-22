@@ -203,7 +203,7 @@ static UIFont *_italicFootnoteFont = nil;
 }
 
 + (UIColor*)scheduledDepartureColor {
-    return self.darkDisabledColor;
+	return [UIColor colorNamed:@"ScheduledDepartureColor"];
 }
 
 + (UIColor*)propertyChangedColor {
@@ -247,23 +247,28 @@ static UIFont *_italicFootnoteFont = nil;
 #pragma mark - Named Colors
 
 + (UIColor*)userLocationFillColor {
-    return [self colorWithRed:25 green:131 blue:247 alpha:1.f];
+	return [UIColor colorNamed:@"userLocationFillColor"];
+//    return [self colorWithRed:25 green:131 blue:247 alpha:1.f];
 }
 
 + (UIColor*)onTimeDepartureColor {
-    return [UIColor colorWithRed:0.f green:0.478f blue:0.f alpha:1.f];
+	return [UIColor colorNamed:@"OnTimeDepartureColor"];
+//    return [UIColor colorWithRed:0.f green:0.478f blue:0.f alpha:1.f];
 }
 
 + (UIColor*)earlyDepartureColor {
-    return [UIColor redColor];
+	return [UIColor colorNamed:@"EarlyDepartureColor"];
+//    return [UIColor redColor];
 }
 
 + (UIColor*)delayedDepartureColor {
-    return [UIColor blueColor];
+	return [UIColor colorNamed:@"DelayedDepartureColor"];
+	//    return [UIColor blueColor];
 }
 
 + (UIColor*)tableViewSectionHeaderBackgroundColor {
-    return [OBATheme colorWithRed:247.f green:247.f blue:247.f alpha:1.f];
+	return [UIColor colorNamed:@"TableViewSectionHeaderBackgroundColor"];
+//    return [OBATheme colorWithRed:247.f green:247.f blue:247.f alpha:1.f];
 }
 
 + (UIColor*)darkBlurLabelTextColor {
