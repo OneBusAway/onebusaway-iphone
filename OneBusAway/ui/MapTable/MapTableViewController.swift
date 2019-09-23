@@ -565,8 +565,7 @@ extension MapTableViewController: VehicleDisambiguationDelegate {
             let tripInstance = tripDetails.tripInstance,
             let pulleyController = pulleyViewController
         {
-            let controller = OBAArrivalAndDepartureViewController(tripInstance: tripInstance)
-            pulleyController.pushViewController(controller, animated: true)
+			pulleyController.pushViewController(OBAArrivalAndDepartureView.create(dataSource: .tripInstance(tripInstance)), animated: true)
         }
     }
 

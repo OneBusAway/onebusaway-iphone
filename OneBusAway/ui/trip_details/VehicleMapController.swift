@@ -11,117 +11,24 @@ import OBAKit
 
 // swiftlint:disable force_cast
 
-@objc protocol VehicleMapDelegate {
-    func vehicleMap(_ vehicleMap: VehicleMapController, didToggleSize expanded: Bool)
-    func vehicleMap(_ vehicleMap: VehicleMapController, didSelectStop annotation: MKAnnotation)
+protocol OBAVehicleMapDelegate: class {
+    func vehicleMapDidToggleSize(_ vehicleMap: OBAVehicleMapController)
+    func vehicleMap(_ vehicleMap: OBAVehicleMapController, didSelect stop: OBAStopV2)
 }
 
-@objc(OBAVehicleMapController)
-class VehicleMapController: UIViewController, MKMapViewDelegate {
+//@objc(OBAVehicleMapController)
+class OBAVehicleMapController: UIViewController, MKMapViewDelegate {
+	public weak var arrivalAndDepartureViewDelegate: OBAArrivalAndDepartureViewDelegate?
+	
+	static let expandedStateUserDefaultsKey = "expandedStateUserDefaultsKey"
 
-    private let application: OBAApplication
-
-    static let expandedStateUserDefaultsKey = "expandedStateUserDefaultsKey"
-    @objc public var expanded: Bool {
-        didSet {
-            OBAApplication.shared().userDefaults.set(expanded, forKey: VehicleMapController.expandedStateUserDefaultsKey)
-            self.toggleButton.isSelected = expanded
-        }
-    }
-
-    @objc init(application: OBAApplication) {
-        self.application = application
-        self.expanded = application.userDefaults.bool(forKey: VehicleMapController.expandedStateUserDefaultsKey)
-        super.init(nibName: nil, bundle: nil)
-    }
-
-    required init?(coder aDecoder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
-    }
-
-    deinit {
-        self.promiseWrapper?.cancel()
-    }
-
-    @objc private var promiseWrapper: PromiseWrapper?
-
-    @objc public var tripDetails: OBATripDetailsV2? {
-        didSet {
-            guard let tripDetails = self.tripDetails else {
-                return
-            }
-
-            let annotations = self.tripDetails?.schedule.stopTimes.map {
-                return OBATripStopTimeMapAnnotation.init(tripDetails: tripDetails, stopTime: $0)
-            }
-
-            self.mapView.addAnnotations(annotations!)
-        }
-    }
-
-    @objc public var tripInstance: OBATripInstanceRef? {
-        willSet {
-            // TODO: there's no reason to remove all of the annotations every time
-            // the tripInstance object is updated. This will just cause an
-            // annoying flicker. However, it's easier than doing the right thing and
-            // I just want to get this done for now. So someone please improve this!
-            self.mapView.removeAnnotations(self.mapView.annotations)
-        }
-        didSet {
-            if self.routePolyline != nil {
-                return
-            }
-
-            guard
-                let tripInstance = self.tripInstance,
-                let modelService = application.modelService
-            else {
-                return
-            }
-
-            let wrapper = modelService.requestTripDetails(tripInstance: tripInstance)
-            wrapper.promise.then { resp -> Void in
-                let tripDetails = resp.object as! OBATripDetailsV2
-                self.tripDetails = tripDetails
-
-                guard let shapeID = tripDetails.trip?.shapeId else {
-                    return
-                }
-
-                self.downloadRoutePolyline(shapeID: shapeID)
-            }
-
-            self.promiseWrapper = wrapper
-        }
-    }
-
-    @objc public var arrivalAndDeparture: OBAArrivalAndDepartureV2? {
-        willSet {
-            // TODO: there's no reason to remove all of the annotations every time
-            // the ArrivalAndDeparture object is updated. This will just cause an
-            // annoying flicker. However, it's easier than doing the right thing and
-            // I just want to get this done for now. So someone please improve this!
-            self.mapView.removeAnnotations(self.mapView.annotations)
-        }
-        didSet {
-            // TODO: color this stop differently somehow.
-            if let stop = self.arrivalAndDeparture?.stop {
-                self.mapView.addAnnotation(stop)
-            }
-
-            if let tripStatus = self.arrivalAndDeparture?.tripStatus {
-                self.mapView.addAnnotation(tripStatus)
-            }
-
-            if self.routePolyline == nil, let shapeID = self.arrivalAndDeparture?.trip?.shapeId {
-                self.downloadRoutePolyline(shapeID: shapeID)
-            }
-        }
+    fileprivate var arrivalAndDeparture: OBAArrivalAndDepartureV2? {
+		return self.arrivalAndDepartureViewDelegate?.arrivalAndDeparture
     }
 
     @objc public var routeType: OBARouteType = .bus
 
-    @objc public weak var delegate: VehicleMapDelegate?
+	public weak var delegate: OBAVehicleMapDelegate?
 
     var routePolyline: MKPolyline?
 
@@ -131,7 +38,11 @@ class VehicleMapController: UIViewController, MKMapViewDelegate {
         return renderer
     }()
 
-    let mapView = MKMapView.init()
+	@IBOutlet var mapView: MKMapView! {
+		didSet {
+			mapView.delegate = self
+		}
+	}
 
     var vehicleAnnotationView: SVPulsingAnnotationView?
 
@@ -146,14 +57,11 @@ class VehicleMapController: UIViewController, MKMapViewDelegate {
         button.setImage(OBAImageHelpers.rotateImage(toggleImage, degrees: -90.0), for: .normal)
         button.setImage(OBAImageHelpers.rotateImage(toggleImage, degrees: 90.0), for: .selected)
 
-        button.isSelected = self.expanded
+		button.isSelected = self.arrivalAndDepartureViewDelegate?.vehicleMapViewIsExpanded ?? false
 
         return button
     }()
-}
 
-// MARK: - UIViewController
-extension VehicleMapController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
@@ -163,9 +71,25 @@ extension VehicleMapController {
 }
 
 // MARK: - Data Loading
-extension VehicleMapController {
+extension OBAVehicleMapController {
+	func reloadData() {
+		if let tripDetails = arrivalAndDepartureViewDelegate?.tripDetails {
+			let annotations = tripDetails.schedule.stopTimes.compactMap {
+				OBATripStopTimeMapAnnotation(tripDetails: tripDetails, stopTime: $0)
+            }
+
+            self.mapView.addAnnotations(annotations)
+			
+			guard let shapeID = tripDetails.trip?.shapeId else {
+				return
+			}
+
+			self.downloadRoutePolyline(shapeID: shapeID)
+		}
+	}
+	
     func downloadRoutePolyline(shapeID: String) {
-        guard let modelService = application.modelService else {
+		guard let modelService = arrivalAndDepartureViewDelegate?.modelService else {
             return
         }
 
@@ -180,31 +104,29 @@ extension VehicleMapController {
 }
 
 // MARK: - Actions
-extension VehicleMapController {
-
+extension OBAVehicleMapController {
     @objc func toggleButtonTapped() {
-        self.expanded = !self.expanded
-        self.delegate?.vehicleMap(self, didToggleSize: self.expanded)
+		self.delegate?.vehicleMapDidToggleSize(self)
+		self.toggleButton.isSelected = self.arrivalAndDepartureViewDelegate?.vehicleMapViewIsExpanded ?? false
     }
 
     @objc func recenterMap() {
         self.mapView.setUserTrackingMode(MKUserTrackingMode.follow, animated: true)
     }
-
 }
 
 // MARK: - MKMapViewDelegate
-extension VehicleMapController {
+extension OBAVehicleMapController {
     func mapView(_ mapView: MKMapView, rendererFor overlay: MKOverlay) -> MKOverlayRenderer {
         return self.routePolylineRenderer
     }
 
     func mapView(_ mapView: MKMapView, didSelect view: MKAnnotationView) {
-        guard let annotation = view.annotation else {
+		guard let stop = view.annotation as? OBAStopV2 else {
             return
         }
 
-        self.delegate?.vehicleMap(self, didSelectStop: annotation)
+        self.delegate?.vehicleMap(self, didSelect: stop)
     }
 
     func mapView(_ mapView: MKMapView, viewFor annotation: MKAnnotation) -> MKAnnotationView? {
@@ -301,7 +223,7 @@ extension VehicleMapController {
 }
 
 // MARK: - UI Configurations
-extension VehicleMapController {
+extension OBAVehicleMapController {
     func createMapView() {
         self.mapView.isRotateEnabled = false
         self.mapView.delegate = self

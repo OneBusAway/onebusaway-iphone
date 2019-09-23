@@ -10,7 +10,7 @@ import UIKit
 import OBAKit
 
 public class OBATripScheduleTableViewController: UITableViewController {
-	public var arrivalAndDepartureViewDelegate: OBAArrivalAndDepartureViewDataSource!
+	public var arrivalAndDepartureViewDelegate: OBAArrivalAndDepartureViewDelegate!
 	
 	override public func viewDidLoad() {
 		super.viewDidLoad()
@@ -28,7 +28,7 @@ public class OBATripScheduleTableViewController: UITableViewController {
 	}
 	
 	public func reloadData() {
-		self.tableView.reloadData()	// TODO: Don't reload everything.
+		self.tableView.reloadData()	// TODO: Don't reload everything.		
 		self.tableView.layoutIfNeeded()
 		
 		// Scroll down to the selected stop.

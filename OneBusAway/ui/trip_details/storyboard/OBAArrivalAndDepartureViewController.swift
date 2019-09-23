@@ -9,16 +9,19 @@
 import UIKit
 import OBAKit
 
-public protocol OBAArrivalAndDepartureViewDataSource: class {
+public protocol OBAArrivalAndDepartureViewDelegate: class {
 	var tripDetails: OBATripDetailsV2? { get }
 	var arrivalAndDeparture: OBAArrivalAndDepartureV2? { get }
+	var modelService: PromisedModelService { get }
+	
+	var vehicleMapViewIsExpanded: Bool { get set }
 	
 	func didSelectStop(_ stop: OBAStopV2)
 	func didSelectTrip(_ trip: OBATripV2)
 }
 
 @objc(OBAArrivalAndDepartureView)
-final public class OBAArrivalAndDepartureView: UIViewController, OBAArrivalAndDepartureViewDataSource {
+final public class OBAArrivalAndDepartureView: UIViewController, OBAArrivalAndDepartureViewDelegate, OBAVehicleMapDelegate {
 	/// This enum compiler-guarentees that only one source of truth exists for this view at any given time.
 	public enum DataSourceOfTruth {
 		case arrivalAndDeparture(OBAArrivalAndDepartureV2)
@@ -31,13 +34,25 @@ final public class OBAArrivalAndDepartureView: UIViewController, OBAArrivalAndDe
 	
 	public var tripDetails: OBATripDetailsV2?
 	public var arrivalAndDeparture: OBAArrivalAndDepartureV2?
-	fileprivate lazy var modelService: PromisedModelService = {
+	public lazy var modelService: PromisedModelService = {
 		return OBAApplication.shared().modelService!
 	}()
 	
 	// MARK: - UI Elements
-	var mapView: MKMapView!
+	var vehicleMapView: OBAVehicleMapController!
+	var tripDetailsView: OBATripDetailsViewController!
 	var scheduleView: OBATripScheduleTableViewController!
+	
+	public var vehicleMapViewIsExpanded: Bool {
+		get {
+			OBAApplication.shared().userDefaults.bool(forKey: OBAVehicleMapController.expandedStateUserDefaultsKey)
+		} set {
+			OBAApplication.shared().userDefaults.set(newValue, forKey: OBAVehicleMapController.expandedStateUserDefaultsKey)
+		}
+	}
+	
+	@IBOutlet var mapViewExpandedConstraint: NSLayoutConstraint!
+	@IBOutlet var mapViewShrunkConstraint: NSLayoutConstraint!
 	
 	// MARK: - Initializers (helpers)
 	/// Static initialize methods to interoperate with presenting controllers not originating from another storyboard.
@@ -63,11 +78,21 @@ final public class OBAArrivalAndDepartureView: UIViewController, OBAArrivalAndDe
 	
 	// MARK: - UI Actions
 	override public func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-		if segue.identifier == "EMBED_TO_MAPVIEW" {
+		switch segue.identifier {
+		case "EMBED_TO_MAPVIEW":
+			self.vehicleMapView = (segue.destination as! OBAVehicleMapController)
+			self.vehicleMapView.arrivalAndDepartureViewDelegate = self
+			self.vehicleMapView.delegate = self
 			
-		} else if segue.identifier == "EMBED_TO_SCHEDULE" {
+		case "EMBED_TO_TRIPDETAILS":
+			self.tripDetailsView = (segue.destination as! OBATripDetailsViewController)
+			self.tripDetailsView.arrivalAndDepartureViewDelegate = self
+			
+		case "EMBED_TO_SCHEDULE":
 			self.scheduleView = (segue.destination as! OBATripScheduleTableViewController)
 			self.scheduleView.arrivalAndDepartureViewDelegate = self
+			
+		default: break
 		}
 	}
 	
@@ -131,6 +156,27 @@ final public class OBAArrivalAndDepartureView: UIViewController, OBAArrivalAndDe
 	}
 	
 	func didLoadNewData() {
+		self.vehicleMapView.reloadData()
 		self.scheduleView.reloadData()
+		self.tripDetailsView.reloadData()
+	}
+	
+	// MARK: - OBAVehicleMapDelegate methods
+	func vehicleMapDidToggleSize(_ vehicleMap: OBAVehicleMapController) {
+		print(vehicleMapViewIsExpanded)
+		
+		vehicleMapViewIsExpanded.toggle()
+		
+		print(vehicleMapViewIsExpanded)
+		UIView.animate(withDuration: 0.25) {
+			self.mapViewExpandedConstraint.priority = self.vehicleMapViewIsExpanded ? .defaultHigh : .defaultLow
+			self.mapViewShrunkConstraint.priority = self.vehicleMapViewIsExpanded ? .defaultLow : .defaultHigh
+			
+			self.view.layoutIfNeeded()
+		}
+	}
+	
+	func vehicleMap(_ vehicleMap: OBAVehicleMapController, didSelect stop: OBAStopV2) {
+		
 	}
 }
