@@ -244,6 +244,7 @@
 		CC74531D233700C000A6EDE2 /* OBAArrivalAndDepartureViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CC74531C233700C000A6EDE2 /* OBAArrivalAndDepartureViewController.swift */; };
 		CC74531F2337147300A6EDE2 /* OBATripScheduleTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CC74531E2337147300A6EDE2 /* OBATripScheduleTableViewController.swift */; };
 		CCFFCEBB2337378400DF41D0 /* OBATripScheduleTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = CCFFCEBA2337378400DF41D0 /* OBATripScheduleTableViewCell.swift */; };
+		CCFFCEBD2338391700DF41D0 /* OBATripScheduleConnectionTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = CCFFCEBC2338391700DF41D0 /* OBATripScheduleConnectionTableViewCell.swift */; };
 		D6575AEC0FEE13CF00D6D987 /* Entitlements.plist in Resources */ = {isa = PBXBuildFile; fileRef = D6575AEB0FEE13CF00D6D987 /* Entitlements.plist */; };
 /* End PBXBuildFile section */
 
@@ -644,6 +645,7 @@
 		CC74531C233700C000A6EDE2 /* OBAArrivalAndDepartureViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OBAArrivalAndDepartureViewController.swift; sourceTree = "<group>"; };
 		CC74531E2337147300A6EDE2 /* OBATripScheduleTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OBATripScheduleTableViewController.swift; sourceTree = "<group>"; };
 		CCFFCEBA2337378400DF41D0 /* OBATripScheduleTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OBATripScheduleTableViewCell.swift; sourceTree = "<group>"; };
+		CCFFCEBC2338391700DF41D0 /* OBATripScheduleConnectionTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OBATripScheduleConnectionTableViewCell.swift; sourceTree = "<group>"; };
 		D6575AEB0FEE13CF00D6D987 /* Entitlements.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = Entitlements.plist; path = OneBusAway/Entitlements.plist; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -1674,12 +1676,21 @@
 		CC7453202337148E00A6EDE2 /* storyboard */ = {
 			isa = PBXGroup;
 			children = (
+				CCFFCEC22338583D00DF41D0 /* trip_schedule */,
 				CC7453192336FEB700A6EDE2 /* OBAArrivalAndDepartureViewController.storyboard */,
 				CC74531C233700C000A6EDE2 /* OBAArrivalAndDepartureViewController.swift */,
-				CC74531E2337147300A6EDE2 /* OBATripScheduleTableViewController.swift */,
-				CCFFCEBA2337378400DF41D0 /* OBATripScheduleTableViewCell.swift */,
 			);
 			path = storyboard;
+			sourceTree = "<group>";
+		};
+		CCFFCEC22338583D00DF41D0 /* trip_schedule */ = {
+			isa = PBXGroup;
+			children = (
+				CC74531E2337147300A6EDE2 /* OBATripScheduleTableViewController.swift */,
+				CCFFCEBA2337378400DF41D0 /* OBATripScheduleTableViewCell.swift */,
+				CCFFCEBC2338391700DF41D0 /* OBATripScheduleConnectionTableViewCell.swift */,
+			);
+			path = trip_schedule;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -2024,6 +2035,7 @@
 				934C50AE1E2B6D5B00DFDCA0 /* OBAPushManager.m in Sources */,
 				9341978D1DB0C140004BBBB7 /* RegionListViewController.swift in Sources */,
 				934198291DB0C1CA004BBBB7 /* OBAAnalytics.m in Sources */,
+				CCFFCEBD2338391700DF41D0 /* OBATripScheduleConnectionTableViewCell.swift in Sources */,
 				9341979E1DB0C140004BBBB7 /* OBALabelFooterView.m in Sources */,
 				934197E81DB0C14C004BBBB7 /* PTERootController.m in Sources */,
 				93F3F88E1E7A7B2D0025FC78 /* RegionalAlertsViewController.swift in Sources */,

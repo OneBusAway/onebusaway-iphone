@@ -9,14 +9,16 @@
 import UIKit
 import OBAKit
 
-public protocol OBAArrivalAndDepartureViewDelegate: class {
+public protocol OBAArrivalAndDepartureViewDataSource: class {
 	var tripDetails: OBATripDetailsV2? { get }
 	var arrivalAndDeparture: OBAArrivalAndDepartureV2? { get }
-//	func arrivalAndDeparture(for arrivalAndDepartureViewController: OBAArrivalAndDepartureView, didSelectStop: OBAStopV2)
+	
+	func didSelectStop(_ stop: OBAStopV2)
+	func didSelectTrip(_ trip: OBATripV2)
 }
 
 @objc(OBAArrivalAndDepartureView)
-final public class OBAArrivalAndDepartureView: UIViewController, OBAArrivalAndDepartureViewDelegate {
+final public class OBAArrivalAndDepartureView: UIViewController, OBAArrivalAndDepartureViewDataSource {
 	/// This enum compiler-guarentees that only one source of truth exists for this view at any given time.
 	public enum DataSourceOfTruth {
 		case arrivalAndDeparture(OBAArrivalAndDepartureV2)
@@ -74,6 +76,19 @@ final public class OBAArrivalAndDepartureView: UIViewController, OBAArrivalAndDe
 		self.reloadData()
 	}
 	
+	public func didSelectStop(_ stop: OBAStopV2) {
+		print("Selected stop: \(stop.nameWithDirection)")
+	}
+	
+	public func didSelectTrip(_ trip: OBATripV2) {
+		print("Selected trip: \(trip.tripShortName)")
+		guard let tripInstance = self.arrivalAndDeparture?.tripInstance ?? self.tripDetails?.tripInstance else { return }
+		let newTripInstance = tripInstance.copy(withNewTripId: trip.tripId)
+		
+		self.navigationController?.pushViewController(OBAArrivalAndDepartureView.create(withTripInstance: newTripInstance), animated: true)
+	}
+	
+	// MARK: - Data Loading
 	func reloadData(animated: Bool = true) {
 		// Get relevant loading Promise
 		// TODO: Make model service promises more swifty...
@@ -107,11 +122,15 @@ final public class OBAArrivalAndDepartureView: UIViewController, OBAArrivalAndDe
 			let tripDetails = networkResponse.object as! OBATripDetailsV2
 			self.tripDetails = tripDetails
 			
-			self.scheduleView.tableView.reloadData()	// TODO: Don't reload everything.
+			self.didLoadNewData()
 		}.catch {
 			AlertPresenter.showError($0 as NSError, presentingController: self)
 		}.always {
 			print("Hi")
 		}
+	}
+	
+	func didLoadNewData() {
+		self.scheduleView.reloadData()
 	}
 }
