@@ -11,6 +11,7 @@ import IGListKit
 import SVProgressHUD
 import PromiseKit
 import OBAKit
+import Pulley
 
 class MapTableViewController: UIViewController {
 
@@ -395,8 +396,11 @@ extension MapTableViewController {
             stopController.embedDelegate = self
             stopController.inEmbedMode = true
         }
+		
+//		pulleyViewController.primaryContentViewController.
 
-        pulleyViewController.pushViewController(stopController, animated: true)
+		pulleyViewController.primaryContentViewController.navigationController?.pushViewController(stopController, animated: true)
+//        pulleyViewController.pushViewController(stopController, animated: true)
     }
 }
 
@@ -425,11 +429,13 @@ extension MapTableViewController: MapControllerDelegate {
 // MARK: - EmbeddedStopDelegate
 extension MapTableViewController: EmbeddedStopDelegate {
     func embeddedStop(_ stopController: StopViewController, push viewController: UIViewController, animated: Bool) {
-        pulleyViewController?.pushViewController(viewController, animated: animated)
+		pulleyViewController?.primaryContentViewController.navigationController?.pushViewController(viewController, animated: true)
+//        pulleyViewController?.pushViewController(viewController, animated: animated)
     }
 
     func embeddedStopControllerClosePane(_ stopController: StopViewController) {
-        pulleyViewController?.popViewController(animated: true)
+		pulleyViewController?.primaryContentViewController.navigationController?.popViewController(animated: true)
+//        pulleyViewController?.popViewController(animated: true)
     }
 
     func embeddedStopControllerBottomLayoutGuideLength() -> CGFloat {
@@ -565,7 +571,8 @@ extension MapTableViewController: VehicleDisambiguationDelegate {
             let tripInstance = tripDetails.tripInstance,
             let pulleyController = pulleyViewController
         {
-			pulleyController.pushViewController(OBAArrivalAndDepartureView.create(dataSource: .tripInstance(tripInstance)), animated: true)
+			pulleyController.primaryContentViewController.navigationController?.pushViewController(OBAArrivalAndDepartureView.create(dataSource: .tripInstance(tripInstance)), animated: true)
+//			pulleyController.pushViewController(OBAArrivalAndDepartureView.create(dataSource: .tripInstance(tripInstance)), animated: true)
         }
     }
 

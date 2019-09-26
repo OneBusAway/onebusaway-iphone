@@ -79,7 +79,7 @@ public enum Theme {
 
         let boldFont = OBATheme.boldBodyFont
         let font = OBATheme.bodyFont
-        let textColor = EKColor(UIColor.white)
+        let textColor = UIColor.white
 
         let titleContent = EKProperty.LabelContent(text: title, style: .init(font: boldFont, color: textColor))
         let description = EKProperty.LabelContent(text: body, style: .init(font: font, color: textColor))
@@ -87,10 +87,10 @@ public enum Theme {
 
 		
         let labelStyle = EKProperty.LabelStyle(font: boldFont, color: .white)
-		let closeButton = EKProperty.ButtonContent(label: EKProperty.LabelContent(text: OBAStrings.dismiss, style: labelStyle), backgroundColor: EKColor(UIColor(white: 0.25, alpha: 0.25)), highlightedBackgroundColor: EKColor(UIColor(white: 0, alpha: 0.4)), contentEdgeInset: 0) {
+		let closeButton = EKProperty.ButtonContent(label: EKProperty.LabelContent(text: OBAStrings.dismiss, style: labelStyle), backgroundColor: UIColor(white: 0.25, alpha: 0.25), highlightedBackgroundColor: UIColor(white: 0, alpha: 0.4), contentEdgeInset: 0) {
             SwiftEntryKit.dismiss()
         }
-        let buttons = EKProperty.ButtonBarContent(with: closeButton, separatorColor: EKColor(UIColor(white: 0.9, alpha: 0.4)), expandAnimatedly: false)
+        let buttons = EKProperty.ButtonBarContent(with: closeButton, separatorColor: UIColor(white: 0.9, alpha: 0.4), expandAnimatedly: false)
 
         let alertMessage = EKAlertMessage(simpleMessage: message, buttonBarContent: buttons)
         let contentView = EKAlertMessageView(with: alertMessage)
@@ -175,7 +175,7 @@ extension AlertPresenter {
             themeColor = .orange
         }
 
-		let colors = [themeColor, themeColor.add(hue: 0.0, saturation: 0.0, brightness: -0.20, alpha: 0.0)].map { EKColor($0) }
+		let colors = [themeColor, themeColor.add(hue: 0.0, saturation: 0.0, brightness: -0.20, alpha: 0.0)]
         return .gradient(gradient: EKAttributes.BackgroundStyle.Gradient(colors: colors, startPoint: CGPoint(x: 0, y: 0), endPoint: CGPoint(x: 0, y: 1)))
     }
 }

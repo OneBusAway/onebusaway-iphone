@@ -53,12 +53,17 @@ static UIFont *_italicFootnoteFont = nil;
     [[UITextField appearance] setTintColor:tintColor];
     [[UIButton appearance] setTintColor:tintColor];
     [[UIBarButtonItem appearance] setTitleTextAttributes:@{ NSForegroundColorAttributeName: tintColor } forState:UIControlStateNormal];
-    [[UISegmentedControl appearance] setTitleTextAttributes:@{ NSForegroundColorAttributeName: [UIColor whiteColor] } forState:UIControlStateNormal];
-    [[UISegmentedControl appearance] setTitleTextAttributes:@{ NSForegroundColorAttributeName: [UIColor whiteColor] } forState:UIControlStateSelected];
-    [[UISegmentedControl appearanceWhenContainedInInstancesOfClasses:@[UINavigationBar.class]] setTitleTextAttributes:@{ NSForegroundColorAttributeName: [UIColor blackColor] } forState:UIControlStateNormal];
 
     [[UITableViewCell appearance] setPreservesSuperviewLayoutMargins:YES];
     [[[UITableViewCell appearance] contentView] setPreservesSuperviewLayoutMargins:YES];
+	
+	if (@available(iOS 13, *)) {
+		// empty.
+	} else {
+		[[UISegmentedControl appearance] setTitleTextAttributes:@{ NSForegroundColorAttributeName: [UIColor whiteColor] } forState:UIControlStateNormal];
+		[[UISegmentedControl appearance] setTitleTextAttributes:@{ NSForegroundColorAttributeName: [UIColor whiteColor] } forState:UIControlStateSelected];
+		[[UISegmentedControl appearanceWhenContainedInInstancesOfClasses:@[UINavigationBar.class]] setTitleTextAttributes:@{ NSForegroundColorAttributeName: [UIColor blackColor] } forState:UIControlStateNormal];
+	}
 
     // Per:
     // https://github.com/Instagram/IGListKit/blob/master/Guides/Working%20with%20UICollectionView.md
@@ -175,7 +180,7 @@ static UIFont *_italicFootnoteFont = nil;
 #pragma mark - Colors
 
 + (UIColor*)mapTableBackgroundColor {
-    return UIColor.clearColor;
+	return UIColor.clearColor;
 }
 
 + (BOOL)useHighContrastUI {
@@ -199,7 +204,11 @@ static UIFont *_italicFootnoteFont = nil;
 }
 
 + (UIColor*)textColor {
-    return [UIColor blackColor];
+	if (@available(iOS 13, *)) {
+		return [UIColor labelColor];
+	} else {
+		return [UIColor blackColor];
+	}   
 }
 
 + (UIColor*)scheduledDepartureColor {

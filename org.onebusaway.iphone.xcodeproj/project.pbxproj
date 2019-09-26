@@ -3,7 +3,7 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 46;
+	objectVersion = 52;
 	objects = {
 
 /* Begin PBXBuildFile section */
@@ -11,10 +11,6 @@
 		5B7C4A5A1DB96E6A00853DD5 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 5B7C4A5C1DB96E6A00853DD5 /* Localizable.strings */; };
 		6B24C8761EC7F99E00A1F7B7 /* OBANavigationTitleView.m in Sources */ = {isa = PBXBuildFile; fileRef = 6B24C8751EC7F99E00A1F7B7 /* OBANavigationTitleView.m */; };
 		9300CF7320F88F4A006AB268 /* WeatherForecast_Tests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9300CF7220F88F4A006AB268 /* WeatherForecast_Tests.swift */; };
-		9300CF7D20FA70BB006AB268 /* PulleyViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9300CF7920FA70BB006AB268 /* PulleyViewController.swift */; };
-		9300CF7E20FA70BB006AB268 /* UIViewController+PulleyViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9300CF7A20FA70BB006AB268 /* UIViewController+PulleyViewController.swift */; };
-		9300CF7F20FA70BB006AB268 /* PulleyPassthroughScrollView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9300CF7B20FA70BB006AB268 /* PulleyPassthroughScrollView.swift */; };
-		9300CF8020FA70BB006AB268 /* UIView+constrainToParent.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9300CF7C20FA70BB006AB268 /* UIView+constrainToParent.swift */; };
 		930653D71E6DE293005AF0C9 /* OBAToastView.m in Sources */ = {isa = PBXBuildFile; fileRef = 930653D61E6DE293005AF0C9 /* OBAToastView.m */; };
 		93089DB61F88056700694A90 /* regions-v3.json in Resources */ = {isa = PBXBuildFile; fileRef = 934198351DB0C1E9004BBBB7 /* regions-v3.json */; };
 		930A50842107DF810068C694 /* ModelFactory_Tests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 930A50832107DF810068C694 /* ModelFactory_Tests.swift */; };
@@ -237,6 +233,10 @@
 		93F3F88E1E7A7B2D0025FC78 /* RegionalAlertsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 93F3F88D1E7A7B2D0025FC78 /* RegionalAlertsViewController.swift */; };
 		93F9574A1E9AFB020022586B /* UIWindow+OBAAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = 93F957491E9AFB020022586B /* UIWindow+OBAAdditions.m */; };
 		93FE60261E0B2F34006EC9FB /* SVPulsingAnnotationView.m in Sources */ = {isa = PBXBuildFile; fileRef = 93FE60251E0B2F34006EC9FB /* SVPulsingAnnotationView.m */; };
+		CC174C162339FAAC00462A45 /* PulleyViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CC174C122339FAAC00462A45 /* PulleyViewController.swift */; };
+		CC174C172339FAAC00462A45 /* UIViewController+PulleyViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CC174C132339FAAC00462A45 /* UIViewController+PulleyViewController.swift */; };
+		CC174C182339FAAC00462A45 /* PulleyPassthroughScrollView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CC174C142339FAAC00462A45 /* PulleyPassthroughScrollView.swift */; };
+		CC174C192339FAAC00462A45 /* UIView+constrainToParent.swift in Sources */ = {isa = PBXBuildFile; fileRef = CC174C152339FAAC00462A45 /* UIView+constrainToParent.swift */; };
 		CC74531A2336FEB700A6EDE2 /* OBAArrivalAndDepartureViewController.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = CC7453192336FEB700A6EDE2 /* OBAArrivalAndDepartureViewController.storyboard */; };
 		CC74531D233700C000A6EDE2 /* OBAArrivalAndDepartureViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CC74531C233700C000A6EDE2 /* OBAArrivalAndDepartureViewController.swift */; };
 		CC74531F2337147300A6EDE2 /* OBATripScheduleTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CC74531E2337147300A6EDE2 /* OBATripScheduleTableViewController.swift */; };
@@ -324,10 +324,6 @@
 		6B24C8741EC7F99E00A1F7B7 /* OBANavigationTitleView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OBANavigationTitleView.h; sourceTree = "<group>"; };
 		6B24C8751EC7F99E00A1F7B7 /* OBANavigationTitleView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OBANavigationTitleView.m; sourceTree = "<group>"; };
 		9300CF7220F88F4A006AB268 /* WeatherForecast_Tests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeatherForecast_Tests.swift; sourceTree = "<group>"; };
-		9300CF7920FA70BB006AB268 /* PulleyViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PulleyViewController.swift; sourceTree = "<group>"; };
-		9300CF7A20FA70BB006AB268 /* UIViewController+PulleyViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIViewController+PulleyViewController.swift"; sourceTree = "<group>"; };
-		9300CF7B20FA70BB006AB268 /* PulleyPassthroughScrollView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PulleyPassthroughScrollView.swift; sourceTree = "<group>"; };
-		9300CF7C20FA70BB006AB268 /* UIView+constrainToParent.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIView+constrainToParent.swift"; sourceTree = "<group>"; };
 		930653D51E6DE293005AF0C9 /* OBAToastView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OBAToastView.h; sourceTree = "<group>"; };
 		930653D61E6DE293005AF0C9 /* OBAToastView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OBAToastView.m; sourceTree = "<group>"; };
 		930A50832107DF810068C694 /* ModelFactory_Tests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ModelFactory_Tests.swift; sourceTree = "<group>"; };
@@ -639,6 +635,10 @@
 		93F957491E9AFB020022586B /* UIWindow+OBAAdditions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIWindow+OBAAdditions.m"; sourceTree = "<group>"; };
 		93FE60241E0B2F34006EC9FB /* SVPulsingAnnotationView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SVPulsingAnnotationView.h; sourceTree = "<group>"; };
 		93FE60251E0B2F34006EC9FB /* SVPulsingAnnotationView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SVPulsingAnnotationView.m; sourceTree = "<group>"; };
+		CC174C122339FAAC00462A45 /* PulleyViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PulleyViewController.swift; sourceTree = "<group>"; };
+		CC174C132339FAAC00462A45 /* UIViewController+PulleyViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIViewController+PulleyViewController.swift"; sourceTree = "<group>"; };
+		CC174C142339FAAC00462A45 /* PulleyPassthroughScrollView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PulleyPassthroughScrollView.swift; sourceTree = "<group>"; };
+		CC174C152339FAAC00462A45 /* UIView+constrainToParent.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIView+constrainToParent.swift"; sourceTree = "<group>"; };
 		CC7453192336FEB700A6EDE2 /* OBAArrivalAndDepartureViewController.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = OBAArrivalAndDepartureViewController.storyboard; sourceTree = "<group>"; };
 		CC74531C233700C000A6EDE2 /* OBAArrivalAndDepartureViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OBAArrivalAndDepartureViewController.swift; sourceTree = "<group>"; };
 		CC74531E2337147300A6EDE2 /* OBATripScheduleTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OBATripScheduleTableViewController.swift; sourceTree = "<group>"; };
@@ -784,17 +784,6 @@
 				93AD17B31F86C14C00E730D7 /* NotificationCenter.framework */,
 			);
 			name = Frameworks;
-			sourceTree = "<group>";
-		};
-		9300CF7820FA70BB006AB268 /* PulleyLib */ = {
-			isa = PBXGroup;
-			children = (
-				9300CF7920FA70BB006AB268 /* PulleyViewController.swift */,
-				9300CF7A20FA70BB006AB268 /* UIViewController+PulleyViewController.swift */,
-				9300CF7B20FA70BB006AB268 /* PulleyPassthroughScrollView.swift */,
-				9300CF7C20FA70BB006AB268 /* UIView+constrainToParent.swift */,
-			);
-			path = PulleyLib;
 			sourceTree = "<group>";
 		};
 		930AFE731DD04CCA0092AE82 /* viewmodels */ = {
@@ -1171,9 +1160,9 @@
 		934197BF1DB0C14C004BBBB7 /* externals */ = {
 			isa = PBXGroup;
 			children = (
+				CC174C112339FAAC00462A45 /* PulleyLib */,
 				93A632A421D1D4E100A1AC9B /* AwesomeSpotlightView */,
 				931131E2214C16250063D400 /* Firebase */,
-				9300CF7820FA70BB006AB268 /* PulleyLib */,
 				93A6E5211E6CB23500BEFECE /* ISHHoverBar */,
 				934C509B1E2B69E300DFDCA0 /* GKActionSheetPicker */,
 				93FE60231E0B2F34006EC9FB /* SVPulsingAnnotationView */,
@@ -1673,6 +1662,17 @@
 			path = SVPulsingAnnotationView;
 			sourceTree = "<group>";
 		};
+		CC174C112339FAAC00462A45 /* PulleyLib */ = {
+			isa = PBXGroup;
+			children = (
+				CC174C122339FAAC00462A45 /* PulleyViewController.swift */,
+				CC174C132339FAAC00462A45 /* UIViewController+PulleyViewController.swift */,
+				CC174C142339FAAC00462A45 /* PulleyPassthroughScrollView.swift */,
+				CC174C152339FAAC00462A45 /* UIView+constrainToParent.swift */,
+			);
+			path = PulleyLib;
+			sourceTree = "<group>";
+		};
 		CC7453202337148E00A6EDE2 /* storyboard */ = {
 			isa = PBXGroup;
 			children = (
@@ -1717,6 +1717,8 @@
 				93AD17BD1F86C14C00E730D7 /* PBXTargetDependency */,
 			);
 			name = OneBusAway;
+			packageProductDependencies = (
+			);
 			productName = org.onebusaway.iphone;
 			productReference = 1D6058910D05DD3D006BFB54 /* OneBusAway.app */;
 			productType = "com.apple.product-type.application";
@@ -1809,7 +1811,7 @@
 				};
 			};
 			buildConfigurationList = C01FCF4E08A954540054247B /* Build configuration list for PBXProject "org.onebusaway.iphone" */;
-			compatibilityVersion = "Xcode 3.2";
+			compatibilityVersion = "Xcode 11.0";
 			developmentRegion = en;
 			hasScannedForEncodings = 1;
 			knownRegions = (
@@ -1823,6 +1825,8 @@
 				Base,
 			);
 			mainGroup = 29B97314FDCFA39411CA2CEA /* org.onebusaway.iphone */;
+			packageReferences = (
+			);
 			productRefGroup = 19C28FACFE9D520D11CA2CBB /* Products */;
 			projectDirPath = "";
 			projectReferences = (
@@ -1959,7 +1963,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "if which swiftlint >/dev/null; then\n    swiftlint\nelse\n    echo \"warning: SwiftLint not installed, download from https://github.com/realm/SwiftLint\"\nfi";
+			shellScript = "if which swiftlint >/dev/null; then\n    swiftlint\nelse\n    echo \"warning: SwiftLint not installed, download from https://github.com/realm/SwiftLint\"\nfi\n";
 		};
 		938B84231D8686B800DB0AF0 /* Carthage Integration */ = {
 			isa = PBXShellScriptBuildPhase;
@@ -2012,8 +2016,8 @@
 			buildActionMask = 2147483647;
 			files = (
 				93A632AF21D1D4E100A1AC9B /* AwesomeSpotlight.swift in Sources */,
+				CC174C162339FAAC00462A45 /* PulleyViewController.swift in Sources */,
 				934197EE1DB0C14C004BBBB7 /* SMFloatingLabelTextField.m in Sources */,
-				9300CF8020FA70BB006AB268 /* UIView+constrainToParent.swift in Sources */,
 				931131FF214D7BA20063D400 /* MapTypePickerController.swift in Sources */,
 				930653D71E6DE293005AF0C9 /* OBAToastView.m in Sources */,
 				9327DEFC1E023BE400502F06 /* OBAArrivalDepartureCell.m in Sources */,
@@ -2055,7 +2059,9 @@
 				939A1A8021163F60001D5654 /* EditBookmarkViewController.swift in Sources */,
 				931A6A2D1E03EAAE00131242 /* OBATimelineBarCell.m in Sources */,
 				934197801DB0C140004BBBB7 /* OBABookmarkRouteDisambiguationViewController.m in Sources */,
+				CC174C182339FAAC00462A45 /* PulleyPassthroughScrollView.swift in Sources */,
 				93F1C26320BCDCCF00B5032B /* OfflineSection.swift in Sources */,
+				CC174C192339FAAC00462A45 /* UIView+constrainToParent.swift in Sources */,
 				93876DFB1E68AD3900B4343F /* OBAMapAnnotationViewBuilder.m in Sources */,
 				9341978B1DB0C140004BBBB7 /* OBARecentStopsViewController.m in Sources */,
 				934197A71DB0C140004BBBB7 /* OBAEditStopPreferencesViewController.m in Sources */,
@@ -2102,7 +2108,6 @@
 				93C21DA3214A364000F422DA /* ChevronCardCell.swift in Sources */,
 				934196E21DB0C124004BBBB7 /* MKMapView+oba_Additions.m in Sources */,
 				9341B82920B683A5006450FC /* StopViewModel.swift in Sources */,
-				9300CF7F20FA70BB006AB268 /* PulleyPassthroughScrollView.swift in Sources */,
 				934198171DB0C1BA004BBBB7 /* OBARotatingButton.m in Sources */,
 				930CE4DB1E9BFB590073F04D /* UserDefaultsBrowserViewController.swift in Sources */,
 				93FE60261E0B2F34006EC9FB /* SVPulsingAnnotationView.m in Sources */,
@@ -2115,17 +2120,16 @@
 				93DE556D2152AD6A0030D67D /* CreditsViewController.swift in Sources */,
 				93D5480520B778F700334939 /* SectionHeaderCell.swift in Sources */,
 				9368E5C01DB1584900C329D0 /* OBAEmptyDataSetSource.m in Sources */,
+				CC174C172339FAAC00462A45 /* UIViewController+PulleyViewController.swift in Sources */,
 				934198241DB0C1BA004BBBB7 /* OBATextEditViewController.m in Sources */,
 				93F1C26020BCD34B00B5032B /* LoadingCell.swift in Sources */,
 				CC74531D233700C000A6EDE2 /* OBAArrivalAndDepartureViewController.swift in Sources */,
-				9300CF7E20FA70BB006AB268 /* UIViewController+PulleyViewController.swift in Sources */,
 				93F9574A1E9AFB020022586B /* UIWindow+OBAAdditions.m in Sources */,
 				93A632AE21D1D4E100A1AC9B /* AwesomeSpotlightView.swift in Sources */,
 				93A6E5241E6CB23500BEFECE /* ISHHoverBar.m in Sources */,
 				9341977F1DB0C140004BBBB7 /* OBABookmarkGroupsViewController.m in Sources */,
 				9341979F1DB0C140004BBBB7 /* OBASeparatorSectionView.m in Sources */,
 				9341979D1DB0C140004BBBB7 /* OBACollapsingHeaderView.m in Sources */,
-				9300CF7D20FA70BB006AB268 /* PulleyViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -2269,7 +2273,10 @@
 				GCC_WARN_MULTIPLE_DEFINITION_TYPES_FOR_SELECTOR = NO;
 				INFOPLIST_FILE = "$(SRCROOT)/OneBusAway/Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(SRCROOT)/OneBusAway/Externals/**",
@@ -2317,7 +2324,10 @@
 				GCC_WARN_MULTIPLE_DEFINITION_TYPES_FOR_SELECTOR = NO;
 				INFOPLIST_FILE = "$(SRCROOT)/OneBusAway/Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(SRCROOT)/OneBusAway/Externals/**",
@@ -2380,7 +2390,12 @@
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				INFOPLIST_FILE = "$(SRCROOT)/OneBusAway/OneBusAwayTests/Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 10.3;
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks $(FRAMEWORK_SEARCH_PATHS)";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+					"$(FRAMEWORK_SEARCH_PATHS)",
+				);
 				MTL_ENABLE_DEBUG_INFO = YES;
 				PRODUCT_BUNDLE_IDENTIFIER = org.onebusaway.OneBusAwayTests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -2426,7 +2441,12 @@
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				INFOPLIST_FILE = "$(SRCROOT)/OneBusAway/OneBusAwayTests/Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 10.3;
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks $(FRAMEWORK_SEARCH_PATHS)";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+					"$(FRAMEWORK_SEARCH_PATHS)",
+				);
 				MTL_ENABLE_DEBUG_INFO = NO;
 				PRODUCT_BUNDLE_IDENTIFIER = org.onebusaway.OneBusAwayTests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -2472,7 +2492,12 @@
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				INFOPLIST_FILE = "$(SRCROOT)/OneBusAway/OneBusAwayTests/Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 10.3;
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks $(FRAMEWORK_SEARCH_PATHS)";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+					"$(FRAMEWORK_SEARCH_PATHS)",
+				);
 				MTL_ENABLE_DEBUG_INFO = NO;
 				PRODUCT_BUNDLE_IDENTIFIER = org.onebusaway.OneBusAwayTests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -2518,7 +2543,12 @@
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				INFOPLIST_FILE = "$(SRCROOT)/OneBusAway/OneBusAwayTests/Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 10.3;
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks $(FRAMEWORK_SEARCH_PATHS)";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+					"$(FRAMEWORK_SEARCH_PATHS)",
+				);
 				MTL_ENABLE_DEBUG_INFO = NO;
 				PRODUCT_BUNDLE_IDENTIFIER = org.onebusaway.OneBusAwayTests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -2561,7 +2591,11 @@
 				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
 				INFOPLIST_FILE = "OneBusAway Today/Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @executable_path/../../Frameworks";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@executable_path/../../Frameworks",
+				);
 				MTL_ENABLE_DEBUG_INFO = YES;
 				OTHER_LDFLAGS = "";
 				PRODUCT_BUNDLE_IDENTIFIER = "org.onebusaway.iphone.OneBusAway-Today";
@@ -2601,7 +2635,11 @@
 				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
 				INFOPLIST_FILE = "OneBusAway Today/Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @executable_path/../../Frameworks";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@executable_path/../../Frameworks",
+				);
 				MTL_ENABLE_DEBUG_INFO = NO;
 				OTHER_LDFLAGS = "";
 				PRODUCT_BUNDLE_IDENTIFIER = "org.onebusaway.iphone.OneBusAway-Today";
@@ -2641,7 +2679,11 @@
 				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
 				INFOPLIST_FILE = "OneBusAway Today/Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @executable_path/../../Frameworks";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@executable_path/../../Frameworks",
+				);
 				MTL_ENABLE_DEBUG_INFO = NO;
 				OTHER_LDFLAGS = "";
 				PRODUCT_BUNDLE_IDENTIFIER = "org.onebusaway.iphone.OneBusAway-Today";
@@ -2681,7 +2723,11 @@
 				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
 				INFOPLIST_FILE = "OneBusAway Today/Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @executable_path/../../Frameworks";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@executable_path/../../Frameworks",
+				);
 				MTL_ENABLE_DEBUG_INFO = NO;
 				OTHER_LDFLAGS = "";
 				PRODUCT_BUNDLE_IDENTIFIER = "org.onebusaway.iphone.OneBusAway-Today";
@@ -2917,7 +2963,10 @@
 				GCC_WARN_MULTIPLE_DEFINITION_TYPES_FOR_SELECTOR = NO;
 				INFOPLIST_FILE = "$(SRCROOT)/OneBusAway/Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(SRCROOT)/OneBusAway/Externals/**",
@@ -3029,7 +3078,10 @@
 				GCC_WARN_MULTIPLE_DEFINITION_TYPES_FOR_SELECTOR = NO;
 				INFOPLIST_FILE = "$(SRCROOT)/OneBusAway/Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(SRCROOT)/OneBusAway/Externals/**",

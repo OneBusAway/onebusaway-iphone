@@ -42,7 +42,11 @@ class StopCell: SelfSizingCollectionCell {
 
     private let nameLabel: UILabel = {
         let lbl = UILabel.init()
-        lbl.backgroundColor = .white
+		if #available(iOS 13.0, *) {
+			lbl.backgroundColor = .systemBackground
+		} else {
+			lbl.backgroundColor = .white
+		}
         lbl.setContentHuggingPriority(.defaultHigh, for: .vertical)
         lbl.setContentCompressionResistancePriority(.required, for: .vertical)
 
@@ -51,7 +55,11 @@ class StopCell: SelfSizingCollectionCell {
 
     private let routesLabel: UILabel = {
         let lbl = UILabel()
-        lbl.backgroundColor = .white
+        if #available(iOS 13.0, *) {
+			lbl.backgroundColor = .systemBackground
+		} else {
+			lbl.backgroundColor = .white
+		}
         lbl.font = OBATheme.footnoteFont
         lbl.setContentHuggingPriority(.defaultHigh, for: .vertical)
         lbl.setContentCompressionResistancePriority(.required, for: .vertical)
@@ -67,7 +75,11 @@ class StopCell: SelfSizingCollectionCell {
 
     private lazy var labelStackWrapper: UIView = {
         let plainWrapper = labelStack.oba_embedInWrapperView(withConstraints: false)
-        plainWrapper.backgroundColor = .white
+		if #available(iOS 13.0, *) {
+			plainWrapper.backgroundColor = .systemBackground
+		} else {
+			plainWrapper.backgroundColor = .white
+		}
 
         labelStack.snp.makeConstraints { (make) in
             make.height.greaterThanOrEqualTo(44)
@@ -79,10 +91,20 @@ class StopCell: SelfSizingCollectionCell {
 
     private let chevronWrapper: UIView = {
         let chevronImage = UIImageView(image: #imageLiteral(resourceName: "chevron"))
-        chevronImage.tintColor = .darkGray
+		if #available(iOS 13.0, *) {
+			chevronImage.tintColor = .systemGray3
+		} else {
+			chevronImage.tintColor = .darkGray
+		}
+		
         let chevronWrapper = chevronImage.oba_embedInWrapperView(withConstraints: false)
-        chevronWrapper.backgroundColor = .white
-        chevronImage.snp.makeConstraints { make in
+		if #available(iOS 13.0, *) {
+			chevronWrapper.backgroundColor = .systemBackground
+		} else {
+			chevronWrapper.backgroundColor = .white
+		}
+        
+		chevronImage.snp.makeConstraints { make in
             make.height.equalTo(14)
             make.width.equalTo(8)
             make.leading.trailing.equalToSuperview().inset(UIEdgeInsets(top: 0, left: 0, bottom: 0, right: OBATheme.defaultPadding))
@@ -94,6 +116,9 @@ class StopCell: SelfSizingCollectionCell {
     private let imageView: UIImageView = {
         let imageView = UIImageView()
         imageView.contentMode = .scaleAspectFit
+		
+		if #available(iOS 13.0, *) { imageView.tintColor = .label }
+		
         return imageView
     }()
 
@@ -108,7 +133,13 @@ class StopCell: SelfSizingCollectionCell {
         backgroundColor = OBATheme.mapTableBackgroundColor
 
         let imageViewWrapper = imageView.oba_embedInWrapperView(withConstraints: false)
-        imageViewWrapper.backgroundColor = .white
+		
+		if #available(iOS 13.0, *) {
+			imageViewWrapper.backgroundColor = .systemBackground
+		} else {
+			imageViewWrapper.backgroundColor = .white
+		}
+		
         imageView.snp.remakeConstraints { make in
             make.width.equalTo(0.0)
             make.edges.equalToSuperview().inset(UIEdgeInsets(top: 0, left: OBATheme.defaultPadding, bottom: 0, right: 0))

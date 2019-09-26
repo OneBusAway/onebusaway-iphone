@@ -1102,6 +1102,10 @@ static const double kStopsInRegionRefreshDelayOnDrag = 0.1;
 
     self.locationHoverBar = [[ISHHoverBar alloc] init];
     self.locationHoverBar.shadowRadius = 2.f;
+	if (@available(iOS 13, *)) {
+		
+		self.locationHoverBar.effect = [UIBlurEffect effectWithStyle:UIBlurEffectStyleSystemUltraThinMaterial];
+	}
 
     NSMutableArray *buttons = [[NSMutableArray alloc] initWithObjects:recenterMapButton, tempButtonItem, nil];
 
@@ -1123,8 +1127,8 @@ static const double kStopsInRegionRefreshDelayOnDrag = 0.1;
 - (UIButton*)forecastButton {
     if (!_forecastButton) {
         UIButton *button = [[UIButton alloc] initWithFrame:CGRectMake(0, 0, 44, 44)];
-        [button setTitleColor:OBATheme.OBADarkGreen forState:UIControlStateNormal];
-
+        [button setTitleColor:OBATheme.OBAGreen forState:UIControlStateNormal];
+		
         button.imageView.contentMode = UIViewContentModeScaleAspectFit;
         button.imageEdgeInsets = [OBATheme hoverBarImageInsets];
         [button addTarget:self action:@selector(showForecast) forControlEvents:UIControlEventTouchUpInside];
