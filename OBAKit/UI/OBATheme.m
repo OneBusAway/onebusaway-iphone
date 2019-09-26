@@ -192,7 +192,17 @@ static UIFont *_italicFootnoteFont = nil;
 }
 
 + (UIColor*)darkDisabledColor {
-    return [UIColor darkGrayColor];
+	if (@available(iOS 13, *)) {
+		return [UIColor colorWithDynamicProvider:^UIColor * _Nonnull(UITraitCollection * _Nonnull traitCollection) {
+			if (traitCollection.userInterfaceStyle == UIUserInterfaceStyleDark) {
+				return [UIColor whiteColor];
+			} else {
+				return [UIColor darkGrayColor];
+			}
+		}];
+	} else {
+		return [UIColor darkGrayColor];
+	}
 }
 
 + (UIColor*)lightDisabledColor {

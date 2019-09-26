@@ -242,6 +242,8 @@ static NSString * const OBABookmarkSortUserDefaultsKey = @"OBABookmarkSortUserDe
     [self reloadEmptyDataSet];
 }
 
+
+
 - (nullable NSAttributedString *)buttonTitleForEmptyDataSet:(UIScrollView *)scrollView forState:(UIControlState)state {
     if ([self bookmarkTypeToggleValue] != OBABookmarkTypeToggleTodayWidget) {
         return nil;
