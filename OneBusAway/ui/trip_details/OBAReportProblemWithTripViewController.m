@@ -463,7 +463,7 @@ typedef NS_ENUM (NSInteger, OBASectionType) {
             //go back to view that initiated report
             NSArray *allViewControllers = self.navigationController.viewControllers;
             for (UIViewController* vc in allViewControllers.reverseObjectEnumerator) {
-                if ([vc isKindOfClass:[OBAArrivalAndDepartureView class]]) {
+                if ([vc isKindOfClass:[OBAArrivalAndDepartureViewController class]]) {
                     [self.navigationController popToViewController:vc animated:YES];
                     break;
                 }

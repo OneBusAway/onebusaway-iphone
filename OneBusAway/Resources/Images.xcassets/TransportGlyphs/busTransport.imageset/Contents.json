@@ -2,11 +2,24 @@
   "images" : [
     {
       "idiom" : "universal",
-      "filename" : "busTransport.pdf"
+      "filename" : "BusTransport.pdf"
+    },
+    {
+      "idiom" : "universal",
+      "filename" : "BusTransport Dark.pdf",
+      "appearances" : [
+        {
+          "appearance" : "luminosity",
+          "value" : "dark"
+        }
+      ]
     }
   ],
   "info" : {
     "version" : 1,
     "author" : "xcode"
+  },
+  "properties" : {
+    "preserves-vector-representation" : true
   }
 }

@@ -237,13 +237,9 @@
 		CC174C172339FAAC00462A45 /* UIViewController+PulleyViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CC174C132339FAAC00462A45 /* UIViewController+PulleyViewController.swift */; };
 		CC174C182339FAAC00462A45 /* PulleyPassthroughScrollView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CC174C142339FAAC00462A45 /* PulleyPassthroughScrollView.swift */; };
 		CC174C192339FAAC00462A45 /* UIView+constrainToParent.swift in Sources */ = {isa = PBXBuildFile; fileRef = CC174C152339FAAC00462A45 /* UIView+constrainToParent.swift */; };
-		CC74531A2336FEB700A6EDE2 /* OBAArrivalAndDepartureViewController.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = CC7453192336FEB700A6EDE2 /* OBAArrivalAndDepartureViewController.storyboard */; };
-		CC74531D233700C000A6EDE2 /* OBAArrivalAndDepartureViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CC74531C233700C000A6EDE2 /* OBAArrivalAndDepartureViewController.swift */; };
-		CC74531F2337147300A6EDE2 /* OBATripScheduleTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CC74531E2337147300A6EDE2 /* OBATripScheduleTableViewController.swift */; };
-		CCE4F86923385FCA00465651 /* OBATripDetailsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CCE4F86823385FCA00465651 /* OBATripDetailsViewController.swift */; };
+		CC2A005B233D639400E1261E /* OBAArrivalAndDepartureViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 934197701DB0C140004BBBB7 /* OBAArrivalAndDepartureViewController.m */; };
+		CC2A005C233D639400E1261E /* OBATripScheduleSectionBuilder.m in Sources */ = {isa = PBXBuildFile; fileRef = 9341977A1DB0C140004BBBB7 /* OBATripScheduleSectionBuilder.m */; };
 		CCE4F86D233883A100465651 /* VehicleMapController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CCE4F86C233883A100465651 /* VehicleMapController.swift */; };
-		CCFFCEBB2337378400DF41D0 /* OBATripScheduleTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = CCFFCEBA2337378400DF41D0 /* OBATripScheduleTableViewCell.swift */; };
-		CCFFCEBD2338391700DF41D0 /* OBATripScheduleConnectionTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = CCFFCEBC2338391700DF41D0 /* OBATripScheduleConnectionTableViewCell.swift */; };
 		D6575AEC0FEE13CF00D6D987 /* Entitlements.plist in Resources */ = {isa = PBXBuildFile; fileRef = D6575AEB0FEE13CF00D6D987 /* Entitlements.plist */; };
 /* End PBXBuildFile section */
 
@@ -1877,7 +1873,6 @@
 				935C39111F76EEAD00737DC4 /* Launch Screen.storyboard in Resources */,
 				D6575AEC0FEE13CF00D6D987 /* Entitlements.plist in Resources */,
 				934197931DB0C140004BBBB7 /* OBADiversionViewController.xib in Resources */,
-				CC74531A2336FEB700A6EDE2 /* OBAArrivalAndDepartureViewController.storyboard in Resources */,
 				9341983B1DB0C1E9004BBBB7 /* feedback_message_body.html in Resources */,
 				9336B1CB1FF95D5500CCC5ED /* test_userdefaults.xml in Resources */,
 				5B7C4A5A1DB96E6A00853DD5 /* Localizable.strings in Resources */,
@@ -2023,7 +2018,6 @@
 				9327DEFC1E023BE400502F06 /* OBAArrivalDepartureCell.m in Sources */,
 				93A637E520A2CDE50005248C /* LabelCell.swift in Sources */,
 				9385EC3B1DCF14C60020CCB2 /* OBASettingsViewController.m in Sources */,
-				CC74531F2337147300A6EDE2 /* OBATripScheduleTableViewController.swift in Sources */,
 				9385EC401DCF1D910020CCB2 /* ServiceAlertDetailsViewController.swift in Sources */,
 				9341978C1DB0C140004BBBB7 /* RegionBuilderViewController.swift in Sources */,
 				933546DD1E834ABE00D83519 /* OBAMessageRow.m in Sources */,
@@ -2039,7 +2033,6 @@
 				934C50AE1E2B6D5B00DFDCA0 /* OBAPushManager.m in Sources */,
 				9341978D1DB0C140004BBBB7 /* RegionListViewController.swift in Sources */,
 				934198291DB0C1CA004BBBB7 /* OBAAnalytics.m in Sources */,
-				CCFFCEBD2338391700DF41D0 /* OBATripScheduleConnectionTableViewCell.swift in Sources */,
 				9341979E1DB0C140004BBBB7 /* OBALabelFooterView.m in Sources */,
 				934197E81DB0C14C004BBBB7 /* PTERootController.m in Sources */,
 				93F3F88E1E7A7B2D0025FC78 /* RegionalAlertsViewController.swift in Sources */,
@@ -2063,6 +2056,7 @@
 				93F1C26320BCDCCF00B5032B /* OfflineSection.swift in Sources */,
 				CC174C192339FAAC00462A45 /* UIView+constrainToParent.swift in Sources */,
 				93876DFB1E68AD3900B4343F /* OBAMapAnnotationViewBuilder.m in Sources */,
+				CC2A005C233D639400E1261E /* OBATripScheduleSectionBuilder.m in Sources */,
 				9341978B1DB0C140004BBBB7 /* OBARecentStopsViewController.m in Sources */,
 				934197A71DB0C140004BBBB7 /* OBAEditStopPreferencesViewController.m in Sources */,
 				934197E31DB0C14C004BBBB7 /* EXTScope.m in Sources */,
@@ -2093,9 +2087,7 @@
 				93DB91ED20F743570028A7BF /* VehicleDisambiguationViewController.swift in Sources */,
 				934197971DB0C140004BBBB7 /* OBASegmentedControlCell.m in Sources */,
 				93B781AD1E64BAC900F2C38D /* OBAMapViewController.m in Sources */,
-				CCFFCEBB2337378400DF41D0 /* OBATripScheduleTableViewCell.swift in Sources */,
 				934197A91DB0C140004BBBB7 /* OBAReportProblemWithStopViewController.m in Sources */,
-				CCE4F86923385FCA00465651 /* OBATripDetailsViewController.swift in Sources */,
 				9341981D1DB0C1BA004BBBB7 /* OBALabelAndSwitchTableViewCell.m in Sources */,
 				93A637DC20A2CCE30005248C /* DisplaySectionController.swift in Sources */,
 				6B24C8761EC7F99E00A1F7B7 /* OBANavigationTitleView.m in Sources */,
@@ -2123,12 +2115,12 @@
 				CC174C172339FAAC00462A45 /* UIViewController+PulleyViewController.swift in Sources */,
 				934198241DB0C1BA004BBBB7 /* OBATextEditViewController.m in Sources */,
 				93F1C26020BCD34B00B5032B /* LoadingCell.swift in Sources */,
-				CC74531D233700C000A6EDE2 /* OBAArrivalAndDepartureViewController.swift in Sources */,
 				93F9574A1E9AFB020022586B /* UIWindow+OBAAdditions.m in Sources */,
 				93A632AE21D1D4E100A1AC9B /* AwesomeSpotlightView.swift in Sources */,
 				93A6E5241E6CB23500BEFECE /* ISHHoverBar.m in Sources */,
 				9341977F1DB0C140004BBBB7 /* OBABookmarkGroupsViewController.m in Sources */,
 				9341979F1DB0C140004BBBB7 /* OBASeparatorSectionView.m in Sources */,
+				CC2A005B233D639400E1261E /* OBAArrivalAndDepartureViewController.m in Sources */,
 				9341979D1DB0C140004BBBB7 /* OBACollapsingHeaderView.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

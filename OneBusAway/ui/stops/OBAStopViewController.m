@@ -685,8 +685,7 @@ static void * arrivalsAndDeparturesContext = &arrivalsAndDeparturesContext;
     OBADepartureRow *row = [builder createDepartureRowForStop:dep];
 
     [row setAction:^(OBABaseRow *blockRow) {
-		OBAArrivalAndDepartureView *vc = [OBAArrivalAndDepartureView createWithArrivalAndDeparture:dep];
-//        OBAArrivalAndDepartureViewController *vc = [[OBAArrivalAndDepartureViewController alloc] initWithArrivalAndDeparture:dep];
+        OBAArrivalAndDepartureViewController *vc = [[OBAArrivalAndDepartureViewController alloc] initWithArrivalAndDeparture:dep];
         [self pushViewController:vc animated:YES];
     }];
 

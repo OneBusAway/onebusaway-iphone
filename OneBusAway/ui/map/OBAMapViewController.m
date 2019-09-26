@@ -287,8 +287,7 @@ static const double kStopsInRegionRefreshDelayOnDrag = 0.1;
         }).then(^(NetworkResponse *response) {
             if (response) {
                 OBATripDetailsV2 *tripDetails = (OBATripDetailsV2 *)response.object;
-				
-				OBAArrivalAndDepartureView *controller = [OBAArrivalAndDepartureView createWithTripInstance:tripDetails.tripInstance];
+				OBAArrivalAndDepartureViewController *controller = [[OBAArrivalAndDepartureViewController alloc] initWithTripInstance:tripDetails.tripInstance];
                 [self pushViewController:controller animated:YES];
             }
         }).catch(^(NSError *error) {
@@ -1054,7 +1053,8 @@ static const double kStopsInRegionRefreshDelayOnDrag = 0.1;
         PromiseWrapper *wrapper = [self.application.modelService requestVehicleTrip:matchingVehicle.vehicleID];
         wrapper.anyPromise.then(^(NetworkResponse *response){
             OBATripDetailsV2 *tripDetails = (OBATripDetailsV2 *)response.object;
-			OBAArrivalAndDepartureView *controller = [OBAArrivalAndDepartureView createWithTripInstance:tripDetails.tripInstance];
+			OBAArrivalAndDepartureViewController *controller = [[OBAArrivalAndDepartureViewController alloc] initWithTripInstance:tripDetails.tripInstance];
+//			OBAArrivalAndDepartureView *controller = [OBAArrivalAndDepartureView createWithTripInstance:tripDetails.tripInstance];
             [self pushViewController:controller animated:YES];
         }).catch(^(NSError *error) {
             [AlertPresenter showError:error presentingController:self];

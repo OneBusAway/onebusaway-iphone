@@ -82,7 +82,13 @@ CGFloat DegreesToRadians(CGFloat degrees) {
 
     CGContextSetLineWidth(ctx, kStrokeWidth);
 
-    [[UIColor whiteColor] set]; //background color
+	// Set background color
+	if (@available(iOS 13, *)) {
+		[[UIColor secondarySystemBackgroundColor] set];
+	} else {
+		[[UIColor whiteColor] set];
+	}
+	
     CGContextFillEllipseInRect(ctx, circleRect);
 
     [(strokeColor ?: [UIColor lightGrayColor]) set];

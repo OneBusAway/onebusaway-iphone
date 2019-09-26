@@ -21,6 +21,7 @@ public protocol OBAArrivalAndDepartureViewDelegate: class {
 }
 
 @objc(OBAArrivalAndDepartureView)
+@available(*, unavailable)
 final public class OBAArrivalAndDepartureView: UIViewController, OBAArrivalAndDepartureViewDelegate, OBAVehicleMapDelegate {
 	/// This enum compiler-guarentees that only one source of truth exists for this view at any given time.
 	public enum DataSourceOfTruth {
