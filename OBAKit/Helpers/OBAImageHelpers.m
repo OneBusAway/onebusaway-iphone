@@ -84,7 +84,15 @@ CGFloat DegreesToRadians(CGFloat degrees) {
 
 	// Set background color
 	if (@available(iOS 13, *)) {
-		[[UIColor secondarySystemBackgroundColor] set];
+		UIColor *backgroundColorToSet = [UIColor colorWithDynamicProvider:^UIColor * _Nonnull(UITraitCollection * _Nonnull traitCollection) {
+			if (traitCollection.userInterfaceStyle == UIUserInterfaceStyleDark) {
+				return [UIColor secondarySystemBackgroundColor];
+			} else {
+				return [UIColor whiteColor];
+			}
+		}];
+		
+		[backgroundColorToSet set];
 	} else {
 		[[UIColor whiteColor] set];
 	}

@@ -109,7 +109,14 @@ static CGFloat const kTimelineWidth = 1.f;
     NSMutableAttributedString *labelText = [[NSMutableAttributedString alloc] initWithString:self.departureRow.title attributes:@{NSFontAttributeName: OBATheme.bodyFont}];
     [labelText appendAttributedString:[[NSAttributedString alloc] initWithString:@" "]];
 
-    NSAttributedString *timeText = [[NSAttributedString alloc] initWithString:self.departureRow.subtitle attributes:@{NSFontAttributeName: OBATheme.bodyFont, NSForegroundColorAttributeName: UIColor.darkGrayColor}];
+	UIColor *timeTextColor;
+	if (@available(iOS 13, *)) {
+		timeTextColor = [UIColor secondaryLabelColor];
+	} else {
+		timeTextColor = [UIColor darkGrayColor];
+	}
+	
+    NSAttributedString *timeText = [[NSAttributedString alloc] initWithString:self.departureRow.subtitle attributes:@{NSFontAttributeName: OBATheme.bodyFont, NSForegroundColorAttributeName: timeTextColor}];
     [labelText appendAttributedString:timeText];
 
     self.stopLabel.attributedText = labelText;
