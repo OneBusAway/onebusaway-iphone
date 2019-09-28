@@ -11,7 +11,6 @@ import IGListKit
 import SVProgressHUD
 import PromiseKit
 import OBAKit
-import Pulley
 
 class MapTableViewController: UIViewController {
 

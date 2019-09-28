@@ -9,7 +9,6 @@
 import UIKit
 import FirebaseAnalytics
 import OBAKit
-import Pulley
 
 @objc class DrawerApplicationUI: NSObject {
     var application: OBAApplication
