@@ -71,6 +71,9 @@ typedef NS_ENUM(NSUInteger, GKActionSheetPickerDismissType) {
 //! Display the negative button on the left or not. Default is `YES`
 @property (nonatomic) BOOL cancelButtonEnabled;
 
+//! Color of the buttons
+@property (nonatomic, strong) UIColor *tintColor;
+
 #pragma mark - Settings
 
 //! Control what happens when the user taps outside the picker. Default: `GKActionSheetPickerDismissTypeNone`
@@ -171,6 +174,25 @@ typedef NS_ENUM(NSUInteger, GKActionSheetPickerDismissType) {
  */
 + (instancetype)datePickerWithMode:(UIDatePickerMode)datePickerMode from:(NSDate *)minimumDate to:(NSDate *)maximumDate interval:(NSInteger)minuteInterval;
 
+#pragma mark - Country Picker
+
+/**
+ Creates a new `GKActionSheetPicker` instance in country mode. Please note, that many of the parameters are not included in this initializer function, you have to set them on the created object manually.
+ 
+ @param selectCallback The block to be called when user presses the positive button or taps outside the picker and `dismissType` is `GKActionSheetPickerDismissTypeSelect`.
+ @param cancelCallback The block to be called when user presses the negative button or taps outside the picker and `dismissType` is `GKActionSheetPickerDismissTypeCancel`.
+ 
+ @return A new `GKActionSheetPicker` object
+ */
++ (instancetype)countryPickerWithCallback:(GKActionSheetPickerSelectCallback)selectCallback cancelCallback:(GKActionSheetPickerCancelCallback)cancelCallback;
+
+/**
+ Creates a new `GKActionSheetPicker` instance in country mode. Please note, that many of the parameters are not included in this initializer function, you have to set them on the created object manually.
+  
+ @return A new `GKActionSheetPicker` object
+ */
++ (instancetype)countryPicker;
+
 #pragma mark - Selecting values
 
 /**
@@ -193,7 +215,7 @@ typedef NS_ENUM(NSUInteger, GKActionSheetPickerDismissType) {
 - (void)selectValues:(NSArray *)values;
 
 /**
- Select a value in a string picker.
+ Select a valu in a string picker.
  
  @param value The `value` or the string to be selected
  
@@ -229,6 +251,23 @@ typedef NS_ENUM(NSUInteger, GKActionSheetPickerDismissType) {
  */
 - (void)selectDate:(NSDate *)date;
 
+/**
+ Select a country on the country picker by giving it's ISO3166-1-Alpha-2 2-letter country code
+ 
+ @param countryName English name of the country
+ 
+ @note Call this after -presentPickerOnView:
+ */
+- (void)selectCountryByName:(NSString *)countryName;
+
+/**
+ Select a country on the country picker by giving it's english name
+ 
+ @param countryCode ISO3166-1-Alpha-2 2-letter country code
+ 
+ @note Call this after -presentPickerOnView:
+ */
+- (void)selectCountryByCountryCode:(NSString *)countryCode;
 
 #pragma mark - Control functions
 

@@ -158,8 +158,6 @@
 		9341B82420B66FB0006450FC /* StopCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9341B82320B66FB0006450FC /* StopCell.swift */; };
 		9341B82720B66FDE006450FC /* StopSectionController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9341B82620B66FDE006450FC /* StopSectionController.swift */; };
 		9341B82920B683A5006450FC /* StopViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9341B82820B683A5006450FC /* StopViewModel.swift */; };
-		934C50A01E2B69E300DFDCA0 /* GKActionSheetPicker.m in Sources */ = {isa = PBXBuildFile; fileRef = 934C509D1E2B69E300DFDCA0 /* GKActionSheetPicker.m */; };
-		934C50A11E2B69E300DFDCA0 /* GKActionSheetPickerItem.m in Sources */ = {isa = PBXBuildFile; fileRef = 934C509F1E2B69E300DFDCA0 /* GKActionSheetPickerItem.m */; };
 		934C50AE1E2B6D5B00DFDCA0 /* OBAPushManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 934C50AD1E2B6D5B00DFDCA0 /* OBAPushManager.m */; };
 		934CE83A2154D4FA0059B8A2 /* SwiftEntryKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 934CE8382154D4F90059B8A2 /* SwiftEntryKit.framework */; };
 		934CE83B2154D4FA0059B8A2 /* QuickLayout.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 934CE8392154D4FA0059B8A2 /* QuickLayout.framework */; };
@@ -239,6 +237,8 @@
 		CC174C192339FAAC00462A45 /* UIView+constrainToParent.swift in Sources */ = {isa = PBXBuildFile; fileRef = CC174C152339FAAC00462A45 /* UIView+constrainToParent.swift */; };
 		CC2A005B233D639400E1261E /* OBAArrivalAndDepartureViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 934197701DB0C140004BBBB7 /* OBAArrivalAndDepartureViewController.m */; };
 		CC2A005C233D639400E1261E /* OBATripScheduleSectionBuilder.m in Sources */ = {isa = PBXBuildFile; fileRef = 9341977A1DB0C140004BBBB7 /* OBATripScheduleSectionBuilder.m */; };
+		CC72EA2023417CCB0080FB71 /* GKActionSheetPickerItem.m in Sources */ = {isa = PBXBuildFile; fileRef = CC72EA1C23417CCA0080FB71 /* GKActionSheetPickerItem.m */; };
+		CC72EA2123417CCB0080FB71 /* GKActionSheetPicker.m in Sources */ = {isa = PBXBuildFile; fileRef = CC72EA1E23417CCB0080FB71 /* GKActionSheetPicker.m */; };
 		CCE4F86D233883A100465651 /* VehicleMapController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CCE4F86C233883A100465651 /* VehicleMapController.swift */; };
 		D6575AEC0FEE13CF00D6D987 /* Entitlements.plist in Resources */ = {isa = PBXBuildFile; fileRef = D6575AEB0FEE13CF00D6D987 /* Entitlements.plist */; };
 /* End PBXBuildFile section */
@@ -524,10 +524,6 @@
 		9341B82820B683A5006450FC /* StopViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StopViewModel.swift; sourceTree = "<group>"; };
 		934445F81AB105FB005B3333 /* capitolhill.gpx */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = capitolhill.gpx; sourceTree = "<group>"; };
 		9347860D1D3453E9002A5627 /* sandiego.gpx */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = sandiego.gpx; sourceTree = "<group>"; };
-		934C509C1E2B69E300DFDCA0 /* GKActionSheetPicker.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GKActionSheetPicker.h; sourceTree = "<group>"; };
-		934C509D1E2B69E300DFDCA0 /* GKActionSheetPicker.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GKActionSheetPicker.m; sourceTree = "<group>"; };
-		934C509E1E2B69E300DFDCA0 /* GKActionSheetPickerItem.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GKActionSheetPickerItem.h; sourceTree = "<group>"; };
-		934C509F1E2B69E300DFDCA0 /* GKActionSheetPickerItem.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GKActionSheetPickerItem.m; sourceTree = "<group>"; };
 		934C50AC1E2B6D5B00DFDCA0 /* OBAPushManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OBAPushManager.h; sourceTree = "<group>"; };
 		934C50AD1E2B6D5B00DFDCA0 /* OBAPushManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OBAPushManager.m; sourceTree = "<group>"; };
 		934CE8382154D4F90059B8A2 /* SwiftEntryKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SwiftEntryKit.framework; path = Carthage/Build/iOS/SwiftEntryKit.framework; sourceTree = "<group>"; };
@@ -635,6 +631,10 @@
 		CC174C132339FAAC00462A45 /* UIViewController+PulleyViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIViewController+PulleyViewController.swift"; sourceTree = "<group>"; };
 		CC174C142339FAAC00462A45 /* PulleyPassthroughScrollView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PulleyPassthroughScrollView.swift; sourceTree = "<group>"; };
 		CC174C152339FAAC00462A45 /* UIView+constrainToParent.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIView+constrainToParent.swift"; sourceTree = "<group>"; };
+		CC72EA1C23417CCA0080FB71 /* GKActionSheetPickerItem.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GKActionSheetPickerItem.m; sourceTree = "<group>"; };
+		CC72EA1D23417CCB0080FB71 /* GKActionSheetPicker.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GKActionSheetPicker.h; sourceTree = "<group>"; };
+		CC72EA1E23417CCB0080FB71 /* GKActionSheetPicker.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GKActionSheetPicker.m; sourceTree = "<group>"; };
+		CC72EA1F23417CCB0080FB71 /* GKActionSheetPickerItem.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GKActionSheetPickerItem.h; sourceTree = "<group>"; };
 		CC7453192336FEB700A6EDE2 /* OBAArrivalAndDepartureViewController.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = OBAArrivalAndDepartureViewController.storyboard; sourceTree = "<group>"; };
 		CC74531C233700C000A6EDE2 /* OBAArrivalAndDepartureViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OBAArrivalAndDepartureViewController.swift; sourceTree = "<group>"; };
 		CC74531E2337147300A6EDE2 /* OBATripScheduleTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OBATripScheduleTableViewController.swift; sourceTree = "<group>"; };
@@ -1489,10 +1489,10 @@
 		934C509B1E2B69E300DFDCA0 /* GKActionSheetPicker */ = {
 			isa = PBXGroup;
 			children = (
-				934C509C1E2B69E300DFDCA0 /* GKActionSheetPicker.h */,
-				934C509D1E2B69E300DFDCA0 /* GKActionSheetPicker.m */,
-				934C509E1E2B69E300DFDCA0 /* GKActionSheetPickerItem.h */,
-				934C509F1E2B69E300DFDCA0 /* GKActionSheetPickerItem.m */,
+				CC72EA1D23417CCB0080FB71 /* GKActionSheetPicker.h */,
+				CC72EA1E23417CCB0080FB71 /* GKActionSheetPicker.m */,
+				CC72EA1F23417CCB0080FB71 /* GKActionSheetPickerItem.h */,
+				CC72EA1C23417CCA0080FB71 /* GKActionSheetPickerItem.m */,
 			);
 			path = GKActionSheetPicker;
 			sourceTree = "<group>";
@@ -2067,6 +2067,7 @@
 				93E1039F2134D5BE0090E7AF /* GrabHandleSection.swift in Sources */,
 				CCE4F86D233883A100465651 /* VehicleMapController.swift in Sources */,
 				933BC246203936E500267965 /* DrawerApplicationUI.swift in Sources */,
+				CC72EA2023417CCB0080FB71 /* GKActionSheetPickerItem.m in Sources */,
 				93A637DB20A2CCE30005248C /* HorizontalSectionController.swift in Sources */,
 				930AFE8E1DD04D3D0092AE82 /* NearbyStopsViewController.swift in Sources */,
 				934197861DB0C140004BBBB7 /* OBAAgenciesListViewController.m in Sources */,
@@ -2075,12 +2076,12 @@
 				93C21DA0214A287600F422DA /* TableRowController.swift in Sources */,
 				934197A11DB0C140004BBBB7 /* OBASegmentedRow.m in Sources */,
 				9341977D1DB0C140004BBBB7 /* AlertPresenter.swift in Sources */,
-				934C50A01E2B69E300DFDCA0 /* GKActionSheetPicker.m in Sources */,
 				930AFE961DD11ECB0092AE82 /* OBAWalkableRow.m in Sources */,
 				93C48E492096EF0F001FB95C /* MapTableViewController.swift in Sources */,
 				934197961DB0C140004BBBB7 /* OBAStaticTableViewController+Builders.m in Sources */,
 				9327DEF91E023BD400502F06 /* OBAArrivalDepartureRow.m in Sources */,
 				9341979B1DB0C140004BBBB7 /* OBATextFieldCell.m in Sources */,
+				CC72EA2123417CCB0080FB71 /* GKActionSheetPicker.m in Sources */,
 				93A637E120A2CDA60005248C /* EmbeddedSectionController.swift in Sources */,
 				934197B21DB0C140004BBBB7 /* OBAStopViewController.m in Sources */,
 				934197B51DB0C140004BBBB7 /* OBAClassicApplicationUI.m in Sources */,
@@ -2093,7 +2094,6 @@
 				6B24C8761EC7F99E00A1F7B7 /* OBANavigationTitleView.m in Sources */,
 				934196E41DB0C124004BBBB7 /* UITableViewCell+oba_Additions.m in Sources */,
 				934197851DB0C140004BBBB7 /* OBADrawerViewController.m in Sources */,
-				934C50A11E2B69E300DFDCA0 /* GKActionSheetPickerItem.m in Sources */,
 				934197A51DB0C140004BBBB7 /* OBATextFieldRow.m in Sources */,
 				931A6A291E03EAA100131242 /* OBATimelineBarRow.m in Sources */,
 				93A637E320A2CDDC0005248C /* CenterLabelCell.swift in Sources */,
