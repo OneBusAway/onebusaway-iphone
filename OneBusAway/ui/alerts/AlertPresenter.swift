@@ -85,8 +85,9 @@ public enum Theme {
         let description = EKProperty.LabelContent(text: body, style: .init(font: font, color: textColor))
         let message = EKSimpleMessage(image: nil, title: titleContent, description: description)
 
+		
         let labelStyle = EKProperty.LabelStyle(font: boldFont, color: .white)
-        let closeButton = EKProperty.ButtonContent(label: EKProperty.LabelContent(text: OBAStrings.dismiss, style: labelStyle), backgroundColor: UIColor(white: 0.25, alpha: 0.25), highlightedBackgroundColor: UIColor(white: 0, alpha: 0.4), contentEdgeInset: 0) {
+		let closeButton = EKProperty.ButtonContent(label: EKProperty.LabelContent(text: OBAStrings.dismiss, style: labelStyle), backgroundColor: UIColor(white: 0.25, alpha: 0.25), highlightedBackgroundColor: UIColor(white: 0, alpha: 0.4), contentEdgeInset: 0) {
             SwiftEntryKit.dismiss()
         }
         let buttons = EKProperty.ButtonBarContent(with: closeButton, separatorColor: UIColor(white: 0.9, alpha: 0.4), expandAnimatedly: false)
@@ -174,7 +175,7 @@ extension AlertPresenter {
             themeColor = .orange
         }
 
-        let colors = [themeColor, themeColor.add(hue: 0.0, saturation: 0.0, brightness: -0.20, alpha: 0.0)]
+		let colors = [themeColor, themeColor.add(hue: 0.0, saturation: 0.0, brightness: -0.20, alpha: 0.0)]
         return .gradient(gradient: EKAttributes.BackgroundStyle.Gradient(colors: colors, startPoint: CGPoint(x: 0, y: 0), endPoint: CGPoint(x: 0, y: 1)))
     }
 }

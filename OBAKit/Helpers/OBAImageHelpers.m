@@ -82,7 +82,21 @@ CGFloat DegreesToRadians(CGFloat degrees) {
 
     CGContextSetLineWidth(ctx, kStrokeWidth);
 
-    [[UIColor whiteColor] set]; //background color
+	// Set background color
+	if (@available(iOS 13, *)) {
+		UIColor *backgroundColorToSet = [UIColor colorWithDynamicProvider:^UIColor * _Nonnull(UITraitCollection * _Nonnull traitCollection) {
+			if (traitCollection.userInterfaceStyle == UIUserInterfaceStyleDark) {
+				return [UIColor secondarySystemBackgroundColor];
+			} else {
+				return [UIColor whiteColor];
+			}
+		}];
+		
+		[backgroundColorToSet set];
+	} else {
+		[[UIColor whiteColor] set];
+	}
+	
     CGContextFillEllipseInRect(ctx, circleRect);
 
     [(strokeColor ?: [UIColor lightGrayColor]) set];
@@ -120,6 +134,8 @@ CGFloat DegreesToRadians(CGFloat degrees) {
     // Save image
     UIImage *newImage = UIGraphicsGetImageFromCurrentImageContext();
     UIGraphicsEndImageContext();
-    return newImage;
+	
+	// Set the image to render as template so we can adjust how it looks at runtime (i.e. change tint color).
+    return [newImage imageWithRenderingMode:UIImageRenderingModeAlwaysTemplate];
 }
 @end

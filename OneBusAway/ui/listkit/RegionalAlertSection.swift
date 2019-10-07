@@ -163,9 +163,15 @@ class RegionalAlertCell: UICollectionViewCell/*SwipeCollectionViewCell*/ {
 
         let labelStack = UIStackView(arrangedSubviews: [titleStackWrapper, summaryLabel])
         labelStack.axis = .vertical
+		
         let labelStackWrapper = labelStack.oba_embedInWrapperView(withConstraints: false)
-        labelStackWrapper.backgroundColor = .white
-        labelStack.snp.makeConstraints { (make) in
+		if #available(iOS 13, *) {
+			labelStackWrapper.backgroundColor = .systemBackground
+		} else {
+			labelStackWrapper.backgroundColor = .white
+		}
+
+		labelStack.snp.makeConstraints { (make) in
             make.edges.equalToSuperview().inset(RegionalAlertCell.leftRightInsets)
         }
 

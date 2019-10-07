@@ -56,7 +56,6 @@ import OBAKit
         mapPulley = PulleyViewController(contentViewController: mapController, drawerViewController: drawerNavigation)
         mapPulley.defaultCollapsedHeight = DrawerApplicationUI.calculateCollapsedHeightForCurrentDevice()
         mapPulley.initialDrawerPosition = .collapsed
-
         if #available(iOS 11.0, *) {
             // nop
         }

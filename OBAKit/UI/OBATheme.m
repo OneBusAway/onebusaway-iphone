@@ -53,12 +53,17 @@ static UIFont *_italicFootnoteFont = nil;
     [[UITextField appearance] setTintColor:tintColor];
     [[UIButton appearance] setTintColor:tintColor];
     [[UIBarButtonItem appearance] setTitleTextAttributes:@{ NSForegroundColorAttributeName: tintColor } forState:UIControlStateNormal];
-    [[UISegmentedControl appearance] setTitleTextAttributes:@{ NSForegroundColorAttributeName: [UIColor whiteColor] } forState:UIControlStateNormal];
-    [[UISegmentedControl appearance] setTitleTextAttributes:@{ NSForegroundColorAttributeName: [UIColor whiteColor] } forState:UIControlStateSelected];
-    [[UISegmentedControl appearanceWhenContainedInInstancesOfClasses:@[UINavigationBar.class]] setTitleTextAttributes:@{ NSForegroundColorAttributeName: [UIColor blackColor] } forState:UIControlStateNormal];
 
     [[UITableViewCell appearance] setPreservesSuperviewLayoutMargins:YES];
     [[[UITableViewCell appearance] contentView] setPreservesSuperviewLayoutMargins:YES];
+	
+	if (@available(iOS 13, *)) {
+		// empty.
+	} else {
+		[[UISegmentedControl appearance] setTitleTextAttributes:@{ NSForegroundColorAttributeName: [UIColor whiteColor] } forState:UIControlStateNormal];
+		[[UISegmentedControl appearance] setTitleTextAttributes:@{ NSForegroundColorAttributeName: [UIColor whiteColor] } forState:UIControlStateSelected];
+		[[UISegmentedControl appearanceWhenContainedInInstancesOfClasses:@[UINavigationBar.class]] setTitleTextAttributes:@{ NSForegroundColorAttributeName: [UIColor blackColor] } forState:UIControlStateNormal];
+	}
 
     // Per:
     // https://github.com/Instagram/IGListKit/blob/master/Guides/Working%20with%20UICollectionView.md
@@ -175,7 +180,7 @@ static UIFont *_italicFootnoteFont = nil;
 #pragma mark - Colors
 
 + (UIColor*)mapTableBackgroundColor {
-    return UIColor.clearColor;
+	return UIColor.clearColor;
 }
 
 + (BOOL)useHighContrastUI {
@@ -187,7 +192,17 @@ static UIFont *_italicFootnoteFont = nil;
 }
 
 + (UIColor*)darkDisabledColor {
-    return [UIColor darkGrayColor];
+	if (@available(iOS 13, *)) {
+		return [UIColor colorWithDynamicProvider:^UIColor * _Nonnull(UITraitCollection * _Nonnull traitCollection) {
+			if (traitCollection.userInterfaceStyle == UIUserInterfaceStyleDark) {
+				return [UIColor whiteColor];
+			} else {
+				return [UIColor darkGrayColor];
+			}
+		}];
+	} else {
+		return [UIColor darkGrayColor];
+	}
 }
 
 + (UIColor*)lightDisabledColor {
@@ -199,11 +214,15 @@ static UIFont *_italicFootnoteFont = nil;
 }
 
 + (UIColor*)textColor {
-    return [UIColor blackColor];
+	if (@available(iOS 13, *)) {
+		return [UIColor labelColor];
+	} else {
+		return [UIColor blackColor];
+	}   
 }
 
 + (UIColor*)scheduledDepartureColor {
-    return self.darkDisabledColor;
+	return [UIColor colorNamed:@"ScheduledDepartureColor"];
 }
 
 + (UIColor*)propertyChangedColor {
@@ -247,23 +266,23 @@ static UIFont *_italicFootnoteFont = nil;
 #pragma mark - Named Colors
 
 + (UIColor*)userLocationFillColor {
-    return [self colorWithRed:25 green:131 blue:247 alpha:1.f];
+	return [UIColor colorNamed:@"UserLocationFillColor"];
 }
 
 + (UIColor*)onTimeDepartureColor {
-    return [UIColor colorWithRed:0.f green:0.478f blue:0.f alpha:1.f];
+	return [UIColor colorNamed:@"OnTimeDepartureColor"];
 }
 
 + (UIColor*)earlyDepartureColor {
-    return [UIColor redColor];
+	return [UIColor colorNamed:@"EarlyDepartureColor"];
 }
 
 + (UIColor*)delayedDepartureColor {
-    return [UIColor blueColor];
+	return [UIColor colorNamed:@"DelayedDepartureColor"];
 }
 
 + (UIColor*)tableViewSectionHeaderBackgroundColor {
-    return [OBATheme colorWithRed:247.f green:247.f blue:247.f alpha:1.f];
+	return [UIColor colorNamed:@"TableViewSectionHeaderBackgroundColor"];
 }
 
 + (UIColor*)darkBlurLabelTextColor {

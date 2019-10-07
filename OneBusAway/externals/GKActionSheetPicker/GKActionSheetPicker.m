@@ -165,12 +165,52 @@ typedef NS_ENUM(NSUInteger, GKActionSheetPickerType) {
     return [GKActionSheetPicker datePickerWithMode:datePickerMode from:minimumDate to:maximumDate interval:minuteInterval selectCallback:nil cancelCallback:nil];
 }
 
++ (instancetype)countryPickerWithCallback:(GKActionSheetPickerSelectCallback)selectCallback cancelCallback:(GKActionSheetPickerCancelCallback)cancelCallback
+{
+    NSError *error;
+    NSBundle *bundle = [NSBundle bundleForClass:[self class]];
+    NSString *path = [bundle pathForResource:@"countries" ofType:@"json"];
+    NSData *data = [NSData dataWithContentsOfFile:path options:0 error:&error];
+    
+    NSAssert(!error, @"Cannot load countries list from the attached bundle");
+    error = nil;
+    
+    NSArray *countries = [NSJSONSerialization JSONObjectWithData:data options:0 error:&error];
+    
+    NSAssert(!error, @"Cannot parse countries JSON. Was the countries.json file modified?");
+    
+    GKActionSheetPicker *picker = [GKActionSheetPicker new];
+    
+    picker.pickerType = GKActionSheetPickerTypeString;
+
+    NSMutableArray *items = [NSMutableArray new];
+    
+    for (NSDictionary *countryDict in countries) {
+        NSString *name = [countryDict objectForKey:@"name"];
+        if (name) {
+            GKActionSheetPickerItem *item = [GKActionSheetPickerItem pickerItemWithTitle:name value:countryDict];
+            [items addObject:item];
+        }
+    }
+    
+    picker.items = items;
+    
+    picker.selectCallback = selectCallback;
+    picker.cancelCallback = cancelCallback;
+    
+    return picker;
+}
+
++ (instancetype)countryPicker {
+    return [GKActionSheetPicker countryPickerWithCallback:nil cancelCallback:nil];
+}
+
 #pragma mark - Accessors
 
 - (UIColor *)overlayLayerColor
 {
     if (!_overlayLayerColor) {
-        _overlayLayerColor = [UIColor colorWithWhite:0 alpha:0.5f];
+        _overlayLayerColor = [UIColor colorWithWhite:0 alpha:0.25f];
     }
     
     return _overlayLayerColor;
@@ -191,7 +231,11 @@ typedef NS_ENUM(NSUInteger, GKActionSheetPickerType) {
 {
     if (!_pickerContainerView) {
         _pickerContainerView = [UIView new];
-        _pickerContainerView.backgroundColor = [UIColor whiteColor];
+        if (@available(iOS 13, *)) {
+            _pickerContainerView.backgroundColor = [UIColor systemBackgroundColor];
+        } else {
+            _pickerContainerView.backgroundColor = [UIColor whiteColor];
+        }
     }
     
     return _pickerContainerView;
@@ -203,6 +247,7 @@ typedef NS_ENUM(NSUInteger, GKActionSheetPickerType) {
         _pickerView = [UIPickerView new];
         _pickerView.delegate = self;
         _pickerView.dataSource = self;
+        _pickerView.tintColor = self.tintColor;
     }
     
     return _pickerView;
@@ -212,6 +257,7 @@ typedef NS_ENUM(NSUInteger, GKActionSheetPickerType) {
 {
     if (!_datePicker) {
         _datePicker = [UIDatePicker new];
+        _datePicker.tintColor = self.tintColor;
     }
     
     return _datePicker;
@@ -223,6 +269,7 @@ typedef NS_ENUM(NSUInteger, GKActionSheetPickerType) {
         _toolBar = [UIToolbar new];
         _toolBar.delegate = self;
         _toolBar.autoresizingMask = UIViewAutoresizingFlexibleWidth;
+        _toolBar.tintColor = self.tintColor;
     }
     
     return _toolBar;
@@ -269,6 +316,7 @@ typedef NS_ENUM(NSUInteger, GKActionSheetPickerType) {
     if (!_cancelButton) {
         _cancelButton = [[UIBarButtonItem alloc] initWithTitle:self.cancelButtonTitle style:UIBarButtonItemStylePlain target:self action:@selector(cancelButtonPressed:)];
         _cancelButton.imageInsets = UIEdgeInsetsMake(0, 20.f, 0, 20.f);
+        _cancelButton.tintColor = self.tintColor;
     }
     
     return _cancelButton;
@@ -278,6 +326,7 @@ typedef NS_ENUM(NSUInteger, GKActionSheetPickerType) {
 {
     if (!_selectButton) {
         _selectButton = [[UIBarButtonItem alloc] initWithTitle:self.selectButtonTitle style:UIBarButtonItemStyleDone target:self action:@selector(selectButtonPressed:)];
+        _selectButton.tintColor = self.tintColor;
     }
     
     return _selectButton;
@@ -287,7 +336,11 @@ typedef NS_ENUM(NSUInteger, GKActionSheetPickerType) {
     if (!_titleLabel) {
         _titleLabel = [[UILabel alloc] initWithFrame:CGRectZero];
         _titleLabel.text = self.title;
-        _titleLabel.textColor = [UIColor darkTextColor];
+        if (@available(iOS 13, *)) {
+            _titleLabel.textColor = [UIColor labelColor];
+        } else {
+            _titleLabel.textColor = [UIColor darkTextColor];
+        }
         _titleLabel.font = [UIFont boldSystemFontOfSize:17.f];
         [_titleLabel sizeToFit];
     }
@@ -399,6 +452,7 @@ typedef NS_ENUM(NSUInteger, GKActionSheetPickerType) {
         
         self.pickerView.frame = CGRectMake(0, ToolbarHeight, hostFrame.size.width, PickerViewHeight);
         self.pickerView.autoresizingMask = UIViewAutoresizingFlexibleWidth;
+        [self.pickerView selectRow:0 inComponent:0 animated:YES];
         [self.pickerContainerView addSubview:self.pickerView];
         
     } else if (self.pickerType == GKActionSheetPickerTypeDate) {
@@ -512,6 +566,48 @@ typedef NS_ENUM(NSUInteger, GKActionSheetPickerType) {
 
     if (date) {
         [self.datePicker setDate:date];
+    }
+}
+
+- (void)selectCountryByName:(NSString *)countryName
+{
+    NSAssert(self.pickerType == GKActionSheetPickerTypeString, @"-selectIndex: can be used only when picker is initialized with +countryPickerWithCallback:cancelCallback:");
+    
+    if (countryName) {
+        NSUInteger index = 0;
+        NSUInteger i = 0;
+        for (GKActionSheetPickerItem *item in self.items) {
+            NSDictionary *countryDict = (NSDictionary *)item.value;
+            NSString *name = [countryDict objectForKey:@"name"];
+            if (name && [name isEqualToString:countryName]) {
+                index = i;
+            }
+            
+            i += 1;
+        }
+        
+        [self.pickerView selectRow:index inComponent:0 animated:NO];
+    }
+}
+
+- (void)selectCountryByCountryCode:(NSString *)countryCode
+{
+    NSAssert(self.pickerType == GKActionSheetPickerTypeString, @"-selectIndex: can be used only when picker is initialized with +countryPickerWithCallback:cancelCallback:");
+
+    if (countryCode) {
+        NSUInteger index = 0;
+        NSUInteger i = 0;
+        for (GKActionSheetPickerItem *item in self.items) {
+            NSDictionary *countryDict = (NSDictionary *)item.value;
+            NSString *code = [countryDict objectForKey:@"ISO3166-1-Alpha-2"];
+            if (code && [code isEqualToString:countryCode]) {
+                index = i;
+            }
+            
+            i += 1;
+        }
+        
+        [self.pickerView selectRow:index inComponent:0 animated:NO];
     }
 }
 
@@ -653,14 +749,13 @@ typedef NS_ENUM(NSUInteger, GKActionSheetPickerType) {
 - (void)updateSelection
 {
     if (self.pickerType == GKActionSheetPickerTypeString) {
+        
         NSUInteger index = [self.pickerView selectedRowInComponent:0];
+        GKActionSheetPickerItem *item = [self.items objectAtIndex:index];
+        self.selection = item.value;
+        
+    } else if (self.pickerType == GKActionSheetPickerTypeMultiColumnString) {
 
-        if (self.items.count > index) {
-            GKActionSheetPickerItem *item = self.items[index];
-            self.selection = item.value;
-        }
-    }
-    else if (self.pickerType == GKActionSheetPickerTypeMultiColumnString) {
         NSMutableArray *selections = [NSMutableArray new];
         
         for (NSUInteger i=0; i<self.components.count; i++) {
@@ -671,9 +766,11 @@ typedef NS_ENUM(NSUInteger, GKActionSheetPickerType) {
         }
         
         self.selections = selections;
-    }
-    else if (self.pickerType == GKActionSheetPickerTypeDate) {
+
+    } else if (self.pickerType == GKActionSheetPickerTypeDate) {
+    
         self.selectedDate = self.datePicker.date;
+        
     }
 }
 

@@ -17,6 +17,7 @@
 #import "OBARecentStopsViewController.h"
 #import "OBAStopViewController.h"
 #import "OBAArrivalAndDepartureViewController.h"
+#import "OneBusAway-Swift.h"
 
 @implementation OBARecentStopsViewController
 
@@ -121,7 +122,7 @@
 
     for (OBAAlarm *alarm in alarms) {
         OBATableRow *row = [[OBATableRow alloc] initWithTitle:alarm.title action:^(OBABaseRow *r2){
-            OBAArrivalAndDepartureViewController *controller = [[OBAArrivalAndDepartureViewController alloc] initWithArrivalAndDepartureConvertible:alarm];
+			OBAArrivalAndDepartureViewController *controller = [[OBAArrivalAndDepartureViewController alloc] initWithArrivalAndDepartureConvertible:alarm];
             [self.navigationController pushViewController:controller animated:YES];
         }];
         NSInteger minutes = (NSInteger)(alarm.timeIntervalBeforeDeparture / 60);
@@ -159,7 +160,8 @@
 
     for (OBATripDeepLink *link in sharedTrips) {
         OBATableRow *row = [[OBATableRow alloc] initWithTitle:link.name action:^(OBABaseRow *r2){
-            OBAArrivalAndDepartureViewController *controller = [[OBAArrivalAndDepartureViewController alloc] initWithArrivalAndDepartureConvertible:link];
+			OBAArrivalAndDepartureViewController *controller = [[OBAArrivalAndDepartureViewController alloc] initWithArrivalAndDepartureConvertible:link];
+//            OBAArrivalAndDepartureView *controller = [OBAArrivalAndDepartureView createWithArrivalAndDepartureConvertible:link];
             [self.navigationController pushViewController:controller animated:YES];
         }];
         row.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
@@ -225,7 +227,8 @@
 - (void)setNavigationTarget:(OBANavigationTarget *)target {
     if ([target isKindOfClass:OBADeepLinkNavigationTarget.class]) {
         OBADeepLinkNavigationTarget *t = (OBADeepLinkNavigationTarget *)target;
-        OBAArrivalAndDepartureViewController *controller = [[OBAArrivalAndDepartureViewController alloc] initWithArrivalAndDepartureConvertible:t.tripDeepLink];
+		OBAArrivalAndDepartureViewController *controller = [[OBAArrivalAndDepartureViewController alloc] initWithArrivalAndDepartureConvertible:t.tripDeepLink];
+//		OBAArrivalAndDepartureView *controller = [OBAArrivalAndDepartureView createWithArrivalAndDepartureConvertible:t.tripDeepLink];
         [self.navigationController pushViewController:controller animated:YES];
     }
     else if ([target isKindOfClass:OBAAlarmNavigationTarget.class]) {

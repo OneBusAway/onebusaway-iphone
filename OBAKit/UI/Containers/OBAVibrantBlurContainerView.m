@@ -18,7 +18,11 @@
     self = [super initWithFrame:frame];
 
     if (self) {
-        _blurEffectStyle = UIBlurEffectStyleLight;
+		if (@available(iOS 13.0, *)) {
+			_blurEffectStyle = UIBlurEffectStyleSystemThickMaterial;
+		} else {
+			_blurEffectStyle = UIBlurEffectStyleLight;
+		}
     }
     return self;
 }
