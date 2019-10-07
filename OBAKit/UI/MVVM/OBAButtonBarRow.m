@@ -97,8 +97,12 @@
     button.imageView.image = item.image;
     button.textLabel.text = item.title;
     button.accessibilityLabel = item.accessibilityLabel;
-    button.tintColor = UIColor.blackColor;
-
+	if (@available(iOS 13, *)) {
+		button.tintColor = UIColor.labelColor;
+	} else {
+		button.tintColor = UIColor.blackColor;
+	}
+    
     [button addTarget:item.target action:item.action forControlEvents:UIControlEventTouchUpInside];
 
     return button;

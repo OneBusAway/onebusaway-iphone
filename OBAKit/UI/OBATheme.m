@@ -271,7 +271,6 @@ static UIFont *_italicFootnoteFont = nil;
 
 + (UIColor*)onTimeDepartureColor {
 	return [UIColor colorNamed:@"OnTimeDepartureColor"];
-//    return [UIColor colorWithRed:0.f green:0.478f blue:0.f alpha:1.f];
 }
 
 + (UIColor*)earlyDepartureColor {
@@ -280,7 +279,6 @@ static UIFont *_italicFootnoteFont = nil;
 
 + (UIColor*)delayedDepartureColor {
 	return [UIColor colorNamed:@"DelayedDepartureColor"];
-	//    return [UIColor blueColor];
 }
 
 + (UIColor*)tableViewSectionHeaderBackgroundColor {

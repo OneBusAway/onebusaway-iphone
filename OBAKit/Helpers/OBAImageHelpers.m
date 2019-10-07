@@ -134,6 +134,8 @@ CGFloat DegreesToRadians(CGFloat degrees) {
     // Save image
     UIImage *newImage = UIGraphicsGetImageFromCurrentImageContext();
     UIGraphicsEndImageContext();
-    return newImage;
+	
+	// Set the image to render as template so we can adjust how it looks at runtime (i.e. change tint color).
+    return [newImage imageWithRenderingMode:UIImageRenderingModeAlwaysTemplate];
 }
 @end

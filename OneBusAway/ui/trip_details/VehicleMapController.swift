@@ -147,6 +147,7 @@ class VehicleMapController: UIViewController, MKMapViewDelegate {
         button.setImage(OBAImageHelpers.rotateImage(toggleImage, degrees: 90.0), for: .selected)
 
         button.isSelected = self.expanded
+		button.tintColor = OBATheme.obaGreen
 
         return button
     }()
