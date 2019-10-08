@@ -416,14 +416,17 @@ static NSString * const kPrivacyURLString = @"http://onebusaway.org/privacy/";
     UIFont *subHeadlineFont = [UIFont preferredFontForTextStyle:UIFontTextStyleSubheadline];
 
     UILabel *headerLabel = [self.class centeredLabelWithText:NSLocalizedString(@"msg_oba_name",) font:headlineFont];
+	[headerLabel setTextColor:UIColor.blackColor];
     [headerLabel setContentCompressionResistancePriority:UILayoutPriorityRequired forAxis:UILayoutConstraintAxisVertical];
     [views addObject:headerLabel];
 
     UILabel *copyrightLabel = [self.class centeredLabelWithText:[NSString stringWithFormat:@"%@\r\n%@", [OBAApplication sharedApplication].fullAppVersionString, @"© University of Washington"] font:subHeadlineFont];
+	[copyrightLabel setTextColor:UIColor.blackColor];
     [copyrightLabel setContentCompressionResistancePriority:UILayoutPriorityRequired forAxis:UILayoutConstraintAxisVertical];
     [views addObject:copyrightLabel];
 
     UILabel *volunteerLabel = [self.class centeredLabelWithText:NSLocalizedString(@"msg_onebusaway_made_by_volunteers",) font:subHeadlineFont];
+	[volunteerLabel setTextColor:UIColor.blackColor];
     [volunteerLabel setContentCompressionResistancePriority:UILayoutPriorityRequired forAxis:UILayoutConstraintAxisVertical];
     [views addObject:volunteerLabel];
 

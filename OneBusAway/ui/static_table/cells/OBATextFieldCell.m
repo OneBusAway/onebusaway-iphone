@@ -28,6 +28,7 @@
         _textField.userInteractionEnabled = YES;
         _textField.delegate = self;
         _textField.contentVerticalAlignment = UIControlContentVerticalAlignmentBottom;
+		_textField.floatingLabelActiveColor = [UIColor systemBlueColor];
         [self.contentView addSubview:_textField];
 
         UIEdgeInsets layoutMargins = self.layoutMargins;

@@ -100,7 +100,11 @@ static NSTimeInterval const kRefreshTimeInterval = 30;
 
     self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemRefresh target:self action:@selector(reloadData:)];
 
-    self.view.backgroundColor = [UIColor whiteColor];
+	if (@available(iOS 13, *)) {
+		self.view.backgroundColor = [UIColor systemBackgroundColor];
+	} else {
+		self.view.backgroundColor = [UIColor whiteColor];
+	}
 
     self.stackView = [[UIStackView alloc] initWithFrame:self.view.bounds];
     self.stackView.autoresizingMask = UIViewAutoresizingFlexibleHeight|UIViewAutoresizingFlexibleWidth;
@@ -463,7 +467,8 @@ static NSTimeInterval const kRefreshTimeInterval = 30;
     stackView.spacing = [OBATheme compactPadding];
     stackView.layoutMargins = [OBATheme compactEdgeInsets];
     stackView.layoutMarginsRelativeArrangement = YES;
-
+	if (@available(iOS 13, *)) stackView.backgroundColor = [UIColor systemBackgroundColor];
+	
     UIStackView *outerStack = [[UIStackView alloc] initWithArrangedSubviews:@[OBAUIBuilder.lineView, stackView, OBAUIBuilder.lineView]];
     outerStack.axis = UILayoutConstraintAxisVertical;
     outerStack.alignment = UIStackViewAlignmentFill;

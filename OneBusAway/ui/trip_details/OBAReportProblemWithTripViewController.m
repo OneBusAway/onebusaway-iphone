@@ -22,6 +22,7 @@
 #import "OBAApplicationDelegate.h"
 #import <SVProgressHUD/SVProgressHUD.h>
 #import "OBAArrivalAndDepartureViewController.h"
+#import "OneBusAway-Swift.h"
 @import OBAKit;
 
 typedef NS_ENUM (NSInteger, OBASectionType) {
