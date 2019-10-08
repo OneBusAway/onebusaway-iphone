@@ -22,7 +22,7 @@ public class StackedButton: UIControl {
         label.isUserInteractionEnabled = false
         label.setContentCompressionResistancePriority(.required, for: .vertical)
         label.setContentCompressionResistancePriority(.required, for: .horizontal)
-		
+
 		if #available(iOS 13, *) {
 			label.textColor = .label
 		} else {
@@ -52,7 +52,7 @@ public class StackedButton: UIControl {
 		} else {
 			backgroundColor = UIColor(white: 0.95, alpha: 1.0)
 		}
-		
+
         layer.cornerRadius = OBATheme.defaultCornerRadius
 
         let stack = UIStackView.oba_verticalStack(withArrangedSubviews: [imageView, textLabel])

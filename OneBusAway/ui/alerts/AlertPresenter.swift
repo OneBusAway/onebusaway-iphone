@@ -85,7 +85,6 @@ public enum Theme {
         let description = EKProperty.LabelContent(text: body, style: .init(font: font, color: textColor))
         let message = EKSimpleMessage(image: nil, title: titleContent, description: description)
 
-		
         let labelStyle = EKProperty.LabelStyle(font: boldFont, color: .white)
 		let closeButton = EKProperty.ButtonContent(label: EKProperty.LabelContent(text: OBAStrings.dismiss, style: labelStyle), backgroundColor: UIColor(white: 0.25, alpha: 0.25), highlightedBackgroundColor: UIColor(white: 0, alpha: 0.4), contentEdgeInset: 0) {
             SwiftEntryKit.dismiss()
