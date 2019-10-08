@@ -46,7 +46,10 @@ public class StackedButton: UIControl {
     public override init(frame: CGRect) {
         super.init(frame: frame)
 
+        isAccessibilityElement = true
+        accessibilityTraits = .button
         isUserInteractionEnabled = true
+
 		if #available(iOS 13, *) {
 			backgroundColor = .secondarySystemFill
 		} else {
