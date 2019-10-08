@@ -152,6 +152,8 @@
 			</dict>
 		</dict>
 	</dict>
+	<key>NSLocationAlwaysUsageDescription</key>
+	<string>Your location will be used to show nearby stops and routes.</string>
 	<key>NSLocationUsageDescription</key>
 	<string>Your location will be used to show nearby stops and routes.</string>
 	<key>NSLocationWhenInUseUsageDescription</key>
