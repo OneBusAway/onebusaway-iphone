@@ -87,7 +87,7 @@ CGFloat DegreesToRadians(CGFloat degrees) {
     }
     else {
         circleBackground = UIColor.whiteColor;
-        circleBorder = UIColor.lightGrayColor
+        circleBorder = UIColor.lightGrayColor;
     }
 
     UIGraphicsBeginImageContextWithOptions(size, opaque, [UIScreen mainScreen].scale);
