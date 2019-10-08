@@ -33,7 +33,7 @@ class ButtonSectionCell: SelfSizingCollectionCell {
         imageView.contentMode = .scaleAspectFit
         imageView.setContentHuggingPriority(.required, for: .horizontal)
 		imageView.tintColor = ButtonSectionCell.tintColorToUse
-		
+
         return imageView
     }()
 

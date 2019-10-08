@@ -161,7 +161,6 @@
     for (OBATripDeepLink *link in sharedTrips) {
         OBATableRow *row = [[OBATableRow alloc] initWithTitle:link.name action:^(OBABaseRow *r2){
 			OBAArrivalAndDepartureViewController *controller = [[OBAArrivalAndDepartureViewController alloc] initWithArrivalAndDepartureConvertible:link];
-//            OBAArrivalAndDepartureView *controller = [OBAArrivalAndDepartureView createWithArrivalAndDepartureConvertible:link];
             [self.navigationController pushViewController:controller animated:YES];
         }];
         row.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
@@ -228,7 +227,6 @@
     if ([target isKindOfClass:OBADeepLinkNavigationTarget.class]) {
         OBADeepLinkNavigationTarget *t = (OBADeepLinkNavigationTarget *)target;
 		OBAArrivalAndDepartureViewController *controller = [[OBAArrivalAndDepartureViewController alloc] initWithArrivalAndDepartureConvertible:t.tripDeepLink];
-//		OBAArrivalAndDepartureView *controller = [OBAArrivalAndDepartureView createWithArrivalAndDepartureConvertible:t.tripDeepLink];
         [self.navigationController pushViewController:controller animated:YES];
     }
     else if ([target isKindOfClass:OBAAlarmNavigationTarget.class]) {

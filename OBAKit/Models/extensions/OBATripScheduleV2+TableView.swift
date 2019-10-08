@@ -11,15 +11,15 @@ public extension OBATripScheduleV2 {
 		case trip(OBATripV2)
 		case stopTime(OBATripStopTimeV2)
 	}
-	
+
 	var tableViewDataSource: [TableViewDataSourceType] {
 		var data: [TableViewDataSourceType] = []
 		if let previousTrip = self.previousTrip {
 			data.append(.trip(previousTrip))
 		}
-		
+
 		self.stopTimes.forEach { data.append(.stopTime($0))}
-		
+
 		if let nextTrip = self.nextTrip {
 			data.append(.trip(nextTrip))
 		}

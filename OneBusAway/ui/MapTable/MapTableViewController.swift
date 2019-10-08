@@ -395,11 +395,8 @@ extension MapTableViewController {
             stopController.embedDelegate = self
             stopController.inEmbedMode = true
         }
-		
-//		pulleyViewController.primaryContentViewController.
 
 		pulleyViewController.primaryContentViewController.navigationController?.pushViewController(stopController, animated: true)
-//        pulleyViewController.pushViewController(stopController, animated: true)
     }
 }
 
@@ -429,12 +426,10 @@ extension MapTableViewController: MapControllerDelegate {
 extension MapTableViewController: EmbeddedStopDelegate {
     func embeddedStop(_ stopController: StopViewController, push viewController: UIViewController, animated: Bool) {
 		pulleyViewController?.primaryContentViewController.navigationController?.pushViewController(viewController, animated: true)
-//        pulleyViewController?.pushViewController(viewController, animated: animated)
     }
 
     func embeddedStopControllerClosePane(_ stopController: StopViewController) {
 		pulleyViewController?.primaryContentViewController.navigationController?.popViewController(animated: true)
-//        pulleyViewController?.popViewController(animated: true)
     }
 
     func embeddedStopControllerBottomLayoutGuideLength() -> CGFloat {

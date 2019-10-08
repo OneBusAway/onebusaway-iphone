@@ -232,8 +232,8 @@ static NSCache *iconCache = nil;
     glyphView.contentMode = UIViewContentModeScaleAspectFit;
     NSString *transportGlyphName = [NSString stringWithFormat:@"%@Transport", [self imageNameForRouteType:stop.firstAvailableRouteTypeForStop]];
     glyphView.image = [UIImage imageNamed:transportGlyphName];
-	[glyphView setTintColor:UIColor.blackColor];
-	
+    [glyphView setTintColor:UIColor.blackColor];
+
     [view addSubview:glyphView];
 
     // If a direction is expressed, draw the chevron view and position it

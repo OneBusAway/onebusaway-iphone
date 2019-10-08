@@ -74,7 +74,7 @@ class ChevronCardCell: SelfSizingCollectionCell {
 		} else {
 			imageView.backgroundColor = .white
 		}
-		
+
         imageView.contentMode = .scaleAspectFit
         return imageView
     }()
@@ -95,13 +95,13 @@ class ChevronCardCell: SelfSizingCollectionCell {
             make.leading.trailing.equalToSuperview().inset(UIEdgeInsets(top: 0, left: 0, bottom: 0, right: OBATheme.defaultPadding))
             make.centerY.equalToSuperview()
         }
-		
+
 		if #available(iOS 13, *) {
 			chevronWrapper.backgroundColor = .systemBackground
 		} else {
 			chevronWrapper.backgroundColor = .white
 		}
-		
+
         return chevronWrapper
     }()
 }
