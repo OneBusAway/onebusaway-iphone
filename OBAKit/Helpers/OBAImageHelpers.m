@@ -77,29 +77,28 @@ CGFloat DegreesToRadians(CGFloat degrees) {
     CGFloat kStrokeWidth = 2.f;
     CGRect circleRect = CGRectMake(1, 1, size.width - 2, size.height - 2);
 
+    UIColor *circleBackground = nil;
+    UIColor *circleBorder = nil;
+
+    // Set background color
+    if (@available(iOS 13, *)) {
+        circleBackground = UIColor.systemBackgroundColor;
+        circleBorder = UIColor.opaqueSeparatorColor;
+    }
+    else {
+        circleBackground = UIColor.whiteColor;
+        circleBorder = UIColor.lightGrayColor
+    }
+
     UIGraphicsBeginImageContextWithOptions(size, opaque, [UIScreen mainScreen].scale);
     CGContextRef ctx = UIGraphicsGetCurrentContext();
 
     CGContextSetLineWidth(ctx, kStrokeWidth);
 
-	// Set background color
-	if (@available(iOS 13, *)) {
-		UIColor *backgroundColorToSet = [UIColor colorWithDynamicProvider:^UIColor * _Nonnull(UITraitCollection * _Nonnull traitCollection) {
-			if (traitCollection.userInterfaceStyle == UIUserInterfaceStyleDark) {
-				return [UIColor secondarySystemBackgroundColor];
-			} else {
-				return [UIColor whiteColor];
-			}
-		}];
-		
-		[backgroundColorToSet set];
-	} else {
-		[[UIColor whiteColor] set];
-	}
-	
+    [circleBackground set];
     CGContextFillEllipseInRect(ctx, circleRect);
 
-    [(strokeColor ?: [UIColor lightGrayColor]) set];
+    [(strokeColor ?: circleBorder) set];
     CGContextStrokeEllipseInRect(ctx, circleRect);
 
     if (image) {

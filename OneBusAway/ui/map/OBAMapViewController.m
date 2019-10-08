@@ -1054,7 +1054,6 @@ static const double kStopsInRegionRefreshDelayOnDrag = 0.1;
         wrapper.anyPromise.then(^(NetworkResponse *response){
             OBATripDetailsV2 *tripDetails = (OBATripDetailsV2 *)response.object;
 			OBAArrivalAndDepartureViewController *controller = [[OBAArrivalAndDepartureViewController alloc] initWithTripInstance:tripDetails.tripInstance];
-//			OBAArrivalAndDepartureView *controller = [OBAArrivalAndDepartureView createWithTripInstance:tripDetails.tripInstance];
             [self pushViewController:controller animated:YES];
         }).catch(^(NSError *error) {
             [AlertPresenter showError:error presentingController:self];
