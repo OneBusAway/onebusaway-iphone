@@ -69,11 +69,6 @@ static NSString * const OBALastRegionRefreshDateUserDefaultsKey = @"OBALastRegio
 
 - (void)_constructUI {
     self.window = [[UIWindow alloc] initWithFrame:[UIScreen mainScreen].bounds];
-	if (@available(iOS 13.0, *)) {
-		self.window.backgroundColor = [UIColor systemBackgroundColor];
-	} else {
-		self.window.backgroundColor = [UIColor whiteColor];
-	}
 
     BOOL showDrawer = YES;
 
