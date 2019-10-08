@@ -1137,17 +1137,16 @@ static const double kStopsInRegionRefreshDelayOnDrag = 0.1;
 }
 
 - (void)weatherForecastDidUpdate:(NSNotification*)note {
-    OBAWeatherForecast *forecast = self.application.forecastManager.weatherForecast;
-    if (!forecast) {
+    NSString *temperature = self.application.forecastManager.formattedCurrentTemperature;
+
+    if (!temperature) {
         [self.forecastButton setTitle:@"-º" forState:UIControlStateNormal];
         [self.forecastButton setAccessibilityLabel:nil];
         return;
     }
 
-    NSString *temperature = [NSString stringWithFormat:@"%.0fº", forecast.currentForecast.temperature];
-
     [self.forecastButton setTitle:temperature forState:UIControlStateNormal];
-    self.forecastButton.accessibilityLabel = [NSString stringWithFormat:NSLocalizedString(@"map_controller.temperature_label_fmt", @"Formatted string for the current temperature."), @((NSInteger)forecast.currentForecast.temperature)];
+    self.forecastButton.accessibilityLabel = [NSString stringWithFormat:NSLocalizedString(@"map_controller.temperature_label_fmt", @"Formatted string for the current temperature."), temperature];
 }
 
 - (void)showForecast {

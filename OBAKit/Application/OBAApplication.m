@@ -244,4 +244,10 @@ NSString * const OBAOccupancyStatusTutorialViewedDefaultsKey = @"OBAOccupancySta
     return self.loggingManager.consoleLogger;
 }
 
+#pragma mark - Locale
+
+- (NSLocale*)currentLocale {
+    return [NSLocale currentLocale];
+}
+
 @end
