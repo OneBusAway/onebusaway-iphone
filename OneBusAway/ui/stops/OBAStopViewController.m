@@ -298,16 +298,7 @@ static void * arrivalsAndDeparturesContext = &arrivalsAndDeparturesContext;
         [self updateDrawerTitleWithArrivalsAndDepartures:self.arrivalsAndDepartures];
         [self.stopHeaderView populateTableHeaderFromArrivalsAndDeparturesModel:self.arrivalsAndDepartures];
         [self populateTableFromArrivalsAndDeparturesModel:self.arrivalsAndDepartures];
-    }).catch(^(NSError *error) {
-        [AlertPresenter showError:error presentingController:self];
-        DDLogError(@"An error occurred while displaying a stop: %@", error);
-        return error;
-    }).always(^{
-        if (animated) {
-            [self.refreshControl endRefreshing];
-        }
-        [self.reloadLock unlock];
-
+    }).then(^{
         if ([self canShowCoachmarks]) {
             [self showCoachmark];
         }
@@ -323,6 +314,16 @@ static void * arrivalsAndDeparturesContext = &arrivalsAndDeparturesContext;
                 [self reloadDataAnimated:NO];
             }
         }
+    })
+    .catch(^(NSError *error) {
+        [AlertPresenter showError:error presentingController:self];
+        DDLogError(@"An error occurred while displaying a stop: %@", error);
+        return error;
+    }).always(^{
+        if (animated) {
+            [self.refreshControl endRefreshing];
+        }
+        [self.reloadLock unlock];
     });
 }
 
