@@ -749,6 +749,7 @@ static NSString * const OBABookmarkSortUserDefaultsKey = @"OBABookmarkSortUserDe
 - (OBABookmarkedRouteRow *)rowForBookmarkVersion260:(OBABookmarkV2*)bookmark {
     OBABookmarkedRouteRow *row = [[OBABookmarkedRouteRow alloc] initWithBookmark:bookmark action:^(OBABaseRow *baseRow) {
         OBAStopViewController *controller = [[OBAStopViewController alloc] initWithStopID:bookmark.stopId];
+        controller.presentedFromBookmarks = YES;
         [self.navigationController pushViewController:controller animated:YES];
     }];
     row.attributedTopLine = [[NSAttributedString alloc] initWithString:bookmark.name];
