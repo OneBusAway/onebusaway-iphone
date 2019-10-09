@@ -601,6 +601,9 @@
 /* Formatted string for a list of routes - Routes: %@ */
 "stops_controller.routes_list_fmt" = "Routes: %@";
 
+/* Displayed when a bookmark may have stopped working. */
+"stop_controller.bookmark_error_message" = "Unable to load this stop. Try deleting and recreating your bookmark.";
+
 /* cell.statusLabel.text */
 "msg_mayus_vehicle" = "Vehicle";
 

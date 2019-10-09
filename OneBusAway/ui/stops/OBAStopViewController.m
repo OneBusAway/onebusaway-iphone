@@ -67,7 +67,6 @@ static void * arrivalsAndDeparturesContext = &arrivalsAndDeparturesContext;
         _minutesBefore = kDefaultMinutesBefore;
         _minutesAfter = kDefaultMinutesAfter;
 
-
         [self addObserver:self forKeyPath:NSStringFromSelector(@selector(arrivalsAndDepartures)) options:NSKeyValueObservingOptionNew|NSKeyValueObservingOptionOld context:arrivalsAndDeparturesContext];
     }
     return self;
@@ -298,16 +297,7 @@ static void * arrivalsAndDeparturesContext = &arrivalsAndDeparturesContext;
         [self updateDrawerTitleWithArrivalsAndDepartures:self.arrivalsAndDepartures];
         [self.stopHeaderView populateTableHeaderFromArrivalsAndDeparturesModel:self.arrivalsAndDepartures];
         [self populateTableFromArrivalsAndDeparturesModel:self.arrivalsAndDepartures];
-    }).catch(^(NSError *error) {
-        [AlertPresenter showError:error presentingController:self];
-        DDLogError(@"An error occurred while displaying a stop: %@", error);
-        return error;
-    }).always(^{
-        if (animated) {
-            [self.refreshControl endRefreshing];
-        }
-        [self.reloadLock unlock];
-
+    }).then(^{
         if ([self canShowCoachmarks]) {
             [self showCoachmark];
         }
@@ -323,6 +313,22 @@ static void * arrivalsAndDeparturesContext = &arrivalsAndDeparturesContext;
                 [self reloadDataAnimated:NO];
             }
         }
+    })
+    .catch(^(NSError *error) {
+        if (error.code == 1005 && self.presentedFromBookmarks) {
+            NSString *errorMessage = NSLocalizedString(@"stop_controller.bookmark_error_message", @"Displayed when a bookmark may have stopped working.");
+            [AlertPresenter showError:OBAStrings.error body:errorMessage];
+        }
+        else {
+            [AlertPresenter showError:error presentingController:self];
+        }
+        DDLogError(@"An error occurred while displaying a stop: %@", error);
+        return error;
+    }).always(^{
+        if (animated) {
+            [self.refreshControl endRefreshing];
+        }
+        [self.reloadLock unlock];
     });
 }
 
