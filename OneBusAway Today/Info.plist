@@ -19,7 +19,7 @@
 	<key>CFBundleShortVersionString</key>
 	<string>$(MARKETING_VERSION)</string>
 	<key>CFBundleVersion</key>
-	<string>20191007.21</string>
+	<string>20191008.23</string>
 	<key>Fabric</key>
 	<dict>
 		<key>APIKey</key>
