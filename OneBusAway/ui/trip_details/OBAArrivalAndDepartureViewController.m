@@ -49,6 +49,8 @@ static NSTimeInterval const kRefreshTimeInterval = 30;
 @property(nonatomic,strong) OBAStackedMarqueeLabels *titleLabels;
 
 @property(nonatomic,strong) OBAArrivalDepartureOptionsSheet *departureSheetHelper;
+
+@property(nonatomic,strong,nullable) NSTimer *idleTimerFailsafe;
 @end
 
 @implementation OBAArrivalAndDepartureViewController
@@ -91,6 +93,7 @@ static NSTimeInterval const kRefreshTimeInterval = 30;
 
 - (void)dealloc {
     [self.promiseWrapper cancel];
+    [self.idleTimerFailsafe invalidate];
 }
 
 #pragma mark - View Controller
@@ -145,6 +148,10 @@ static NSTimeInterval const kRefreshTimeInterval = 30;
     [super viewWillAppear:animated];
 
     UIApplication.sharedApplication.idleTimerDisabled = YES;
+    [self.idleTimerFailsafe invalidate];
+    self.idleTimerFailsafe = [NSTimer scheduledTimerWithTimeInterval:10.0 * 60.0 repeats:NO block:^(NSTimer *timer) {
+        UIApplication.sharedApplication.idleTimerDisabled = NO;
+    }];
 
     OBALogFunction();
 
@@ -162,6 +169,8 @@ static NSTimeInterval const kRefreshTimeInterval = 30;
     [super viewWillDisappear:animated];
 
     UIApplication.sharedApplication.idleTimerDisabled = NO;
+    [self.idleTimerFailsafe invalidate];
+    self.idleTimerFailsafe = nil;
 
     [[NSNotificationCenter defaultCenter] removeObserver:self name:UIApplicationWillEnterForegroundNotification object:nil];
 

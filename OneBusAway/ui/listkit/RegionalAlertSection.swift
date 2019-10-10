@@ -51,7 +51,6 @@ class RegionalAlert: NSObject, ListDiffable {
 }
 
 class RegionalAlertSectionController: ListSectionController, SwipeCollectionViewCellDelegate {
-
     // MARK: - Data
     var data: RegionalAlert?
 
@@ -73,7 +72,7 @@ class RegionalAlertSectionController: ListSectionController, SwipeCollectionView
             fatalError()
         }
 
-//        cell.delegate = self // abxoxo todo fixme
+        cell.delegate = self
         cell.alertTitleLabel.text = data.title
         cell.summaryLabel.text = data.summary
         cell.timeLabel.text = OBADateHelpers.formatDate(forMessageStyle: data.date)
@@ -119,8 +118,7 @@ class RegionalAlertSectionController: ListSectionController, SwipeCollectionView
     }
 }
 
-// abxoxo TODO FIXME!
-class RegionalAlertCell: UICollectionViewCell/*SwipeCollectionViewCell*/ {
+class RegionalAlertCell: SwipeCollectionViewCell {
     fileprivate let alertTitleLabel: UILabel = {
         let label = UILabel()
         label.numberOfLines = 2
