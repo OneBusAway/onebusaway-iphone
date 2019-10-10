@@ -301,7 +301,7 @@ public final class PulleyViewController: UIViewController, PulleyDrawerViewContr
 	// Returns default blur style depends on iOS version.
     private static var defaultBlurEffect: UIBlurEffect.Style {
         if #available(iOS 13, *) {
-            return .systemUltraThinMaterial
+            return .systemThinMaterial
         } else {
             return .extraLight
         }
