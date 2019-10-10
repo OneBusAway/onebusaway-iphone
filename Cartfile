@@ -25,7 +25,7 @@ github "Instagram/IGListKit" ==3.4.0
 github "CocoaLumberjack/CocoaLumberjack" ~>3.5.2
 
 # https://github.com/SwipeCellKit/SwipeCellKit/releases
-github "SwipeCellKit/SwipeCellKit" ~>2.5.4
+github "SwipeCellKit/SwipeCellKit" ~>2.7.1
 
 # https://github.com/huri000/SwiftEntryKit/releases
 github "huri000/SwiftEntryKit" ~>1.0.0
