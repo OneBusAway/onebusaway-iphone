@@ -54,6 +54,7 @@ static void * arrivalsAndDeparturesContext = &arrivalsAndDeparturesContext;
 @property(nonatomic,assign,readonly) BOOL regularUIMode;
 @property(nonatomic,strong) OBADrawerNavigationBar *drawerNavigationBar;
 @property(nonatomic,strong) AwesomeSpotlightView *spotlightView;
+@property(nonatomic,strong,nullable) NSTimer *idleTimerFailsafe;
 @end
 
 @implementation OBAStopViewController
@@ -76,6 +77,7 @@ static void * arrivalsAndDeparturesContext = &arrivalsAndDeparturesContext;
     [self removeObserver:self forKeyPath:NSStringFromSelector(@selector(arrivalsAndDepartures))];
     [self cancelTimers];
     [self.promiseWrapper cancel];
+    [self.idleTimerFailsafe invalidate];
 }
 
 - (void)cancelTimers {
@@ -121,6 +123,10 @@ static void * arrivalsAndDeparturesContext = &arrivalsAndDeparturesContext;
     [super viewWillAppear:animated];
 
     UIApplication.sharedApplication.idleTimerDisabled = YES;
+    [self.idleTimerFailsafe invalidate];
+    self.idleTimerFailsafe = [NSTimer scheduledTimerWithTimeInterval:600.0 repeats:NO block:^(NSTimer *timer) {
+        UIApplication.sharedApplication.idleTimerDisabled = NO;
+    }];
 
     OBALogFunction();
 
@@ -140,6 +146,8 @@ static void * arrivalsAndDeparturesContext = &arrivalsAndDeparturesContext;
     [super viewWillDisappear:animated];
 
     UIApplication.sharedApplication.idleTimerDisabled = NO;
+    [self.idleTimerFailsafe invalidate];
+    self.idleTimerFailsafe = nil;
 
     // Nil these out to ensure that they are recreated once the
     // view comes back into focus, which is important if the user
