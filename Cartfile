@@ -28,7 +28,7 @@ github "CocoaLumberjack/CocoaLumberjack" ~>3.5.2
 github "SwipeCellKit/SwipeCellKit" ~>2.7.1
 
 # https://github.com/huri000/SwiftEntryKit/releases
-github "huri000/SwiftEntryKit" ~>1.0.0
+github "huri000/SwiftEntryKit" ==1.0.4
 
 # https://github.com/zenangst/Hue/releases
 github "hyperoslo/Hue" ~>4.0.0
