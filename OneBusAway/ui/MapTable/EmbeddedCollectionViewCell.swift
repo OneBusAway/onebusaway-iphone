@@ -24,11 +24,11 @@ final class EmbeddedCollectionViewCell: UICollectionViewCell {
         view.alwaysBounceVertical = false
         view.alwaysBounceHorizontal = true
 
-		if #available(iOS 13, *) {
-			view.backgroundColor = .systemBackground
-		} else {
-			view.backgroundColor = .white
-		}
+        if #available(iOS 13, *) {
+          view.backgroundColor = .secondarySystemGroupedBackground
+        } else {
+          view.backgroundColor = .white
+        }
 
         self.contentView.addSubview(view)
         return view

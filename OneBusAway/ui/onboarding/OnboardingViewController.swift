@@ -24,6 +24,12 @@ import SnapKit
 
         self.stackView.axis = .vertical
         self.stackView.spacing = OBATheme.defaultPadding
+      
+        if #available(iOS 13.0, *) {
+            self.view.backgroundColor = .systemBackground
+        } else {
+            self.view.backgroundColor = .white
+        }
 
         let imageView = UIImageView.init(image: #imageLiteral(resourceName: "infoheader"))
         imageView.contentMode = .scaleAspectFit

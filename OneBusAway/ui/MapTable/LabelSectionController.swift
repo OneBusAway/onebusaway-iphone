@@ -76,11 +76,11 @@ final class BlahLabelCell: UICollectionViewCell {
         contentView.addSubview(label)
         contentView.layer.addSublayer(separator)
 
-		if #available(iOS 13, *) {
-			contentView.backgroundColor = .systemBackground
-		} else {
-			contentView.backgroundColor = .white
-		}
+        if #available(iOS 13, *) {
+          contentView.backgroundColor = .secondarySystemGroupedBackground
+        } else {
+          contentView.backgroundColor = .white
+        }
     }
 
     required init?(coder aDecoder: NSCoder) {

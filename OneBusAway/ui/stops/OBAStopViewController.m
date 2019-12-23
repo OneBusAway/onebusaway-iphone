@@ -819,6 +819,13 @@ static void * arrivalsAndDeparturesContext = &arrivalsAndDeparturesContext;
 - (void)showFilterAndSortUI {
     OBAEditStopPreferencesViewController *vc = [[OBAEditStopPreferencesViewController alloc] initWithModelDAO:self.modelDAO stop:self.arrivalsAndDepartures.stop];
     UINavigationController *nav = [[UINavigationController alloc] initWithRootViewController:vc];
+    
+    // Resolves #1455.
+    // For some reason, I'm unable to set the presentation controller's delegate
+    // to observe modal dismisses, so this is a workaround by going back to
+    // pre-iOS 13 modal behavior.
+    nav.modalPresentationStyle = UIModalPresentationFullScreen;
+    
     [self presentViewController:nav animated:YES completion:nil];
 }
 
