@@ -59,21 +59,21 @@ class ChevronCardCell: SelfSizingCollectionCell {
     public let contentWrapper: UIView = {
         let view = UIView()
         view.translatesAutoresizingMaskIntoConstraints = false
-		if #available(iOS 13, *) {
-			view.backgroundColor = .systemBackground
-		} else {
-			view.backgroundColor = .white
-		}
+        if #available(iOS 13, *) {
+          view.backgroundColor = .secondarySystemGroupedBackground
+        } else {
+          view.backgroundColor = .white
+        }
         return view
     }()
 
     private let imageView: UIImageView = {
         let imageView = UIImageView()
-		if #available(iOS 13, *) {
-			imageView.backgroundColor = .systemBackground
-		} else {
-			imageView.backgroundColor = .white
-		}
+        if #available(iOS 13, *) {
+          imageView.backgroundColor = .secondarySystemGroupedBackground
+        } else {
+          imageView.backgroundColor = .white
+        }
 
         imageView.contentMode = .scaleAspectFit
         return imageView
@@ -97,7 +97,7 @@ class ChevronCardCell: SelfSizingCollectionCell {
         }
 
 		if #available(iOS 13, *) {
-			chevronWrapper.backgroundColor = .systemBackground
+			chevronWrapper.backgroundColor = .secondarySystemGroupedBackground
 		} else {
 			chevronWrapper.backgroundColor = .white
 		}

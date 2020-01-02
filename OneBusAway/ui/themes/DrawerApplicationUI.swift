@@ -56,13 +56,6 @@ import OBAKit
         mapPulley = PulleyViewController(contentViewController: mapController, drawerViewController: drawerNavigation)
         mapPulley.defaultCollapsedHeight = DrawerApplicationUI.calculateCollapsedHeightForCurrentDevice()
         mapPulley.initialDrawerPosition = .collapsed
-        if #available(iOS 11.0, *) {
-            // nop
-        }
-        else {
-            // iOS 10
-            mapPulley.backgroundDimmingColor = .clear
-        }
 
         mapPulley.title = mapTableController.title
         mapPulley.tabBarItem.image = mapTableController.tabBarItem.image
