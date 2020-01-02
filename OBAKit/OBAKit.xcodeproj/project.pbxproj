@@ -329,6 +329,7 @@
 		93FF488820EF53C4009CFF13 /* OBAGenericNavigationTarget.m in Sources */ = {isa = PBXBuildFile; fileRef = 93FF488620EF53C4009CFF13 /* OBAGenericNavigationTarget.m */; };
 		93FFA5FA1F88305300EA8008 /* OBAArrivalAndDepartureSectionBuilder.h in Headers */ = {isa = PBXBuildFile; fileRef = 93FFA5F81F88305300EA8008 /* OBAArrivalAndDepartureSectionBuilder.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		93FFA5FB1F88305300EA8008 /* OBAArrivalAndDepartureSectionBuilder.m in Sources */ = {isa = PBXBuildFile; fileRef = 93FFA5F91F88305300EA8008 /* OBAArrivalAndDepartureSectionBuilder.m */; };
+		CC037D9C23B4287B00C5149C /* OBADepartureTimeBadge.swift in Sources */ = {isa = PBXBuildFile; fileRef = CC037D9A23B4287B00C5149C /* OBADepartureTimeBadge.swift */; };
 		CCD30CFB1E30564600080EFF /* OBAHandoff.swift in Sources */ = {isa = PBXBuildFile; fileRef = CCD30CFA1E30564600080EFF /* OBAHandoff.swift */; };
 		CCFFCEC42338588D00DF41D0 /* OBATripScheduleV2+TableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CCFFCEC32338588D00DF41D0 /* OBATripScheduleV2+TableView.swift */; };
 /* End PBXBuildFile section */
@@ -673,6 +674,7 @@
 		93FF488620EF53C4009CFF13 /* OBAGenericNavigationTarget.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = OBAGenericNavigationTarget.m; sourceTree = "<group>"; };
 		93FFA5F81F88305300EA8008 /* OBAArrivalAndDepartureSectionBuilder.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OBAArrivalAndDepartureSectionBuilder.h; sourceTree = "<group>"; };
 		93FFA5F91F88305300EA8008 /* OBAArrivalAndDepartureSectionBuilder.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OBAArrivalAndDepartureSectionBuilder.m; sourceTree = "<group>"; };
+		CC037D9A23B4287B00C5149C /* OBADepartureTimeBadge.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OBADepartureTimeBadge.swift; sourceTree = "<group>"; };
 		CCD30CFA1E30564600080EFF /* OBAHandoff.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OBAHandoff.swift; sourceTree = "<group>"; };
 		CCFFCEC32338588D00DF41D0 /* OBATripScheduleV2+TableView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "OBATripScheduleV2+TableView.swift"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -1143,6 +1145,7 @@
 		9358CDAB1DEA1AB000132CDE /* Departures */ = {
 			isa = PBXGroup;
 			children = (
+				CC037D9A23B4287B00C5149C /* OBADepartureTimeBadge.swift */,
 				93FFA5F81F88305300EA8008 /* OBAArrivalAndDepartureSectionBuilder.h */,
 				93FFA5F91F88305300EA8008 /* OBAArrivalAndDepartureSectionBuilder.m */,
 				93089DA71F87E7FC00694A90 /* OBADepartureRow.h */,
@@ -1631,6 +1634,7 @@
 				938956FD215C3F03008AB975 /* RegionsService.swift in Sources */,
 				934196211DB0B099004BBBB7 /* OBARegionChangeRequest.m in Sources */,
 				934C50AA1E2B6D2700DFDCA0 /* OBAAlarm.m in Sources */,
+				CC037D9C23B4287B00C5149C /* OBADepartureTimeBadge.swift in Sources */,
 				934196891DB0B099004BBBB7 /* OBATripInstanceRef.m in Sources */,
 				9341963C1DB0B099004BBBB7 /* OBASetCoordinatePropertyJsonDigesterRule.m in Sources */,
 				934196931DB0B099004BBBB7 /* OBAVehicleStatusV2.m in Sources */,

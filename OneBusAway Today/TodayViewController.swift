@@ -123,6 +123,8 @@ extension TodayViewController {
             bookmarkStackView.addArrangedSubview(view)
             bookmarkViewsMap[bm] = view
         }
+      
+        layoutBookmarkVisibility()
     }
 
     private func viewForBookmark(_ bookmark: OBABookmarkV2, index: Int) -> TodayRowView {
@@ -131,8 +133,6 @@ extension TodayViewController {
         v.bookmark = bookmark
         v.setContentHuggingPriority(.defaultHigh, for: .vertical)
         v.setContentCompressionResistancePriority(.defaultHigh, for: .vertical)
-        let inCompactMode = extensionContext?.widgetActiveDisplayMode == .compact
-        v.isHidden = inCompactMode && index > 1
 
         return v
     }
@@ -187,18 +187,46 @@ extension TodayViewController: NCWidgetProviding {
     }
 
     func widgetActiveDisplayModeDidChange(_ activeDisplayMode: NCWidgetDisplayMode, withMaximumSize maxSize: CGSize) {
-        let isCompact = activeDisplayMode == .compact
-        for (idx, v) in bookmarkStackView.arrangedSubviews.enumerated() {
-            v.isHidden = isCompact && idx > 1
+        layoutBookmarkVisibility()
+    }
+    
+    /// Resposible for calculating how many bookmarks can fit into the widget's size.
+    func layoutBookmarkVisibility() {
+        guard let extensionContext = self.extensionContext else { return }
+        let displayMode = extensionContext.widgetActiveDisplayMode
+        let maximumSize = extensionContext.widgetMaximumSize(for: displayMode)
+        
+        // Calculate the number of bookmarks to display given the display mode.
+        // This varies depending on the number of lines the bookmark name is using.
+        
+        let padding = OBATheme.defaultPadding
+        let frontMatterSize = self.frontMatterWrapper.systemLayoutSizeFitting(maximumSize, withHorizontalFittingPriority: .required, verticalFittingPriority: .defaultHigh)
+        let heightAvailableForBookmarks = maximumSize.height - frontMatterSize.height - padding
+        
+        var numberOfBookmarksToDisplay: Int = 0
+        if displayMode == .compact {
+            // Calculate the number of rows we can fit into the height available for bookmarks.
+            var usedHeight: CGFloat = 0.0
+            for view in bookmarkStackView.arrangedSubviews {
+                let layoutSize = view.systemLayoutSizeFitting(maximumSize, withHorizontalFittingPriority: .required, verticalFittingPriority: .defaultHigh)
+                
+                guard layoutSize.height + usedHeight < heightAvailableForBookmarks else { break }
+                numberOfBookmarksToDisplay += 1
+                usedHeight += layoutSize.height
+            }
+        } else {
+            // We don't need to calculate how many bookmarks to fit.
+            numberOfBookmarksToDisplay = bookmarkStackView.arrangedSubviews.count
         }
-
-        let frontMatterSize = self.frontMatterWrapper.systemLayoutSizeFitting(maxSize, withHorizontalFittingPriority: .required, verticalFittingPriority: .defaultHigh)
-
-        let bookmarkSize = self.bookmarkWrapper.systemLayoutSizeFitting(maxSize, withHorizontalFittingPriority: .required, verticalFittingPriority: .defaultHigh)
-
-        let extra = OBATheme.defaultPadding
-
-        self.preferredContentSize = CGSize.init(width: frontMatterSize.width, height: frontMatterSize.height + bookmarkSize.height + extra)
+        
+        // Apply visibility of which bookmarks to display.
+        for (index, row) in bookmarkStackView.arrangedSubviews.enumerated() {
+            row.isHidden = index >= numberOfBookmarksToDisplay
+        }
+        
+        let bookmarksSize = self.bookmarkWrapper.systemLayoutSizeFitting(maximumSize, withHorizontalFittingPriority: .required, verticalFittingPriority: .defaultHigh)
+        
+        self.preferredContentSize = CGSize(width: frontMatterSize.width, height: frontMatterSize.height + bookmarksSize.height + padding)
     }
 }
 
