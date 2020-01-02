@@ -455,6 +455,9 @@ extension MapTableViewController: MapSearchDelegate, UISearchControllerDelegate,
         Analytics.logEvent(OBAAnalyticsSearchPerformed, parameters: ["searchType": NSStringFromOBASearchType(target.searchType) ?? "Unknown"])
 
         searchController.dismiss(animated: true) { [weak self] in
+            if let coordinateRegion = self?.coordinateRegion {
+                self?.application.mapDataLoader.searchRegion = OBAMapHelpers.convertCoordinateRegion(toCircularRegion: coordinateRegion)
+            }
             self?.setNavigationTarget(target)
         }
     }
