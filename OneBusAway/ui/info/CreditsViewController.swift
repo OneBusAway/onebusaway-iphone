@@ -8,6 +8,7 @@
 
 import OBAKit
 import UIKit
+import WebKit
 
 class CreditRow: OBATableRow {
     fileprivate let licenseText: String
@@ -85,7 +86,7 @@ class CreditsViewController: OBAStaticTableViewController {
 
 class CreditViewerController: UIViewController {
     private let credit: CreditRow
-    private let webView = UIWebView()
+    private let webView = WKWebView()
 
     init(credit: CreditRow) {
         self.credit = credit
@@ -97,6 +98,12 @@ class CreditViewerController: UIViewController {
     override func viewDidLoad() {
         webView.frame = view.bounds
         webView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
+        if #available(iOS 13.0, *) {
+            // Prevents initial white flash when loading webview
+            // https://forums.developer.apple.com/thread/121139
+            webView.isOpaque = false
+            webView.backgroundColor = UIColor.systemBackground
+        }
         view.addSubview(webView)
 
         webView.loadHTMLString(buildHTML(), baseURL: nil)
