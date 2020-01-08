@@ -125,12 +125,12 @@ extension TodayRowView {
 
     private static func buildDepartureBadge() -> OBADepartureTimeBadge {
         let badge = OBADepartureTimeBadge()
-        
+
         badge.snp_makeConstraints { make in
             make.height.equalTo(24)
             make.width.equalTo(42)
         }
-        
+
         return badge
     }
 }
@@ -141,7 +141,7 @@ extension TodayRowView {
         let formatString = NSLocalizedString("stops.no_departures_in_next_n_minutes_format", comment: "No departures in the next {MINUTES} minutes")
         let nextDepartureText = String.init(format: formatString, String(kMinutes))
         nextDepartureLabel.text = nextDepartureText
-        
+
         leadingDepartureLabel.apply(upcomingDeparture: nil)
         middleDepartureLabel.apply(upcomingDeparture: nil)
         trailingDepartureLabel.apply(upcomingDeparture: nil)
@@ -160,7 +160,7 @@ extension TodayRowView {
         applyUpcomingDeparture(at: 1, to: middleDepartureLabel)
         applyUpcomingDeparture(at: 2, to: trailingDepartureLabel)
     }
-  
+
     private func applyUpcomingDeparture(at index: Int, to badge: OBADepartureTimeBadge) {
         guard let departures = departures else {
             return
@@ -171,7 +171,7 @@ extension TodayRowView {
         }
 
         let departure = departures[index]
-      
+
         badge.apply(upcomingDeparture: departure)
     }
 }

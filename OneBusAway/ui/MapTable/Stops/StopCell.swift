@@ -88,7 +88,7 @@ class StopCell: SelfSizingCollectionCell {
         }
 
         let chevronWrapper = chevronImage.oba_embedInWrapperView(withConstraints: false)
-      
+
         if #available(iOS 13.0, *) {
             chevronWrapper.backgroundColor = .secondarySystemGroupedBackground
         } else {
