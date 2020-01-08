@@ -420,7 +420,7 @@ static NSString * const kPrivacyURLString = @"http://onebusaway.org/privacy/";
     [headerLabel setContentCompressionResistancePriority:UILayoutPriorityRequired forAxis:UILayoutConstraintAxisVertical];
     [views addObject:headerLabel];
 
-    UILabel *copyrightLabel = [self.class centeredLabelWithText:[NSString stringWithFormat:@"%@\r\n%@", [OBAApplication sharedApplication].fullAppVersionString, @"© University of Washington"] font:subHeadlineFont];
+    UILabel *copyrightLabel = [self.class centeredLabelWithText:[NSString stringWithFormat:@"%@\r\n%@", [OBAApplication sharedApplication].fullAppVersionString, @"© Open Transit Software Foundation"] font:subHeadlineFont];
 	[copyrightLabel setTextColor:UIColor.blackColor];
     [copyrightLabel setContentCompressionResistancePriority:UILayoutPriorityRequired forAxis:UILayoutConstraintAxisVertical];
     [views addObject:copyrightLabel];

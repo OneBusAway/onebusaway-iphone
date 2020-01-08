@@ -17,9 +17,9 @@
 	<key>CFBundlePackageType</key>
 	<string>XPC!</string>
 	<key>CFBundleShortVersionString</key>
-	<string>$(MARKETING_VERSION)</string>
+	<string>20.1.0</string>
 	<key>CFBundleVersion</key>
-	<string>20191010.16</string>
+	<string>20200107.23</string>
 	<key>Fabric</key>
 	<dict>
 		<key>APIKey</key>
