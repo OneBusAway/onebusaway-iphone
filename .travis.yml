@@ -12,7 +12,7 @@ before_install:
   # Cache the built frameworks to compilation time:
   - carthage build --platform iOS --no-use-binaries --cache-builds
   # Fake Firebase config for project compile. Valid since such file is not used for tests:
-  - cp AppIdentities/OneBusAway/OBAProperties.plist AppIdentities/GoogleService-Info.plist
+  - cp AppIdentities/OneBusAway/OBAProperties.plist AppIdentities/OneBusAway/GoogleService-Info.plist
 script: set -o pipefail && xcodebuild clean test CODE_SIGN_IDENTITY="" CODE_SIGNING_REQUIRED=NO -project org.onebusaway.iphone.xcodeproj -scheme OneBusAway -sdk iphonesimulator -destination "platform=iOS Simulator,id=$IOS_SIMULATOR_UDID" ONLY_ACTIVE_ARCH=NO | xcpretty
 notifications:
   slack:

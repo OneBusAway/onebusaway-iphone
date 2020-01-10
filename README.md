@@ -32,7 +32,7 @@ You are welcome to work on any bug or feature you would like, but we know that g
 4. Build Carthage dependencies: `carthage build --platform iOS --no-use-binaries`
 5. `open org.onebusaway.iphone.xcodeproj`
 6. Create a new Firebase app at https://firebase.google.com/ - You just need the `GoogleService-Info.plist` file that it'll spit out at you once you've created.
-7. Place `GoogleService-Info.plist` in the `(SOURCEROOT)/AppIdentities` folder.
+7. Place `GoogleService-Info.plist` in the `(SOURCEROOT)/AppIdentities/OneBusAway` folder.
 
 You should now be able to build. See our [contributing guidelines](CONTRIBUTING.md) for the specific workflow to add a new feature or bug fix.
 
