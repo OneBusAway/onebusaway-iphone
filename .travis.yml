@@ -6,6 +6,8 @@ before_install:
   - echo $IOS_SIMULATOR_UDID
   - open -b com.apple.iphonesimulator --args -CurrentDeviceUDID $IOS_SIMULATOR_UDID
   - carthage build --platform iOS --no-use-binaries
+  # Fake Firebase config for test to build:
+  - cp AppIdentities/OneBusAway/OBAProperties.plist AppIdentities/GoogleService-Info.plist
 script: set -o pipefail && xcodebuild clean test CODE_SIGN_IDENTITY="" CODE_SIGNING_REQUIRED=NO -project org.onebusaway.iphone.xcodeproj -scheme OneBusAway -sdk iphonesimulator -destination "platform=iOS Simulator,id=$IOS_SIMULATOR_UDID" ONLY_ACTIVE_ARCH=NO | xcpretty
 notifications:
   slack:
