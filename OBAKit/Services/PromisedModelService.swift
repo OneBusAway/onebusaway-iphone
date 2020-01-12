@@ -27,7 +27,7 @@ import PromiseKit
     @objc public func buildURLRequestForStopArrivalsAndDepartures(withID stopID: String, minutesBefore: UInt, minutesAfter: UInt) -> OBAURLRequest {
         let args = ["minutesBefore": minutesBefore, "minutesAfter": minutesAfter]
         let escapedStopID = OBAURLHelpers.escapePathVariable(stopID)
-        let path = String.init(format: "/api/where/arrivals-and-departures-for-stop/%@.json", escapedStopID)
+        let path = String(format: "/api/where/arrivals-and-departures-for-stop/%@.json", escapedStopID)
 
         return obaJsonDataSource.buildGETRequest(withPath: path, queryParameters: args)
     }

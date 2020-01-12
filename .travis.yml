@@ -1,9 +1,18 @@
 language: objective-c
-osx_image: xcode10
+os: osx
+osx_image: xcode11
+cache:
+  directories:
+  - Carthage
 before_install:
-  - export IOS_SIMULATOR_UDID=`instruments -s devices | grep "iPhone SE.*12" | ruby -e "puts gets.match(/[0-9a-fA-F]{8}\-[0-9a-fA-F]{4}\-[0-9a-fA-F]{4}\-[0-9a-fA-F]{4}\-[0-9a-fA-F]{12}/)"`
+  # Wake simulator device to avoid timeout:
+  - export IOS_SIMULATOR_UDID=`instruments -s devices | grep "iPhone 8.*13" | ruby -e "puts gets.match(/[0-9a-fA-F]{8}\-[0-9a-fA-F]{4}\-[0-9a-fA-F]{4}\-[0-9a-fA-F]{4}\-[0-9a-fA-F]{12}/)"`
   - echo $IOS_SIMULATOR_UDID
   - open -b com.apple.iphonesimulator --args -CurrentDeviceUDID $IOS_SIMULATOR_UDID
+  # Cache the built frameworks to compilation time:
+  - carthage build --platform iOS --no-use-binaries --cache-builds
+  # Fake Firebase config for project compile. Valid since such file is not used for tests:
+  - cp AppIdentities/OneBusAway/OBAProperties.plist AppIdentities/OneBusAway/GoogleService-Info.plist
 script: set -o pipefail && xcodebuild clean test CODE_SIGN_IDENTITY="" CODE_SIGNING_REQUIRED=NO -project org.onebusaway.iphone.xcodeproj -scheme OneBusAway -sdk iphonesimulator -destination "platform=iOS Simulator,id=$IOS_SIMULATOR_UDID" ONLY_ACTIVE_ARCH=NO | xcpretty
 notifications:
   slack:
@@ -16,4 +25,4 @@ notifications:
       - https://webhooks.gitter.im/e/30e6e2d8791d3099cbe5
     on_success: always
     on_failure: always
-    on_start: true
+    on_start: always
