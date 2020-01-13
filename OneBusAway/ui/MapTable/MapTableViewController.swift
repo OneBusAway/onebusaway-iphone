@@ -167,13 +167,7 @@ extension MapTableViewController {
             return
         }
         modelService.requestRegionalAlerts().then { (alerts: [AgencyAlert]) -> Void in
-            let now = Date()
-            self.agencyAlerts = alerts.filter { alert -> Bool in
-                guard let end = alert.endDate else {
-                    return false
-                }
-                return now < end
-            }
+            self.agencyAlerts = alerts
         }.catch { err in
             DDLogError("Unable to retrieve agency alerts: \(err)")
         }.always {
@@ -210,7 +204,18 @@ extension MapTableViewController: ListAdapterDataSource {
         sections.append(GrabHandleSection())
 
         // Agency Alerts
-        let filteredAlerts = agencyAlerts.filter { application.modelDao.isAlertUnread($0) }
+        let now = Date()
+
+        let filteredAlerts = agencyAlerts
+            .sorted(by: { ($0.startDate ?? Date.distantPast) > ($1.startDate ?? Date.distantPast) })
+            .filter({ application.modelDao.isAlertUnread($0) })
+            .filter({
+                guard let endDate = $0.endDate else {
+                    return true
+                }
+                return endDate >= now
+            })
+
         if filteredAlerts.count > 0 {
             let first = filteredAlerts[0]
 
