@@ -1,0 +1,19 @@
+PODS:
+  - Kiwi (2.4.0)
+  - SMFloatingLabelTextField (0.1.0)
+
+DEPENDENCIES:
+  - Kiwi
+  - SMFloatingLabelTextField (from `../`)
+
+EXTERNAL SOURCES:
+  SMFloatingLabelTextField:
+    :path: "../"
+
+SPEC CHECKSUMS:
+  Kiwi: f49c9d54b28917df5928fe44968a39ed198cb8a8
+  SMFloatingLabelTextField: be758f435b153bbc6385152ab52a2720f2879c20
+
+PODFILE CHECKSUM: b73712fe4c9af8a139729273a4dadf688705b9fd
+
+COCOAPODS: 1.0.1

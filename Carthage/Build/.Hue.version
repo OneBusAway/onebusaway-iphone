@@ -1,9 +1,0 @@
-{
-  "commitish" : "d2250b593d903c892b47659c1c2d95755c8c4bfe",
-  "iOS" : [
-    {
-      "name" : "Hue",
-      "hash" : "4a5ff1bfae0b850b7cbaca785c1256fc2a6331a8f2f9718e0f9283db313f1e20"
-    }
-  ]
-}

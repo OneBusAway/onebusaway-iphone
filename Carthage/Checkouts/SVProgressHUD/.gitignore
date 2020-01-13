@@ -1,0 +1,28 @@
+# Mac OS X
+._*
+*.DS_Store
+*.psd
+
+# Xcode
+*.pbxuser
+*.mode1v3
+*.mode2v3
+*.perspectivev3
+*.xcuserstate
+project.xcworkspace/
+xcuserdata/
+DerivedData/
+
+# Generated files
+build/
+*.[oa]
+*.pyc
+
+# Backup files
+*~.nib
+/ graphics/
+Demo/.idea/.name
+Demo/.idea/Demo.iml
+Demo/.idea/modules.xml
+Demo/.idea/workspace.xml
+Demo/.idea/xcode.xml

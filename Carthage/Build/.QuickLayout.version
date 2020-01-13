@@ -1,9 +1,0 @@
-{
-  "commitish" : "2.0.2",
-  "iOS" : [
-    {
-      "name" : "QuickLayout",
-      "hash" : "c9fab34c68253c6e9fbe7df4a6316ddc3c3ca96f59509aacfe975571153f9903"
-    }
-  ]
-}

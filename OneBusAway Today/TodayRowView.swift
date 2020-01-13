@@ -71,6 +71,7 @@ class TodayRowView: UIView {
 
     private lazy var titleLabel: UILabel = {
         let label = TodayRowView.buildInfoLabel(font: OBATheme.boldFootnoteFont)
+        label.numberOfLines = 0
         return label
     }()
 
@@ -83,13 +84,14 @@ class TodayRowView: UIView {
 
     // MARK: - Departure Labels
 
-    private let leadingDepartureLabel = TodayRowView.buildDepartureLabel()
-    private let middleDepartureLabel = TodayRowView.buildDepartureLabel()
-    private let trailingDepartureLabel = TodayRowView.buildDepartureLabel()
+    private let leadingDepartureLabel = TodayRowView.buildDepartureBadge()
+    private let middleDepartureLabel = TodayRowView.buildDepartureBadge()
+    private let trailingDepartureLabel = TodayRowView.buildDepartureBadge()
 
     private lazy var departuresStack: UIStackView = {
-        let stack = UIStackView.init(arrangedSubviews: [leadingDepartureLabel, middleDepartureLabel, trailingDepartureLabel])
+        let stack = UIStackView(arrangedSubviews: [leadingDepartureLabel, middleDepartureLabel, trailingDepartureLabel])
         stack.axis = .horizontal
+        stack.alignment = .center
         stack.spacing = OBATheme.compactPadding
         stack.isUserInteractionEnabled = false
 
@@ -121,12 +123,15 @@ extension TodayRowView {
         return label
     }
 
-    private static func buildDepartureLabel() -> UILabel {
-        let label = UILabel.oba_autolayoutNew()
-        label.setContentHuggingPriority(.required, for: .horizontal)
-        label.setContentCompressionResistancePriority(.required, for: .vertical)
-        label.font = OBATheme.boldFootnoteFont
-        return label
+    private static func buildDepartureBadge() -> OBADepartureTimeBadge {
+        let badge = OBADepartureTimeBadge()
+
+        badge.snp_makeConstraints { make in
+            make.height.equalTo(24)
+            make.width.equalTo(42)
+        }
+
+        return badge
     }
 }
 
@@ -136,9 +141,10 @@ extension TodayRowView {
         let formatString = NSLocalizedString("stops.no_departures_in_next_n_minutes_format", comment: "No departures in the next {MINUTES} minutes")
         let nextDepartureText = String.init(format: formatString, String(kMinutes))
         nextDepartureLabel.text = nextDepartureText
-        leadingDepartureLabel.text = nil
-        middleDepartureLabel.text = nil
-        trailingDepartureLabel.text = nil
+
+        leadingDepartureLabel.apply(upcomingDeparture: nil)
+        middleDepartureLabel.apply(upcomingDeparture: nil)
+        trailingDepartureLabel.apply(upcomingDeparture: nil)
 
         guard let departures = departures else {
             return
@@ -155,7 +161,7 @@ extension TodayRowView {
         applyUpcomingDeparture(at: 2, to: trailingDepartureLabel)
     }
 
-    private func applyUpcomingDeparture(at index: Int, to label: UILabel) {
+    private func applyUpcomingDeparture(at index: Int, to badge: OBADepartureTimeBadge) {
         guard let departures = departures else {
             return
         }
@@ -164,9 +170,8 @@ extension TodayRowView {
             return
         }
 
-        let dep = departures[index]
-        label.accessibilityLabel = OBADateHelpers.formatAccessibilityLabelMinutes(until: dep.bestArrivalDepartureDate)
-        label.text = OBADateHelpers.formatMinutes(until: dep.bestArrivalDepartureDate)
-        label.textColor = OBADepartureCellHelpers.color(for: dep.departureStatus)
+        let departure = departures[index]
+
+        badge.apply(upcomingDeparture: departure)
     }
 }

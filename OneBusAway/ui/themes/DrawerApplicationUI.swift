@@ -57,14 +57,6 @@ import OBAKit
         mapPulley.defaultCollapsedHeight = DrawerApplicationUI.calculateCollapsedHeightForCurrentDevice()
         mapPulley.initialDrawerPosition = .collapsed
 
-        if #available(iOS 11.0, *) {
-            // nop
-        }
-        else {
-            // iOS 10
-            mapPulley.backgroundDimmingColor = .clear
-        }
-
         mapPulley.title = mapTableController.title
         mapPulley.tabBarItem.image = mapTableController.tabBarItem.image
         mapPulley.tabBarItem.selectedImage = mapTableController.tabBarItem.selectedImage
@@ -224,8 +216,8 @@ extension DrawerApplicationUI: UITabBarControllerDelegate {
                 return true
         }
 
-        let oldIndex = controllers.index(of: selectedController)
-        let newIndex = controllers.index(of: viewController)
+        let oldIndex = controllers.firstIndex(of: selectedController)
+        let newIndex = controllers.firstIndex(of: viewController)
 
         if newIndex == 0 && oldIndex == 0 {
             mapController.recenterMap()

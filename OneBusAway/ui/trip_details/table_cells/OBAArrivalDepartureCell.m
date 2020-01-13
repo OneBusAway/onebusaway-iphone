@@ -86,6 +86,12 @@ static CGFloat const kTimelineWidth = 1.f;
     self.occupancyStatusView.occupancyStatus = OBAOccupancyStatusUnknown;
 }
 
+- (void)traitCollectionDidChange:(UITraitCollection *)previousTraitCollection {
+	[super traitCollectionDidChange:previousTraitCollection];
+	
+	[self updateImageView];
+}
+
 #pragma mark - OBATableCell
 
 - (void)setTableRow:(OBABaseRow *)tableRow {
@@ -98,30 +104,38 @@ static CGFloat const kTimelineWidth = 1.f;
 
     self.accessoryType = [self departureRow].accessoryType;
 
-    if ([self departureRow].closestStopToVehicle) {
-        UIImage *image = [OBAStopIconFactory imageForRouteType:[self departureRow].routeType];
-        self.statusImageView.image = [OBAImageHelpers circleImageWithSize:CGSizeMake(kImageViewSize, kImageViewSize) contents:image strokeColor:[OBATheme OBADarkGreen]];
-
-        NSString *accessibilityLabel = [NSString stringWithFormat:NSLocalizedString(@"arrival_departure_cell.closest_stop", @"The vehicle is currently closest to <STOP NAME>"), [self departureRow].title];
-        self.statusImageView.accessibilityLabel = accessibilityLabel;
-    }
-    else if ([self departureRow].selectedStopForRider) {
-        UIImage *walkImage = [UIImage imageNamed:@"walkTransport"];
-        self.statusImageView.image = [OBAImageHelpers circleImageWithSize:CGSizeMake(kImageViewSize, kImageViewSize) contents:walkImage strokeColor:OBATheme.mapUserLocationColor];
-    }
-    else {
-        self.statusImageView.image = [OBAImageHelpers circleImageWithSize:CGSizeMake(kImageViewSize, kImageViewSize) contents:nil];
-    }
+	[self updateImageView];
 
     NSMutableAttributedString *labelText = [[NSMutableAttributedString alloc] initWithString:self.departureRow.title attributes:@{NSFontAttributeName: OBATheme.bodyFont}];
     [labelText appendAttributedString:[[NSAttributedString alloc] initWithString:@" "]];
 
-    NSAttributedString *timeText = [[NSAttributedString alloc] initWithString:self.departureRow.subtitle attributes:@{NSFontAttributeName: OBATheme.bodyFont, NSForegroundColorAttributeName: UIColor.darkGrayColor}];
+	UIColor *timeTextColor;
+	if (@available(iOS 13, *)) {
+		timeTextColor = [UIColor secondaryLabelColor];
+	} else {
+		timeTextColor = [UIColor darkGrayColor];
+	}
+	
+    NSAttributedString *timeText = [[NSAttributedString alloc] initWithString:self.departureRow.subtitle attributes:@{NSFontAttributeName: OBATheme.bodyFont, NSForegroundColorAttributeName: timeTextColor}];
     [labelText appendAttributedString:timeText];
 
     self.stopLabel.attributedText = labelText;
 
     self.occupancyStatusView.occupancyStatus = self.departureRow.historicalOccupancyStatus;
+}
+
+- (void)updateImageView {
+	if ([self departureRow].closestStopToVehicle) {
+		UIImage *image = [OBAStopIconFactory imageForRouteType:[self departureRow].routeType];
+		self.statusImageView.image = [OBAImageHelpers circleImageWithSize:CGSizeMake(kImageViewSize, kImageViewSize) contents:image strokeColor:[OBATheme OBADarkGreen]];
+		NSString *accessibilityLabel = [NSString stringWithFormat:NSLocalizedString(@"arrival_departure_cell.closest_stop", @"The vehicle is currentlyclosest to <STOP NAME>"), [self departureRow].title];
+		self.statusImageView.accessibilityLabel = accessibilityLabel;
+	} else if ([self departureRow].selectedStopForRider) {
+		UIImage *walkImage = [UIImage imageNamed:@"walkTransport"];
+		self.statusImageView.image = [OBAImageHelpers circleImageWithSize:CGSizeMake(kImageViewSize, kImageViewSize) contents:walkImage strokeColor:OBATheme.mapUserLocationColor];
+	} else {
+		self.statusImageView.image = [OBAImageHelpers circleImageWithSize:CGSizeMake(kImageViewSize, kImageViewSize) contents:nil];
+	}
 }
 
 - (OBAArrivalDepartureRow*)departureRow {

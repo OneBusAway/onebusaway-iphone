@@ -29,7 +29,10 @@ You are welcome to work on any bug or feature you would like, but we know that g
 1. Install the latest released version of Xcode 10.x from the Mac App Store
 2. `git clone` your fork
 3. [Install Carthage](https://github.com/Carthage/Carthage#installing-carthage)
-4. `open org.onebusaway.iphone.xcodeproj`
+4. Build Carthage dependencies: `carthage build --platform iOS --no-use-binaries`
+5. `open org.onebusaway.iphone.xcodeproj`
+6. Create a new Firebase app at https://firebase.google.com/ - You just need the `GoogleService-Info.plist` file that it'll spit out at you once you've created.
+7. Place `GoogleService-Info.plist` in the `(SOURCEROOT)/AppIdentities/OneBusAway` folder.
 
 You should now be able to build. See our [contributing guidelines](CONTRIBUTING.md) for the specific workflow to add a new feature or bug fix.
 

@@ -17,12 +17,17 @@ public class StackedButton: UIControl {
         let label = UILabel.oba_autolayoutNew()
         label.numberOfLines = 2
         label.font = OBATheme.footnoteFont
-        label.textColor = .black
         label.text = "LABEL"
         label.textAlignment = .center
         label.isUserInteractionEnabled = false
         label.setContentCompressionResistancePriority(.required, for: .vertical)
         label.setContentCompressionResistancePriority(.required, for: .horizontal)
+
+		if #available(iOS 13, *) {
+			label.textColor = .label
+		} else {
+			label.textColor = .black
+		}
 
         return label
     }()
@@ -41,8 +46,16 @@ public class StackedButton: UIControl {
     public override init(frame: CGRect) {
         super.init(frame: frame)
 
+        isAccessibilityElement = true
+        accessibilityTraits = .button
         isUserInteractionEnabled = true
-        backgroundColor = UIColor(white: 0.95, alpha: 1.0)
+
+		if #available(iOS 13, *) {
+			backgroundColor = .secondarySystemFill
+		} else {
+			backgroundColor = UIColor(white: 0.95, alpha: 1.0)
+		}
+
         layer.cornerRadius = OBATheme.defaultCornerRadius
 
         let stack = UIStackView.oba_verticalStack(withArrangedSubviews: [imageView, textLabel])

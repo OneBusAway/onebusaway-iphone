@@ -329,7 +329,9 @@
 		93FF488820EF53C4009CFF13 /* OBAGenericNavigationTarget.m in Sources */ = {isa = PBXBuildFile; fileRef = 93FF488620EF53C4009CFF13 /* OBAGenericNavigationTarget.m */; };
 		93FFA5FA1F88305300EA8008 /* OBAArrivalAndDepartureSectionBuilder.h in Headers */ = {isa = PBXBuildFile; fileRef = 93FFA5F81F88305300EA8008 /* OBAArrivalAndDepartureSectionBuilder.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		93FFA5FB1F88305300EA8008 /* OBAArrivalAndDepartureSectionBuilder.m in Sources */ = {isa = PBXBuildFile; fileRef = 93FFA5F91F88305300EA8008 /* OBAArrivalAndDepartureSectionBuilder.m */; };
+		CC037D9C23B4287B00C5149C /* OBADepartureTimeBadge.swift in Sources */ = {isa = PBXBuildFile; fileRef = CC037D9A23B4287B00C5149C /* OBADepartureTimeBadge.swift */; };
 		CCD30CFB1E30564600080EFF /* OBAHandoff.swift in Sources */ = {isa = PBXBuildFile; fileRef = CCD30CFA1E30564600080EFF /* OBAHandoff.swift */; };
+		CCFFCEC42338588D00DF41D0 /* OBATripScheduleV2+TableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CCFFCEC32338588D00DF41D0 /* OBATripScheduleV2+TableView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -651,7 +653,6 @@
 		93E592AD1F8D3C600079A2D8 /* OBABookmarkedRouteCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OBABookmarkedRouteCell.h; sourceTree = "<group>"; };
 		93E592AE1F8D3C600079A2D8 /* OBABookmarkedRouteCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OBABookmarkedRouteCell.m; sourceTree = "<group>"; };
 		93E592AF1F8D3C600079A2D8 /* OBABookmarkedRouteRow.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OBABookmarkedRouteRow.m; sourceTree = "<group>"; };
-		93E592BB1F8D778C0079A2D8 /* zh-Hant */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hant"; path = "zh-Hant.lproj/Localizable.strings"; sourceTree = "<group>"; };
 		93E6595D204098FB00053B7C /* OBAExtendedNavBarView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = OBAExtendedNavBarView.h; sourceTree = "<group>"; };
 		93E6595E204098FB00053B7C /* OBAExtendedNavBarView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = OBAExtendedNavBarView.m; sourceTree = "<group>"; };
 		93EA5A39203DF21800CE6CAC /* OBADeepLinkNavigationTarget.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = OBADeepLinkNavigationTarget.h; sourceTree = "<group>"; };
@@ -673,7 +674,9 @@
 		93FF488620EF53C4009CFF13 /* OBAGenericNavigationTarget.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = OBAGenericNavigationTarget.m; sourceTree = "<group>"; };
 		93FFA5F81F88305300EA8008 /* OBAArrivalAndDepartureSectionBuilder.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OBAArrivalAndDepartureSectionBuilder.h; sourceTree = "<group>"; };
 		93FFA5F91F88305300EA8008 /* OBAArrivalAndDepartureSectionBuilder.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OBAArrivalAndDepartureSectionBuilder.m; sourceTree = "<group>"; };
+		CC037D9A23B4287B00C5149C /* OBADepartureTimeBadge.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OBADepartureTimeBadge.swift; sourceTree = "<group>"; };
 		CCD30CFA1E30564600080EFF /* OBAHandoff.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OBAHandoff.swift; sourceTree = "<group>"; };
+		CCFFCEC32338588D00DF41D0 /* OBATripScheduleV2+TableView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "OBATripScheduleV2+TableView.swift"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -1142,6 +1145,7 @@
 		9358CDAB1DEA1AB000132CDE /* Departures */ = {
 			isa = PBXGroup;
 			children = (
+				CC037D9A23B4287B00C5149C /* OBADepartureTimeBadge.swift */,
 				93FFA5F81F88305300EA8008 /* OBAArrivalAndDepartureSectionBuilder.h */,
 				93FFA5F91F88305300EA8008 /* OBAArrivalAndDepartureSectionBuilder.m */,
 				93089DA71F87E7FC00694A90 /* OBADepartureRow.h */,
@@ -1162,6 +1166,7 @@
 			isa = PBXGroup;
 			children = (
 				935F91FC20F7EFB2003571EB /* Models+Extensions.swift */,
+				CCFFCEC32338588D00DF41D0 /* OBATripScheduleV2+TableView.swift */,
 			);
 			path = extensions;
 			sourceTree = "<group>";
@@ -1462,7 +1467,7 @@
 				TargetAttributes = {
 					934195381DB0B013004BBBB7 = {
 						CreatedOnToolsVersion = 8.0;
-						LastSwiftMigration = 1000;
+						LastSwiftMigration = 1020;
 						ProvisioningStyle = Manual;
 					};
 					934195411DB0B013004BBBB7 = {
@@ -1474,11 +1479,12 @@
 			};
 			buildConfigurationList = 934195331DB0B013004BBBB7 /* Build configuration list for PBXProject "OBAKit" */;
 			compatibilityVersion = "Xcode 3.2";
-			developmentRegion = English;
+			developmentRegion = en;
 			hasScannedForEncodings = 0;
 			knownRegions = (
 				en,
-				"zh-Hant",
+				es,
+				Base,
 			);
 			mainGroup = 9341952F1DB0B013004BBBB7;
 			productRefGroup = 9341953A1DB0B013004BBBB7 /* Products */;
@@ -1528,6 +1534,7 @@
 				934196011DB0B099004BBBB7 /* OBACommon.m in Sources */,
 				934196811DB0B099004BBBB7 /* OBAStopPreferencesV2.m in Sources */,
 				93EA5A40203DF41B00CE6CAC /* OBAAlarmNavigationTarget.m in Sources */,
+				CCFFCEC42338588D00DF41D0 /* OBATripScheduleV2+TableView.swift in Sources */,
 				934196831DB0B099004BBBB7 /* OBAStopsForRouteV2.m in Sources */,
 				930AFE901DD0717A0092AE82 /* Array+Functional.swift in Sources */,
 				9341967D1DB0B099004BBBB7 /* OBASituationV2.m in Sources */,
@@ -1627,6 +1634,7 @@
 				938956FD215C3F03008AB975 /* RegionsService.swift in Sources */,
 				934196211DB0B099004BBBB7 /* OBARegionChangeRequest.m in Sources */,
 				934C50AA1E2B6D2700DFDCA0 /* OBAAlarm.m in Sources */,
+				CC037D9C23B4287B00C5149C /* OBADepartureTimeBadge.swift in Sources */,
 				934196891DB0B099004BBBB7 /* OBATripInstanceRef.m in Sources */,
 				9341963C1DB0B099004BBBB7 /* OBASetCoordinatePropertyJsonDigesterRule.m in Sources */,
 				934196931DB0B099004BBBB7 /* OBAVehicleStatusV2.m in Sources */,
@@ -1713,7 +1721,6 @@
 			children = (
 				5B7C4A651DB96E8200853DD5 /* es */,
 				5B175F3A1DE37E7500F9E93C /* en */,
-				93E592BB1F8D778C0079A2D8 /* zh-Hant */,
 			);
 			name = Localizable.strings;
 			sourceTree = "<group>";
@@ -1773,7 +1780,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 10.3;
+				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
 				MTL_ENABLE_DEBUG_INFO = YES;
 				ONLY_ACTIVE_ARCH = YES;
 				PRODUCT_NAME = OBAKit;
@@ -1831,7 +1838,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 10.3;
+				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				ONLY_ACTIVE_ARCH = NO;
 				PRODUCT_NAME = OBAKit;
@@ -1850,6 +1857,7 @@
 				APPLICATION_EXTENSION_API_ONLY = YES;
 				CODE_SIGN_IDENTITY = "";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
+				CURRENT_PROJECT_VERSION = 20191006.01;
 				DEFINES_MODULE = YES;
 				DEVELOPMENT_TEAM = "";
 				DYLIB_COMPATIBILITY_VERSION = 1;
@@ -1858,14 +1866,15 @@
 				FRAMEWORK_SEARCH_PATHS = "$(SRCROOT)/../Carthage/Build/iOS";
 				INFOPLIST_FILE = "$(SRCROOT)/Info.plist";
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
-				IPHONEOS_DEPLOYMENT_TARGET = 10.3;
+				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				MARKETING_VERSION = 19.1.0;
 				MODULEMAP_FILE = "$(SRCROOT)/module.modulemap";
 				PRODUCT_BUNDLE_IDENTIFIER = org.onebusaway.iphone.OBAKit;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
 				SWIFT_TREAT_WARNINGS_AS_ERRORS = YES;
-				SWIFT_VERSION = 4.2;
+				SWIFT_VERSION = 5.0;
 			};
 			name = Debug;
 		};
@@ -1875,6 +1884,7 @@
 				APPLICATION_EXTENSION_API_ONLY = YES;
 				CODE_SIGN_IDENTITY = "";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
+				CURRENT_PROJECT_VERSION = 20191006.01;
 				DEFINES_MODULE = YES;
 				DEVELOPMENT_TEAM = "";
 				DYLIB_COMPATIBILITY_VERSION = 1;
@@ -1883,14 +1893,15 @@
 				FRAMEWORK_SEARCH_PATHS = "$(SRCROOT)/../Carthage/Build/iOS";
 				INFOPLIST_FILE = "$(SRCROOT)/Info.plist";
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
-				IPHONEOS_DEPLOYMENT_TARGET = 10.3;
+				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				MARKETING_VERSION = 19.1.0;
 				MODULEMAP_FILE = "$(SRCROOT)/module.modulemap";
 				PRODUCT_BUNDLE_IDENTIFIER = org.onebusaway.iphone.OBAKit;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
 				SWIFT_TREAT_WARNINGS_AS_ERRORS = YES;
-				SWIFT_VERSION = 4.2;
+				SWIFT_VERSION = 5.0;
 			};
 			name = Release;
 		};
@@ -1964,7 +1975,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 10.3;
+				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				ONLY_ACTIVE_ARCH = NO;
 				PRODUCT_NAME = OBAKit;
@@ -1982,6 +1993,7 @@
 				APPLICATION_EXTENSION_API_ONLY = YES;
 				CODE_SIGN_IDENTITY = "";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
+				CURRENT_PROJECT_VERSION = 20191006.01;
 				DEFINES_MODULE = YES;
 				DEVELOPMENT_TEAM = "";
 				DYLIB_COMPATIBILITY_VERSION = 1;
@@ -1990,14 +2002,15 @@
 				FRAMEWORK_SEARCH_PATHS = "$(SRCROOT)/../Carthage/Build/iOS";
 				INFOPLIST_FILE = "$(SRCROOT)/Info.plist";
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
-				IPHONEOS_DEPLOYMENT_TARGET = 10.3;
+				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				MARKETING_VERSION = 19.1.0;
 				MODULEMAP_FILE = "$(SRCROOT)/module.modulemap";
 				PRODUCT_BUNDLE_IDENTIFIER = org.onebusaway.iphone.OBAKit;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
 				SWIFT_TREAT_WARNINGS_AS_ERRORS = YES;
-				SWIFT_VERSION = 4.2;
+				SWIFT_VERSION = 5.0;
 			};
 			name = AppStoreDistribution;
 		};

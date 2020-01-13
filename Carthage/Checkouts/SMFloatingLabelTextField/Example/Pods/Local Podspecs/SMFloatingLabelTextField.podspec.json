@@ -1,0 +1,22 @@
+{
+  "name": "SMFloatingLabelTextField",
+  "version": "0.1.0",
+  "summary": "A subclass of UITextField that displays floating placeholder",
+  "description": "This CocoaPod providers the ability to use a UITextField that displays floating placeholder. When user type some text into field, or text is set programatically, placeholder label is displayed above field itself. The placeholder labes appears and disappears using animation.",
+  "homepage": "https://github.com/<GITHUB_USERNAME>/SMFloatingLabelTextField",
+  "license": {
+    "type": "MIT",
+    "file": "LICENSE"
+  },
+  "authors": {
+    "Michał Moskała": "micmos@azimo.com"
+  },
+  "source": {
+    "git": "https://github.com/<GITHUB_USERNAME>/SMFloatingLabelTextField.git",
+    "tag": "0.1.0"
+  },
+  "platforms": {
+    "ios": "8.0"
+  },
+  "source_files": "SMFloatingLabelTextField/Classes/**/*"
+}

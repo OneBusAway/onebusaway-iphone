@@ -54,6 +54,7 @@ static void * arrivalsAndDeparturesContext = &arrivalsAndDeparturesContext;
 @property(nonatomic,assign,readonly) BOOL regularUIMode;
 @property(nonatomic,strong) OBADrawerNavigationBar *drawerNavigationBar;
 @property(nonatomic,strong) AwesomeSpotlightView *spotlightView;
+@property(nonatomic,strong,nullable) NSTimer *idleTimerFailsafe;
 @end
 
 @implementation OBAStopViewController
@@ -67,7 +68,6 @@ static void * arrivalsAndDeparturesContext = &arrivalsAndDeparturesContext;
         _minutesBefore = kDefaultMinutesBefore;
         _minutesAfter = kDefaultMinutesAfter;
 
-
         [self addObserver:self forKeyPath:NSStringFromSelector(@selector(arrivalsAndDepartures)) options:NSKeyValueObservingOptionNew|NSKeyValueObservingOptionOld context:arrivalsAndDeparturesContext];
     }
     return self;
@@ -77,6 +77,7 @@ static void * arrivalsAndDeparturesContext = &arrivalsAndDeparturesContext;
     [self removeObserver:self forKeyPath:NSStringFromSelector(@selector(arrivalsAndDepartures))];
     [self cancelTimers];
     [self.promiseWrapper cancel];
+    [self.idleTimerFailsafe invalidate];
 }
 
 - (void)cancelTimers {
@@ -122,6 +123,10 @@ static void * arrivalsAndDeparturesContext = &arrivalsAndDeparturesContext;
     [super viewWillAppear:animated];
 
     UIApplication.sharedApplication.idleTimerDisabled = YES;
+    [self.idleTimerFailsafe invalidate];
+    self.idleTimerFailsafe = [NSTimer scheduledTimerWithTimeInterval:600.0 repeats:NO block:^(NSTimer *timer) {
+        UIApplication.sharedApplication.idleTimerDisabled = NO;
+    }];
 
     OBALogFunction();
 
@@ -141,6 +146,8 @@ static void * arrivalsAndDeparturesContext = &arrivalsAndDeparturesContext;
     [super viewWillDisappear:animated];
 
     UIApplication.sharedApplication.idleTimerDisabled = NO;
+    [self.idleTimerFailsafe invalidate];
+    self.idleTimerFailsafe = nil;
 
     // Nil these out to ensure that they are recreated once the
     // view comes back into focus, which is important if the user
@@ -298,16 +305,7 @@ static void * arrivalsAndDeparturesContext = &arrivalsAndDeparturesContext;
         [self updateDrawerTitleWithArrivalsAndDepartures:self.arrivalsAndDepartures];
         [self.stopHeaderView populateTableHeaderFromArrivalsAndDeparturesModel:self.arrivalsAndDepartures];
         [self populateTableFromArrivalsAndDeparturesModel:self.arrivalsAndDepartures];
-    }).catch(^(NSError *error) {
-        [AlertPresenter showError:error presentingController:self];
-        DDLogError(@"An error occurred while displaying a stop: %@", error);
-        return error;
-    }).always(^{
-        if (animated) {
-            [self.refreshControl endRefreshing];
-        }
-        [self.reloadLock unlock];
-
+    }).then(^{
         if ([self canShowCoachmarks]) {
             [self showCoachmark];
         }
@@ -323,6 +321,22 @@ static void * arrivalsAndDeparturesContext = &arrivalsAndDeparturesContext;
                 [self reloadDataAnimated:NO];
             }
         }
+    })
+    .catch(^(NSError *error) {
+        if (error.code == 1005 && self.presentedFromBookmarks) {
+            NSString *errorMessage = NSLocalizedString(@"stop_controller.bookmark_error_message", @"Displayed when a bookmark may have stopped working.");
+            [AlertPresenter showError:OBAStrings.error body:errorMessage];
+        }
+        else {
+            [AlertPresenter showError:error presentingController:self];
+        }
+        DDLogError(@"An error occurred while displaying a stop: %@", error);
+        return error;
+    }).always(^{
+        if (animated) {
+            [self.refreshControl endRefreshing];
+        }
+        [self.reloadLock unlock];
     });
 }
 
@@ -805,6 +819,13 @@ static void * arrivalsAndDeparturesContext = &arrivalsAndDeparturesContext;
 - (void)showFilterAndSortUI {
     OBAEditStopPreferencesViewController *vc = [[OBAEditStopPreferencesViewController alloc] initWithModelDAO:self.modelDAO stop:self.arrivalsAndDepartures.stop];
     UINavigationController *nav = [[UINavigationController alloc] initWithRootViewController:vc];
+    
+    // Resolves #1455.
+    // For some reason, I'm unable to set the presentation controller's delegate
+    // to observe modal dismisses, so this is a workaround by going back to
+    // pre-iOS 13 modal behavior.
+    nav.modalPresentationStyle = UIModalPresentationFullScreen;
+    
     [self presentViewController:nav animated:YES completion:nil];
 }
 

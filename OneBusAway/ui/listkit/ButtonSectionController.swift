@@ -14,12 +14,25 @@ import OBAKit
 class ButtonSectionCell: SelfSizingCollectionCell {
 
     private let kDebugColors = false
+	fileprivate static var tintColorToUse: UIColor {
+		if #available(iOS 13, *) {
+			return UIColor(dynamicProvider: { traitCollection -> UIColor in
+				if traitCollection.userInterfaceStyle == .dark {
+					return OBATheme.obaGreen
+				} else {
+					return OBATheme.obaDarkGreen
+				}
+			})
+		} else {
+			return OBATheme.obaDarkGreen
+		}
+	}
 
     fileprivate let imageView: UIImageView = {
         let imageView = UIImageView()
         imageView.contentMode = .scaleAspectFit
         imageView.setContentHuggingPriority(.required, for: .horizontal)
-        imageView.tintColor = OBATheme.obaDarkGreen
+		imageView.tintColor = ButtonSectionCell.tintColorToUse
 
         return imageView
     }()
@@ -28,7 +41,7 @@ class ButtonSectionCell: SelfSizingCollectionCell {
         let label = UILabel()
         label.setContentHuggingPriority(.required, for: .vertical)
         label.font = OBATheme.boldFootnoteFont
-        label.textColor = OBATheme.obaDarkGreen
+		label.textColor = ButtonSectionCell.tintColorToUse
 
         return label
     }()

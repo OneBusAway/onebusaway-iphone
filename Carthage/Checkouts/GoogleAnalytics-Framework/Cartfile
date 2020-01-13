@@ -1,0 +1,9 @@
+#
+#  Cartfile
+#
+#  Copyright (c) 2015 Adrian Kashivskyy. All rights reserved.
+#
+#  Licensed under the MIT License.
+#
+
+github "jspahrsummers/xcconfigs"
