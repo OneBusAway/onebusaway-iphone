@@ -139,7 +139,6 @@ extension RegionListViewController {
 extension RegionListViewController {
     func updateData() {
         guard let promise = application.regionHelper.refreshData() else {
-            AlertPresenter.showError("unable to load data", body: "TBD")
             return
         }
 
