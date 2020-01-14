@@ -27,7 +27,7 @@ import PromiseKit
     @objc public func buildURLRequestForStopArrivalsAndDepartures(withID stopID: String, minutesBefore: UInt, minutesAfter: UInt) -> OBAURLRequest {
         let args = ["minutesBefore": minutesBefore, "minutesAfter": minutesAfter]
         let escapedStopID = OBAURLHelpers.escapePathVariable(stopID)
-        let path = String.init(format: "/api/where/arrivals-and-departures-for-stop/%@.json", escapedStopID)
+        let path = String(format: "/api/where/arrivals-and-departures-for-stop/%@.json", escapedStopID)
 
         return obaJsonDataSource.buildGETRequest(withPath: path, queryParameters: args)
     }
@@ -50,7 +50,7 @@ import PromiseKit
     ///
     /// - Parameter tripInstance: The trip instance reference
     /// - Returns: A PromiseWrapper that resolves to an instance of OBATripDetailsV2
-    @objc public func requestTripDetails(tripInstance: OBATripInstanceRef) -> PromiseWrapper {
+    public func requestTripDetails(tripInstance: OBATripInstanceRef) -> PromiseWrapper {
         let request = self.buildTripDetailsRequest(tripInstance: tripInstance)
         let wrapper = PromiseWrapper.init(request: request)
 
@@ -93,7 +93,7 @@ import PromiseKit
     ///
     /// - Parameter vehicleID: The vehicle for which to retrieve trip details.
     /// - Returns: a PromiseWrapper that resolves to trip details.
-    @objc public func requestVehicleTrip(_ vehicleID: String) -> PromiseWrapper {
+    public func requestVehicleTrip(_ vehicleID: String) -> PromiseWrapper {
         let request = buildTripForVehicleRequest(vehicleID)
         let wrapper = PromiseWrapper(request: request)
 
@@ -123,7 +123,7 @@ import PromiseKit
 
 // MARK: - Agencies with Coverage
 @objc extension PromisedModelService {
-    @objc public func requestAgenciesWithCoverage() -> PromiseWrapper {
+    public func requestAgenciesWithCoverage() -> PromiseWrapper {
         let request = buildRequest()
         let wrapper = PromiseWrapper.init(request: request)
 

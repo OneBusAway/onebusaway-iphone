@@ -52,6 +52,7 @@ extern NSString *const OBAOccupancyStatusTutorialViewedDefaultsKey;
 @property (nonatomic, strong, readonly) OBAMapRegionManager *mapRegionManager;
 @property (nonatomic, strong, readonly) OBAForecastManager *forecastManager;
 @property (nonatomic, strong, readonly) NSUserDefaults *userDefaults;
+@property (nonatomic, strong, readonly) NSLocale *currentLocale;
 
 @property (nonatomic, copy, readonly) NSString *googleAnalyticsID;
 @property (nonatomic, copy, readonly) NSString *firebaseAnalyticsConfigFilePath;

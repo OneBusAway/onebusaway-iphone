@@ -1,0 +1,22 @@
+language: objective-c
+osx_image: xcode10.2
+cache: cocoapods
+podfile: Example/Podfile
+
+env:
+  global:
+    - WORKSPACE=Example/QuickLayout.xcworkspace
+    - SCHEME=QuickLayoutiOSDemo
+
+# travis cache isn't kept between builds
+before_install:
+  - rvm use system
+  - sudo gem install cocoapods -v '1.6.1'  
+  - pod repo update
+
+script:
+- set -o pipefail
+- xcodebuild clean build test -workspace "$WORKSPACE" -scheme "$SCHEME" -sdk iphonesimulator -destination 'platform=iOS Simulator,name=iPhone 8' -configuration Debug | xcpretty
+# - brew upgrade swiftlint
+- swiftlint
+- bash <(curl -s https://codecov.io/bash) -J 'QuickLayout'

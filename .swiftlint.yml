@@ -11,3 +11,5 @@ disabled_rules:
 function_body_length: 70
 excluded:
   - Carthage
+  - OneBusAway/externals
+  - PromiseKit

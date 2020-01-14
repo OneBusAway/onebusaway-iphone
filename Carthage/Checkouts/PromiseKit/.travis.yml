@@ -1,0 +1,129 @@
+matrix:
+  include:
+    - os: osx
+      language: objective-c
+      osx_image: xcode9.1
+      env: SWFT=4.0 PLAT=macOS
+    - os: osx
+      language: objective-c
+      osx_image: xcode9.1
+      env: SWFT=4.0 PLAT=iOS
+    - os: osx
+      language: objective-c
+      osx_image: xcode9.1
+      env: SWFT=4.0 PLAT=tvOS
+    - os: osx
+      language: objective-c
+      osx_image: xcode9.1
+      env: SWFT=4.0 PLAT=watchOS
+      
+    - os: osx
+      language: objective-c
+      osx_image: xcode9.1
+      env: SWFT=3.2 PLAT=macOS
+    - os: osx
+      language: objective-c
+      osx_image: xcode9.1
+      env: SWFT=3.2 PLAT=iOS
+    - os: osx
+      language: objective-c
+      osx_image: xcode9.1
+      env: SWFT=3.2 PLAT=tvOS
+    - os: osx
+      language: objective-c
+      osx_image: xcode9.1
+      env: SWFT=3.2 PLAT=watchOS
+
+    - os: osx
+      language: objective-c
+      osx_image: xcode8.3
+      env: SWFT=3.1 PLAT=macOS
+    - os: osx
+      language: objective-c
+      osx_image: xcode8.3
+      env: SWFT=3.1 PLAT=iOS
+    - os: osx
+      language: objective-c
+      osx_image: xcode8.3
+      env: SWFT=3.1 PLAT=tvOS
+    - os: osx
+      language: objective-c
+      osx_image: xcode8.3
+      env: SWFT=3.1 PLAT=watchOS
+
+    - os: osx
+      language: objective-c
+      osx_image: xcode8.2
+      env: SWFT=3.0 PLAT=macOS
+    - os: osx
+      language: objective-c
+      osx_image: xcode8.2
+      env: SWFT=3.0 PLAT=iOS
+    - os: osx
+      language: objective-c
+      osx_image: xcode8.2
+      env: SWFT=3.0 PLAT=tvOS
+    - os: osx
+      language: objective-c
+      osx_image: xcode8.2
+      env: SWFT=3.0 PLAT=watchOS
+
+    - os: osx
+      language: objective-c
+      osx_image: xcode8.1
+      env: SWFT=3.0 PLAT=macOS
+    - os: osx
+      language: objective-c
+      osx_image: xcode8.1
+      env: SWFT=3.0 PLAT=iOS
+    - os: osx
+      language: objective-c
+      osx_image: xcode8.1
+      env: SWFT=3.0 PLAT=tvOS
+    - os: osx
+      language: objective-c
+      osx_image: xcode8.1
+      env: SWFT=3.0 PLAT=watchOS
+
+    - os: linux
+      dist: trusty
+      sudo: required
+      services: docker
+      env: DOCKER_IMAGE=swift:3.1
+      
+    #TODO please help us test Linux with Swift 3.0, 3.2 and 4.0
+
+before_install:
+  - if [ "$TRAVIS_OS_NAME" == "linux" ]; then
+      docker pull $DOCKER_IMAGE;
+    fi;
+    case $PLAT in
+    iOS)
+      NAME="iPhone SE";;
+    tvOS)
+      NAME="Apple TV 1080p";;
+    watchOS)
+      NAME="Apple Watch - 38mm";;
+    esac;
+    if [ -n "$NAME" ]; then
+      export UUID=$(instruments -s | ruby -e "ARGF.each_line{ |ln| ln =~ /$NAME .* \[(.*)\]/; if \$1; puts(\$1); exit; end }");
+    fi
+script:
+  - set -o pipefail;
+    case $PLAT in
+    macOS)
+      xcodebuild -scheme PromiseKit -quiet build SWIFT_VERSION=$SWFT -enableCodeCoverage YES | xcpretty;
+      xcodebuild -scheme PromiseKit -quiet test;;
+    iOS|tvOS)
+      open -b com.apple.iphonesimulator --args -CurrentDeviceUDID "$UUID";
+      xcodebuild -scheme PromiseKit -quiet -destination "id=$UUID" build SWIFT_VERSION=$SWFT -enableCodeCoverage YES | xcpretty;
+      xcodebuild -scheme PromiseKit -quiet -destination "id=$UUID" test;;
+    watchOS)
+      xcodebuild -scheme PromiseKit -quiet -destination "id=$UUID" -quiet clean build SWIFT_VERSION=$SWFT | xcpretty;;
+    *)
+      docker-compose run PromiseKit;;
+    esac
+after_success:
+  - if [ "$TRAVIS_OS_NAME" == "osx" ]; then
+      bash <(curl -s https://codecov.io/bash);
+    fi

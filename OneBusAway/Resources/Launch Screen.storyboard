@@ -1,11 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="13196" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" launchScreen="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="01J-lp-oVM">
-    <device id="retina5_9" orientation="portrait">
-        <adaptation id="fullscreen"/>
-    </device>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="14868" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" launchScreen="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="01J-lp-oVM">
+    <device id="retina5_9" orientation="portrait" appearance="light"/>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="13173"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14824"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
@@ -23,10 +21,10 @@
                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                 <viewLayoutGuide key="safeArea" id="rTY-uj-W81"/>
                                 <items>
-                                    <tabBarItem image="Map" id="zQG-5H-SYE"/>
-                                    <tabBarItem image="Recent" id="7yx-j6-Rj3"/>
-                                    <tabBarItem title="" image="Favorites" id="IxM-O0-sXb"/>
-                                    <tabBarItem title="" image="Info" id="GFV-kW-0tI"/>
+                                    <tabBarItem title=" " image="Map" id="zQG-5H-SYE"/>
+                                    <tabBarItem title=" " image="Recent" id="7yx-j6-Rj3"/>
+                                    <tabBarItem title=" " image="Favorites" id="IxM-O0-sXb"/>
+                                    <tabBarItem title=" " image="Info" id="GFV-kW-0tI"/>
                                 </items>
                             </tabBar>
                         </subviews>
@@ -46,9 +44,9 @@
         </scene>
     </scenes>
     <resources>
-        <image name="Favorites" width="28" height="28"/>
-        <image name="Info" width="24" height="24"/>
-        <image name="Map" width="24" height="24"/>
-        <image name="Recent" width="24" height="24"/>
+        <image name="Favorites" width="25" height="24"/>
+        <image name="Info" width="25" height="25"/>
+        <image name="Map" width="25" height="25"/>
+        <image name="Recent" width="25" height="25"/>
     </resources>
 </document>

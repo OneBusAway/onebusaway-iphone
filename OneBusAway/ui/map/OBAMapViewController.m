@@ -287,7 +287,7 @@ static const double kStopsInRegionRefreshDelayOnDrag = 0.1;
         }).then(^(NetworkResponse *response) {
             if (response) {
                 OBATripDetailsV2 *tripDetails = (OBATripDetailsV2 *)response.object;
-                OBAArrivalAndDepartureViewController *controller = [[OBAArrivalAndDepartureViewController alloc] initWithTripInstance:tripDetails.tripInstance];
+				OBAArrivalAndDepartureViewController *controller = [[OBAArrivalAndDepartureViewController alloc] initWithTripInstance:tripDetails.tripInstance];
                 [self pushViewController:controller animated:YES];
             }
         }).catch(^(NSError *error) {
@@ -528,7 +528,7 @@ static const double kStopsInRegionRefreshDelayOnDrag = 0.1;
 
 - (MKOverlayRenderer *)mapView:(MKMapView *)mapView rendererForOverlay:(id<MKOverlay>)overlay {
     if ([overlay isKindOfClass:MKPolyline.class]) {
-        MKPolylineRenderer *renderer = [[MKPolylineRenderer alloc] initWithPolyline:overlay];
+        MKPolylineRenderer *renderer = [[MKPolylineRenderer alloc] initWithOverlay:overlay];
         renderer.fillColor = [UIColor blackColor];
         renderer.strokeColor = [UIColor blackColor];
         renderer.lineWidth = 5;
@@ -1053,7 +1053,7 @@ static const double kStopsInRegionRefreshDelayOnDrag = 0.1;
         PromiseWrapper *wrapper = [self.application.modelService requestVehicleTrip:matchingVehicle.vehicleID];
         wrapper.anyPromise.then(^(NetworkResponse *response){
             OBATripDetailsV2 *tripDetails = (OBATripDetailsV2 *)response.object;
-            OBAArrivalAndDepartureViewController *controller = [[OBAArrivalAndDepartureViewController alloc] initWithTripInstance:tripDetails.tripInstance];
+			OBAArrivalAndDepartureViewController *controller = [[OBAArrivalAndDepartureViewController alloc] initWithTripInstance:tripDetails.tripInstance];
             [self pushViewController:controller animated:YES];
         }).catch(^(NSError *error) {
             [AlertPresenter showError:error presentingController:self];
@@ -1101,6 +1101,10 @@ static const double kStopsInRegionRefreshDelayOnDrag = 0.1;
 
     self.locationHoverBar = [[ISHHoverBar alloc] init];
     self.locationHoverBar.shadowRadius = 2.f;
+	if (@available(iOS 13, *)) {
+		
+		self.locationHoverBar.effect = [UIBlurEffect effectWithStyle:UIBlurEffectStyleSystemUltraThinMaterial];
+	}
 
     NSMutableArray *buttons = [[NSMutableArray alloc] initWithObjects:recenterMapButton, tempButtonItem, nil];
 
@@ -1122,8 +1126,8 @@ static const double kStopsInRegionRefreshDelayOnDrag = 0.1;
 - (UIButton*)forecastButton {
     if (!_forecastButton) {
         UIButton *button = [[UIButton alloc] initWithFrame:CGRectMake(0, 0, 44, 44)];
-        [button setTitleColor:OBATheme.OBADarkGreen forState:UIControlStateNormal];
-
+        [button setTitleColor:OBATheme.OBAGreen forState:UIControlStateNormal];
+		
         button.imageView.contentMode = UIViewContentModeScaleAspectFit;
         button.imageEdgeInsets = [OBATheme hoverBarImageInsets];
         [button addTarget:self action:@selector(showForecast) forControlEvents:UIControlEventTouchUpInside];
@@ -1133,17 +1137,16 @@ static const double kStopsInRegionRefreshDelayOnDrag = 0.1;
 }
 
 - (void)weatherForecastDidUpdate:(NSNotification*)note {
-    OBAWeatherForecast *forecast = self.application.forecastManager.weatherForecast;
-    if (!forecast) {
+    NSString *temperature = self.application.forecastManager.formattedCurrentTemperature;
+
+    if (!temperature) {
         [self.forecastButton setTitle:@"-º" forState:UIControlStateNormal];
         [self.forecastButton setAccessibilityLabel:nil];
         return;
     }
 
-    NSString *temperature = [NSString stringWithFormat:@"%.0fº", forecast.currentForecast.temperature];
-
     [self.forecastButton setTitle:temperature forState:UIControlStateNormal];
-    self.forecastButton.accessibilityLabel = [NSString stringWithFormat:NSLocalizedString(@"map_controller.temperature_label_fmt", @"Formatted string for the current temperature."), @((NSInteger)forecast.currentForecast.temperature)];
+    self.forecastButton.accessibilityLabel = [NSString stringWithFormat:NSLocalizedString(@"map_controller.temperature_label_fmt", @"Formatted string for the current temperature."), temperature];
 }
 
 - (void)showForecast {

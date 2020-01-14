@@ -1,0 +1,13 @@
+#
+#  .gitattributes
+#
+#  Copyright (c) 2015 Adrian Kashivskyy. All rights reserved.
+#
+#  Licensed under the MIT License.
+#
+
+# Avoid conflicts in pbxproj files
+.pbxproj merge=union
+
+# Always diff strings files as text
+*.strings text diff

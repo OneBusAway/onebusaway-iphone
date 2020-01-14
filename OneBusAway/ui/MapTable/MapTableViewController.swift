@@ -396,7 +396,7 @@ extension MapTableViewController {
             stopController.inEmbedMode = true
         }
 
-        pulleyViewController.pushViewController(stopController, animated: true)
+		pulleyViewController.primaryContentViewController.navigationController?.pushViewController(stopController, animated: true)
     }
 }
 
@@ -425,17 +425,17 @@ extension MapTableViewController: MapControllerDelegate {
 // MARK: - EmbeddedStopDelegate
 extension MapTableViewController: EmbeddedStopDelegate {
     func embeddedStop(_ stopController: StopViewController, push viewController: UIViewController, animated: Bool) {
-        pulleyViewController?.pushViewController(viewController, animated: animated)
+		pulleyViewController?.primaryContentViewController.navigationController?.pushViewController(viewController, animated: true)
     }
 
     func embeddedStopControllerClosePane(_ stopController: StopViewController) {
-        pulleyViewController?.popViewController(animated: true)
+		pulleyViewController?.primaryContentViewController.navigationController?.popViewController(animated: true)
     }
 
     func embeddedStopControllerBottomLayoutGuideLength() -> CGFloat {
         // TODO: figure out why tacking on an extra 20pt to the tab bar size fixes the underlap issue that we see otherwise.
         // is it because of the height of the status bar or something equally irritating?
-        return bottomLayoutGuide.length + 20.0
+        return view.safeAreaInsets.bottom + 20.0
     }
 }
 
@@ -455,6 +455,9 @@ extension MapTableViewController: MapSearchDelegate, UISearchControllerDelegate,
         Analytics.logEvent(OBAAnalyticsSearchPerformed, parameters: ["searchType": NSStringFromOBASearchType(target.searchType) ?? "Unknown"])
 
         searchController.dismiss(animated: true) { [weak self] in
+            if let coordinateRegion = self?.coordinateRegion {
+                self?.application.mapDataLoader.searchRegion = OBAMapHelpers.convertCoordinateRegion(toCircularRegion: coordinateRegion)
+            }
             self?.setNavigationTarget(target)
         }
     }
@@ -565,8 +568,7 @@ extension MapTableViewController: VehicleDisambiguationDelegate {
             let tripInstance = tripDetails.tripInstance,
             let pulleyController = pulleyViewController
         {
-            let controller = OBAArrivalAndDepartureViewController(tripInstance: tripInstance)
-            pulleyController.pushViewController(controller, animated: true)
+			pulleyController.primaryContentViewController.navigationController?.pushViewController(OBAArrivalAndDepartureViewController(tripInstance: tripInstance), animated: true)
         }
     }
 

@@ -77,15 +77,28 @@ CGFloat DegreesToRadians(CGFloat degrees) {
     CGFloat kStrokeWidth = 2.f;
     CGRect circleRect = CGRectMake(1, 1, size.width - 2, size.height - 2);
 
+    UIColor *circleBackground = nil;
+    UIColor *circleBorder = nil;
+
+    // Set background color
+    if (@available(iOS 13, *)) {
+        circleBackground = UIColor.systemBackgroundColor;
+        circleBorder = UIColor.opaqueSeparatorColor;
+    }
+    else {
+        circleBackground = UIColor.whiteColor;
+        circleBorder = UIColor.lightGrayColor;
+    }
+
     UIGraphicsBeginImageContextWithOptions(size, opaque, [UIScreen mainScreen].scale);
     CGContextRef ctx = UIGraphicsGetCurrentContext();
 
     CGContextSetLineWidth(ctx, kStrokeWidth);
 
-    [[UIColor whiteColor] set]; //background color
+    [circleBackground set];
     CGContextFillEllipseInRect(ctx, circleRect);
 
-    [(strokeColor ?: [UIColor lightGrayColor]) set];
+    [(strokeColor ?: circleBorder) set];
     CGContextStrokeEllipseInRect(ctx, circleRect);
 
     if (image) {
@@ -120,6 +133,8 @@ CGFloat DegreesToRadians(CGFloat degrees) {
     // Save image
     UIImage *newImage = UIGraphicsGetImageFromCurrentImageContext();
     UIGraphicsEndImageContext();
-    return newImage;
+	
+	// Set the image to render as template so we can adjust how it looks at runtime (i.e. change tint color).
+    return [newImage imageWithRenderingMode:UIImageRenderingModeAlwaysTemplate];
 }
 @end

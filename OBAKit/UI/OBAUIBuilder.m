@@ -21,6 +21,11 @@
     label.textAlignment = NSTextAlignmentCenter;
     label.font = [OBATheme footnoteFont];
     label.text = text;
+	
+	if (@available(iOS 13, *)) {
+		label.textColor = UIColor.secondaryLabelColor;
+	}
+	
     [label oba_resizeHeightToFit];
 
     UIView *wrapper = [[UIView alloc] initWithFrame:CGRectInset(label.frame, -[OBATheme defaultPadding], -[OBATheme defaultPadding])];

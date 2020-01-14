@@ -190,7 +190,12 @@ static NSString * const OBABookmarkSortUserDefaultsKey = @"OBABookmarkSortUserDe
     NSString *todayExt = NSLocalizedString(@"bookmarks.toggle.today_view", @"Today View toggle item");
     self.bookmarkTypeToggle = [[UISegmentedControl alloc] initWithItems:@[bookmarks, todayExt]];
     self.bookmarkTypeToggle.selectedSegmentIndex = [self.application.userDefaults integerForKey:OBABookmarkTypeToggleUserDefaultsKey];
-    [self.bookmarkTypeToggle setTitleTextAttributes:@{NSForegroundColorAttributeName: [UIColor blackColor]} forState:UIControlStateNormal];
+	if (@available(iOS 13, *)) {
+		// nothing.
+	} else {
+		[self.bookmarkTypeToggle setTitleTextAttributes:@{NSForegroundColorAttributeName: [UIColor blackColor]} forState:UIControlStateNormal];
+	}
+	
     [self.bookmarkTypeToggle addTarget:self action:@selector(toggleBookmarks) forControlEvents:UIControlEventValueChanged];
 
     [self.toggleContainer addSubview:self.bookmarkTypeToggle];
@@ -236,6 +241,8 @@ static NSString * const OBABookmarkSortUserDefaultsKey = @"OBABookmarkSortUserDe
 
     [self reloadEmptyDataSet];
 }
+
+
 
 - (nullable NSAttributedString *)buttonTitleForEmptyDataSet:(UIScrollView *)scrollView forState:(UIControlState)state {
     if ([self bookmarkTypeToggleValue] != OBABookmarkTypeToggleTodayWidget) {
@@ -742,6 +749,7 @@ static NSString * const OBABookmarkSortUserDefaultsKey = @"OBABookmarkSortUserDe
 - (OBABookmarkedRouteRow *)rowForBookmarkVersion260:(OBABookmarkV2*)bookmark {
     OBABookmarkedRouteRow *row = [[OBABookmarkedRouteRow alloc] initWithBookmark:bookmark action:^(OBABaseRow *baseRow) {
         OBAStopViewController *controller = [[OBAStopViewController alloc] initWithStopID:bookmark.stopId];
+        controller.presentedFromBookmarks = YES;
         [self.navigationController pushViewController:controller animated:YES];
     }];
     row.attributedTopLine = [[NSAttributedString alloc] initWithString:bookmark.name];

@@ -13,6 +13,7 @@
 #import "OBATripScheduleSectionBuilder.h"
 #import "OBAArrivalDepartureRow.h"
 #import "UIViewController+OBAContainment.h"
+@import SwipeCellKit;
 #import "OneBusAway-Swift.h"
 #import "OBATimelineBarRow.h"
 #import "OBAPushManager.h"
@@ -48,6 +49,8 @@ static NSTimeInterval const kRefreshTimeInterval = 30;
 @property(nonatomic,strong) OBAStackedMarqueeLabels *titleLabels;
 
 @property(nonatomic,strong) OBAArrivalDepartureOptionsSheet *departureSheetHelper;
+
+@property(nonatomic,strong,nullable) NSTimer *idleTimerFailsafe;
 @end
 
 @implementation OBAArrivalAndDepartureViewController
@@ -90,6 +93,7 @@ static NSTimeInterval const kRefreshTimeInterval = 30;
 
 - (void)dealloc {
     [self.promiseWrapper cancel];
+    [self.idleTimerFailsafe invalidate];
 }
 
 #pragma mark - View Controller
@@ -99,7 +103,11 @@ static NSTimeInterval const kRefreshTimeInterval = 30;
 
     self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemRefresh target:self action:@selector(reloadData:)];
 
-    self.view.backgroundColor = [UIColor whiteColor];
+	if (@available(iOS 13, *)) {
+		self.view.backgroundColor = [UIColor systemBackgroundColor];
+	} else {
+		self.view.backgroundColor = [UIColor whiteColor];
+	}
 
     self.stackView = [[UIStackView alloc] initWithFrame:self.view.bounds];
     self.stackView.autoresizingMask = UIViewAutoresizingFlexibleHeight|UIViewAutoresizingFlexibleWidth;
@@ -140,6 +148,10 @@ static NSTimeInterval const kRefreshTimeInterval = 30;
     [super viewWillAppear:animated];
 
     UIApplication.sharedApplication.idleTimerDisabled = YES;
+    [self.idleTimerFailsafe invalidate];
+    self.idleTimerFailsafe = [NSTimer scheduledTimerWithTimeInterval:10.0 * 60.0 repeats:NO block:^(NSTimer *timer) {
+        UIApplication.sharedApplication.idleTimerDisabled = NO;
+    }];
 
     OBALogFunction();
 
@@ -157,6 +169,8 @@ static NSTimeInterval const kRefreshTimeInterval = 30;
     [super viewWillDisappear:animated];
 
     UIApplication.sharedApplication.idleTimerDisabled = NO;
+    [self.idleTimerFailsafe invalidate];
+    self.idleTimerFailsafe = nil;
 
     [[NSNotificationCenter defaultCenter] removeObserver:self name:UIApplicationWillEnterForegroundNotification object:nil];
 
@@ -462,7 +476,8 @@ static NSTimeInterval const kRefreshTimeInterval = 30;
     stackView.spacing = [OBATheme compactPadding];
     stackView.layoutMargins = [OBATheme compactEdgeInsets];
     stackView.layoutMarginsRelativeArrangement = YES;
-
+	if (@available(iOS 13, *)) stackView.backgroundColor = [UIColor systemBackgroundColor];
+	
     UIStackView *outerStack = [[UIStackView alloc] initWithArrangedSubviews:@[OBAUIBuilder.lineView, stackView, OBAUIBuilder.lineView]];
     outerStack.axis = UILayoutConstraintAxisVertical;
     outerStack.alignment = UIStackViewAlignmentFill;

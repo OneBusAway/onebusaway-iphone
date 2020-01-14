@@ -59,13 +59,22 @@ class ChevronCardCell: SelfSizingCollectionCell {
     public let contentWrapper: UIView = {
         let view = UIView()
         view.translatesAutoresizingMaskIntoConstraints = false
-        view.backgroundColor = .white
+        if #available(iOS 13, *) {
+          view.backgroundColor = .secondarySystemGroupedBackground
+        } else {
+          view.backgroundColor = .white
+        }
         return view
     }()
 
     private let imageView: UIImageView = {
         let imageView = UIImageView()
-        imageView.backgroundColor = .white
+        if #available(iOS 13, *) {
+          imageView.backgroundColor = .secondarySystemGroupedBackground
+        } else {
+          imageView.backgroundColor = .white
+        }
+
         imageView.contentMode = .scaleAspectFit
         return imageView
     }()
@@ -80,13 +89,19 @@ class ChevronCardCell: SelfSizingCollectionCell {
         let chevronImage = UIImageView(image: #imageLiteral(resourceName: "chevron"))
         chevronImage.tintColor = .darkGray
         let chevronWrapper = chevronImage.oba_embedInWrapperView(withConstraints: false)
-        chevronWrapper.backgroundColor = .white
         chevronImage.snp.makeConstraints { make in
             make.height.equalTo(14)
             make.width.equalTo(8)
             make.leading.trailing.equalToSuperview().inset(UIEdgeInsets(top: 0, left: 0, bottom: 0, right: OBATheme.defaultPadding))
             make.centerY.equalToSuperview()
         }
+
+		if #available(iOS 13, *) {
+			chevronWrapper.backgroundColor = .secondarySystemGroupedBackground
+		} else {
+			chevronWrapper.backgroundColor = .white
+		}
+
         return chevronWrapper
     }()
 }

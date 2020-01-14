@@ -22,9 +22,14 @@ import SnapKit
 
         self.title = NSLocalizedString("onboarding_controller.title", comment: "Title of the Onboarding Controller. 'Welcome to OneBusAway!'")
 
-        self.view.backgroundColor = UIColor.white
         self.stackView.axis = .vertical
         self.stackView.spacing = OBATheme.defaultPadding
+
+        if #available(iOS 13.0, *) {
+            self.view.backgroundColor = .systemBackground
+        } else {
+            self.view.backgroundColor = .white
+        }
 
         let imageView = UIImageView.init(image: #imageLiteral(resourceName: "infoheader"))
         imageView.contentMode = .scaleAspectFit

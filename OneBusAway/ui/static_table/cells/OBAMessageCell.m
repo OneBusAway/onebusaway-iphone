@@ -27,7 +27,13 @@ static CGFloat const kAccessoryWidth = 12.f;
     self = [super initWithStyle:style reuseIdentifier:reuseIdentifier];
 
     if (self) {
-        UIColor *subduedColor = [UIColor darkGrayColor];
+		UIColor *subduedColor;
+		if (@available(iOS 13, *)) {
+			subduedColor = [UIColor secondaryLabelColor];
+		} else {
+			subduedColor = [UIColor darkGrayColor];
+		}
+
         CGFloat compact = [OBATheme compactPadding];
         CGFloat regular = [OBATheme defaultPadding];
 

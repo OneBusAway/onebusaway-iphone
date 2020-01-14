@@ -131,7 +131,7 @@ class VehicleMapController: UIViewController, MKMapViewDelegate {
         return renderer
     }()
 
-    let mapView = MKMapView.init()
+    let mapView = MKMapView()
 
     var vehicleAnnotationView: SVPulsingAnnotationView?
 
@@ -147,6 +147,7 @@ class VehicleMapController: UIViewController, MKMapViewDelegate {
         button.setImage(OBAImageHelpers.rotateImage(toggleImage, degrees: 90.0), for: .selected)
 
         button.isSelected = self.expanded
+		button.tintColor = OBATheme.obaGreen
 
         return button
     }()

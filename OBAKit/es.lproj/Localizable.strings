@@ -25,14 +25,14 @@
 /* <Route Number> to <Location>. e.g. 10 to Downtown Seattle */
 "text_route_to_orientation_params" = "%@ hacia %@";
 
+/* Suggested invocation phrase for Siri Shortcut */
+"handoff.show_me_my_bus" = "Muestra mi bus";
+
 /* The explanatory text displayed when a non-realtime trip is displayed on-screen. */
 "msg_scheduled_explanatory" = "*'Planificada': sin datos de ubicación de vehículos disponibles";
 
 /* Typically used on alerts and other modal actions. A 'cancel' button. */
 "msg_cancel" = "Cancelar";
-
-/* Not Found */
-"strings.not_found" = "No se encontró";
 
 /* The text 'Close' */
 "strings.close" = "Cerrar";
@@ -42,6 +42,9 @@
 
 /* Learn More */
 "strings.learn_more" = "Aprende Más";
+
+/* Continue */
+"strings.continue" = "Continuar";
 
 /* No comment provided by engineer. */
 "msg_cellular" = "Celular";
@@ -190,8 +193,25 @@
 /* The text 'Read More…' (note that is an ellipsis, not three dots…) */
 "strings.read_more" = "Leer Más…";
 
+/* Not Found */
+"strings.not_found" = "No encontrado";
+
+/* Offline */
+"strings.offline" = "Desconectado";
+
 /* An error displayed to the user when their alarm can't be created. */
 "model_service.cant_register_alarm_missing_parameters" = "Lo siento, no pudimos crear una alarma para este próximo viaje. Puedes intentarlo de nuevo, pero probablemente no hará ninguna diferencia. Lo sentimos por eso :(";
 
 /* Route formatting string. e.g. 10 to Downtown Seattle */
 "text_route_to_orientation_newline_params" = "%@ hacia %@";
+
+/* Accessibility label for the occupancy status view. */
+"occupancy_status.accessibility_label" = "Ocupación Prevista";
+
+"occupancy_status.empty" = "Vacío";
+"occupancy_status.many_seats_available" = "Muchos asientos disponibles";
+"occupancy_status.few_seats_available" = "Algunos asientos disponibles";
+"occupancy_status.standing_room_only" = "Espacio para estar de pié únicamente";
+"occupancy_status.full" = "Lleno";
+"occupancy_status.not_accepting_passengers" = "No acepta pasajeros";
+"occupancy_status.unknown" = "Desconocido";

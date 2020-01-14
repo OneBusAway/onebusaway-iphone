@@ -12,8 +12,22 @@ import UIKit
 public class ForecastManager: NSObject {
     private let application: OBAApplication
 
-    @objc
-    public private(set) var weatherForecast: WeatherForecast? {
+    @objc public var formattedCurrentTemperature: String? {
+        guard let forecast = weatherForecast else {
+            return nil
+        }
+
+        let locale = application.currentLocale as NSLocale
+        if let unit = locale.object(forKey: NSLocale.Key(rawValue: "kCFLocaleTemperatureUnitKey")) as? String, unit == "Celsius" {
+            let temp = (forecast.currentForecast.temperature - 32.0) * (5.0 / 9.0)
+            return String(format: "%.0fº", temp)
+        }
+        else {
+            return String(format: "%.0fº", forecast.currentForecast.temperature)
+        }
+    }
+
+    @objc public private(set) var weatherForecast: WeatherForecast? {
         didSet {
             guard let forecast = weatherForecast else {
                 return
@@ -33,8 +47,7 @@ public class ForecastManager: NSObject {
     private let updateInterval: TimeInterval = 900 // 15 minutes in seconds.
     private let acceptableForecastStaleness: TimeInterval = 3600 // 1 hour in seconds.
 
-    @objc
-    init(application: OBAApplication) {
+    @objc init(application: OBAApplication) {
         self.application = application
 
         if let serializedForecast = application.userDefaults.object(forKey: OBAForecastDataDefaultsKey) as? Data,

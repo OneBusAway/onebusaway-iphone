@@ -87,6 +87,10 @@
 
             self.contextMenuButton.backgroundColor = [UIColor yellowColor];
         }
+		
+		if (@available(iOS 13.0, *)) {
+			self.backgroundColor = [UIColor systemBackgroundColor];
+		}
     }
     return self;
 }
@@ -107,6 +111,8 @@
     self.topLineLabel.text = nil;
     self.middleLineLabel.text = nil;
     self.bottomLineLabel.text = nil;
+	
+	if (@available(iOS 13, *)) { self.backgroundColor = [UIColor systemBackgroundColor]; }
 }
 
 - (void)setHighlighted:(BOOL)highlighted animated:(BOOL)animated {
