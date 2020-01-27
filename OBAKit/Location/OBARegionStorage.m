@@ -50,7 +50,13 @@ static NSString * const OBALocalRegionsFileName = @"regions.json";
     }
 
     dispatch_sync(self.serialQueue, ^{
-        NSData *data = [NSKeyedArchiver archivedDataWithRootObject:regions];
+        NSError* error;
+        NSData* data = [NSKeyedArchiver archivedDataWithRootObject:regions requiringSecureCoding:false error:&error];
+        
+        if (!data) {
+            DDLogError(@"Unable to encode regions - %@", error);
+        }
+        
         [data writeToFile:OBARegionStorage.localRegionsFilePath atomically:NO];
     });
 }
@@ -84,12 +90,12 @@ static NSString * const OBALocalRegionsFileName = @"regions.json";
         return nil;
     }
 
-    NSArray<OBARegionV2*>* regions = nil;
+    NSData *objectData = [NSData dataWithContentsOfFile:OBARegionStorage.localRegionsFilePath];
+    NSError *error = nil;
+    NSArray *regions = [NSKeyedUnarchiver unarchiveTopLevelObjectFor:objectData error:&error];
 
-    @try {
-        regions = [NSKeyedUnarchiver unarchiveObjectWithFile:OBARegionStorage.localRegionsFilePath];
-    } @catch (NSException *exception) {
-        DDLogError(@"Failed to unarchive persisted regions: %@", exception);
+    if (!regions) {
+        DDLogError(@"Failed to unarchive persisted regions: %@", error);
     }
 
     return regions;

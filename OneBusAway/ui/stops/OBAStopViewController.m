@@ -739,7 +739,7 @@ static void * arrivalsAndDeparturesContext = &arrivalsAndDeparturesContext;
         return;
     }
 
-    UIView *parentView = UIApplication.sharedApplication.keyWindow;
+    UIView *parentView = UIApplication.sharedApplication.keyWindowFromWindows;
     UIView *targetView = firstVisibleCell.departureView.occupancyStatusView;
     CGRect targetFrame = [targetView convertRect:targetView.bounds toView:parentView];
 

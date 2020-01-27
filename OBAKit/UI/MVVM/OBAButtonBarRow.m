@@ -41,6 +41,10 @@
             make.edges.equalTo(self.contentView).insets(OBATheme.defaultEdgeInsets);
             make.height.lessThanOrEqualTo(@50);
         }];
+        
+        if (@available(iOS 13, *)) {
+            [self addInteraction:[[UILargeContentViewerInteraction alloc] init]];
+        }
     }
     return self;
 }

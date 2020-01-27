@@ -29,7 +29,7 @@ typedef void (^OBARowAction)(OBABaseRow *row);
 /**
  Optional 'swipe to reveal' buttons for this row.
  */
-@property(nullable,nonatomic,copy) NSArray<UITableViewRowAction*> *rowActions;
+@property(nullable,nonatomic,copy) UISwipeActionsConfiguration *rowActions;
 
 /**
  Optionally, you can attach the represented model in order to 
@@ -49,6 +49,9 @@ typedef void (^OBARowAction)(OBABaseRow *row);
  This block is provided as a convenience for table views where you can delete models. Since it may be difficult
  to associate your row with a model (due to sorting differences or whatever), this block provides an easy way
  to get back to—and delete—the underlying data.
+ 
+ When you add a non-null delete model, OBAStaticTableViewController will automatically add a "delete" swipe
+ action to the table row.
  */
 @property(nonatomic,copy) void (^deleteModel)(OBABaseRow *row);
 

@@ -185,6 +185,6 @@ class MapSearchViewController: OBAStaticTableViewController, UISearchResultsUpda
 
         let tabBarHeight: CGFloat = 49
         self.tableView.contentInset.bottom = tabBarHeight
-        self.tableView.scrollIndicatorInsets.bottom = tabBarHeight
+        self.tableView.verticalScrollIndicatorInsets.bottom = tabBarHeight
     }
 }

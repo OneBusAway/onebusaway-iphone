@@ -276,26 +276,25 @@ NSString * const OBAUseStopDrawerDefaultsKey = @"OBAUseStopDrawerDefaultsKey2";
     }
 
     id object = nil;
-
-    @try {
-        NSKeyedUnarchiver * unarchiver = [[NSKeyedUnarchiver alloc] initForReadingWithData:data];
-        object = [unarchiver decodeObjectForKey:key];
-        [unarchiver finishDecoding];
-    }
-    @catch (NSException *exception) {
-        DDLogError(@"Unable to decode object for key %@ - %@", key, exception);
+    
+    NSError *error;
+    NSKeyedUnarchiver *unarchiver = [[NSKeyedUnarchiver alloc] initForReadingFromData:data error:&error];
+    [unarchiver setRequiresSecureCoding:false];
+    object = [unarchiver decodeObjectForKey:key];
+    [unarchiver finishDecoding];
+    
+    if (error) {
+        DDLogError(@"Unable to decode object for key %@ - %@", key, error);
     }
 
     return object;
 }
 
 + (void)writeObjectToUserDefaults:(id<NSCoding>)object withKey:(NSString*)key {
-    NSMutableData * data = [NSMutableData data];
-
-    NSKeyedArchiver * archiver = [[NSKeyedArchiver alloc] initForWritingWithMutableData:data];
+    NSKeyedArchiver *archiver = [[NSKeyedArchiver alloc] initRequiringSecureCoding:false];
     [archiver encodeObject:object forKey:key];
     [archiver finishEncoding];
 
-    [self.userDefaults setObject:data forKey:key];
+    [self.userDefaults setObject:archiver.encodedData forKey:key];
 }
 @end

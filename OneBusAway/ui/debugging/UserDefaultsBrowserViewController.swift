@@ -47,8 +47,9 @@ class UserDefaultsBrowserViewController: OBAStaticTableViewController {
             return
         }
 
-        if value is Data {
-            let unarchiver = NSKeyedUnarchiver.init(forReadingWith: value as! Data)
+        if let data = value as? Data,
+            let unarchiver = try? NSKeyedUnarchiver(forReadingFrom: data) {
+            
             let obj = unarchiver.decodeObject(forKey: key)
             unarchiver.finishDecoding()
 

@@ -467,7 +467,7 @@ static NSString * const OBALastRegionRefreshDateUserDefaultsKey = @"OBALastRegio
 #pragma mark - Private UI Junk
 
 - (UIViewController *)topViewController{
-    return [OBAApplicationDelegate topViewController:[UIApplication sharedApplication].keyWindow.rootViewController];
+    return [OBAApplicationDelegate topViewController:[UIApplication sharedApplication].keyWindowFromWindows.rootViewController];
 }
 
 + (UIViewController *)topViewController:(UIViewController *)rootViewController {

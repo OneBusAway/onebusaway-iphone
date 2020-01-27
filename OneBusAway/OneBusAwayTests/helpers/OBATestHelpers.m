@@ -20,8 +20,8 @@
 }
 
 + (id)roundtripObjectThroughNSCoding:(id<NSCoding>)obj {
-    NSData *data = [NSKeyedArchiver archivedDataWithRootObject:obj];
-    return [NSKeyedUnarchiver unarchiveObjectWithData:data];
+    NSData *data = [NSKeyedArchiver archivedDataWithRootObject:obj requiringSecureCoding:false error:nil];
+    return [NSKeyedUnarchiver unarchiveTopLevelObjectFor:data error:nil];
 }
 
 + (NSString*)pathToTestFile:(NSString*)fileName {
@@ -55,7 +55,7 @@
 }
 
 + (void)archiveObject:(id<NSCoding>)object toPath:(NSString*)path {
-    NSData *data = [NSKeyedArchiver archivedDataWithRootObject:object];
+    NSData *data = [NSKeyedArchiver archivedDataWithRootObject:object requiringSecureCoding:true error:nil];
     [data writeToFile:path atomically:YES];
 }
 
@@ -63,7 +63,7 @@
     NSString *filePath = [OBATestHelpers pathToTestFile:fileName];
     NSData *data = [[NSData alloc] initWithContentsOfFile:filePath];
     assert(data.length > 0);
-    return [NSKeyedUnarchiver unarchiveObjectWithData:data];
+    return [NSKeyedUnarchiver unarchiveTopLevelObjectFor:data error:nil];
 }
 
 + (OBARegionV2*)pugetSoundRegion {

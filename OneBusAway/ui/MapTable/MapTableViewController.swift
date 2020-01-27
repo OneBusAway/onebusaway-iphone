@@ -87,7 +87,7 @@ class MapTableViewController: UIViewController {
         let searchController = UISearchController.init(searchResultsController: mapSearchResultsController)
         searchController.delegate = self
         searchController.searchResultsUpdater = mapSearchResultsController
-        searchController.dimsBackgroundDuringPresentation = false
+        searchController.obscuresBackgroundDuringPresentation = false
         searchController.hidesNavigationBarDuringPresentation = false
 
         // Search Bar
