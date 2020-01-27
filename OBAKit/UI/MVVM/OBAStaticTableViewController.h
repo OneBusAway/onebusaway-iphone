@@ -71,8 +71,10 @@ typedef NS_ENUM(NSUInteger, OBARootViewStyle) {
  Removes the row at indexPath from section[section].rows[row],
  performs table view row deletion animations, and calls the 
  deleteModel block of the row.
+ 
+ @returns Whether the delete was successful. This returns false if a delete model is not present.
  */
-- (void)deleteRowAtIndexPath:(NSIndexPath*)indexPath;
+- (BOOL)deleteRowAtIndexPath:(NSIndexPath*)indexPath;
 
 /**
  Inserts a new row into the table view, optionally with animation.

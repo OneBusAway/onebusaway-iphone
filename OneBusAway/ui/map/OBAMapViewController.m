@@ -195,7 +195,7 @@ static const double kStopsInRegionRefreshDelayOnDrag = 0.1;
     self.searchController = [[UISearchController alloc] initWithSearchResultsController:self.mapSearchResultsController];
     self.searchController.delegate = self;
     self.searchController.searchResultsUpdater = self.mapSearchResultsController;
-    self.searchController.dimsBackgroundDuringPresentation = NO;
+    self.searchController.obscuresBackgroundDuringPresentation = NO;
     self.searchController.hidesNavigationBarDuringPresentation = NO;
 
     // Search Bar
@@ -660,14 +660,26 @@ static const double kStopsInRegionRefreshDelayOnDrag = 0.1;
         return;
     }
 
-    NSData *data = [NSKeyedArchiver archivedDataWithRootObject:[[OBABoxedCoordinateRegion alloc] initWithCoordinateRegion:_mostRecentRegion]];
+    OBABoxedCoordinateRegion *region = [[OBABoxedCoordinateRegion alloc] initWithCoordinateRegion:_mostRecentRegion];
+    NSError *error;
+    NSData *data = [NSKeyedArchiver archivedDataWithRootObject:region requiringSecureCoding:false error:&error];
+
+    if (!data) {
+        DDLogError(@"Unable to archive most recent region to user defaults: %@", error);
+    }
 
     [self.application.userDefaults setObject:data forKey:@"mostRecentRegion"];
 }
 
 + (MKCoordinateRegion)decodeMostRecentRegionFromUserDefaults:(NSUserDefaults*)userDefaults {
     NSData *data = [userDefaults objectForKey:@"mostRecentRegion"];
-    OBABoxedCoordinateRegion *boxedRegion = [NSKeyedUnarchiver unarchiveObjectWithData:data];
+    NSError *error = nil;
+    OBABoxedCoordinateRegion *boxedRegion = [NSKeyedUnarchiver unarchiveTopLevelObjectFor:data error:&error];
+
+    if (!boxedRegion) {
+        DDLogError(@"Unable to unarchive most recent region from user defaults: %@", error);
+    }
+
     return [boxedRegion coordinateRegion];
 }
 

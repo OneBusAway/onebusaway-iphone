@@ -161,14 +161,27 @@ static NSString * appVersion = nil;
     [debuggingInfo addObject:@[@"Current Location", location ? [NSString stringWithFormat:@"(%@, %@)", @(location.coordinate.latitude), @(location.coordinate.longitude)] : @"Unknown"]];
 
     CTTelephonyNetworkInfo *networkInfo = [[CTTelephonyNetworkInfo alloc] init];
-    if (networkInfo.subscriberCellularProvider.carrierName) {
-        [debuggingInfo addObject:@[@"Home Carrier", networkInfo.subscriberCellularProvider.carrierName]];
+    
+    if (@available(iOS 12.0, *)) {
+        int cellProvidersIndex = 0;
+        for (CTCarrier* carrier in networkInfo.serviceSubscriberCellularProviders) {
+            [debuggingInfo addObject:@[[NSString stringWithFormat:@"Carrier %@ name: %@", @(cellProvidersIndex), carrier.carrierName]]];
+            cellProvidersIndex++;
+        }
+        
+        if ([networkInfo.serviceCurrentRadioAccessTechnology count] > 0) {
+            [debuggingInfo addObject:@[@"Radio Technology", networkInfo.serviceCurrentRadioAccessTechnology]];
+        }
+    } else {
+        if (networkInfo.subscriberCellularProvider.carrierName) {
+            [debuggingInfo addObject:@[@"Home Carrier", networkInfo.subscriberCellularProvider.carrierName]];
+        }
+        
+        if (networkInfo.currentRadioAccessTechnology) {
+            [debuggingInfo addObject:@[@"Radio Technology", networkInfo.currentRadioAccessTechnology]];
+        }
     }
-
-    if (networkInfo.currentRadioAccessTechnology) {
-        [debuggingInfo addObject:@[@"Radio Technology", networkInfo.currentRadioAccessTechnology]];
-    }
-
+    
     return debuggingInfo;
 }
 

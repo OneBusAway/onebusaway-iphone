@@ -13,6 +13,7 @@
 #import <OBAKit/OBATableCell.h>
 #import <OBAKit/OBATheme.h>
 #import <OBAKit/OBAPlaceholderRow.h>
+#import <OBAKit/OBAStrings.h>
 
 @interface OBAStaticTableViewController ()<DZNEmptyDataSetSource, DZNEmptyDataSetDelegate>
 @property(nonatomic,strong,readwrite) UITableView *tableView;
@@ -208,11 +209,11 @@
     return YES;
 }
 
-- (void)deleteRowAtIndexPath:(NSIndexPath*)indexPath {
+- (BOOL)deleteRowAtIndexPath:(NSIndexPath*)indexPath {
     OBABaseRow *tableRow = [self rowAtIndexPath:indexPath];
 
     OBAGuard(tableRow.deleteModel) else {
-        return;
+        return NO;
     }
 
     OBATableSection *section = self.sections[indexPath.section];
@@ -221,6 +222,7 @@
     tableRow.deleteModel(tableRow);
 
     [self.tableView deleteRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationAutomatic];
+    return YES;
 }
 
 - (void)insertRow:(OBABaseRow*)row atIndexPath:(NSIndexPath*)indexPath animation:(UITableViewRowAnimation)animation {
@@ -334,14 +336,32 @@
     }
 }
 
-- (BOOL)tableView:(UITableView *)tableView canEditRowAtIndexPath:(NSIndexPath *)indexPath {
+- (UISwipeActionsConfiguration *)tableView:(UITableView *)tableView trailingSwipeActionsConfigurationForRowAtIndexPath:(NSIndexPath *)indexPath {
     OBABaseRow *row = [self rowAtIndexPath:indexPath];
-    return row.rowActions.count > 0;
-}
+    UISwipeActionsConfiguration *actionsConfiguration = [row.rowActions copy];
 
-- (NSArray<UITableViewRowAction *> *)tableView:(UITableView *)tableView editActionsForRowAtIndexPath:(NSIndexPath *)indexPath {
-    OBABaseRow *row = [self rowAtIndexPath:indexPath];
-    return row.rowActions;
+    // Add a delete action if a delete model exists.
+
+    if (!row.deleteModel) {
+        return row.rowActions;
+    }
+
+    UISwipeActionsConfiguration *configurationWithDeleteAction;
+
+    UIContextualAction *deleteAction = [UIContextualAction contextualActionWithStyle:UIContextualActionStyleDestructive title:OBAStrings.delete handler:^(UIContextualAction *action, UIView *sourceView, void (^completionHandler)(BOOL)) {
+
+        BOOL deleteStatus = [self deleteRowAtIndexPath: indexPath];
+        completionHandler(deleteStatus);
+    }];
+
+    if (actionsConfiguration) {
+        NSArray<UIContextualAction*> *actions = [[actionsConfiguration actions] arrayByAddingObject:deleteAction];
+        configurationWithDeleteAction = [UISwipeActionsConfiguration configurationWithActions:actions];
+    } else {
+        configurationWithDeleteAction = [UISwipeActionsConfiguration configurationWithActions: @[deleteAction]];
+    }
+
+    return configurationWithDeleteAction;
 }
 
 #pragma mark - Placeholder UI

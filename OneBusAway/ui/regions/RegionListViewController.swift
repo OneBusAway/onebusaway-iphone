@@ -109,29 +109,23 @@ extension RegionListViewController {
             deleteRow(at: indexPath)
         }
     }
-
-    func tableView(_ tableView: UITableView, editActionsForRowAtIndexPath indexPath: IndexPath) -> [UITableViewRowAction]? {
-        guard
-            let row = row(at: indexPath),
-            let region = row.model as? OBARegionV2
-        else {
-            return nil
-        }
+    
+    override func tableView(_ tableView: UITableView, trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
+        guard let row = row(at: indexPath),
+            let region = row.model as? OBARegionV2 else { return nil }
 
         // Only regions that were created in-app can be edited.
-        if !region.custom {
-            return nil
-        }
+        guard region.custom else { return nil }
 
-        let edit = UITableViewRowAction.init(style: .normal, title: OBAStrings.edit) { _, _ in
+        let editAction = UIContextualAction(style: .normal, title: OBAStrings.edit) { _, _, _  in
             self.buildRegion(region)
         }
 
-        let delete = UITableViewRowAction.init(style: .destructive, title: OBAStrings.delete) { (_, indexPath) in
+        let deleteAction = UIContextualAction(style: .destructive, title: OBAStrings.delete) { _, _, _ in
             self.deleteRow(at: indexPath)
         }
 
-        return [edit, delete]
+        return UISwipeActionsConfiguration(actions: [editAction, deleteAction])
     }
 }
 

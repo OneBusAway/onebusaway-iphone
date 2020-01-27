@@ -42,6 +42,16 @@ public class StackedButton: UIControl {
 
         return imageView
     }()
+    
+    override public var largeContentTitle: String? {
+        get { return self.textLabel.text }
+        set { /*empty*/ }
+    }
+    
+    override public var largeContentImage: UIImage? {
+        get { return self.imageView.image }
+        set { /*empty*/ }
+    }
 
     public override init(frame: CGRect) {
         super.init(frame: frame)
@@ -50,11 +60,13 @@ public class StackedButton: UIControl {
         accessibilityTraits = .button
         isUserInteractionEnabled = true
 
-		if #available(iOS 13, *) {
-			backgroundColor = .secondarySystemFill
-		} else {
-			backgroundColor = UIColor(white: 0.95, alpha: 1.0)
-		}
+        if #available(iOS 13, *) {
+            showsLargeContentViewer = true
+            scalesLargeContentImage = true
+            backgroundColor = .secondarySystemFill
+        } else {
+            backgroundColor = UIColor(white: 0.95, alpha: 1.0)
+        }
 
         layer.cornerRadius = OBATheme.defaultCornerRadius
 

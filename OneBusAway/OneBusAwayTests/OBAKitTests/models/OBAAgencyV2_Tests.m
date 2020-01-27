@@ -40,9 +40,9 @@
     agency.url = @"http://example.com/an_id";
     agency.name = @"a name";
 
-    NSData *archivedData = [NSKeyedArchiver archivedDataWithRootObject:agency];
+    NSData *archivedData = [NSKeyedArchiver archivedDataWithRootObject:agency requiringSecureCoding:false error:nil];
 
-    OBAAgencyV2 *unarchived = [NSKeyedUnarchiver unarchiveObjectWithData:archivedData];
+    OBAAgencyV2 *unarchived = [NSKeyedUnarchiver unarchiveTopLevelObjectFor:archivedData error:nil];
 
     XCTAssertNotEqual(agency, unarchived);
 

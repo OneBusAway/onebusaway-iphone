@@ -99,9 +99,9 @@
 
 - (void)testUnarchivedTampa {
     OBARegionV2 *firstTampa = [OBATestHelpers tampaRegion];
-    NSData *data = [NSKeyedArchiver archivedDataWithRootObject:firstTampa];
+    NSData *data = [NSKeyedArchiver archivedDataWithRootObject:firstTampa requiringSecureCoding:false error:nil];
 
-    OBARegionV2 *tampa = [NSKeyedUnarchiver unarchiveObjectWithData:data];
+    OBARegionV2 *tampa = [NSKeyedUnarchiver unarchiveTopLevelObjectFor:data error:nil];
     [self testTampaWithRegion:tampa];
 }
 
@@ -166,8 +166,8 @@
     NSPredicate *predicate = [NSPredicate predicateWithFormat:@"regionName == %@", @"Boston"];
     OBARegionV2 *boston = [[regions filteredArrayUsingPredicate:predicate] firstObject];
 
-    NSData *data = [NSKeyedArchiver archivedDataWithRootObject:boston];
-    OBARegionV2 *bostonAgain = [NSKeyedUnarchiver unarchiveObjectWithData:data];
+    NSData *data = [NSKeyedArchiver archivedDataWithRootObject:boston requiringSecureCoding:false error:nil];
+    OBARegionV2 *bostonAgain = [NSKeyedUnarchiver unarchiveTopLevelObjectFor:data error:nil];
     [self testBostonWithRegion:bostonAgain];
 }
 

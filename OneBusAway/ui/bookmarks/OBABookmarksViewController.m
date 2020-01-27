@@ -484,30 +484,20 @@ static NSString * const OBABookmarkSortUserDefaultsKey = @"OBABookmarkSortUserDe
 }
 
 #pragma mark - Table Row Actions (context menu thingy)
-
-- (NSArray<UITableViewRowAction *> *)tableView:(UITableView *)tableView editActionsForRowAtIndexPath:(NSIndexPath *)indexPath {
-
+- (UISwipeActionsConfiguration *)tableView:(UITableView *)tableView trailingSwipeActionsConfigurationForRowAtIndexPath:(NSIndexPath *)indexPath {
     OBABaseRow *tableRow = [self rowAtIndexPath:indexPath];
-
     if (!tableRow.model) {
         // rows not backed by models don't get actions.
         return nil;
     }
 
-    NSMutableArray<UITableViewRowAction *> *actions = [NSMutableArray array];
-
-    UITableViewRowAction *delete = [UITableViewRowAction rowActionWithStyle:UITableViewRowActionStyleDestructive title:OBAStrings.delete handler:^(UITableViewRowAction *action, NSIndexPath *rowIndexPath) {
-        [self deleteRowAtIndexPath:rowIndexPath];
-    }];
-    [actions addObject:delete];
-
     if (tableRow.editAction) {
-        UITableViewRowAction *edit = [UITableViewRowAction rowActionWithStyle:UITableViewRowActionStyleNormal title:OBAStrings.edit handler:^(UITableViewRowAction *action, NSIndexPath *rowIndexPath) {
+        UIContextualAction *edit = [UIContextualAction contextualActionWithStyle:UIContextualActionStyleNormal title:OBAStrings.edit handler:^(UIContextualAction *action, UIView *sourceView, void (^completionHandler)(BOOL)) {
             tableRow.editAction();
         }];
-        [actions addObject:edit];
+        return [UISwipeActionsConfiguration configurationWithActions:@[edit]];
     }
-    return actions;
+    return nil;
 }
 
 #pragma mark - Moving Table Cells

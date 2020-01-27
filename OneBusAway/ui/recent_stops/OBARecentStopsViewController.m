@@ -138,11 +138,6 @@
             [self.modelDAO removeAlarmWithKey:alarm.alarmKey];
         }];
 
-        UITableViewRowAction *deleteAction = [UITableViewRowAction rowActionWithStyle:UITableViewRowActionStyleDestructive title:OBAStrings.delete handler:^(UITableViewRowAction *action, NSIndexPath *indexPath) {
-            [self deleteRowAtIndexPath:indexPath];
-        }];
-        [row setRowActions:@[deleteAction]];
-
         [section addRow:row];
     }
 
@@ -169,11 +164,6 @@
             [self.modelDAO removeSharedTrip:link];
         }];
 
-        UITableViewRowAction *deleteAction = [UITableViewRowAction rowActionWithStyle:UITableViewRowActionStyleDestructive title:OBAStrings.delete handler:^(UITableViewRowAction *action, NSIndexPath *indexPath) {
-            [self deleteRowAtIndexPath:indexPath];
-        }];
-        [row setRowActions:@[deleteAction]];
-
         [section addRow:row];
     }
 
@@ -199,11 +189,6 @@
         [tableRow setDeleteModel:^(OBABaseRow *r) {
             [self.modelDAO removeRecentStop:stop];
         }];
-
-        UITableViewRowAction *deleteAction = [UITableViewRowAction rowActionWithStyle:UITableViewRowActionStyleDestructive title:OBAStrings.delete handler:^(UITableViewRowAction *action, NSIndexPath *indexPath) {
-            [self deleteRowAtIndexPath:indexPath];
-        }];
-        [tableRow setRowActions:@[deleteAction]];
 
         [section addRow:tableRow];
     }

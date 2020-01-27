@@ -330,6 +330,7 @@
 		93FFA5FA1F88305300EA8008 /* OBAArrivalAndDepartureSectionBuilder.h in Headers */ = {isa = PBXBuildFile; fileRef = 93FFA5F81F88305300EA8008 /* OBAArrivalAndDepartureSectionBuilder.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		93FFA5FB1F88305300EA8008 /* OBAArrivalAndDepartureSectionBuilder.m in Sources */ = {isa = PBXBuildFile; fileRef = 93FFA5F91F88305300EA8008 /* OBAArrivalAndDepartureSectionBuilder.m */; };
 		CC037D9C23B4287B00C5149C /* OBADepartureTimeBadge.swift in Sources */ = {isa = PBXBuildFile; fileRef = CC037D9A23B4287B00C5149C /* OBADepartureTimeBadge.swift */; };
+		CC8473D423D3F813003B4E2A /* NSKeyedUnarchiver+UnarchiveTopLevelObjectObjC.swift in Sources */ = {isa = PBXBuildFile; fileRef = CC8473D323D3F813003B4E2A /* NSKeyedUnarchiver+UnarchiveTopLevelObjectObjC.swift */; };
 		CCD30CFB1E30564600080EFF /* OBAHandoff.swift in Sources */ = {isa = PBXBuildFile; fileRef = CCD30CFA1E30564600080EFF /* OBAHandoff.swift */; };
 		CCFFCEC42338588D00DF41D0 /* OBATripScheduleV2+TableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CCFFCEC32338588D00DF41D0 /* OBATripScheduleV2+TableView.swift */; };
 /* End PBXBuildFile section */
@@ -675,6 +676,7 @@
 		93FFA5F81F88305300EA8008 /* OBAArrivalAndDepartureSectionBuilder.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OBAArrivalAndDepartureSectionBuilder.h; sourceTree = "<group>"; };
 		93FFA5F91F88305300EA8008 /* OBAArrivalAndDepartureSectionBuilder.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OBAArrivalAndDepartureSectionBuilder.m; sourceTree = "<group>"; };
 		CC037D9A23B4287B00C5149C /* OBADepartureTimeBadge.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OBADepartureTimeBadge.swift; sourceTree = "<group>"; };
+		CC8473D323D3F813003B4E2A /* NSKeyedUnarchiver+UnarchiveTopLevelObjectObjC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "NSKeyedUnarchiver+UnarchiveTopLevelObjectObjC.swift"; sourceTree = "<group>"; };
 		CCD30CFA1E30564600080EFF /* OBAHandoff.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OBAHandoff.swift; sourceTree = "<group>"; };
 		CCFFCEC32338588D00DF41D0 /* OBATripScheduleV2+TableView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "OBATripScheduleV2+TableView.swift"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -881,6 +883,7 @@
 				93A6E9E11F5BC18B00AFA61C /* AppInterop.swift */,
 				9385BEDA1FB040B300D122D1 /* OBAErrorMessages.h */,
 				9385BEDB1FB040B300D122D1 /* OBAErrorMessages.m */,
+				CC8473D323D3F813003B4E2A /* NSKeyedUnarchiver+UnarchiveTopLevelObjectObjC.swift */,
 			);
 			path = Helpers;
 			sourceTree = "<group>";
@@ -1605,6 +1608,7 @@
 				9327DEF41E02306900502F06 /* OBACanvasView.m in Sources */,
 				9388C2AD1FFE1C240068041F /* OBAPlaceholderCell.m in Sources */,
 				93089DAD1F87E8F200694A90 /* OBAClassicDepartureCell.m in Sources */,
+				CC8473D423D3F813003B4E2A /* NSKeyedUnarchiver+UnarchiveTopLevelObjectObjC.swift in Sources */,
 				93302B5520CFA75D003699C6 /* AgencyAlert.swift in Sources */,
 				9341963A1DB0B099004BBBB7 /* OBASelectorJsonDigesterRule.m in Sources */,
 				9388C2B91FFEC29B0068041F /* PickerViewController.swift in Sources */,
@@ -1780,7 +1784,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 11.4;
 				MTL_ENABLE_DEBUG_INFO = YES;
 				ONLY_ACTIVE_ARCH = YES;
 				PRODUCT_NAME = OBAKit;
@@ -1866,7 +1870,7 @@
 				FRAMEWORK_SEARCH_PATHS = "$(SRCROOT)/../Carthage/Build/iOS";
 				INFOPLIST_FILE = "$(SRCROOT)/Info.plist";
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
-				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 11.4;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				MARKETING_VERSION = 19.1.0;
 				MODULEMAP_FILE = "$(SRCROOT)/module.modulemap";
@@ -1893,7 +1897,7 @@
 				FRAMEWORK_SEARCH_PATHS = "$(SRCROOT)/../Carthage/Build/iOS";
 				INFOPLIST_FILE = "$(SRCROOT)/Info.plist";
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
-				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 11.4;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				MARKETING_VERSION = 19.1.0;
 				MODULEMAP_FILE = "$(SRCROOT)/module.modulemap";
@@ -1911,6 +1915,7 @@
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				DEVELOPMENT_TEAM = THEWY9596Q;
 				INFOPLIST_FILE = OBAKitTests/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 11.4;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = org.onebusaway.iphone.OBAKitTests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -1923,6 +1928,7 @@
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				DEVELOPMENT_TEAM = THEWY9596Q;
 				INFOPLIST_FILE = OBAKitTests/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 11.4;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = org.onebusaway.iphone.OBAKitTests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -2002,7 +2008,7 @@
 				FRAMEWORK_SEARCH_PATHS = "$(SRCROOT)/../Carthage/Build/iOS";
 				INFOPLIST_FILE = "$(SRCROOT)/Info.plist";
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
-				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 11.4;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				MARKETING_VERSION = 19.1.0;
 				MODULEMAP_FILE = "$(SRCROOT)/module.modulemap";
@@ -2020,6 +2026,7 @@
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				DEVELOPMENT_TEAM = THEWY9596Q;
 				INFOPLIST_FILE = OBAKitTests/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 11.4;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = org.onebusaway.iphone.OBAKitTests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
