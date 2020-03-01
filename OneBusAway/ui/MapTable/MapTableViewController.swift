@@ -330,7 +330,15 @@ extension MapTableViewController: ListAdapterDataSource {
         }
 
         let viewModels: [StopViewModel] = nearbyBookmarks.map { bookmark in
-            let routeNames = bookmark.routeWithHeadsign ?? String(format: NSLocalizedString("map_table.route_prefix", comment: "'Route: {TEXT}' prefix"), bookmark.routeShortName)
+            let routeNames: String?
+            if let routeWithHeadsign = bookmark.routeWithHeadsign {
+                routeNames = routeWithHeadsign
+            } else if !bookmark.routeShortName.isEmpty {
+                routeNames = String(format: NSLocalizedString("map_table.route_prefix", comment: "'Route: {TEXT}' prefix"), bookmark.routeShortName)
+            } else {
+                routeNames = nil
+            }
+
             return StopViewModel(name: bookmark.name, stopID: bookmark.stopId, direction: nil, routeNames: routeNames, coordinate: bookmark.coordinate, image: UIImage(named: "Favorites"))
         }
 

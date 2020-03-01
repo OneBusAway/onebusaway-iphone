@@ -14,11 +14,11 @@ class StopViewModel: NSObject {
     let name: String
     let stopID: String
     let direction: String?
-    let routeNames: String
+    let routeNames: String?
     let coordinate: CLLocationCoordinate2D
     let image: UIImage?
 
-    init(name: String, stopID: String, direction: String?, routeNames: String, coordinate: CLLocationCoordinate2D, image: UIImage? = nil) {
+    init(name: String, stopID: String, direction: String?, routeNames: String?, coordinate: CLLocationCoordinate2D, image: UIImage? = nil) {
         self.name = name
         self.stopID = stopID
         self.direction = direction
