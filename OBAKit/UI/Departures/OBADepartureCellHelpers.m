@@ -68,6 +68,10 @@
         return nil;
     }
 
+    if (arrivalAndDeparture.tripStatus.isCanceled) {
+        return OBALocalized(@"departure_cell_helpers.trip_canceled", @"Indicates that the trip has been canceled by the agency");
+    }
+
     if (arrivalAndDeparture.frequency) {
         return [self statusStringFromFrequency:arrivalAndDeparture.frequency];
     }

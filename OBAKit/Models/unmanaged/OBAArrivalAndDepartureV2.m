@@ -156,6 +156,10 @@
 #pragma mark - Public methods
 
 - (OBADepartureStatus)departureStatus {
+    if (self.tripStatus.isCanceled) {
+        return OBADepartureStatusCanceled;
+    }
+
     if (!self.hasRealTimeData) {
         return OBADepartureStatusUnknown;
     }

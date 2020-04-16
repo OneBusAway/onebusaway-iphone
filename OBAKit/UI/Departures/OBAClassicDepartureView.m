@@ -203,11 +203,15 @@
 
 - (void)applyUpcomingDeparture:(NSArray<OBAUpcomingDeparture*>*)upcomingDepartures atIndex:(NSUInteger)index toLabel:(OBADepartureTimeLabel*)departureTimeLabel {
     if (upcomingDepartures.count > index) {
-        departureTimeLabel.hidden = NO;
-
         OBAUpcomingDeparture *departure = upcomingDepartures[index];
-        departureTimeLabel.accessibilityLabel = [OBADateHelpers formatAccessibilityLabelMinutesUntilDate:departure.departureDate];
-        [departureTimeLabel setText:[OBADateHelpers formatMinutesUntilDate:departure.departureDate] forStatus:departure.departureStatus];
+        if (departure.departureStatus == OBADepartureStatusCanceled) {
+            departureTimeLabel.hidden = YES;
+        } else {
+            departureTimeLabel.hidden = NO;
+
+            departureTimeLabel.accessibilityLabel = [OBADateHelpers formatAccessibilityLabelMinutesUntilDate:departure.departureDate];
+            [departureTimeLabel setText:[OBADateHelpers formatMinutesUntilDate:departure.departureDate] forStatus:departure.departureStatus];
+        }
     }
     else {
         departureTimeLabel.hidden = YES;

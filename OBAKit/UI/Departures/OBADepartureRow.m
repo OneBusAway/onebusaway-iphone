@@ -51,7 +51,7 @@
 
 #pragma mark - Helpers
 
-+ (NSAttributedString*)buildAttributedRoute:(NSString*)route destination:(NSString*)destination {
++ (NSAttributedString*)buildAttributedRoute:(NSString*)route destination:(NSString*)destination tripStatus:(OBATripStatusV2*)tripStatus {
     NSString *lineText = nil;
 
     if (destination.length > 0) {
@@ -64,6 +64,10 @@
     NSMutableAttributedString *routeText = [[NSMutableAttributedString alloc] initWithString:lineText attributes:@{NSFontAttributeName: OBATheme.bodyFont}];
 
     [routeText addAttribute:NSFontAttributeName value:OBATheme.boldBodyFont range:NSMakeRange(0, route.length)];
+
+    if (tripStatus.isCanceled) {
+        [routeText addAttribute:NSStrikethroughStyleAttributeName value:@(NSUnderlineStyleSingle) range:NSMakeRange(0, routeText.length)];
+    }
     return routeText;
 }
 

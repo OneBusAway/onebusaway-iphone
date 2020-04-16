@@ -37,7 +37,7 @@
     OBAUpcomingDeparture *upcoming = [[OBAUpcomingDeparture alloc] initWithDepartureDate:dep.bestArrivalDepartureDate departureStatus:dep.departureStatus arrivalDepartureState:dep.arrivalDepartureState];
     row.upcomingDepartures = @[upcoming];
 
-    row.attributedMiddleLine = [OBADepartureRow buildAttributedRoute:dep.bestAvailableName destination:dep.tripHeadsign];
+    row.attributedMiddleLine = [OBADepartureRow buildAttributedRoute:dep.bestAvailableName destination:dep.tripHeadsign tripStatus:dep.tripStatus];
     row.attributedBottomLine = [OBADepartureCellHelpers attributedDepartureTimeWithStatusText:[OBADepartureCellHelpers statusTextForArrivalAndDeparture:dep] upcomingDeparture:upcoming];
     row.model = dep;
     row.bookmarkExists = [self hasBookmarkForArrivalAndDeparture:dep];

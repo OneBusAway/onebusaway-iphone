@@ -471,6 +471,7 @@ static NSString * const kReferences = @"references";
     [self addSetLocationPropertyRule:@"position" withPrefix:[self extendPrefix:prefix withValue:@"position"]];
     [self addSetPropertyRule:@"predicted" forPrefix:[self extendPrefix:prefix withValue:@"predicted"]];
     [self addSetPropertyRule:@"scheduleDeviation" forPrefix:[self extendPrefix:prefix withValue:@"scheduleDeviation"]];
+    [self addSetPropertyRule:@"status" forPrefix:[self extendPrefix:prefix withValue:@"status"]];
     [self addSetPropertyRule:@"vehicleId" forPrefix:[self extendPrefix:prefix withValue:@"vehicleId"]];
     [self addSetPropertyRule:@"closestStopID" forPrefix:[self extendPrefix:prefix withValue:@"closestStop"]];
     [self addSetPropertyRule:@"orientation" forPrefix:[self extendPrefix:prefix withValue:@"orientation"]];

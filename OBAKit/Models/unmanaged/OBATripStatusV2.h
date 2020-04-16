@@ -21,6 +21,21 @@
 #import <OBAKit/OBATripV2.h>
 #import <OBAKit/OBAFrequencyV2.h>
 
+typedef NS_ENUM(NSUInteger, OBATripStatusModifier) {
+    /// Something unstandardized is happening with this trip, depending on agency implementation. For
+    /// example, this could be a detour or deadhead when operating on the MTA branch of OBA.
+    OBATripStatusModifierOther      = 0,
+
+    /// This trip is happening as described (AKA default).
+    OBATripStatusModifierDefault    = 1,
+
+    /// This trip is scheduled.
+    OBATripStatusModifierScheduled  = 2,
+
+    /// This trip has been canceled.
+    OBATripStatusModifierCanceled   = 3
+};
+
 NS_ASSUME_NONNULL_BEGIN
 
 @interface OBATripStatusV2 : OBAHasReferencesV2<MKAnnotation>
@@ -62,6 +77,18 @@ NS_ASSUME_NONNULL_BEGIN
 @property(nonatomic,assign) NSInteger scheduleDeviation;
 
 @property(nonatomic,copy,readonly) NSString *formattedScheduleDeviation;
+
+@property(nonatomic,copy) NSString *status;
+
+/**
+ status modifiers for the trip.
+ */
+@property(nonatomic,readonly) OBATripStatusModifier statusModifier;
+
+/**
+ if this trip's status modifier is marked as canceled.
+ */
+@property(nonatomic,readonly) BOOL isCanceled;
 
 /**
   if real-time arrival info is available, this lists the id of the transit vehicle currently running the trip.

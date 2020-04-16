@@ -160,6 +160,9 @@
 /* e.g. 'departs 12 min late'. Note the future tense */
 "departure_cell_helpers.departs_x_min_late" = "departs %@ min late";
 
+/* Indicates that the trip has been canceled by the agency */
+"departure_cell_helpers.trip_canceled" = "CANCELED";
+
 /* e.g. Route: <Route Number> */
 "navigation_target.search_query.route_format" = "Search for Route: %@";
 

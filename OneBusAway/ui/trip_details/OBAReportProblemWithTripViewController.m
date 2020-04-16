@@ -74,6 +74,7 @@ typedef NS_ENUM (NSInteger, OBASectionType) {
         [self addProblemWithId:@"vehicle_came_late" name:NSLocalizedString(@"msg_it_came_later_than_predicted", @"name")];
         [self addProblemWithId:@"wrong_headsign" name:NSLocalizedString(@"msg_wrong_destination_shown", @"name")];
         [self addProblemWithId:@"vehicle_does_not_stop_here" name:[NSString stringWithFormat:@"%@ %@ %@", NSLocalizedString(@"msg_the", @"name"), _vehicleType, NSLocalizedString(@"msg_doesnt_stop_here", @"name")]];
+        [self addProblemWithId:@"trip_incorrectly_marked_canceled" name:NSLocalizedString(@"msg_trip_incorrectly_marked_canceled", @"name")];
         [self addProblemWithId:@"other" name:NSLocalizedString(@"msg_other", @"name")];
     }
 

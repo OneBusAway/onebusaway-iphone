@@ -60,6 +60,22 @@
     return self.orientation * M_PI / 180.f;
 }
 
+- (OBATripStatusModifier)statusModifier {
+    if ([self.status isEqualToString:@"default"]) {
+        return OBATripStatusModifierDefault;
+    } else if ([self.status isEqualToString:@"SCHEDULED"]) {
+        return OBATripStatusModifierScheduled;
+    } else if ([self.status isEqualToString:@"CANCELED"]) {
+        return OBATripStatusModifierCanceled;
+    } else {
+        return OBATripStatusModifierOther;
+    }
+}
+
+- (BOOL)isCanceled {
+    return (self.statusModifier == OBATripStatusModifierCanceled);
+}
+
 #pragma mark - MKAnnotation
 
 - (CLLocationCoordinate2D)coordinate {

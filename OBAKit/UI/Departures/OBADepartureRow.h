@@ -27,7 +27,7 @@ NS_ASSUME_NONNULL_BEGIN
 @property(nonatomic,assign) BOOL displayContextButton;
 @property(nonatomic,assign) OBAOccupancyStatus expectedOccupancyStatus;
 
-+ (NSAttributedString*)buildAttributedRoute:(NSString*)route destination:(nullable NSString*)destination;
++ (NSAttributedString*)buildAttributedRoute:(NSString*)route destination:(nullable NSString*)destination tripStatus:(OBATripStatusV2*)tripStatus;
 @end
 
 NS_ASSUME_NONNULL_END

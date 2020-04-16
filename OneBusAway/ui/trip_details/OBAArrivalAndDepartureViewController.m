@@ -331,7 +331,12 @@ static NSTimeInterval const kRefreshTimeInterval = 30;
         OBATripDetailsV2 *tripDetails = response.object;
         self.tripDetails = tripDetails;
         self.mapController.tripDetails = tripDetails;
-        [self populateTableWithArrivalAndDeparture:self.arrivalAndDeparture tripDetails:self.tripDetails];
+
+        if (self.tripDetails.status.isCanceled) {
+            [self notifyUserTripIsCanceledWithArrivalAndDeparture:self.arrivalAndDeparture];
+        } else {
+            [self populateTableWithArrivalAndDeparture:self.arrivalAndDeparture tripDetails:self.tripDetails];
+        }
     }).catch(^(NSError *error) {
         [AlertPresenter showError:error presentingController:self];
     }).always(^{
@@ -355,10 +360,13 @@ static NSTimeInterval const kRefreshTimeInterval = 30;
     OBAArrivalAndDepartureSectionBuilder *builder = [[OBAArrivalAndDepartureSectionBuilder alloc] initWithModelDAO:self.modelDAO];
     OBADepartureRow *row = [builder createDepartureRowForStop:arrivalAndDeparture];
 
+    // Fixes #1476
+    __weak OBAArrivalAndDepartureViewController *weakSelf = self;
+
     @weakify(row);
     [row setShowAlertController:^(UIView *presentingView) {
         @strongify(row);
-        [self.departureSheetHelper showActionMenuForDepartureRow:row fromPresentingView:presentingView];
+        [weakSelf.departureSheetHelper showActionMenuForDepartureRow:row fromPresentingView:presentingView];
     }];
 
     return row;
@@ -420,6 +428,35 @@ static NSTimeInterval const kRefreshTimeInterval = 30;
     }
 
     self.titleLabels.bottomLabel.text = [bottomLabelParts componentsJoinedByString:@" • "];
+}
+
+- (void)notifyUserTripIsCanceledWithArrivalAndDeparture:(OBAArrivalAndDepartureV2*)arrivalAndDeparture {
+    NSString *message = [NSString stringWithFormat:NSLocalizedString(@"msg_specific_trip_canceled", @""), arrivalAndDeparture.bestAvailableNameWithHeadsign];
+    UIAlertController *alert = [UIAlertController alertControllerWithTitle:NSLocalizedString(@"msg_trip_canceled_title", @"")
+                                                                   message:message
+                                                            preferredStyle:UIAlertControllerStyleAlert];
+
+    [alert addAction:[UIAlertAction actionWithTitle:NSLocalizedString(@"msg_view_service_alerts", @"") style:UIAlertActionStyleDefault handler:^(UIAlertAction *action) {
+        [self.navigationController popViewControllerAnimated:true];
+        
+        OBARegionalAlertsViewController *alertsController = [[OBARegionalAlertsViewController alloc] initWithApplication:[OBAApplication sharedApplication]];
+        [self.navigationController pushViewController:alertsController animated:YES];
+    }]];
+
+    [alert addAction:[UIAlertAction actionWithTitle:NSLocalizedString(@"msg_report_a_problem", @"") style:UIAlertActionStyleDefault handler:^(UIAlertAction *action) {
+        OBAReportProblemWithTripViewController *reportProblemVC = [[OBAReportProblemWithTripViewController alloc] initWithTripInstance:self.tripInstance
+                                                                                                                                  trip:self.arrivalAndDeparture.trip];
+        [self.navigationController popViewControllerAnimated:true];
+        [self.navigationController.topViewController presentViewController:[[UINavigationController alloc] initWithRootViewController:reportProblemVC]
+                                                                  animated:true
+                                                                completion:nil];
+    }]];
+
+    [alert addAction:[UIAlertAction actionWithTitle:OBAStrings.ok style:UIAlertActionStyleDefault handler:^(UIAlertAction *action) {
+        [self.navigationController popViewControllerAnimated:true];
+    }]];
+
+    [self presentViewController:alert animated:true completion:nil];
 }
 
 #pragma mark - Context Menu Actions

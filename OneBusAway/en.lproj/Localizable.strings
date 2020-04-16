@@ -225,6 +225,9 @@
 "msg_it_came_later_than_predicted" = "It came later than predicted";
 
 /* No comment provided by engineer. */
+"msg_trip_incorrectly_marked_canceled" = "Trip incorrectly marked as canceled";
+
+/* No comment provided by engineer. */
 "text_last_update_param" = "Last update: %@";
 
 /* No comment provided by engineer. */
@@ -443,6 +446,12 @@
 
 /* name */
 "msg_route_or_trip_missing" = "Route or scheduled trip is missing";
+
+/* No comment provided by engineer. */
+"msg_trip_canceled_title" = "Trip Canceled";
+
+/* <trip name> has been canceled. e.g. '49 to University District Broadway has been canceled.` */
+"msg_specific_trip_canceled" = "%@ has been canceled.";
 
 /* OBASearchTypeRoute */
 "msg_routes" = "Routes";

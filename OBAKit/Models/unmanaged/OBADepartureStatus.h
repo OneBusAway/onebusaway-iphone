@@ -12,5 +12,6 @@ typedef NS_ENUM(NSUInteger, OBADepartureStatus) {
     OBADepartureStatusUnknown = 0,
     OBADepartureStatusEarly,
     OBADepartureStatusOnTime,
-    OBADepartureStatusDelayed
+    OBADepartureStatusDelayed,
+    OBADepartureStatusCanceled
 };

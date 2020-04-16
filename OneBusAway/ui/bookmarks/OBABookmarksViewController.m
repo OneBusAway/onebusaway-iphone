@@ -759,7 +759,7 @@ static NSString * const OBABookmarkSortUserDefaultsKey = @"OBABookmarkSortUserDe
         return;
     }
     row.attributedTopLine = [[NSAttributedString alloc] initWithString:row.bookmark.name];
-    row.attributedMiddleLine = [OBADepartureRow buildAttributedRoute:arrivalAndDeparture.bestAvailableName destination:arrivalAndDeparture.tripHeadsign];
+    row.attributedMiddleLine = [OBADepartureRow buildAttributedRoute:arrivalAndDeparture.bestAvailableName destination:arrivalAndDeparture.tripHeadsign tripStatus:arrivalAndDeparture.tripStatus];
     row.attributedBottomLine = [OBADepartureCellHelpers attributedDepartureTimeWithStatusText:[OBADepartureCellHelpers statusTextForArrivalAndDeparture:arrivalAndDeparture] upcomingDeparture:[OBAUpcomingDeparture upcomingDeparturesFromArrivalsAndDepartures:@[arrivalAndDeparture]].firstObject];
 }
 
