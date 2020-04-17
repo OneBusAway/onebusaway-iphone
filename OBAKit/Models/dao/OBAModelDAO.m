@@ -376,6 +376,14 @@ const CLLocationDistance kMetersInOneMile = 1609.34;
     }
 }
 
+- (NSInteger)todayBookmarkGroupCount {
+    if (self.todayBookmarkGroup) {
+        return [self.todayBookmarkGroup.bookmarks count];
+    } else {
+        return 0;
+    }
+}
+
 - (void)moveBookmarkGroup:(OBABookmarkGroup*)bookmarkGroup toIndex:(NSUInteger)index {
     OBAGuard(bookmarkGroup) else {
         return;

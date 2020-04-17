@@ -55,6 +55,7 @@ extern NSString * const OBARegionDidUpdateNotification;
  The Today View Controller bookmark group.
  */
 @property(nonatomic,strong,readonly) OBABookmarkGroup *todayBookmarkGroup;
+- (NSInteger)todayBookmarkGroupCount;
 
 @property(strong,nonatomic,readonly) NSArray<OBAStopAccessEventV2*> * mostRecentStops;
 @property(nonatomic,copy) CLLocation *mostRecentLocation;

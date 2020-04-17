@@ -150,7 +150,8 @@ static NSString * appVersion = nil;
     [debuggingInfo addObject:@[@"iOS Version", [self OSVersion]]];
     [debuggingInfo addObject:@[@"VoiceOver enabled", OBAStringFromBool(UIAccessibilityIsVoiceOverRunning())]];
 
-    [debuggingInfo addObject:@[@"Bookmark Count",@(modelDAO.allBookmarksCount)]];
+    [debuggingInfo addObject:@[@"All Bookmarks Count",@(modelDAO.allBookmarksCount)]];
+    [debuggingInfo addObject:@[@"Today Widget Bookmarks Count",@(modelDAO.todayBookmarkGroupCount)]];
     [debuggingInfo addObject:@[@"Registered for Notifications", OBAStringFromBool(registeredForRemoteNotifications)]];
 
     [debuggingInfo addObject:@[@"Location Auth Status", locationAuthorizationStatusToString(locationAuthorizationStatus)]];
