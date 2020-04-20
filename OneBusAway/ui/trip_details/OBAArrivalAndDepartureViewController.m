@@ -355,10 +355,13 @@ static NSTimeInterval const kRefreshTimeInterval = 30;
     OBAArrivalAndDepartureSectionBuilder *builder = [[OBAArrivalAndDepartureSectionBuilder alloc] initWithModelDAO:self.modelDAO];
     OBADepartureRow *row = [builder createDepartureRowForStop:arrivalAndDeparture];
 
+    // Fixes #1476
+    __weak OBAArrivalAndDepartureViewController *weakSelf = self;
+
     @weakify(row);
     [row setShowAlertController:^(UIView *presentingView) {
         @strongify(row);
-        [self.departureSheetHelper showActionMenuForDepartureRow:row fromPresentingView:presentingView];
+        [weakSelf.departureSheetHelper showActionMenuForDepartureRow:row fromPresentingView:presentingView];
     }];
 
     return row;
