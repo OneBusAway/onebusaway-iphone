@@ -6,7 +6,7 @@ A project of the non-profit [Open Transit Software Foundation](https://opentrans
 
 1. [Come join our Slack channel](https://onebusaway.herokuapp.com/) to say hi and let us know what you're interested in working on.
 2. We maintain a set of tasks that we think would be good choices for people interested in working on OneBusAway. Learn more about them here: [Picking an appropriate first time issue](#picking-an-appropriate-first-time-issue)
-3. This project adheres to the [Open Code of Conduct](http://todogroup.org/opencodeofconduct/#OneBusAway/conduct@onebusaway.org). By participating, you are expected to honor this code.
+3. This project adheres to a [Code of Conduct](https://github.com/OneBusAway/onebusaway/blob/master/CODE_OF_CONDUCT.md). By participating, you are expected to honor this code.
 4. Now, [learn about setting up your development environment](#development-environment-setup).
 
 ---------
