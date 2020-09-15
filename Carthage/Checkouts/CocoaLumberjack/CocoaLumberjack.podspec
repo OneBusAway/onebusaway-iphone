@@ -1,8 +1,7 @@
-
 Pod::Spec.new do |s|
 
   s.name     = 'CocoaLumberjack'
-  s.version  = '3.5.2'
+  s.version  = '3.6.2'
   s.license  = 'BSD'
   s.summary  = 'A fast & simple, yet powerful & flexible logging framework for Mac and iOS.'
   s.homepage = 'https://github.com/CocoaLumberjack/CocoaLumberjack'
@@ -23,18 +22,18 @@ Pod::Spec.new do |s|
   s.osx.deployment_target     = '10.10'
   s.watchos.deployment_target = '3.0'
   s.tvos.deployment_target    = '9.0'
-  s.swift_version = '4.2'
+  s.swift_version = '5.0'
 
   s.default_subspecs = 'Core'
 
   s.subspec 'Core' do |ss|
-    ss.source_files         = 'Classes/CocoaLumberjack.h', 'Classes/DD*.{h,m}', 'Classes/Extensions/*.{h,m}', 'Classes/CLI/*.{h,m}'
-    ss.private_header_files = 'Classes/DD*Internal.{h}'
+    ss.source_files         = 'Sources/CocoaLumberjack/**/*.{h,m}'
+    ss.private_header_files = 'Sources/CocoaLumberjack/DD*Internal.{h}'
   end
 
   s.subspec 'Swift' do |ss|
     ss.dependency 'CocoaLumberjack/Core'
-    ss.source_files        = 'Classes/CocoaLumberjack.swift', 'Classes/DDAssert.swift', 'Classes/SwiftLogLevel.h'
+    ss.source_files        = 'Sources/CocoaLumberjackSwift/**/*.swift', 'Sources/CocoaLumberjackSwiftSupport/include/**/*.{h}'
   end
 
 end

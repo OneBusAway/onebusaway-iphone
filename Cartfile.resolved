@@ -1,6 +1,6 @@
 github "AliSoftware/OHHTTPStubs" "7.0.0"
 github "AzimoLabs/SMFloatingLabelTextField" "0.3.2"
-github "CocoaLumberjack/CocoaLumberjack" "3.5.2"
+github "CocoaLumberjack/CocoaLumberjack" "3.6.2"
 github "Instagram/IGListKit" "3.4.0"
 github "OneSignal/OneSignal-iOS-SDK" "2.15.3"
 github "Quick/Nimble" "v8.1.1"
