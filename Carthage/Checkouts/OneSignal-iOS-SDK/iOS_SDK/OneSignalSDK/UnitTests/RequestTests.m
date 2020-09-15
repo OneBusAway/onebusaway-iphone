@@ -27,9 +27,15 @@
 
 #import <XCTest/XCTest.h>
 #import "Requests.h"
+#import "OSOutcomeEvent.h"
 #import "OneSignalHelper.h"
-#import "Requests.h"
+#import "OSInfluenceDataDefines.h"
 #import "OneSignalCommonDefines.h"
+#import "OSInAppMessageBridgeEvent.h"
+#import "OSInAppMessagingHelpers.h"
+#import "OSFocusInfluenceParam.h"
+#import "OneSignalClientOverrider.h"
+#import "UnitTestCommonMethods.h"
 
 @interface RequestTests : XCTestCase
 
@@ -38,20 +44,56 @@
 @implementation RequestTests {
     NSString *testAppId;
     NSString *testUserId;
+    NSString *testExternalUserId;
     NSString *testEmailUserId;
     NSString *testMessageId;
     NSString *testEmailAddress;
+    NSString *testInAppMessageId;
+    NSString *testInAppMessageAppId;
+    NSString *testInAppMessageVariantId;
+    NSString *testNotificationId;
+    OSOutcomeEvent *testOutcome;
+    NSNumber *testDeviceType;
+    
+    OSInAppMessageBridgeEvent *testBridgeEvent;
+    OSInAppMessageAction *testAction;
 }
 
 - (void)setUp {
     [super setUp];
-    // Put setup code here. This method is called before the invocation of each test method in the class.
+    [UnitTestCommonMethods beforeEachTest:self];
     
     testAppId = @"test_app_id";
     testUserId = @"test_user_id";
     testEmailUserId = @"test_email_user_id";
+    testExternalUserId = @"test_external_id";
     testEmailAddress = @"test@test.com";
     testMessageId = @"test_message_id";
+    testInAppMessageId = @"test_in_app_message_id";
+    testInAppMessageAppId = @"test_in_app_message_app_id";
+    testInAppMessageVariantId = @"test_in_app_message_variant_id";
+    testNotificationId = @"test_notification_id";
+    
+    testOutcome = [[OSOutcomeEvent new] initWithSession:UNATTRIBUTED
+                                        notificationIds:@[]
+                                                   name:@"test_outcome_id"
+                                              timestamp:@0
+                                                 weight:@0];
+    
+    testDeviceType = @0;
+    
+    testBridgeEvent = [OSInAppMessageBridgeEvent instanceWithJson:@{
+        @"type" : @"action_taken",
+        @"body" : @{
+                @"id" : @"test_id",
+                @"url" : @"https://www.onesignal.com",
+                @"url_target" : @"browser",
+                @"close" : @false
+                }
+        }];
+
+    testAction = testBridgeEvent.userAction;
+    testAction.firstClick = true;
 }
 
 NSString *urlStringForRequest(OneSignalRequest *request) {
@@ -59,7 +101,7 @@ NSString *urlStringForRequest(OneSignalRequest *request) {
 }
 
 NSString *correctUrlWithPath(NSString *path) {
-    return [[SERVER_URL stringByAppendingString:API_VERSION] stringByAppendingString:path];
+    return [OS_API_SERVER_URL stringByAppendingString:path];
 }
 
 // only works for dictionaries with values that are strings, numbers, or sub-dictionaries/arrays of strings and numbers
@@ -79,7 +121,9 @@ BOOL dictionariesAreEquivalent(NSDictionary *first, NSDictionary *second) {
         } else if ([first[key] isKindOfClass:[NSNumber class]] && ![(NSNumber *)first[key] isEqualToNumber:(NSNumber *)second[key]]) {
             return false;
         } else if ([first[key] isKindOfClass:[NSDictionary class]]) {
-            if (![second[key] isKindOfClass:[NSDictionary class]] && !dictionariesAreEquivalent((NSDictionary *)first[key], (NSDictionary *)second[key]))
+            if (![second[key] isKindOfClass:[NSDictionary class]])
+                return false;
+            if (!dictionariesAreEquivalent((NSDictionary *)first[key], (NSDictionary *)second[key]))
                 return false;
         } else if ([first[key] isKindOfClass:[NSArray class]]) {
             if (![second[key] isKindOfClass:[NSArray class]])
@@ -143,6 +187,310 @@ BOOL checkHttpBody(NSData *bodyData, NSDictionary *correct) {
     XCTAssertTrue(checkHttpBody(request.urlRequest.HTTPBody, @{@"app_id" : testAppId, @"tags" : @{}, @"net_type" : @0}));
 }
 
+- (void)testSendDirectOutcome {
+    NSArray * testNotificationIds = [NSArray arrayWithObject:testNotificationId];
+    testOutcome = [[OSOutcomeEvent new] initWithSession:DIRECT notificationIds:testNotificationIds name:@"test" timestamp:@0 weight:@0];
+    
+    let request = [OSRequestSendOutcomesV1ToServer directWithOutcome:testOutcome appId:testAppId deviceType:testDeviceType];
+    
+    let correctUrl = correctUrlWithPath(@"outcomes/measure");
+    
+    XCTAssertTrue([correctUrl isEqualToString:request.urlRequest.URL.absoluteString]);
+
+    XCTAssertTrue(checkHttpBody(request.urlRequest.HTTPBody, @{@"app_id" : testAppId, @"id" : @"test", @"device_type" : testDeviceType, @"direct" : @YES, @"notification_ids" : testNotificationIds}));
+}
+
+- (void)testSendIndirectOutcome {
+    NSArray * testNotificationIds = [NSArray arrayWithObject:testNotificationId];
+    testOutcome = [[OSOutcomeEvent new] initWithSession:INDIRECT notificationIds:testNotificationIds name:@"test" timestamp:@0 weight:@1];
+    
+    let request = [OSRequestSendOutcomesV1ToServer indirectWithOutcome:testOutcome appId:testAppId deviceType:testDeviceType];
+    
+    let correctUrl = correctUrlWithPath(@"outcomes/measure");
+    
+    XCTAssertTrue([correctUrl isEqualToString:request.urlRequest.URL.absoluteString]);
+    
+    XCTAssertTrue(checkHttpBody(request.urlRequest.HTTPBody, @{@"app_id" : testAppId, @"id" : @"test", @"device_type" : testDeviceType, @"direct" : @NO, @"weight" : @1, @"notification_ids" : testNotificationIds}));
+}
+
+- (void)testSendUnattributedOutcome {
+    testOutcome = [[OSOutcomeEvent new] initWithSession:UNATTRIBUTED notificationIds:nil name:@"test" timestamp:@0 weight:@0];
+    
+    let request = [OSRequestSendOutcomesV1ToServer unattributedWithOutcome:testOutcome appId:testAppId deviceType:testDeviceType];
+    
+    let correctUrl = correctUrlWithPath(@"outcomes/measure");
+    
+    XCTAssertTrue([correctUrl isEqualToString:request.urlRequest.URL.absoluteString]);
+    
+    XCTAssertTrue(checkHttpBody(request.urlRequest.HTTPBody, @{@"app_id" : testAppId, @"id" : @"test", @"device_type" : testDeviceType}));
+}
+
+- (void)testSendDirectOutcomeWithNotificationV2 {
+    NSArray * testNotificationIds = [NSArray arrayWithObject:testNotificationId];
+    OSOutcomeSourceBody *sourceBody = [[OSOutcomeSourceBody alloc] initWithNotificationIds:testNotificationIds inAppMessagesIds:nil];
+    OSOutcomeSource *outcomeSource = [[OSOutcomeSource alloc] initWithDirectBody:sourceBody indirectBody:nil];
+    OSOutcomeEventParams *eventParams = [[OSOutcomeEventParams alloc] initWithOutcomeId:@"test" outcomeSource:outcomeSource weight:@0 timestamp:@0];
+    
+    let request = [OSRequestSendOutcomesV2ToServer measureOutcomeEvent:eventParams appId:testAppId deviceType:testDeviceType];
+    
+    let correctUrl = correctUrlWithPath(@"outcomes/measure_sources");
+    
+    XCTAssertTrue([correctUrl isEqualToString:request.urlRequest.URL.absoluteString]);
+
+    XCTAssertTrue(checkHttpBody(request.urlRequest.HTTPBody, @{
+        @"app_id" : testAppId,
+        @"device_type" : testDeviceType,
+        @"id" : @"test",
+        @"sources" : @{
+                @"direct" : @{
+                        @"notification_ids" : @[testNotificationId]
+                },
+        }
+    }));
+}
+
+- (void)testSendIndirectOutcomeWithNotificationV2 {
+    NSArray * testNotificationIds = [NSArray arrayWithObject:testNotificationId];
+    OSOutcomeSourceBody *sourceBody = [[OSOutcomeSourceBody alloc] initWithNotificationIds:testNotificationIds inAppMessagesIds:nil];
+    OSOutcomeSource *outcomeSource = [[OSOutcomeSource alloc] initWithDirectBody:nil indirectBody:sourceBody];
+    OSOutcomeEventParams *eventParams = [[OSOutcomeEventParams alloc] initWithOutcomeId:@"test" outcomeSource:outcomeSource weight:@0 timestamp:@0];
+    
+    let request = [OSRequestSendOutcomesV2ToServer measureOutcomeEvent:eventParams appId:testAppId deviceType:testDeviceType];
+    
+    let correctUrl = correctUrlWithPath(@"outcomes/measure_sources");
+    
+    XCTAssertTrue([correctUrl isEqualToString:request.urlRequest.URL.absoluteString]);
+    
+    XCTAssertTrue(checkHttpBody(request.urlRequest.HTTPBody, @{
+        @"app_id" : testAppId,
+        @"device_type" : testDeviceType,
+        @"id" : @"test",
+        @"sources" : @{
+                @"indirect" : @{
+                        @"notification_ids" : @[testNotificationId]
+                },
+        }
+    }));
+}
+
+- (void)testSendIndirectOutcomeWithNotificationV2AndWeight {
+    NSArray * testNotificationIds = [NSArray arrayWithObject:testNotificationId];
+    OSOutcomeSourceBody *sourceBody = [[OSOutcomeSourceBody alloc] initWithNotificationIds:testNotificationIds inAppMessagesIds:nil];
+    OSOutcomeSource *outcomeSource = [[OSOutcomeSource alloc] initWithDirectBody:nil indirectBody:sourceBody];
+    OSOutcomeEventParams *eventParams = [[OSOutcomeEventParams alloc] initWithOutcomeId:@"test" outcomeSource:outcomeSource weight:@10 timestamp:@0];
+    
+    let request = [OSRequestSendOutcomesV2ToServer measureOutcomeEvent:eventParams appId:testAppId deviceType:testDeviceType];
+    
+    let correctUrl = correctUrlWithPath(@"outcomes/measure_sources");
+    
+    XCTAssertTrue([correctUrl isEqualToString:request.urlRequest.URL.absoluteString]);
+    
+    XCTAssertTrue(checkHttpBody(request.urlRequest.HTTPBody, @{
+        @"app_id" : testAppId,
+        @"device_type" : testDeviceType,
+        @"id" : @"test",
+        @"weight": @10,
+        @"sources" : @{
+                @"indirect" : @{
+                        @"notification_ids" : @[testNotificationId]
+                },
+        }
+    }));
+}
+
+- (void)testSendDirectOutcomeWithInAppMessageV2 {
+    NSArray * testIAMIds = [NSArray arrayWithObject:testNotificationId];
+    OSOutcomeSourceBody *sourceBody = [[OSOutcomeSourceBody alloc] initWithNotificationIds:nil inAppMessagesIds:testIAMIds];
+    OSOutcomeSource *outcomeSource = [[OSOutcomeSource alloc] initWithDirectBody:sourceBody indirectBody:nil];
+    OSOutcomeEventParams *eventParams = [[OSOutcomeEventParams alloc] initWithOutcomeId:@"test" outcomeSource:outcomeSource weight:@0 timestamp:@0];
+    
+    let request = [OSRequestSendOutcomesV2ToServer measureOutcomeEvent:eventParams appId:testAppId deviceType:testDeviceType];
+    
+    let correctUrl = correctUrlWithPath(@"outcomes/measure_sources");
+    
+    XCTAssertTrue([correctUrl isEqualToString:request.urlRequest.URL.absoluteString]);
+
+    XCTAssertTrue(checkHttpBody(request.urlRequest.HTTPBody, @{
+        @"app_id" : testAppId,
+        @"device_type" : testDeviceType,
+        @"id" : @"test",
+        @"sources" : @{
+                @"direct" : @{
+                        @"in_app_message_ids" : @[testNotificationId]
+                },
+        }
+    }));
+}
+
+- (void)testSendIndirectOutcomeWithInAppMessageV2 {
+    NSArray * testIAMIds = [NSArray arrayWithObjects:testNotificationId, @"iam_test", nil];
+    OSOutcomeSourceBody *sourceBody = [[OSOutcomeSourceBody alloc] initWithNotificationIds:nil inAppMessagesIds:testIAMIds];
+    OSOutcomeSource *outcomeSource = [[OSOutcomeSource alloc] initWithDirectBody:nil indirectBody:sourceBody];
+    OSOutcomeEventParams *eventParams = [[OSOutcomeEventParams alloc] initWithOutcomeId:@"test" outcomeSource:outcomeSource weight:@0 timestamp:@0];
+    
+    let request = [OSRequestSendOutcomesV2ToServer measureOutcomeEvent:eventParams appId:testAppId deviceType:testDeviceType];
+    
+    let correctUrl = correctUrlWithPath(@"outcomes/measure_sources");
+    
+    XCTAssertTrue([correctUrl isEqualToString:request.urlRequest.URL.absoluteString]);
+    
+    XCTAssertTrue(checkHttpBody(request.urlRequest.HTTPBody, @{
+        @"app_id" : testAppId,
+        @"device_type" : testDeviceType,
+        @"id" : @"test",
+        @"sources" : @{
+                @"indirect" : @{
+                        @"in_app_message_ids" : @[testNotificationId, @"iam_test"]
+                },
+        }
+    }));
+}
+
+- (void)testSendIndirectOutcomeWithInAppMessageV2AndWeight {
+    NSArray * testIAMIds = [NSArray arrayWithObjects:testNotificationId, @"iam_test", nil];
+    OSOutcomeSourceBody *sourceBody = [[OSOutcomeSourceBody alloc] initWithNotificationIds:nil inAppMessagesIds:testIAMIds];
+    OSOutcomeSource *outcomeSource = [[OSOutcomeSource alloc] initWithDirectBody:nil indirectBody:sourceBody];
+    OSOutcomeEventParams *eventParams = [[OSOutcomeEventParams alloc] initWithOutcomeId:@"test" outcomeSource:outcomeSource weight:@9.99999 timestamp:@0];
+    
+    let request = [OSRequestSendOutcomesV2ToServer measureOutcomeEvent:eventParams appId:testAppId deviceType:testDeviceType];
+    
+    let correctUrl = correctUrlWithPath(@"outcomes/measure_sources");
+    
+    XCTAssertTrue([correctUrl isEqualToString:request.urlRequest.URL.absoluteString]);
+    
+    XCTAssertTrue(checkHttpBody(request.urlRequest.HTTPBody, @{
+        @"app_id" : testAppId,
+        @"device_type" : testDeviceType,
+        @"id" : @"test",
+        @"weight" : @9.99999,
+        @"sources" : @{
+                @"indirect" : @{
+                        @"in_app_message_ids" : @[testNotificationId, @"iam_test"]
+                },
+        }
+    }));
+}
+
+- (void)testSendDirectOutcomeWithNotificationAndInAppMessageV2 {
+    NSArray * testNotificationIds = [NSArray arrayWithObject:testNotificationId];
+    NSArray * testIAMIds = [NSArray arrayWithObject:testNotificationId];
+    OSOutcomeSourceBody *sourceBody = [[OSOutcomeSourceBody alloc] initWithNotificationIds:testNotificationIds inAppMessagesIds:testIAMIds];
+    OSOutcomeSource *outcomeSource = [[OSOutcomeSource alloc] initWithDirectBody:sourceBody indirectBody:nil];
+    OSOutcomeEventParams *eventParams = [[OSOutcomeEventParams alloc] initWithOutcomeId:@"test" outcomeSource:outcomeSource weight:@0 timestamp:@0];
+    
+    let request = [OSRequestSendOutcomesV2ToServer measureOutcomeEvent:eventParams appId:testAppId deviceType:testDeviceType];
+    
+    let correctUrl = correctUrlWithPath(@"outcomes/measure_sources");
+    
+    XCTAssertTrue([correctUrl isEqualToString:request.urlRequest.URL.absoluteString]);
+
+    XCTAssertTrue(checkHttpBody(request.urlRequest.HTTPBody, @{
+        @"app_id" : testAppId,
+        @"device_type" : testDeviceType,
+        @"id" : @"test",
+        @"sources" : @{
+                @"direct" : @{
+                        @"notification_ids" : @[testNotificationId],
+                        @"in_app_message_ids" : @[testNotificationId]
+                },
+        }
+    }));
+}
+
+- (void)testSendIndirectOutcomeWithNotificationAndInAppMessageV2 {
+    NSArray * testNotificationIds = [NSArray arrayWithObjects:testNotificationId, @"notification_test", nil];
+    NSArray * testIAMIds = [NSArray arrayWithObjects:testNotificationId, @"iam_test", nil];
+    OSOutcomeSourceBody *sourceBody = [[OSOutcomeSourceBody alloc] initWithNotificationIds:testNotificationIds inAppMessagesIds:testIAMIds];
+    OSOutcomeSource *outcomeSource = [[OSOutcomeSource alloc] initWithDirectBody:nil indirectBody:sourceBody];
+    OSOutcomeEventParams *eventParams = [[OSOutcomeEventParams alloc] initWithOutcomeId:@"test" outcomeSource:outcomeSource weight:@0 timestamp:@0];
+    
+    let request = [OSRequestSendOutcomesV2ToServer measureOutcomeEvent:eventParams appId:testAppId deviceType:testDeviceType];
+    
+    let correctUrl = correctUrlWithPath(@"outcomes/measure_sources");
+    
+    XCTAssertTrue([correctUrl isEqualToString:request.urlRequest.URL.absoluteString]);
+    
+    XCTAssertTrue(checkHttpBody(request.urlRequest.HTTPBody, @{
+        @"app_id" : testAppId,
+        @"device_type" : testDeviceType,
+        @"id" : @"test",
+        @"sources" : @{
+                @"indirect" : @{
+                        @"notification_ids" : @[testNotificationId, @"notification_test"],
+                        @"in_app_message_ids" : @[testNotificationId, @"iam_test"]
+                },
+        }
+    }));
+}
+
+- (void)testSendDirectAndIndirectOutcomeWithNotificationAndInAppMessageV2 {
+    NSArray * testNotificationIds = [NSArray arrayWithObject:testNotificationId];
+    NSArray * testIAMIds = [NSArray arrayWithObject:testNotificationId];
+    OSOutcomeSourceBody *directBody = [[OSOutcomeSourceBody alloc] initWithNotificationIds:testNotificationIds inAppMessagesIds:testIAMIds];
+    OSOutcomeSourceBody *indirectBody = [[OSOutcomeSourceBody alloc] initWithNotificationIds:testNotificationIds inAppMessagesIds:testIAMIds];
+    OSOutcomeSource *outcomeSource = [[OSOutcomeSource alloc] initWithDirectBody:directBody indirectBody:indirectBody];
+    OSOutcomeEventParams *eventParams = [[OSOutcomeEventParams alloc] initWithOutcomeId:@"test" outcomeSource:outcomeSource weight:@0 timestamp:@0];
+    
+    let request = [OSRequestSendOutcomesV2ToServer measureOutcomeEvent:eventParams appId:testAppId deviceType:testDeviceType];
+    
+    let correctUrl = correctUrlWithPath(@"outcomes/measure_sources");
+    
+    XCTAssertTrue([correctUrl isEqualToString:request.urlRequest.URL.absoluteString]);
+
+    XCTAssertTrue(checkHttpBody(request.urlRequest.HTTPBody, @{
+        @"app_id" : testAppId,
+        @"device_type" : testDeviceType,
+        @"id" : @"test",
+        @"sources" : @{
+                @"direct" : @{
+                        @"notification_ids" : @[testNotificationId],
+                        @"in_app_message_ids" : @[testNotificationId]
+                },
+                @"indirect" : @{
+                        @"notification_ids" : @[testNotificationId, @"notification_test"],
+                        @"in_app_message_ids" : @[testNotificationId, @"iam_test"]
+                }
+        }
+    }));
+}
+
+- (void)testSendUnattributedOutcomeV2 {
+    OSOutcomeSource *outcomeSource = [[OSOutcomeSource alloc] initWithDirectBody:nil indirectBody:nil];
+    OSOutcomeEventParams *eventParams = [[OSOutcomeEventParams alloc] initWithOutcomeId:@"test" outcomeSource:outcomeSource weight:@0 timestamp:@0];
+    
+    let request = [OSRequestSendOutcomesV2ToServer measureOutcomeEvent:eventParams appId:testAppId deviceType:testDeviceType];
+    
+    let correctUrl = correctUrlWithPath(@"outcomes/measure_sources");
+    
+    XCTAssertTrue([correctUrl isEqualToString:request.urlRequest.URL.absoluteString]);
+    
+    XCTAssertTrue(checkHttpBody(request.urlRequest.HTTPBody, @{
+        @"app_id" : testAppId,
+        @"device_type" : testDeviceType,
+        @"id" : @"test",
+        @"sources" : @{}
+    }));
+}
+
+- (void)testSendUnattributedOutcomeV2WithWeight {
+    OSOutcomeSource *outcomeSource = [[OSOutcomeSource alloc] initWithDirectBody:nil indirectBody:nil];
+    OSOutcomeEventParams *eventParams = [[OSOutcomeEventParams alloc] initWithOutcomeId:@"test" outcomeSource:outcomeSource weight:@9.9999999999 timestamp:@0];
+    
+    let request = [OSRequestSendOutcomesV2ToServer measureOutcomeEvent:eventParams appId:testAppId deviceType:testDeviceType];
+    
+    let correctUrl = correctUrlWithPath(@"outcomes/measure_sources");
+    
+    XCTAssertTrue([correctUrl isEqualToString:request.urlRequest.URL.absoluteString]);
+    
+    XCTAssertTrue(checkHttpBody(request.urlRequest.HTTPBody, @{
+        @"app_id" : testAppId,
+        @"device_type" : testDeviceType,
+        @"id" : @"test",
+        @"weight" : @9.9999999999,
+        @"sources" : @{}
+    }));
+}
+
 - (void)testUpdateDeviceToken {
     let request = [OSRequestUpdateDeviceToken withUserId:testUserId appId:testAppId deviceToken:@"test_device_token" notificationTypes:@0 withParentId:@"test_parent_id" emailAuthToken:nil email:testEmailAddress];
     
@@ -200,13 +548,13 @@ BOOL checkHttpBody(NSData *bodyData, NSDictionary *correct) {
 }
 
 - (void)testSubmitNotificationOpened {
-    let request = [OSRequestSubmitNotificationOpened withUserId:testUserId appId:testAppId wasOpened:true messageId:testMessageId];
+    let request = [OSRequestSubmitNotificationOpened withUserId:testUserId appId:testAppId wasOpened:true messageId:testMessageId withDeviceType:testDeviceType];
     
     let correctUrl = correctUrlWithPath([NSString stringWithFormat:@"notifications/%@", testMessageId]);
     
     XCTAssertTrue([correctUrl isEqualToString:request.urlRequest.URL.absoluteString]);
     
-    XCTAssertTrue(checkHttpBody(request.urlRequest.HTTPBody, @{@"player_id" : testUserId, @"app_id" : testAppId, @"opened" : @1}));
+    XCTAssertTrue(checkHttpBody(request.urlRequest.HTTPBody, @{@"player_id" : testUserId, @"app_id" : testAppId, @"opened" : @1, @"device_type": testDeviceType}));
 }
 
 - (void)testRegisterUser {
@@ -251,31 +599,86 @@ BOOL checkHttpBody(NSData *bodyData, NSDictionary *correct) {
 }
 
 - (void)testOnFocus {
-    let firstRequest = [OSRequestOnFocus withUserId:testUserId appId:testAppId badgeCount:@0 emailAuthToken:nil];
+    let firstRequest = [OSRequestBadgeCount withUserId:testUserId appId:testAppId badgeCount:@0 emailAuthToken:nil];
     
     let correctUrl = correctUrlWithPath([NSString stringWithFormat:@"players/%@", testUserId]);
+    NSArray * testNotificationIds = [NSArray arrayWithObject:testNotificationId];
     
     XCTAssertTrue([correctUrl isEqualToString:firstRequest.urlRequest.URL.absoluteString]);
     
-    let secondRequest = [OSRequestOnFocus withUserId:testUserId appId:testAppId state:@"test_state" type:@1 activeTime:@2 netType:@3 emailAuthToken:nil];
-    
+    OSFocusInfluenceParam *influenceParams = [[OSFocusInfluenceParam alloc] initWithParamsInfluenceIds:[NSArray arrayWithObject:testNotificationId] influenceKey:@"notification_ids" directInfluence:NO influenceDirectKey:@"direct"];
+    let secondRequest = [OSRequestOnFocus withUserId:testUserId appId:testAppId activeTime:@2 netType:@3 emailAuthToken:nil deviceType:testDeviceType influenceParams:[NSArray arrayWithObject:influenceParams]];
+
     let secondCorrectUrl = correctUrlWithPath([NSString stringWithFormat:@"players/%@/on_focus", testUserId]);
     
     XCTAssertTrue([secondCorrectUrl isEqualToString:secondRequest.urlRequest.URL.absoluteString]);
     
     XCTAssertTrue(checkHttpBody(firstRequest.urlRequest.HTTPBody, @{@"app_id" : testAppId, @"badgeCount" : @0}));
     
-    XCTAssertTrue(checkHttpBody(secondRequest.urlRequest.HTTPBody, @{@"app_id" : testAppId, @"state" : @"test_state", @"type" : @1, @"active_time" : @2, @"net_type" : @3}));
+    XCTAssertTrue(checkHttpBody(secondRequest.urlRequest.HTTPBody, @{@"app_id" : testAppId, @"state" : @"ping", @"type" : @1, @"active_time" : @2, @"net_type" : @3, @"device_type" : testDeviceType, @"direct" : @NO, @"notification_ids": testNotificationIds}));
+}
+
+- (void)testInAppMessageViewed {
+    let request = [OSRequestInAppMessageViewed withAppId:testAppId withPlayerId:testUserId withMessageId:testInAppMessageId forVariantId:testInAppMessageVariantId];
+    let correctUrl = correctUrlWithPath([NSString stringWithFormat:@"in_app_messages/%@/impression", testInAppMessageId]);
+
+    XCTAssertEqualObjects(correctUrl, request.urlRequest.URL.absoluteString);
+    XCTAssertTrue(checkHttpBody(request.urlRequest.HTTPBody, @{
+       @"device_type": @0,
+       @"player_id": testUserId,
+       @"app_id": testAppId,
+       @"variant_id": testInAppMessageVariantId
+    }));
+}
+
+- (void)testInAppMessageClicked {
+    let request = [OSRequestInAppMessageClicked
+                   withAppId:testAppId
+                   withPlayerId:testUserId
+                   withMessageId:testInAppMessageId
+                   forVariantId:testInAppMessageVariantId
+                   withAction:testAction];
+    let correctUrl = correctUrlWithPath([NSString stringWithFormat:@"in_app_messages/%@/click", testInAppMessageId]);
+
+    XCTAssertEqualObjects(correctUrl, request.urlRequest.URL.absoluteString);
+    XCTAssertTrue(checkHttpBody(request.urlRequest.HTTPBody, @{
+       @"app_id": testAppId,
+       @"device_type": @0,
+       @"player_id": testUserId,
+       @"click_id": testAction.clickId ?: @"",
+       @"variant_id": testInAppMessageVariantId,
+       @"first_click": @(testAction.firstClick)
+   }));
+}
+
+- (void)testLoadMessageContent {
+    [OneSignal initWithLaunchOptions:nil appId:@"b2f7f966-d8cc-11e4-bed1-df8f05be55ba"];
+
+    let htmlContents = [OSInAppMessageTestHelper testInAppMessageGetContainsWithHTML:OS_DUMMY_HTML];
+    [OneSignalClientOverrider setMockResponseForRequest:NSStringFromClass([OSRequestLoadInAppMessageContent class]) withResponse:htmlContents];
+
+    let request = [OSRequestLoadInAppMessageContent withAppId:testInAppMessageAppId withMessageId:testInAppMessageId withVariantId:testInAppMessageVariantId];
+
+    let iamUrlPath = [NSString stringWithFormat:@"in_app_messages/%@/variants/%@/html?app_id=%@",
+                      testInAppMessageId,
+                      testInAppMessageVariantId,
+                      testInAppMessageAppId
+    ];
+
+    XCTAssertEqualObjects(request.urlRequest.URL.absoluteString, correctUrlWithPath(iamUrlPath));
+    XCTAssertEqualObjects(request.urlRequest.HTTPMethod, @"GET");
+    XCTAssertEqualObjects(request.urlRequest.allHTTPHeaderFields[@"Accept"], @"application/vnd.onesignal.v1+json");
+    XCTAssertFalse(request.dataRequest);
 }
 
 - (void)testSendExternalUserId {
-    let request = [OSRequestUpdateExternalUserId withUserId:@"test_external" withOneSignalUserId:testUserId appId:testAppId];
-    
+    let request = [OSRequestUpdateExternalUserId withUserId:testExternalUserId withOneSignalUserId:testUserId appId:testAppId];
+
     let correctUrl = correctUrlWithPath([NSString stringWithFormat:@"players/%@", testUserId]);
-    
+
     XCTAssertTrue([correctUrl isEqualToString:request.urlRequest.URL.absoluteString]);
-    
-    XCTAssertTrue(checkHttpBody(request.urlRequest.HTTPBody, @{@"app_id" : testAppId, @"external_user_id" : @"test_external"}));
+
+    XCTAssertTrue(checkHttpBody(request.urlRequest.HTTPBody, @{@"app_id" : testAppId, @"external_user_id" : testExternalUserId}));
 }
 
 @end

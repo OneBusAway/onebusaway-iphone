@@ -30,10 +30,12 @@
 #import <XCTest/XCTest.h>
 
 @interface OneSignalHelperOverrider : NSObject
-
-+(void)setMockIOSVersion:(float)value;
-+(float)mockIOSVersion;
-
++ (void)reset;
++ (void)setMockIOSVersion:(float)value;
++ (float)mockIOSVersion;
 + (void)runBackgroundThreads;
++ (void)setOverrideIsTablet:(BOOL)shouldBeTablet;
++ (void)setSystemInfoMachine:(NSString*) name;
++ (BOOL)overrideIsIOSVersionGreaterThanOrEqual:(NSString *)version;
 
 @end

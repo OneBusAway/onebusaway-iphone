@@ -39,6 +39,11 @@
 #import "OSSubscription.h"
 #import "OSEmailSubscription.h"
 
+#import "OneSignalCommonDefines.h"
+#import "OSSessionManager.h"
+#import "OneSignalOutcomeEventsController.h"
+#import "OneSignalReceiveReceiptsController.h"
+
 
 // Permission + Subscription - Redefine OSPermissionSubscriptionState
 @interface OSPermissionSubscriptionState ()
@@ -51,18 +56,32 @@
 
 
 @interface OneSignal (OneSignalInternal)
+
 + (void)updateNotificationTypes:(int)notificationTypes;
 + (BOOL)registerForAPNsToken;
 + (void)setWaitingForApnsResponse:(BOOL)value;
 + (BOOL)shouldPromptToShowURL;
++ (void)setIsOnSessionSuccessfulForCurrentState:(BOOL)value;
++ (BOOL)shouldRegisterNow;
++ (void)receivedInAppMessageJson:(NSArray<NSDictionary *> *)messagesJson;
 
-@property (class) NSObject<OneSignalNotificationSettings>* osNotificationSettings;
-
-@property (class) OSPermissionState* currentPermissionState;
++ (NSDate *)sessionLaunchTime;
 
 // Indicates if the app provides its own custom Notification customization settings UI
 // To enable this, set kOSSettingsKeyProvidesAppNotificationSettings to true in init.
 + (BOOL)providesAppNotificationSettings;
+
+@property (class, readonly) BOOL didCallDownloadParameters;
+@property (class, readonly) BOOL downloadedParameters;
+
+@property (class) NSObject<OneSignalNotificationSettings>* osNotificationSettings;
+@property (class) OSPermissionState* currentPermissionState;
+
+@property (class) OneSignalReceiveReceiptsController* receiveReceiptsController;
+
+@property (class) AppEntryAction appEntryState;
+@property (class) OSSessionManager* sessionManager;
+@property (class) OneSignalOutcomeEventsController* outcomeEventsController;
 
 @end
 

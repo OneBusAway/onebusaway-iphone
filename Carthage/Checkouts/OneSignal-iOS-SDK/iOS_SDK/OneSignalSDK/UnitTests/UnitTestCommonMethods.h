@@ -28,24 +28,34 @@
 #import <Foundation/Foundation.h>
 #import <XCTest/XCTest.h>
 #import "OneSignal.h"
+#import "UIApplication+OneSignal.h"
 #import "OneSignalNotificationCategoryController.h"
 
 #define TEST_EXTERNAL_USER_ID @"i_am_a_test_external_user_id"
+#define TEST_EMAIL @"test@onesignal.com"
 
 NSString * serverUrlWithPath(NSString *path);
 
 @interface UnitTestCommonMethods : NSObject
 
 + (void)setCurrentNotificationPermissionAsUnanswered;
-+ (void)resumeApp;
++ (void)foregroundApp;
++ (void)backgroundApp;
++ (void)useSceneLifecycle:(BOOL)useSceneLifecycle;
 + (void)initOneSignal;
++ (void)initOneSignalAndThreadWait;
 + (void)runBackgroundThreads;
 + (void)beforeAllTest;
++ (void)beforeAllTest:(XCTestCase *)testCase;
++ (void)beforeEachTest:(XCTestCase *)testCase;
 + (void)clearStateForAppRestart:(XCTestCase *)testCase;
 + (UNNotificationResponse*)createBasiciOSNotificationResponseWithPayload:(NSDictionary*)userInfo;
++ (UNNotification *)createBasiciOSNotificationWithPayload:(NSDictionary *)userInfo;
 + (void)answerNotificationPrompt:(BOOL)accept;
 + (void)setCurrentNotificationPermission:(BOOL)accepted;
-
++ (void)receiveNotification:(NSString*)notificationId wasOpened:(BOOL)opened;
++ (void)handleNotificationReceived:(NSDictionary*)messageDict wasOpened:(BOOL)opened;
++ (XCTestCase*)currentXCTestCase;
 @end
 
 // Expose OneSignal test methods

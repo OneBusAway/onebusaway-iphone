@@ -27,11 +27,20 @@
 
 #import <UIKit/UIKit.h>
 
+#import "OneSignalInternal.h"
 #import "OneSignalTracker.h"
 #import "OneSignalHelper.h"
 #import "OneSignalWebView.h"
 #import "OneSignalClient.h"
 #import "Requests.h"
+#import "OSInfluenceDataDefines.h"
+#import "OneSignalUserDefaults.h"
+#import "OneSignalCommonDefines.h"
+#import "OSFocusTimeProcessorFactory.h"
+#import "OSBaseFocusTimeProcessor.h"
+#import "OSFocusCallParams.h"
+#import "OSFocusInfluenceParam.h"
+#import "OSMessagingController.h"
 
 @interface OneSignal ()
 
@@ -46,15 +55,13 @@
 
 @implementation OneSignalTracker
 
-static NSNumber* unSentActiveTime;
 static UIBackgroundTaskIdentifier focusBackgroundTask;
 static NSTimeInterval lastOpenedTime;
 static BOOL lastOnFocusWasToBackground = YES;
 
-
 + (void)resetLocals {
-    unSentActiveTime = nil;
-    focusBackgroundTask = 0;
+    [OSFocusTimeProcessorFactory resetUnsentActiveTime];
+     focusBackgroundTask = 0;
     lastOpenedTime = 0;
     lastOnFocusWasToBackground = YES;
 }
@@ -63,22 +70,18 @@ static BOOL lastOnFocusWasToBackground = YES;
     lastOpenedTime = lastOpened;
 }
 
-
-+ (void) beginBackgroundFocusTask {
++ (void)beginBackgroundFocusTask {
     focusBackgroundTask = [[UIApplication sharedApplication] beginBackgroundTaskWithExpirationHandler:^{
         [OneSignalTracker endBackgroundFocusTask];
     }];
 }
 
-+ (void) endBackgroundFocusTask {
++ (void)endBackgroundFocusTask {
     [[UIApplication sharedApplication] endBackgroundTask: focusBackgroundTask];
     focusBackgroundTask = UIBackgroundTaskInvalid;
 }
 
-
-
 + (void)onFocus:(BOOL)toBackground {
-    
     // return if the user has not granted privacy permissions
     if ([OneSignal requiresUserPrivacyConsent])
         return;
@@ -89,95 +92,127 @@ static BOOL lastOnFocusWasToBackground = YES;
         return;
     lastOnFocusWasToBackground = toBackground;
     
-    bool wasBadgeSet = false;
-    
-    NSTimeInterval now = [[NSDate date] timeIntervalSince1970];
-    NSTimeInterval timeToPingWith = 0.0;
-    
-    
     if (toBackground) {
-        [[NSUserDefaults standardUserDefaults] setDouble:now forKey:@"GT_LAST_CLOSED_TIME"];
-        [[NSUserDefaults standardUserDefaults] synchronize];
-        
-        NSTimeInterval timeElapsed = now - lastOpenedTime + 0.5;
-        if (timeElapsed < 0 || timeElapsed > 86400)
-            return;
-        
-        NSTimeInterval unsentActive = [OneSignalTracker getUnsentActiveTime];
-        NSTimeInterval totalTimeActive = unsentActive + timeElapsed;
-        
-        if (totalTimeActive < 30) {
-            [OneSignalTracker saveUnsentActiveTime:totalTimeActive];
-            return;
-        }
-        
-        timeToPingWith = totalTimeActive;
+        [self applicationBackgrounded];
+    } else {
+        [self applicationForegrounded];
     }
+}
+
++ (void)applicationForegrounded {
+    [OneSignal onesignal_Log:ONE_S_LL_DEBUG message:@"Application Foregrounded started"];
+    [OSFocusTimeProcessorFactory cancelFocusCall];
+    
+    if (OneSignal.appEntryState != NOTIFICATION_CLICK)
+        OneSignal.appEntryState = APP_OPEN;
+   
+    lastOpenedTime = [NSDate date].timeIntervalSince1970;
+    
+    // on_session tracking when resumming app.
+    if ([OneSignal shouldRegisterNow])
+        [OneSignal registerUser];
     else {
-        lastOpenedTime = now;
-        BOOL firedUpdate = [OneSignal sendNotificationTypesUpdate];
-        
-        // on_session tracking when resumming app.
-        if (!firedUpdate && [OneSignal mUserId])
-            [OneSignal registerUser];
-        wasBadgeSet = [OneSignal clearBadgeCount:false];
+        // This checks if notification permissions changed when app was backgrounded
+        [OneSignal sendNotificationTypesUpdate];
+        [OneSignal.sessionManager attemptSessionUpgrade:OneSignal.appEntryState];
+        [OneSignal receivedInAppMessageJson:nil];
     }
+    
+    let wasBadgeSet = [OneSignal clearBadgeCount:false];
     
     if (![OneSignal mUserId])
         return;
     
-    // If resuming and badge was set, clear it on the server as well.
-    if (wasBadgeSet && !toBackground) {
+    // If badge was set, clear it on the server as well.
+    if (wasBadgeSet) {
         NSMutableDictionary *requests = [NSMutableDictionary new];
         
-        requests[@"push"] = [OSRequestOnFocus withUserId:[OneSignal mUserId] appId:[OneSignal app_id] badgeCount:@0 emailAuthToken:nil];
+        requests[@"push"] = [OSRequestBadgeCount withUserId:[OneSignal mUserId] appId:[OneSignal app_id] badgeCount:@0 emailAuthToken:nil];
         
         if ([OneSignal mEmailUserId])
-            requests[@"email"] = [OSRequestOnFocus withUserId:[OneSignal mEmailUserId] appId:[OneSignal app_id] badgeCount:@0 emailAuthToken:[OneSignal mEmailAuthToken]];
+            requests[@"email"] = [OSRequestBadgeCount withUserId:[OneSignal mEmailUserId] appId:[OneSignal app_id] badgeCount:@0 emailAuthToken:[OneSignal mEmailAuthToken]];
         
         [OneSignalClient.sharedClient executeSimultaneousRequests:requests withSuccess:nil onFailure:nil];
-        
+    }
+}
+
++ (void)applicationBackgrounded {
+    [OneSignal onesignal_Log:ONE_S_LL_DEBUG message:@"Application Backgrounded started"];
+    [OneSignal setIsOnSessionSuccessfulForCurrentState:false];
+    [self updateLastClosedTime];
+    
+    let timeElapsed = [self getTimeFocusedElapsed];
+    if (timeElapsed < -1)
+        return;
+    
+    OneSignal.appEntryState = APP_CLOSE;
+
+    let influences = [OneSignal.sessionManager getSessionInfluences];
+    let focusCallParams = [self createFocusCallParams:influences onSessionEnded:false];
+    let timeProcessor = [OSFocusTimeProcessorFactory createTimeProcessorWithInfluences:influences focusEventType:BACKGROUND];
+    
+    if (timeProcessor)
+        [timeProcessor sendOnFocusCall:focusCallParams];
+}
+
++ (void)onSessionEnded:(NSArray<OSInfluence *> *)lastInfluences {
+    [OneSignal onesignal_Log:ONE_S_LL_DEBUG message:@"onSessionEnded started"];
+    let timeElapsed = [self getTimeFocusedElapsed];
+    let focusCallParams = [self createFocusCallParams:lastInfluences onSessionEnded:true];
+    let timeProcessor = [OSFocusTimeProcessorFactory createTimeProcessorWithInfluences:lastInfluences focusEventType:END_SESSION];
+    
+    if (!timeProcessor) {
+        [OneSignal onesignal_Log:ONE_S_LL_DEBUG message:@"onSessionEnded no time processor to end"];
         return;
     }
     
-    // Update the playtime on the server when the app put into the background or the device goes to sleep mode.
-    if (toBackground) {
-        [OneSignalTracker saveUnsentActiveTime:0];
-        dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
-            [OneSignalTracker beginBackgroundFocusTask];
-            
-            NSMutableDictionary *requests = [NSMutableDictionary new];
-            
-            requests[@"push"] = [OSRequestOnFocus withUserId:[OneSignal mUserId] appId:[OneSignal app_id] state:@"ping" type:@1 activeTime:@(timeToPingWith) netType:[OneSignalHelper getNetType] emailAuthToken:nil];
-            
-            if ([OneSignal mEmailUserId])
-                requests[@"email"] = [OSRequestOnFocus withUserId:[OneSignal mEmailUserId] appId:[OneSignal app_id] state:@"ping" type:@1 activeTime:@(timeToPingWith) netType:[OneSignalHelper getNetType] emailAuthToken:[OneSignal mEmailAuthToken]];
-            
-            [OneSignalClient.sharedClient executeSimultaneousRequests:requests withSuccess:nil onFailure:nil];
-            
-            [OneSignalTracker endBackgroundFocusTask];
-        });
-    }
+    if (timeElapsed < -1)
+        // If there is no in focus time to be added we just need to send the time from the last session that just ended.
+        [timeProcessor sendUnsentActiveTime:focusCallParams];
+    else
+        [timeProcessor sendOnFocusCall:focusCallParams];
 }
 
-+ (NSTimeInterval)getUnsentActiveTime {
-    if (unSentActiveTime == NULL) {
-        unSentActiveTime = [NSNumber numberWithInteger:-1];
-    }
++ (OSFocusCallParams *)createFocusCallParams:(NSArray<OSInfluence *> *)lastInfluences onSessionEnded:(BOOL)onSessionEnded  {
+    let timeElapsed = [self getTimeFocusedElapsed];
+    NSMutableArray<OSFocusInfluenceParam *> *focusInfluenceParams = [NSMutableArray new];
     
-    if ([unSentActiveTime intValue] == -1) {
-        unSentActiveTime = [[NSUserDefaults standardUserDefaults] objectForKey:@"GT_UNSENT_ACTIVE_TIME"];
-        if (unSentActiveTime == nil)
-            unSentActiveTime = 0;
+    for (OSInfluence *influence in lastInfluences) {
+        NSString *channelString = [OS_INFLUENCE_CHANNEL_TO_STRING(influence.influenceChannel) lowercaseString];
+        OSFocusInfluenceParam * focusInfluenceParam = [[OSFocusInfluenceParam alloc] initWithParamsInfluenceIds:influence.ids
+                                                                                                   influenceKey:[NSString stringWithFormat:@"%@_%@", channelString, @"ids"]
+                                                                                                directInfluence:influence.influenceType == DIRECT
+                                                                                             influenceDirectKey:@"direct"];
+        [focusInfluenceParams addObject:focusInfluenceParam];
     }
-    
-    return [unSentActiveTime doubleValue];
+
+    return [[OSFocusCallParams alloc] initWithParamsAppId:[OneSignal app_id]
+                                                   userId:[OneSignal mUserId]
+                                              emailUserId:[OneSignal mEmailUserId]
+                                           emailAuthToken:[OneSignal mEmailAuthToken]
+                                                  netType:[OneSignalHelper getNetType]
+                                              timeElapsed:timeElapsed
+                                          influenceParams:focusInfluenceParams
+                                           onSessionEnded:onSessionEnded];
 }
 
-+ (void)saveUnsentActiveTime:(NSTimeInterval)time {
-    unSentActiveTime = @(time);
-    [[NSUserDefaults standardUserDefaults] setObject:unSentActiveTime forKey:@"GT_UNSENT_ACTIVE_TIME"];
-    [[NSUserDefaults standardUserDefaults] synchronize];
++ (NSTimeInterval)getTimeFocusedElapsed {
+    if (!lastOpenedTime)
+        return -1;
+    
+    let now = [NSDate date].timeIntervalSince1970;
+    let timeElapsed = now - (int)(lastOpenedTime + 0.5);
+   
+    // Time is invalid if below 1 or over a day
+    if (timeElapsed < 0 || timeElapsed > 86400)
+        return -1;
+
+    return timeElapsed;
+}
+
++ (void)updateLastClosedTime {
+    let now = [NSDate date].timeIntervalSince1970;
+    [OneSignalUserDefaults.initStandard saveDoubleForKey:OSUD_APP_LAST_CLOSED_TIME withValue:now];
 }
 
 @end

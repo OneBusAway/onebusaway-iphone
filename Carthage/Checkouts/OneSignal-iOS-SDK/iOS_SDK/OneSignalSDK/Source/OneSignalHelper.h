@@ -27,6 +27,7 @@
 
 #import "OneSignal.h"
 #import "OneSignalWebView.h"
+#import "UIApplication+OneSignal.h"
 
 #pragma clang diagnostic push
 #pragma clang diagnostic ignored "-Wdeprecated-declarations"
@@ -40,12 +41,16 @@
 // - Notification Opened
 + (NSMutableDictionary*) formatApsPayloadIntoStandard:(NSDictionary*)remoteUserInfo identifier:(NSString*)identifier;
 + (void)lastMessageReceived:(NSDictionary*)message;
-+ (void)notificationBlocks:(OSHandleNotificationReceivedBlock)receivedBlock :(OSHandleNotificationActionBlock)actionBlock;
+
++(void)setNotificationActionBlock:(OSHandleNotificationActionBlock)block;
++(void)setNotificationReceivedBlock:(OSHandleNotificationReceivedBlock)block;
+
 + (void)handleNotificationReceived:(OSNotificationDisplayType)displayType;
++ (void)handleNotificationReceived:(OSNotificationDisplayType)displayType fromBackground:(BOOL)background;
 + (void)handleNotificationAction:(OSNotificationActionType)actionType actionID:(NSString*)actionID displayType:(OSNotificationDisplayType)displayType;
++ (BOOL)handleIAMPreview:(OSNotificationPayload *)payload;
 
 // - iOS 10
-+ (BOOL)isIOSVersionGreaterOrEqual:(float)version;
 + (void)registerAsUNNotificationCenterDelegate;
 + (void)clearCachedMedia;
 + (UNNotificationRequest*)prepareUNNotificationRequest:(OSNotificationPayload*)payload;
@@ -56,6 +61,7 @@
 + (UILocalNotification*)prepareUILocalNotification:(OSNotificationPayload*)payload;
 + (BOOL)verifyURL:(NSString*)urlString;
 + (BOOL)isRemoteSilentNotification:(NSDictionary*)msg;
++ (BOOL)isInAppPreviewNotification:(NSDictionary*)msg;
 + (NSMutableSet<UNNotificationCategory*>*)existingCategories;
 + (void)addAttachments:(OSNotificationPayload*)payload toNotificationContent:(UNMutableNotificationContent*)content;
 + (void)addActionButtons:(OSNotificationPayload*)payload toNotificationContent:(UNMutableNotificationContent*)content;
@@ -63,6 +69,12 @@
 
 // - Networking
 + (NSNumber*)getNetType;
+
+// Util
++ (NSString *)getCurrentDeviceVersion;
++ (BOOL)isIOSVersionGreaterThanOrEqual:(NSString *)version;
++ (BOOL)isIOSVersionLessThan:(NSString *)version;
++ (NSString*)getDeviceVariant;
 
 // Threading
 + (void)runOnMainThread:(void(^)())block;
@@ -74,9 +86,11 @@
 + (NSString*)hashUsingSha1:(NSString*)string;
 + (NSString*)hashUsingMD5:(NSString*)string;
 + (NSString*)trimURLSpacing:(NSString*)url;
++ (BOOL)isTablet;
 
 #pragma clang diagnostic pop
 @end
+
 
 // Defines let and var in Objective-c for shorter code
 // __auto_type is compatible with Xcode 8+

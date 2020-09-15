@@ -34,6 +34,8 @@
 #import "OneSignalSelectorHelpers.h"
 #import "Requests.h"
 #import "OneSignalCommonDefines.h"
+#import "OSInAppMessagingHelpers.h"
+#import "OSInfluenceDataDefines.h"
 
 #pragma GCC diagnostic push
 #pragma GCC diagnostic ignored "-Wdeprecated-declarations"
@@ -51,18 +53,50 @@ static BOOL requiresEmailAuth = false;
 static BOOL shouldUseProvisionalAuthorization = false; //new in iOS 12 (aka Direct to History)
 static BOOL disableOverride = false;
 static NSMutableArray<OneSignalRequest *> *executedRequests;
+static NSMutableDictionary<NSString *, NSDictionary *> *mockResponses;
+static NSDictionary* iOSParamsOutcomes;
 
 + (void)load {
     serialMockMainLooper = dispatch_queue_create("com.onesignal.unittest", DISPATCH_QUEUE_SERIAL);
     
-    
     //with refactored networking code, need to replace the implementation of the execute request method so tests don't actually execite HTTP requests
     injectToProperClass(@selector(overrideExecuteRequest:onSuccess:onFailure:), @selector(executeRequest:onSuccess:onFailure:), @[], [OneSignalClientOverrider class], [OneSignalClient class]);
     injectToProperClass(@selector(overrideExecuteSimultaneousRequests:withSuccess:onFailure:), @selector(executeSimultaneousRequests:withSuccess:onFailure:), @[], [OneSignalClientOverrider class], [OneSignalClient class]);
-    
+    injectToProperClass(@selector(overrideExecuteDataRequest:onSuccess:onFailure:), @selector(executeDataRequest:onSuccess:onFailure:), @[], [OneSignalClientOverrider class], [OneSignalClient class]);
+
+
     executionQueue = dispatch_queue_create("com.onesignal.execution", NULL);
     
     executedRequests = [NSMutableArray new];
+
+    mockResponses = [NSMutableDictionary new];
+}
+
++ (NSDictionary*)iosParamsResponse {
+    return @{
+        @"fba": @true,
+        IOS_REQUIRES_EMAIL_AUTHENTICATION : @(requiresEmailAuth),
+        IOS_USES_PROVISIONAL_AUTHORIZATION : @(shouldUseProvisionalAuthorization),
+        OUTCOMES_PARAM : iOSParamsOutcomes
+    };
+}
+
++ (void)enableOutcomes {
+    iOSParamsOutcomes = @{
+        DIRECT_PARAM: @{
+            ENABLED_PARAM: @YES
+        },
+        INDIRECT_PARAM: @{
+            NOTIFICATION_ATTRIBUTION_PARAM: @{
+                MINUTES_SINCE_DISPLAYED_PARAM: @1440,
+                LIMIT_PARAM: @10
+            },
+            ENABLED_PARAM: @YES
+        },
+        UNATTRIBUTED_PARAM: @{
+            ENABLED_PARAM: @YES
+        }
+    };
 }
 
 // Calling this function twice results in reversing the swizzle
@@ -80,8 +114,6 @@ static NSMutableArray<OneSignalRequest *> *executedRequests;
     __block NSMutableDictionary<NSString *, NSDictionary *> *results = [NSMutableDictionary new];
     
     for (NSString *key in requests.allKeys) {
-        [executedRequests addObject:requests[key]];
-        
         [OneSignalClient.sharedClient executeRequest:requests[key] onSuccess:^(NSDictionary *result) {
             results[key] = result;
             dispatch_semaphore_signal(semaphore);
@@ -118,6 +150,33 @@ static NSMutableArray<OneSignalRequest *> *executedRequests;
     }
 }
 
+- (void)overrideExecuteDataRequest:(OneSignalRequest *)request onSuccess:(OSDataRequestSuccessBlock)successBlock onFailure:(OSFailureBlock)failureBlock {
+    if (disableOverride)
+        return [self overrideExecuteDataRequest:request onSuccess:successBlock onFailure:failureBlock];
+
+    if (executeInstantaneously) {
+        [OneSignalClientOverrider finishExecutingDataRequest:request onSuccess:successBlock onFailure:failureBlock];
+    } else {
+        dispatch_async(executionQueue, ^{
+            [OneSignalClientOverrider finishExecutingDataRequest:request onSuccess:successBlock onFailure:failureBlock];
+        });
+    }
+}
+
++ (void)finishExecutingDataRequest:(OneSignalRequest *)request onSuccess:(OSDataRequestSuccessBlock)successBlock onFailure:(OSFailureBlock)failureBlock {
+    @synchronized (lastHTTPRequest) {
+        NSLog(@"completing HTTP data request: %@", NSStringFromClass([request class]));
+
+        [self didCompleteRequest:request];
+
+        if (successBlock) {
+            let resultData = [OS_DUMMY_HTML dataUsingEncoding:NSUTF8StringEncoding];
+
+            successBlock(resultData);
+        }
+    }
+}
+
 + (void)finishExecutingRequest:(OneSignalRequest *)request onSuccess:(OSResultSuccessBlock)successBlock onFailure:(OSFailureBlock)failureBlock {
     @synchronized(lastHTTPRequest) {
         NSLog(@"completing HTTP request: %@", NSStringFromClass([request class]));
@@ -127,26 +186,49 @@ static NSMutableArray<OneSignalRequest *> *executedRequests;
         if (!parameters[@"app_id"] && ![request.urlRequest.URL.absoluteString containsString:@"/apps/"])
             _XCTPrimitiveFail(currentTestInstance, @"All request should include an app_id");
         
-        networkRequestCount++;
-        
-        id url = [request.urlRequest URL];
-        NSLog(@"url: %@", url);
-        NSLog(@"parameters: %@", parameters);
-        
-        lastUrl = [url absoluteString];
-        lastHTTPRequest = parameters;
-        lastHTTPRequestType = NSStringFromClass([request class]);
-        
+        [self didCompleteRequest:request];
+
         if (successBlock) {
-            if ([request isKindOfClass:[OSRequestGetIosParams class]])
-                successBlock(@{@"fba": @true, IOS_REQUIRES_EMAIL_AUTHENTICATION : @(requiresEmailAuth), IOS_USES_PROVISIONAL_AUTHORIZATION : @(shouldUseProvisionalAuthorization)});
-            else
-                successBlock(@{@"id": @"1234"});
+            if ([request isKindOfClass:[OSRequestGetIosParams class]]) {
+                successBlock(self.iosParamsResponse);
+            }
+            else if (mockResponses[NSStringFromClass([request class])]) {
+                successBlock(mockResponses[NSStringFromClass([request class])]);
+            }
+            else {
+                successBlock(@{
+                @"success" : @(true),
+                @"id" : @"1234",
+                @"in_app_messages" : @[
+                     @{
+                         @"id" : @"728dc571-e277-4bef-96ab-9dd1003744cb",
+                         @"triggers" : @[],
+                         @"variants" : @{
+                                 @"all" : @{
+                                         @"default" : @"4ad40b29-1947-4ad9-9ee6-4579c225b448"
+                                 }
+                         }
+                     }]
+                });
+            }
         }
     }
 }
 
-+(BOOL)hasExecutedRequestOfType:(Class)type {
++ (void)didCompleteRequest:(OneSignalRequest *)request {
+    NSMutableDictionary *parameters = [request.parameters mutableCopy];
+
+    networkRequestCount++;
+
+    let url = [request.urlRequest URL];
+    NSLog(@"url(%d): %@\n params: %@", networkRequestCount, url, parameters);
+
+    lastUrl = [url absoluteString];
+    lastHTTPRequest = parameters;
+    lastHTTPRequestType = NSStringFromClass([request class]);
+}
+
++ (BOOL)hasExecutedRequestOfType:(Class)type {
     for (OneSignalRequest *request in executedRequests)
         if ([request isKindOfClass:type])
             return true;
@@ -154,7 +236,7 @@ static NSMutableArray<OneSignalRequest *> *executedRequests;
     return false;
 }
 
-+(dispatch_queue_t)getHTTPQueue {
++ (dispatch_queue_t)getHTTPQueue {
     return executionQueue;
 }
 
@@ -162,52 +244,59 @@ static NSMutableArray<OneSignalRequest *> *executedRequests;
     return lastHTTPRequestType;
 }
 
-+(void)setShouldExecuteInstantaneously:(BOOL)instant {
++ (void)setShouldExecuteInstantaneously:(BOOL)instant {
     executeInstantaneously = instant;
 }
 
-+(void)reset:(XCTestCase*)testInstance {
++ (void)reset:(XCTestCase*)testInstance {
     currentTestInstance = testInstance;
     shouldUseProvisionalAuthorization = false;
     networkRequestCount = 0;
     lastUrl = nil;
     lastHTTPRequest = nil;
+    lastHTTPRequestType = nil;
     [executedRequests removeAllObjects];
+    mockResponses = [NSMutableDictionary new];
+    iOSParamsOutcomes = @{};
 }
 
-+(void)setLastHTTPRequest:(NSDictionary*)value {
++ (void)setLastHTTPRequest:(NSDictionary*)value {
     lastHTTPRequest = value;
 }
-+(NSDictionary*)lastHTTPRequest {
++ (NSDictionary*)lastHTTPRequest {
     return lastHTTPRequest;
 }
 
-+(int)networkRequestCount {
++ (int)networkRequestCount {
     return networkRequestCount;
 }
 
-+(void)setLastUrl:(NSString*)value {
++ (void)setLastUrl:(NSString*)value {
     lastUrl = value;
 }
 
-+(NSString*)lastUrl {
++ (NSString*)lastUrl {
     return lastUrl;
 }
 
-+(void)runBackgroundThreads {
++ (void)runBackgroundThreads {
     dispatch_sync(executionQueue, ^{});
 }
 
-+(void)setRequiresEmailAuth:(BOOL)required {
++ (void)setRequiresEmailAuth:(BOOL)required {
     requiresEmailAuth = required;
 }
 
-+(void)setShouldUseProvisionalAuth:(BOOL)provisional {
++ (void)setShouldUseProvisionalAuth:(BOOL)provisional {
     shouldUseProvisionalAuthorization = provisional;
 }
 
-+(NSArray<OneSignalRequest *> *)executedRequests {
++ (NSArray<OneSignalRequest *> *)executedRequests {
     return executedRequests;
+}
+
++ (void)setMockResponseForRequest:(NSString *)request withResponse:(NSDictionary *)response {
+    [mockResponses setObject:response forKey:request];
 }
 
 @end
