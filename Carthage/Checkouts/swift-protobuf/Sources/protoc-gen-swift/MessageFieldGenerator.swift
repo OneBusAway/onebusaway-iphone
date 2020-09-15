@@ -20,6 +20,7 @@ import SwiftProtobuf
 class MessageFieldGenerator: FieldGeneratorBase, FieldGenerator {
     private let generatorOptions: GeneratorOptions
     private let usesHeapStorage: Bool
+    private let namer: SwiftProtobufNamer
 
     private let hasFieldPresence: Bool
     private let swiftName: String
@@ -52,12 +53,13 @@ class MessageFieldGenerator: FieldGeneratorBase, FieldGenerator {
          namer: SwiftProtobufNamer,
          usesHeapStorage: Bool)
     {
-        precondition(descriptor.oneofIndex == nil)
+        precondition(descriptor.realOneof == nil)
 
         self.generatorOptions = generatorOptions
         self.usesHeapStorage = usesHeapStorage
+        self.namer = namer
 
-        hasFieldPresence = descriptor.hasFieldPresence
+        hasFieldPresence = descriptor.hasPresence && descriptor.realOneof == nil
         let names = namer.messagePropertyNames(field: descriptor,
                                                prefixed: "_",
                                                includeHasAndClear: hasFieldPresence)
@@ -158,10 +160,10 @@ class MessageFieldGenerator: FieldGeneratorBase, FieldGenerator {
     }
 
     func generateIsInitializedCheck(printer p: inout CodePrinter) {
-        guard isGroupOrMessage && fieldDescriptor.messageType.hasRequiredFields() else { return }
+        guard isGroupOrMessage && fieldDescriptor.messageType.containsRequiredFields() else { return }
 
         if isRepeated {  // Map or Array
-            p.print("if !SwiftProtobuf.Internal.areAllInitialized(\(storedProperty)) {return false}\n")
+            p.print("if !\(namer.swiftProtobufModuleName).Internal.areAllInitialized(\(storedProperty)) {return false}\n")
         } else {
             p.print("if let v = \(storedProperty), !v.isInitialized {return false}\n")
         }
@@ -179,7 +181,7 @@ class MessageFieldGenerator: FieldGeneratorBase, FieldGenerator {
             traitsArg = ""
         }
 
-        p.print("case \(number): try decoder.\(decoderMethod)(\(traitsArg)value: &\(storedProperty))\n")
+        p.print("case \(number): try { try decoder.\(decoderMethod)(\(traitsArg)value: &\(storedProperty)) }()\n")
     }
 
     func generateTraverse(printer p: inout CodePrinter) {

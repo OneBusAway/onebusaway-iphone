@@ -1,6 +1,6 @@
 // Tests/SwiftProtobufTests/Test_JSON.swift - Exercise JSON coding
 //
-// Copyright (c) 2014 - 2016 Apple Inc. and the project authors
+// Copyright (c) 2014 - 2019 Apple Inc. and the project authors
 // Licensed under Apache License v2.0 with Runtime Library Exception
 //
 // See LICENSE.txt for license information:
@@ -36,7 +36,7 @@ class Test_JSON: XCTestCase, PBTestHelpers {
         o.optionalDouble = 12
         o.optionalBool = true
         o.optionalString = "abc"
-        o.optionalBytes = Data(bytes: [65, 66])
+        o.optionalBytes = Data([65, 66])
         var nested = MessageTestType.NestedMessage()
         nested.bb = 7
         o.optionalNestedMessage = nested
@@ -65,7 +65,7 @@ class Test_JSON: XCTestCase, PBTestHelpers {
         o.repeatedDouble = [23, 24]
         o.repeatedBool = [true, false]
         o.repeatedString = ["abc", "def"]
-        o.repeatedBytes = [Data(), Data(bytes: [65, 66])]
+        o.repeatedBytes = [Data(), Data([65, 66])]
         var nested2 = nested
         nested2.bb = -7
         o.repeatedNestedMessage = [nested, nested2]
@@ -94,8 +94,8 @@ class Test_JSON: XCTestCase, PBTestHelpers {
             + "\"optionalFixed64\":\"8\","
             + "\"optionalSfixed32\":9,"
             + "\"optionalSfixed64\":\"10\","
-            + "\"optionalFloat\":11,"
-            + "\"optionalDouble\":12,"
+            + "\"optionalFloat\":11.0,"
+            + "\"optionalDouble\":12.0,"
             + "\"optionalBool\":true,"
             + "\"optionalString\":\"abc\","
             + "\"optionalBytes\":\"QUI=\","
@@ -115,8 +115,8 @@ class Test_JSON: XCTestCase, PBTestHelpers {
             + "\"repeatedFixed64\":[\"15\",\"16\"],"
             + "\"repeatedSfixed32\":[17,18],"
             + "\"repeatedSfixed64\":[\"19\",\"20\"],"
-            + "\"repeatedFloat\":[21,22],"
-            + "\"repeatedDouble\":[23,24],"
+            + "\"repeatedFloat\":[21.0,22.0],"
+            + "\"repeatedDouble\":[23.0,24.0],"
             + "\"repeatedBool\":[true,false],"
             + "\"repeatedString\":[\"abc\",\"def\"],"
             + "\"repeatedBytes\":[\"\",\"QUI=\"],"
@@ -401,7 +401,7 @@ class Test_JSON: XCTestCase, PBTestHelpers {
     }
 
     func testOptionalDouble() throws {
-        assertJSONEncode("{\"optionalDouble\":1}") {(o: inout MessageTestType) in
+        assertJSONEncode("{\"optionalDouble\":1.0}") {(o: inout MessageTestType) in
             o.optionalDouble = 1.0
         }
         assertJSONEncode("{\"optionalDouble\":\"Infinity\"}") {(o: inout MessageTestType) in
@@ -425,10 +425,19 @@ class Test_JSON: XCTestCase, PBTestHelpers {
         assertJSONDecodeSucceeds("{\"optionalDouble\":\"1.5e+1\"}") {$0.optionalDouble == 15}
         assertJSONDecodeSucceeds("{\"optionalDouble\":\"15e-1\"}") {$0.optionalDouble == 1.5}
         assertJSONDecodeSucceeds("{\"optionalDouble\":\"1.0e0\"}") {$0.optionalDouble == 1.0}
-        assertJSONDecodeSucceeds("{\"optionalDouble\":\"-0\"}") {$0.optionalDouble == 0.0}
         assertJSONDecodeSucceeds("{\"optionalDouble\":\"0\"}") {$0.optionalDouble == 0.0}
-        assertJSONDecodeSucceeds("{\"optionalDouble\":-0}") {$0.optionalDouble == 0.0}
         assertJSONDecodeSucceeds("{\"optionalDouble\":0}") {$0.optionalDouble == 0.0}
+        // We preserve signed zero when decoding
+        let d1 = try MessageTestType(jsonString: "{\"optionalDouble\":\"-0\"}")
+        XCTAssertEqual(d1.optionalDouble, 0.0)
+        XCTAssertEqual(d1.optionalDouble.sign, .minus)
+        let d2 = try MessageTestType(jsonString: "{\"optionalDouble\":-0}")
+        XCTAssertEqual(d2.optionalDouble, 0.0)
+        XCTAssertEqual(d2.optionalDouble.sign, .minus)
+        // But re-encoding treats the field as defaulted, so the sign gets lost
+        assertJSONDecodeSucceeds("{\"optionalDouble\":\"-0\"}") {$0.optionalDouble == 0.0}
+        assertJSONDecodeSucceeds("{\"optionalDouble\":-0}") {$0.optionalDouble == 0.0}
+
         // Malformed numbers should fail
         assertJSONDecodeFails("{\"optionalDouble\":Infinity}")
         assertJSONDecodeFails("{\"optionalDouble\":-Infinity}") // Must be quoted
@@ -472,9 +481,12 @@ class Test_JSON: XCTestCase, PBTestHelpers {
         assertRoundTripJSON {$0.optionalDouble = 2.22507385850720138309e-308}
     }
 
-    func testOptionalFloat() {
-        assertJSONEncode("{\"optionalFloat\":1}") {(o: inout MessageTestType) in
+    func testOptionalFloat() throws {
+        assertJSONEncode("{\"optionalFloat\":1.0}") {(o: inout MessageTestType) in
             o.optionalFloat = 1.0
+        }
+        assertJSONEncode("{\"optionalFloat\":-1.0}") {(o: inout MessageTestType) in
+            o.optionalFloat = -1.0
         }
         assertJSONEncode("{\"optionalFloat\":\"Infinity\"}") {(o: inout MessageTestType) in
             o.optionalFloat = Float.infinity
@@ -485,6 +497,7 @@ class Test_JSON: XCTestCase, PBTestHelpers {
         assertJSONDecodeSucceeds("{\"optionalFloat\":\"Inf\"}") {$0.optionalFloat == Float.infinity}
         assertJSONDecodeSucceeds("{\"optionalFloat\":\"-Inf\"}") {$0.optionalFloat == -Float.infinity}
         assertJSONDecodeSucceeds("{\"optionalFloat\":\"1\"}") {$0.optionalFloat == 1}
+        assertJSONDecodeSucceeds("{\"optionalFloat\":\"-1\"}") {$0.optionalFloat == -1}
         assertJSONDecodeSucceeds("{\"optionalFloat\":\"1.0\"}") {$0.optionalFloat == 1.0}
         assertJSONDecodeSucceeds("{\"optionalFloat\":\"1.5\"}") {$0.optionalFloat == 1.5}
         assertJSONDecodeSucceeds("{\"optionalFloat\":\"1.5e1\"}") {$0.optionalFloat == 15}
@@ -499,8 +512,16 @@ class Test_JSON: XCTestCase, PBTestHelpers {
         assertJSONDecodeSucceeds("{\"optionalFloat\":1.0e0}") {$0.optionalFloat == 1.0}
         assertJSONDecodeSucceeds("{\"optionalFloat\":\"0\"}") {$0.optionalFloat == 0.0}
         assertJSONDecodeSucceeds("{\"optionalFloat\":0}") {$0.optionalFloat == 0.0}
-        assertJSONDecodeSucceeds("{\"optionalFloat\":\"-0\"}") {$0.optionalFloat == -0.0 && $0.optionalFloat.sign == .minus}
-        assertJSONDecodeSucceeds("{\"optionalFloat\":-0}") {$0.optionalFloat == 0 && $0.optionalFloat.sign == .minus}
+        // We preserve signed zero when decoding
+        let d1 = try MessageTestType(jsonString: "{\"optionalFloat\":\"-0\"}")
+        XCTAssertEqual(d1.optionalFloat, 0.0)
+        XCTAssertEqual(d1.optionalFloat.sign, .minus)
+        let d2 = try MessageTestType(jsonString: "{\"optionalFloat\":-0}")
+        XCTAssertEqual(d2.optionalFloat, 0.0)
+        XCTAssertEqual(d2.optionalFloat.sign, .minus)
+        // But re-encoding treats the field as defaulted, so the sign gets lost
+        assertJSONDecodeSucceeds("{\"optionalFloat\":\"-0\"}") {$0.optionalFloat == 0.0}
+        assertJSONDecodeSucceeds("{\"optionalFloat\":-0}") {$0.optionalFloat == 0.0}
         // Malformed numbers should fail
         assertJSONDecodeFails("{\"optionalFloat\":Infinity}")
         assertJSONDecodeFails("{\"optionalFloat\":-Infinity}") // Must be quoted
@@ -538,11 +559,11 @@ class Test_JSON: XCTestCase, PBTestHelpers {
         assertRoundTripJSON {$0.optionalFloat = 1e-10}
         assertRoundTripJSON {$0.optionalFloat = 1e-20}
         assertRoundTripJSON {$0.optionalFloat = 1e-30}
-        assertRoundTripJSON {$0.optionalFloat = 1e-40}
-        assertRoundTripJSON {$0.optionalFloat = 1e-50}
-        assertRoundTripJSON {$0.optionalFloat = 1e-60}
-        assertRoundTripJSON {$0.optionalFloat = 1e-100}
-        assertRoundTripJSON {$0.optionalFloat = 1e-200}
+        assertRoundTripJSON {$0.optionalFloat = Float(1e-40)}
+        assertRoundTripJSON {$0.optionalFloat = Float(1e-50)}
+        assertRoundTripJSON {$0.optionalFloat = Float(1e-60)}
+        assertRoundTripJSON {$0.optionalFloat = Float(1e-100)}
+        assertRoundTripJSON {$0.optionalFloat = Float(1e-200)}
         assertRoundTripJSON {$0.optionalFloat = Float.pi}
         assertRoundTripJSON {$0.optionalFloat = 123456.789123456789123}
         assertRoundTripJSON {$0.optionalFloat = 1999.9999999999}
@@ -661,56 +682,56 @@ class Test_JSON: XCTestCase, PBTestHelpers {
         XCTAssertEqual(try a.jsonString(), "{}")
 
         assertJSONEncode("{\"optionalBytes\":\"AA==\"}") {(o: inout MessageTestType) in
-            o.optionalBytes = Data(bytes: [0])
+            o.optionalBytes = Data([0])
         }
         assertJSONEncode("{\"optionalBytes\":\"AAA=\"}") {(o: inout MessageTestType) in
-            o.optionalBytes = Data(bytes: [0, 0])
+            o.optionalBytes = Data([0, 0])
         }
         assertJSONEncode("{\"optionalBytes\":\"AAAA\"}") {(o: inout MessageTestType) in
-            o.optionalBytes = Data(bytes: [0, 0, 0])
+            o.optionalBytes = Data([0, 0, 0])
         }
         assertJSONEncode("{\"optionalBytes\":\"/w==\"}") {(o: inout MessageTestType) in
-            o.optionalBytes = Data(bytes: [255])
+            o.optionalBytes = Data([255])
         }
         assertJSONEncode("{\"optionalBytes\":\"//8=\"}") {(o: inout MessageTestType) in
-            o.optionalBytes = Data(bytes: [255, 255])
+            o.optionalBytes = Data([255, 255])
         }
         assertJSONEncode("{\"optionalBytes\":\"////\"}") {(o: inout MessageTestType) in
-            o.optionalBytes = Data(bytes: [255, 255, 255])
+            o.optionalBytes = Data([255, 255, 255])
         }
         assertJSONEncode("{\"optionalBytes\":\"QQ==\"}") {(o: inout MessageTestType) in
-            o.optionalBytes = Data(bytes: [65])
+            o.optionalBytes = Data([65])
         }
         assertJSONDecodeFails("{\"optionalBytes\":\"QQ=\"}")
         assertJSONDecodeSucceeds("{\"optionalBytes\":\"QQ\"}") {
-            $0.optionalBytes == Data(bytes: [65])
+            $0.optionalBytes == Data([65])
         }
         assertJSONEncode("{\"optionalBytes\":\"QUI=\"}") {(o: inout MessageTestType) in
-            o.optionalBytes = Data(bytes: [65, 66])
+            o.optionalBytes = Data([65, 66])
         }
         assertJSONDecodeSucceeds("{\"optionalBytes\":\"QUI\"}") {
-            $0.optionalBytes == Data(bytes: [65, 66])
+            $0.optionalBytes == Data([65, 66])
         }
         assertJSONEncode("{\"optionalBytes\":\"QUJD\"}") {(o: inout MessageTestType) in
-            o.optionalBytes = Data(bytes: [65, 66, 67])
+            o.optionalBytes = Data([65, 66, 67])
         }
         assertJSONEncode("{\"optionalBytes\":\"QUJDRA==\"}") {(o: inout MessageTestType) in
-            o.optionalBytes = Data(bytes: [65, 66, 67, 68])
+            o.optionalBytes = Data([65, 66, 67, 68])
         }
         assertJSONDecodeFails("{\"optionalBytes\":\"QUJDRA===\"}")
         assertJSONDecodeFails("{\"optionalBytes\":\"QUJDRA=\"}")
         assertJSONDecodeSucceeds("{\"optionalBytes\":\"QUJDRA\"}") {
-            $0.optionalBytes == Data(bytes: [65, 66, 67, 68])
+            $0.optionalBytes == Data([65, 66, 67, 68])
         }
         assertJSONEncode("{\"optionalBytes\":\"QUJDREU=\"}") {(o: inout MessageTestType) in
-            o.optionalBytes = Data(bytes: [65, 66, 67, 68, 69])
+            o.optionalBytes = Data([65, 66, 67, 68, 69])
         }
         assertJSONDecodeFails("{\"optionalBytes\":\"QUJDREU==\"}")
         assertJSONDecodeSucceeds("{\"optionalBytes\":\"QUJDREU\"}") {
-            $0.optionalBytes == Data(bytes: [65, 66, 67, 68, 69])
+            $0.optionalBytes == Data([65, 66, 67, 68, 69])
         }
         assertJSONEncode("{\"optionalBytes\":\"QUJDREVG\"}") {(o: inout MessageTestType) in
-            o.optionalBytes = Data(bytes: [65, 66, 67, 68, 69, 70])
+            o.optionalBytes = Data([65, 66, 67, 68, 69, 70])
         }
         assertJSONDecodeFails("{\"optionalBytes\":\"QUJDREVG=\"}")
         assertJSONDecodeFails("{\"optionalBytes\":\"QUJDREVG==\"}")
@@ -718,15 +739,15 @@ class Test_JSON: XCTestCase, PBTestHelpers {
         assertJSONDecodeFails("{\"optionalBytes\":\"QUJDREVG====\"}")
         // Google's parser accepts and ignores spaces:
         assertJSONDecodeSucceeds("{\"optionalBytes\":\" Q U J D R E U \"}") {
-            $0.optionalBytes == Data(bytes: [65, 66, 67, 68, 69])
+            $0.optionalBytes == Data([65, 66, 67, 68, 69])
         }
         // Accept both RFC4648 Section 4 "base64" and Section 5
         // "URL-safe base64" variants, but reject mixed coding:
         assertJSONDecodeSucceeds("{\"optionalBytes\":\"-_-_\"}") {
-            $0.optionalBytes == Data(bytes: [251, 255, 191])
+            $0.optionalBytes == Data([251, 255, 191])
         }
         assertJSONDecodeSucceeds("{\"optionalBytes\":\"+/+/\"}") {
-            $0.optionalBytes == Data(bytes: [251, 255, 191])
+            $0.optionalBytes == Data([251, 255, 191])
         }
         assertJSONDecodeFails("{\"optionalBytes\":\"-_+/\"}")
         assertJSONDecodeFails("{\"optionalBytes\":\"-_+\\/\"}")
@@ -735,28 +756,28 @@ class Test_JSON: XCTestCase, PBTestHelpers {
     func testOptionalBytes_escapes() {
         // Many JSON encoders escape "/":
         assertJSONDecodeSucceeds("{\"optionalBytes\":\"\\/w==\"}") {
-            $0.optionalBytes == Data(bytes: [255])
+            $0.optionalBytes == Data([255])
         }
         assertJSONDecodeSucceeds("{\"optionalBytes\":\"\\/w\"}") {
-            $0.optionalBytes == Data(bytes: [255])
+            $0.optionalBytes == Data([255])
         }
         assertJSONDecodeSucceeds("{\"optionalBytes\":\"\\/\\/\"}") {
-            $0.optionalBytes == Data(bytes: [255])
+            $0.optionalBytes == Data([255])
         }
         assertJSONDecodeSucceeds("{\"optionalBytes\":\"a\\/\"}") {
-            $0.optionalBytes == Data(bytes: [107])
+            $0.optionalBytes == Data([107])
         }
         assertJSONDecodeSucceeds("{\"optionalBytes\":\"ab\\/\"}") {
-            $0.optionalBytes == Data(bytes: [105, 191])
+            $0.optionalBytes == Data([105, 191])
         }
         assertJSONDecodeSucceeds("{\"optionalBytes\":\"abc\\/\"}") {
-            $0.optionalBytes == Data(bytes: [105, 183, 63])
+            $0.optionalBytes == Data([105, 183, 63])
         }
         assertJSONDecodeSucceeds("{\"optionalBytes\":\"\\/a\"}") {
-            $0.optionalBytes == Data(bytes: [253])
+            $0.optionalBytes == Data([253])
         }
         assertJSONDecodeSucceeds("{\"optionalBytes\":\"\\/\\/\\/\\/\"}") {
-            $0.optionalBytes == Data(bytes: [255, 255, 255])
+            $0.optionalBytes == Data([255, 255, 255])
         }
         // Most backslash escapes decode to values that are
         // not legal in base-64 encoded strings
@@ -774,7 +795,7 @@ class Test_JSON: XCTestCase, PBTestHelpers {
 
     func testOptionalBytes_roundtrip() throws {
         for i in UInt8(0)...UInt8(255) {
-            let d = Data(bytes: [i])
+            let d = Data([i])
             let message = Proto3Unittest_TestAllTypes.with { $0.optionalBytes = d }
             let text = try message.jsonString()
             let decoded = try Proto3Unittest_TestAllTypes(jsonString: text)
@@ -855,6 +876,26 @@ class Test_JSON: XCTestCase, PBTestHelpers {
         }
     }
 
+    func testRepeatedEnum() {
+        assertJSONEncode("{\"repeatedNestedEnum\":[\"FOO\"]}") {(o: inout MessageTestType) in
+            o.repeatedNestedEnum = [.foo]
+        }
+        assertJSONEncode("{\"repeatedNestedEnum\":[\"FOO\",\"BAR\"]}") {(o: inout MessageTestType) in
+            o.repeatedNestedEnum = [.foo, .bar]
+        }
+        assertJSONDecodeSucceeds("{\"repeatedNestedEnum\":[\"FOO\",0,1,\"BAR\",-1]}") {(o:MessageTestType) in
+            o.repeatedNestedEnum == [.foo, .zero, .foo, .bar, .neg]
+        }
+        assertJSONDecodeFails("{\"repeatedNestedEnum\":[null]}")
+        assertJSONDecodeFails("{\"repeatedNestedEnum\":\"FOO\"}")
+        assertJSONDecodeFails("{\"repeatedNestedEnum\":0}")
+        assertJSONDecodeSucceeds("{\"repeatedNestedEnum\":null}") {(o:MessageTestType) in
+            o.repeatedNestedEnum == []
+        }
+        assertJSONDecodeSucceeds("{\"repeatedNestedEnum\":[]}") {(o:MessageTestType) in
+            o.repeatedNestedEnum == []
+        }
+    }
 
     // TODO: Test other repeated field types
 
@@ -874,6 +915,13 @@ class Test_JSON: XCTestCase, PBTestHelpers {
         assertJSONDecodeFails("{\"oneofUint32\":1,\"oneofString\":\"abc\"}")
         assertJSONDecodeFails("{\"oneofString\":\"abc\",\"oneofUint32\":1}")
     }
+
+    func testEmptyMessage() {
+        assertJSONDecodeSucceeds("{}") {MessageTestType -> Bool in true}
+        assertJSONDecodeFails("")
+        assertJSONDecodeFails("{")
+        assertJSONDecodeFails("}")
+    }
 }
 
 
@@ -881,10 +929,10 @@ class Test_JSONPacked: XCTestCase, PBTestHelpers {
     typealias MessageTestType = Proto3Unittest_TestPackedTypes
 
     func testPackedFloat() {
-        assertJSONEncode("{\"packedFloat\":[1]}") {(o: inout MessageTestType) in
+        assertJSONEncode("{\"packedFloat\":[1.0]}") {(o: inout MessageTestType) in
             o.packedFloat = [1]
         }
-        assertJSONEncode("{\"packedFloat\":[1,0.25,0.125]}") {(o: inout MessageTestType) in
+        assertJSONEncode("{\"packedFloat\":[1.0,0.25,0.125]}") {(o: inout MessageTestType) in
             o.packedFloat = [1, 0.25, 0.125]
         }
         assertJSONDecodeSucceeds("{\"packedFloat\":[1,0.25,125e-3]}") {
@@ -897,10 +945,10 @@ class Test_JSONPacked: XCTestCase, PBTestHelpers {
     }
 
     func testPackedDouble() {
-        assertJSONEncode("{\"packedDouble\":[1]}") {(o: inout MessageTestType) in
+        assertJSONEncode("{\"packedDouble\":[1.0]}") {(o: inout MessageTestType) in
             o.packedDouble = [1]
         }
-        assertJSONEncode("{\"packedDouble\":[1,0.25,0.125]}") {(o: inout MessageTestType) in
+        assertJSONEncode("{\"packedDouble\":[1.0,0.25,0.125]}") {(o: inout MessageTestType) in
             o.packedDouble = [1, 0.25, 0.125]
         }
         assertJSONDecodeSucceeds("{\"packedDouble\":[1,0.25,125e-3]}") {

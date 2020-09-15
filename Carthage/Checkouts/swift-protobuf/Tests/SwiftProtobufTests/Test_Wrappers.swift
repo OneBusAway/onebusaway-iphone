@@ -1,6 +1,6 @@
 // Tests/SwiftProtobufTests/Test_Wrappers.swift - Test well-known wrapper types
 //
-// Copyright (c) 2014 - 2016 Apple Inc. and the project authors
+// Copyright (c) 2014 - 2019 Apple Inc. and the project authors
 // Licensed under Apache License v2.0 with Runtime Library Exception
 //
 // See LICENSE.txt for license information:
@@ -36,9 +36,9 @@ class Test_Wrappers: XCTestCase {
 
     func testDoubleValue() throws {
         var m = Google_Protobuf_DoubleValue()
-        XCTAssertEqual("0", try m.jsonString())
+        XCTAssertEqual("0.0", try m.jsonString())
         m.value = 1.0
-        XCTAssertEqual("1", try m.jsonString())
+        XCTAssertEqual("1.0", try m.jsonString())
         XCTAssertEqual([9,0,0,0,0,0,0,240,63], try m.serializedBytes())
 
         let mw = try ProtobufTestMessages_Proto3_TestAllTypesProto3(
@@ -61,7 +61,7 @@ class Test_Wrappers: XCTestCase {
         // Use object equality to verify decode
         XCTAssertEqual(m, try Google_Protobuf_DoubleValue(jsonString:"1.0"))
         XCTAssertEqual(m2, try Google_Protobuf_DoubleValue(jsonString:"2"))
-        XCTAssertEqual(m, try Google_Protobuf_DoubleValue(serializedData: Data(bytes: [9,0,0,0,0,0,0,240,63])))
+        XCTAssertEqual(m, try Google_Protobuf_DoubleValue(serializedData: Data([9,0,0,0,0,0,0,240,63])))
 
         // hash
         XCTAssertEqual(m.hashValue, try Google_Protobuf_DoubleValue(jsonString:"1.0").hashValue)
@@ -74,9 +74,9 @@ class Test_Wrappers: XCTestCase {
 
     func testFloatValue() throws {
         var m = Google_Protobuf_FloatValue()
-        XCTAssertEqual("0", try m.jsonString())
+        XCTAssertEqual("0.0", try m.jsonString())
         m.value = 1.0
-        XCTAssertEqual("1", try m.jsonString())
+        XCTAssertEqual("1.0", try m.jsonString())
         XCTAssertEqual([13,0,0,128,63], try m.serializedBytes())
 
         let mw = try ProtobufTestMessages_Proto3_TestAllTypesProto3(
@@ -97,7 +97,7 @@ class Test_Wrappers: XCTestCase {
         // Use object equality to verify decode
         XCTAssertEqual(m, try Google_Protobuf_FloatValue(jsonString:"1.0"))
         XCTAssertEqual(m2, try Google_Protobuf_FloatValue(jsonString:"2"))
-        XCTAssertEqual(m, try Google_Protobuf_FloatValue(serializedData: Data(bytes: [13,0,0,128,63])))
+        XCTAssertEqual(m, try Google_Protobuf_FloatValue(serializedData: Data([13,0,0,128,63])))
 
         XCTAssertThrowsError(try Google_Protobuf_FloatValue(jsonString:"-3.502823e+38"))
         XCTAssertThrowsError(try Google_Protobuf_FloatValue(jsonString:"3.502823e+38"))
@@ -236,7 +236,7 @@ class Test_Wrappers: XCTestCase {
     func testBytesValue() throws {
         var m = Google_Protobuf_BytesValue()
         XCTAssertEqual("\"\"", try m.jsonString())
-        m.value = Data(bytes: [0, 1, 2])
+        m.value = Data([0, 1, 2])
         XCTAssertEqual("\"AAEC\"", try m.jsonString())
         XCTAssertEqual([10,3,0,1,2], try m.serializedBytes())
         // TODO: More

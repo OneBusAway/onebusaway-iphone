@@ -120,6 +120,7 @@ class OneofGenerator {
     private let storedProperty: String
 
     init(descriptor: OneofDescriptor, generatorOptions: GeneratorOptions, namer: SwiftProtobufNamer, usesHeapStorage: Bool) {
+        precondition(!descriptor.isSynthetic)
         self.oneofDescriptor = descriptor
         self.generatorOptions = generatorOptions
         self.namer = namer
@@ -210,6 +211,44 @@ class OneofGenerator {
                 "case \(f.swiftName)(\(f.swiftType))\n")
         }
 
+        // A helper for isInitialized
+        let fieldsToCheck = fields.filter {
+            $0.isGroupOrMessage && $0.messageType.containsRequiredFields()
+        }
+        if !fieldsToCheck.isEmpty {
+          p.print(
+              "\n",
+              "fileprivate var isInitialized: Bool {\n")
+          p.indent()
+          if fieldsToCheck.count == 1 {
+              let f = fieldsToCheck.first!
+              p.print(
+                  "guard case \(f.dottedSwiftName)(let v) = self else {return true}\n",
+                  "return v.isInitialized\n")
+          } else if fieldsToCheck.count > 1 {
+              p.print(
+                  "// The use of inline closures is to circumvent an issue where the compiler\n",
+                  "// allocates stack space for every case branch when no optimizations are\n",
+                  "// enabled. https://github.com/apple/swift-protobuf/issues/1034\n",
+                  "switch self {\n")
+              for f in fieldsToCheck {
+                  p.print("case \(f.dottedSwiftName): return {\n")
+                  p.indent()
+                  p.print("guard case \(f.dottedSwiftName)(let v) = self else { preconditionFailure() }\n")
+                  p.print("return v.isInitialized\n")
+                  p.outdent()
+                  p.print("}()\n")
+              }
+              // If there were other cases, add a default.
+              if fieldsToCheck.count != fields.count {
+                  p.print("default: return true\n")
+              }
+              p.print("}\n")
+          }
+          p.outdent()
+          p.print("}\n")
+        }
+
         // Equatable conformance
         p.print("\n")
         p.outdent()
@@ -218,9 +257,21 @@ class OneofGenerator {
         p.print(
             "\(visibility)static func ==(lhs: \(swiftFullName), rhs: \(swiftFullName)) -> Bool {\n")
         p.indent()
-        p.print("switch (lhs, rhs) {\n")
+        p.print(
+            "// The use of inline closures is to circumvent an issue where the compiler\n",
+            "// allocates stack space for every case branch when no optimizations are\n",
+            "// enabled. https://github.com/apple/swift-protobuf/issues/1034\n",
+            "switch (lhs, rhs) {\n")
         for f in fields {
-            p.print("case (\(f.dottedSwiftName)(let l), \(f.dottedSwiftName)(let r)): return l == r\n")
+            p.print(
+                "case (\(f.dottedSwiftName), \(f.dottedSwiftName)): return {\n")
+          p.indent()
+          p.print(
+                "guard case \(f.dottedSwiftName)(let l) = lhs, case \(f.dottedSwiftName)(let r) = rhs else { preconditionFailure() }\n",
+                "return l == r\n")
+          p.outdent()
+          p.print(
+                "}()\n")
         }
         if fields.count > 1 {
             // A tricky edge case: If the oneof only has a single case, then
@@ -309,7 +360,7 @@ class OneofGenerator {
     }
 
     func generateDecodeFieldCase(printer p: inout CodePrinter, field: MemberFieldGenerator) {
-        p.print("case \(field.number):\n")
+        p.print("case \(field.number): try {\n")
         p.indent()
 
         if field.isGroupOrMessage {
@@ -334,6 +385,7 @@ class OneofGenerator {
           "try decoder.decodeSingular\(field.protoGenericType)Field(value: &v)\n",
           "if let v = v {\(storedProperty) = \(field.dottedSwiftName)(v)}\n")
         p.outdent()
+        p.print("}()\n")
     }
 
     func generateTraverse(printer p: inout CodePrinter, field: MemberFieldGenerator) {
@@ -347,16 +399,25 @@ class OneofGenerator {
             p.print("try visitor.visitSingular\(field.protoGenericType)Field(value: v, fieldNumber: \(field.number))\n")
             p.outdent()
         } else {
-            p.print("switch \(storedProperty) {\n")
+            p.print(
+                "// The use of inline closures is to circumvent an issue where the compiler\n",
+                "// allocates stack space for every case branch when no optimizations are\n",
+                "// enabled. https://github.com/apple/swift-protobuf/issues/1034\n",
+                "switch \(storedProperty) {\n")
             for f in group {
-                p.print("case \(f.dottedSwiftName)(let v)?:\n")
+                p.print("case \(f.dottedSwiftName)?: try {\n")
                 p.indent()
+                p.print("guard case \(f.dottedSwiftName)(let v)? = \(storedProperty) else { preconditionFailure() }\n")
                 p.print("try visitor.visitSingular\(f.protoGenericType)Field(value: v, fieldNumber: \(f.number))\n")
                 p.outdent()
+                p.print("}()\n")
             }
-            p.print("case nil: break\n")  // Cover not being set.
-            if fieldSortedGrouped.count > 1 {
-                p.print("default: break\n")  // Multiple groups, cover other cases.
+            if fieldSortedGrouped.count == 1 {
+                // Cover not being set.
+                p.print("case nil: break\n")
+            } else {
+                // Multiple groups, cover other cases (or not being set).
+                p.print("default: break\n")
             }
         }
         p.print("}\n")
@@ -383,21 +444,12 @@ class OneofGenerator {
         // First field causes the output.
         guard field === fields.first else { return }
 
-        let fieldsToCheck = fields.filter {
-            $0.isGroupOrMessage && $0.messageType.hasRequiredFields()
+        // Confirm there is message field with required fields.
+        let firstRequired = fields.first {
+            $0.isGroupOrMessage && $0.messageType.containsRequiredFields()
         }
-        if fieldsToCheck.count == 1 {
-            let f = fieldsToCheck.first!
-            p.print("if case \(f.dottedSwiftName)(let v)? = \(storedProperty), !v.isInitialized {return false}\n")
-        } else if fieldsToCheck.count > 1 {
-            p.print("switch \(storedProperty) {\n")
-            for f in fieldsToCheck {
-                p.print("case \(f.dottedSwiftName)(let v)?: if !v.isInitialized {return false}\n")
-            }
-            // Covers other cases or if the oneof wasn't set (was nil).
-            p.print(
-              "default: break\n",
-              "}\n")
-        }
+        guard firstRequired != nil else { return }
+
+        p.print("if let v = \(storedProperty), !v.isInitialized {return false}\n")
     }
 }

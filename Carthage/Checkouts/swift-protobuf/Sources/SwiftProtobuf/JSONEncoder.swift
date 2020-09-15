@@ -1,6 +1,6 @@
 // Sources/SwiftProtobuf/JSONEncoder.swift - JSON Encoding support
 //
-// Copyright (c) 2014 - 2016 Apple Inc. and the project authors
+// Copyright (c) 2014 - 2019 Apple Inc. and the project authors
 // Licensed under Apache License v2.0 with Runtime Library Exception
 //
 // See LICENSE.txt for license information:
@@ -66,11 +66,10 @@ private let hexDigits: [UInt8] = {
 internal struct JSONEncoder {
     private var data = [UInt8]()
     private var separator: UInt8?
-    private let doubleFormatter = DoubleFormatter()
 
     internal init() {}
 
-    internal var dataResult: Data { return Data(bytes: data) }
+    internal var dataResult: Data { return Data(data) }
 
     internal var stringResult: String {
         get {
@@ -129,6 +128,17 @@ internal struct JSONEncoder {
         separator = asciiComma
     }
 
+    /// Begin a new extension field
+    internal mutating func startExtensionField(name: String) {
+        if let s = separator {
+            data.append(s)
+        }
+        append(staticText: "\"[")
+        data.append(contentsOf: name.utf8)
+        append(staticText: "]\":")
+        separator = asciiComma
+    }
+
     /// Append an open square bracket `[` to the JSON.
     internal mutating func startArray() {
         data.append(asciiOpenSquareBracket)
@@ -147,10 +157,17 @@ internal struct JSONEncoder {
     }
 
     /// Append an open curly brace `{` to the JSON.
-    internal mutating func startObject() {
+    /// Assumes this object is part of an array of objects.
+    internal mutating func startArrayObject() {
         if let s = separator {
             data.append(s)
         }
+        data.append(asciiOpenCurlyBracket)
+        separator = nil
+    }
+
+    /// Append an open curly brace `{` to the JSON.
+    internal mutating func startObject() {
         data.append(asciiOpenCurlyBracket)
         separator = nil
     }
@@ -179,12 +196,7 @@ internal struct JSONEncoder {
                 append(staticText: "\"Infinity\"")
             }
         } else {
-            if let v = Int64(exactly: Double(value)) {
-                appendInt(value: v)
-            } else {
-                let formatted = doubleFormatter.floatToUtf8(value)
-                data.append(contentsOf: formatted)
-            }
+            data.append(contentsOf: value.debugDescription.utf8)
         }
     }
 
@@ -201,12 +213,7 @@ internal struct JSONEncoder {
                 append(staticText: "\"Infinity\"")
             }
         } else {
-            if let v = Int64(exactly: value) {
-                appendInt(value: v)
-            } else {
-                let formatted = doubleFormatter.doubleToUtf8(value)
-                data.append(contentsOf: formatted)
-            }
+            data.append(contentsOf: value.debugDescription.utf8)
         }
     }
 
@@ -333,10 +340,11 @@ internal struct JSONEncoder {
     internal mutating func putBytesValue(value: Data) {
         data.append(asciiDoubleQuote)
         if value.count > 0 {
-            value.withUnsafeBytes { (p: UnsafePointer<UInt8>) in
+            value.withUnsafeBytes { (body: UnsafeRawBufferPointer) in
+              if let p = body.baseAddress, body.count > 0 {
                 var t: Int = 0
                 var bytesInGroup: Int = 0
-                for i in 0..<value.count {
+                for i in 0..<body.count {
                     if bytesInGroup == 3 {
                         data.append(base64Digits[(t >> 18) & 63])
                         data.append(base64Digits[(t >> 12) & 63])
@@ -369,6 +377,7 @@ internal struct JSONEncoder {
                 default:
                     break
                 }
+              }
             }
         }
         data.append(asciiDoubleQuote)

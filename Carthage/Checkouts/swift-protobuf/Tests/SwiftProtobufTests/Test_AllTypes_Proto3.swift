@@ -1,6 +1,6 @@
 // Tests/SwiftProtobufTests/Test_AllTypes_Proto3.swift - Proto3 coding/decoding
 //
-// Copyright (c) 2014 - 2016 Apple Inc. and the project authors
+// Copyright (c) 2014 - 2019 Apple Inc. and the project authors
 // Licensed under Apache License v2.0 with Runtime Library Exception
 //
 // See LICENSE.txt for license information:
@@ -469,7 +469,8 @@ class Test_AllTypes_Proto3: XCTestCase, PBTestHelpers {
             let t: Float = o.optionalFloat
             return t == 0
         }
-        assertDebugDescription("SwiftProtobufTests.Proto3Unittest_TestAllTypes:\noptional_float: 1\n") {(o: inout MessageTestType) in o.optionalFloat = 1.0}
+        assertDebugDescription("SwiftProtobufTests.Proto3Unittest_TestAllTypes:\noptional_float: 1.0\n") {
+            (o: inout MessageTestType) in o.optionalFloat = 1.0}
         assertDecodeFails([93, 0, 0, 0])
         assertDecodeFails([93, 0, 0])
         assertDecodeFails([93, 0])
@@ -508,7 +509,8 @@ class Test_AllTypes_Proto3: XCTestCase, PBTestHelpers {
             let t: Double = o.optionalDouble
             return t == 0.5
         }
-        assertDebugDescription("SwiftProtobufTests.Proto3Unittest_TestAllTypes:\noptional_double: 1\n") {(o: inout MessageTestType) in o.optionalDouble = 1.0}
+        assertDebugDescription("SwiftProtobufTests.Proto3Unittest_TestAllTypes:\noptional_double: 1.0\n") {
+            (o: inout MessageTestType) in o.optionalDouble = 1.0}
         assertDecodeFails([97, 0, 0, 0, 0, 0, 0, 224])
         assertDecodeFails([97])
         assertDecodeFails([96])
@@ -623,13 +625,13 @@ class Test_AllTypes_Proto3: XCTestCase, PBTestHelpers {
     }
 
     func testEncoding_optionalBytes() {
-        assertEncode([122, 1, 1]) {(o: inout MessageTestType) in o.optionalBytes = Data(bytes: [1])}
-        assertEncode([122, 2, 1, 2]) {(o: inout MessageTestType) in o.optionalBytes = Data(bytes: [1, 2])}
+        assertEncode([122, 1, 1]) {(o: inout MessageTestType) in o.optionalBytes = Data([1])}
+        assertEncode([122, 2, 1, 2]) {(o: inout MessageTestType) in o.optionalBytes = Data([1, 2])}
         assertDecodeSucceeds([122, 4, 0, 1, 2, 255]) {(o: MessageTestType) in
             let t = o.optionalBytes // Verify non-optional
-            return t == Data(bytes: [0, 1, 2, 255])
+            return t == Data([0, 1, 2, 255])
         }
-        assertDebugDescription("SwiftProtobufTests.Proto3Unittest_TestAllTypes:\noptional_bytes: \"\\001\\002\\003\"\n") {(o: inout MessageTestType) in o.optionalBytes = Data(bytes: [1, 2, 3])}
+        assertDebugDescription("SwiftProtobufTests.Proto3Unittest_TestAllTypes:\noptional_bytes: \"\\001\\002\\003\"\n") {(o: inout MessageTestType) in o.optionalBytes = Data([1, 2, 3])}
         assertDecodeFails([122])
         assertDecodeFails([122, 1])
         assertDecodeFails([122, 2, 0])
@@ -655,7 +657,7 @@ class Test_AllTypes_Proto3: XCTestCase, PBTestHelpers {
         XCTAssertEqual(a, empty)
         XCTAssertEqual(try a.serializedBytes(), [])
         var b = empty
-        b.optionalBytes = Data(bytes: [1])
+        b.optionalBytes = Data([1])
         XCTAssertNotEqual(a, b)
         b.optionalBytes = Data()
         XCTAssertEqual(a, b)
@@ -1142,11 +1144,11 @@ class Test_AllTypes_Proto3: XCTestCase, PBTestHelpers {
     }
 
     func testEncoding_repeatedBytes() {
-        assertEncode([234, 2, 1, 1, 234, 2, 0, 234, 2, 1, 2]) {(o: inout MessageTestType) in o.repeatedBytes = [Data(bytes: [1]), Data(), Data(bytes: [2])]}
+        assertEncode([234, 2, 1, 1, 234, 2, 0, 234, 2, 1, 2]) {(o: inout MessageTestType) in o.repeatedBytes = [Data([1]), Data(), Data([2])]}
         assertDecodeSucceeds([234, 2, 4, 0, 1, 2, 255, 234, 2, 0]) {
             let ref: [[UInt8]] = [[0, 1, 2, 255], []]
             for (a,b) in zip($0.repeatedBytes, ref) {
-                if a != Data(bytes: b) { return false }
+                if a != Data(b) { return false }
             }
             return true
         }
@@ -1342,11 +1344,11 @@ class Test_AllTypes_Proto3: XCTestCase, PBTestHelpers {
     }
 
     func testEncoding_oneofBytes() {
-        assertEncode([146, 7, 1, 1]) {(o: inout MessageTestType) in o.oneofBytes = Data(bytes: [1])}
+        assertEncode([146, 7, 1, 1]) {(o: inout MessageTestType) in o.oneofBytes = Data([1])}
     }
     func testEncoding_oneofBytes2() {
         assertDecodeSucceeds([146, 7, 1, 1]) {(o: MessageTestType) in
-            let expectedB = Data(bytes: [1])
+            let expectedB = Data([1])
             if case .oneofBytes(let b)? = o.oneofField {
                 let s = o.oneofString
                 return b == expectedB && s == ""
@@ -1403,11 +1405,11 @@ class Test_AllTypes_Proto3: XCTestCase, PBTestHelpers {
 
     func testEncoding_oneofBytes_debugDescription() {
         var m = MessageTestType()
-        m.oneofBytes = Data(bytes: [1, 2, 3])
+        m.oneofBytes = Data([1, 2, 3])
 
         XCTAssertEqual(m.debugDescription, "SwiftProtobufTests.Proto3Unittest_TestAllTypes:\noneof_bytes: \"\\001\\002\\003\"\n")
         var m2 = MessageTestType()
-        m2.oneofBytes = Data(bytes: [4, 5, 6])
+        m2.oneofBytes = Data([4, 5, 6])
         XCTAssertNotEqual(m.hashValue, m2.hashValue)
     }
 
