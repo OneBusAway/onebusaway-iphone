@@ -520,7 +520,7 @@ public final class PulleyViewController: UIViewController, PulleyDrawerViewContr
     /// The currently rendered display mode for Pulley. This will match displayMode unless you have it set to 'automatic'. This will provide the 'actual' display mode (never automatic).
     public fileprivate(set) var currentDisplayMode: PulleyDisplayMode = .automatic {
         didSet {
-            if isViewLoaded {
+            if isViewLoaded && oldValue != currentDisplayMode{
                 view.setNeedsLayout()
             }
 

@@ -1,6 +1,6 @@
 // Software License Agreement (BSD License)
 //
-// Copyright (c) 2010-2019, Deusty, LLC
+// Copyright (c) 2010-2020, Deusty, LLC
 // All rights reserved.
 //
 // Redistribution and use of this software in source and binary forms,
@@ -17,7 +17,7 @@ import WatchKit
 import Foundation
 import UserNotifications
 
-class NotificationController: WKUserNotificationInterfaceController {
+final class NotificationController: WKUserNotificationInterfaceController {
 
     override init() {
         // Initialize variables here.

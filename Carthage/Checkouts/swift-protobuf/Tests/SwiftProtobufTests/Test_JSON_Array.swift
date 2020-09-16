@@ -1,6 +1,6 @@
 // Tests/SwiftProtobufTests/Test_JSON_Array.swift - Exercise JSON flat array coding
 //
-// Copyright (c) 2014 - 2017 Apple Inc. and the project authors
+// Copyright (c) 2014 - 2019 Apple Inc. and the project authors
 // Licensed under Apache License v2.0 with Runtime Library Exception
 //
 // See LICENSE.txt for license information:
@@ -37,7 +37,7 @@ class Test_JSON_Array: XCTestCase, PBTestHelpers {
         o1.optionalDouble = 12
         o1.optionalBool = true
         o1.optionalString = "abc"
-        o1.optionalBytes = Data(bytes: [65, 66])
+        o1.optionalBytes = Data([65, 66])
         var nested = MessageTestType.NestedMessage()
         nested.bb = 7
         o1.optionalNestedMessage = nested
@@ -67,7 +67,7 @@ class Test_JSON_Array: XCTestCase, PBTestHelpers {
         o1.repeatedDouble = [23, 24]
         o1.repeatedBool = [true, false]
         o1.repeatedString = ["abc", "def"]
-        o1.repeatedBytes = [Data(), Data(bytes: [65, 66])]
+        o1.repeatedBytes = [Data(), Data([65, 66])]
         var nested2 = nested
         nested2.bb = -7
         o1.repeatedNestedMessage = [nested, nested2]
@@ -99,8 +99,8 @@ class Test_JSON_Array: XCTestCase, PBTestHelpers {
             + "\"optionalFixed64\":\"8\","
             + "\"optionalSfixed32\":9,"
             + "\"optionalSfixed64\":\"10\","
-            + "\"optionalFloat\":11,"
-            + "\"optionalDouble\":12,"
+            + "\"optionalFloat\":11.0,"
+            + "\"optionalDouble\":12.0,"
             + "\"optionalBool\":true,"
             + "\"optionalString\":\"abc\","
             + "\"optionalBytes\":\"QUI=\","
@@ -121,8 +121,8 @@ class Test_JSON_Array: XCTestCase, PBTestHelpers {
             + "\"repeatedFixed64\":[\"15\",\"16\"],"
             + "\"repeatedSfixed32\":[17,18],"
             + "\"repeatedSfixed64\":[\"19\",\"20\"],"
-            + "\"repeatedFloat\":[21,22],"
-            + "\"repeatedDouble\":[23,24],"
+            + "\"repeatedFloat\":[21.0,22.0],"
+            + "\"repeatedDouble\":[23.0,24.0],"
             + "\"repeatedBool\":[true,false],"
             + "\"repeatedString\":[\"abc\",\"def\"],"
             + "\"repeatedBytes\":[\"\",\"QUI=\"],"

@@ -31,7 +31,7 @@ You are welcome to work on any bug or feature you would like, but we know that g
 1. Install the latest released version of Xcode 10.x from the Mac App Store
 2. `git clone` your fork
 3. [Install Carthage](https://github.com/Carthage/Carthage#installing-carthage)
-4. Build Carthage dependencies: `carthage build --platform iOS --no-use-binaries`
+4. Build Carthage dependencies: `bin/carthage_build --platform iOS --no-use-binaries`
 5. `open org.onebusaway.iphone.xcodeproj`
 6. Create a new Firebase app at https://firebase.google.com/ - You just need the `GoogleService-Info.plist` file that it'll spit out at you once you've created.
 7. Place `GoogleService-Info.plist` in the `(SOURCEROOT)/AppIdentities/OneBusAway` folder.
@@ -79,7 +79,7 @@ What is going on, and how do I fix this?
 A: Like the error suggests, this is happening because the project's Carthage frameworks were compiled with an older version of the Swift compiler than the one you have on your computer. You can recompile the Carthage dependencies with this command from the command line:
 
 ```
-carthage build --platform iOS --no-use-binaries
+bin/carthage_build --platform iOS --no-use-binaries
 ```
 
 After Carthage finishes, I recommend cleaning your project and possibly deleting all of your build artifacts.

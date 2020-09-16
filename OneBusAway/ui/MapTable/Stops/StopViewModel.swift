@@ -43,11 +43,10 @@ extension StopViewModel {
 // MARK: - ListDiffable
 extension StopViewModel: ListDiffable {
     func diffIdentifier() -> NSObjectProtocol {
-        return "stop_\(stopID)" as NSObjectProtocol
+        return self
     }
 
     func isEqual(toDiffableObject object: ListDiffable?) -> Bool {
-        guard self !== object else { return true }
         guard let object = object as? StopViewModel else { return false }
         return name == object.name
             && stopID == object.stopID

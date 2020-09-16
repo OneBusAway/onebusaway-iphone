@@ -80,6 +80,63 @@
     return [NSError errorWithDomain:@"OneSignal Error" code:0 userInfo:@{@"error" : @"The request timed out"}];
 }
 
+- (void)executeSimultaneousRequests:(NSDictionary<NSString *, OneSignalRequest *> *)requests withCompletion:(OSMultipleCompletionBlock)completionBlock {
+    if (requests.allKeys.count == 0)
+        return;
+    
+    // Execute on a background thread or the semaphore will block the caller thread
+    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+        dispatch_group_t group = dispatch_group_create();
+        
+        __block NSMutableDictionary<NSString *, NSError *> *errors = [NSMutableDictionary new];
+        __block NSMutableDictionary<NSString *, NSDictionary *> *results = [NSMutableDictionary new];
+        
+        // Used as the reasposne for the completion callback
+        __block NSMutableDictionary *response = [NSMutableDictionary new];
+        
+        for (NSString *identifier in requests.allKeys) {
+            let request = requests[identifier];
+            
+            // Use a dispatch_group instead of a semaphore, in case the failureBlock gets called synchronously
+            // This will prevent the SDK from waiting/blocking on a request that instantly failed
+            dispatch_group_enter(group);
+            [self executeRequest:request onSuccess:^(NSDictionary *result) {
+                results[identifier] = result;
+                // Add a success as 1 (success) to the response
+                response[identifier] = @{ @"success" : @(true) };
+                NSLog(@"Request %@ success result %@", request, result);
+                dispatch_group_leave(group);
+            } onFailure:^(NSError *error) {
+                errors[identifier] = error;
+                // Add a success as 0 (failed) to the response
+                response[identifier] = @{ @"success" : @(false) };
+                NSLog(@"Request %@ fail result error %@", request, error);
+                dispatch_group_leave(group);
+            }];
+        }
+        
+        // Will wait for up to (maxTimeout) seconds and will then give up and call
+        //  the failure block if the request times out.
+        let timedOut = (bool)(0 != dispatch_group_wait(group, dispatch_time(DISPATCH_TIME_NOW, MAX_TIMEOUT)));
+        
+        // Add a generic 'timed out' error if the request timed out
+        //  and there are no other errors present.
+        if (timedOut && errors.allKeys.count == 0) {
+            for (NSString *key in requests.allKeys) {
+                errors[key] = [self genericTimedOutError];
+                // Add a success as 0 (timeout/failed) to the response
+                response[key] = @{ @"success" : @(false) };
+            }
+        }
+        
+        // Requests should all be completed at this point, the response NSDictionary will be passed back
+        dispatch_async(dispatch_get_main_queue(), ^{
+            if (completionBlock)
+                completionBlock(response);
+        });
+    });
+}
+
 - (void)executeSimultaneousRequests:(NSDictionary<NSString *, OneSignalRequest *> *)requests withSuccess:(OSMultipleSuccessBlock)successBlock onFailure:(OSMultipleFailureBlock)failureBlock {
     if (requests.allKeys.count == 0)
         return;
@@ -99,9 +156,11 @@
             dispatch_group_enter(group);
             [self executeRequest:request onSuccess:^(NSDictionary *result) {
                 results[identifier] = result;
+                NSLog(@"Request %@ success result %@", request, result);
                 dispatch_group_leave(group);
             } onFailure:^(NSError *error) {
                 errors[identifier] = error;
+                NSLog(@"Request %@ fail result error %@", request, error);
                 dispatch_group_leave(group);
             }];
         }
@@ -137,6 +196,14 @@
         return;
     }
     
+    if (request.dataRequest) {
+        if (failureBlock) {
+            failureBlock([NSError errorWithDomain:@"onesignal" code:0 userInfo:@{@"error" : [NSString stringWithFormat:@"Attempted to execute a data-only API request (%@) using OneSignalClient's executeRequest: method, which only accepts JSON-based API requests", NSStringFromClass(request.class)]}]);
+        }
+        
+        return;
+    }
+    
     if (![self validRequest:request]) {
         [self handleMissingAppIdError:failureBlock withRequest:request];
         return;
@@ -165,6 +232,14 @@
         return;
     }
     
+    if (request.dataRequest) {
+        if (failureBlock) {
+            failureBlock([NSError errorWithDomain:@"onesignal" code:0 userInfo:@{@"error" : [NSString stringWithFormat:@"Attempted to execute a data-only API request (%@) using OneSignalClient's executeRequest: method, which only accepts JSON-based API requests", NSStringFromClass(request.class)]}]);
+        }
+        
+        return;
+    }
+    
     __block NSURLResponse *httpResponse;
     __block NSError *httpError;
     
@@ -182,6 +257,40 @@
     dispatch_semaphore_wait(semaphore, dispatch_time(DISPATCH_TIME_NOW, REQUEST_TIMEOUT_RESOURCE * NSEC_PER_SEC));
     
     [self handleJSONNSURLResponse:httpResponse data:nil error:httpError isAsync:false withRequest:request onSuccess:successBlock onFailure:failureBlock];
+}
+
+- (void)executeDataRequest:(OneSignalRequest *)request onSuccess:(OSDataRequestSuccessBlock)successBlock onFailure:(OSFailureBlock)failureBlock {
+    [self prettyPrintDebugStatementWithRequest:request];
+    
+    if (!request.dataRequest) {
+        if (failureBlock) {
+            failureBlock([NSError errorWithDomain:@"onesignal" code:0 userInfo:@{@"error" : [NSString stringWithFormat:@"Attempted to execute an API request (%@) using OneSignalClient's executeDataRequest: method, which only accepts data based requests", NSStringFromClass(request.class)]}]);
+        }
+        
+        return;
+    }
+    
+    var session = request.disableLocalCaching ? self.noCacheSession : self.sharedSession;
+    
+    let task = [session dataTaskWithRequest:request.urlRequest completionHandler:^(NSData * _Nullable data, NSURLResponse * _Nullable response, NSError * _Nullable error) {
+        NSError *requestError = error;
+        int status = (int)((NSHTTPURLResponse *)response).statusCode;
+        
+        if (requestError || status >= 300) {
+            if (!requestError)
+                requestError = [NSError errorWithDomain:@"onesignal" code:0 userInfo:@{@"error" : [NSString stringWithFormat:@"Request (%@)encountered an unknown error with HTTP status code %i", NSStringFromClass([request class]), status]}];
+            
+            if (failureBlock)
+                failureBlock(requestError);
+            
+            return;
+        }
+        
+        if (successBlock)
+            successBlock(data);
+    }];
+    
+    [task resume];
 }
 
 - (void)handleMissingAppIdError:(OSFailureBlock)failureBlock withRequest:(OneSignalRequest *)request {
@@ -278,7 +387,7 @@
     if ([self willReattemptRequest:(int)statusCode withRequest:request success:successBlock failure:failureBlock asyncRequest:async])
         return;
     
-    if (error == nil && statusCode == 200) {
+    if (error == nil && (statusCode == 200 || statusCode == 202)) {
         if (successBlock != nil) {
             if (innerJson != nil)
                 successBlock(innerJson);
@@ -286,7 +395,10 @@
                 successBlock(nil);
         }
     } else if (failureBlock != nil) {
-        if (innerJson != nil && error == nil)
+        // Make sure to send all the infomation available to the client
+        if (innerJson != nil && error != nil)
+            failureBlock([NSError errorWithDomain:@"OneSignalError" code:statusCode userInfo:@{@"returned" : innerJson, @"error": error}]);
+        else if (innerJson != nil)
             failureBlock([NSError errorWithDomain:@"OneSignalError" code:statusCode userInfo:@{@"returned" : innerJson}]);
         else if (error != nil)
             failureBlock([NSError errorWithDomain:@"OneSignalError" code:statusCode userInfo:@{@"error" : error}]);

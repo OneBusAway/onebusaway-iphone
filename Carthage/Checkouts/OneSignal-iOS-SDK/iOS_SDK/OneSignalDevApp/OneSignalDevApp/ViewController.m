@@ -29,16 +29,7 @@
 // This project exisits to make testing OneSignal SDK changes.
 
 #import "ViewController.h"
-
-#import <OneSignal/OneSignal.h>
-
-@interface ViewController ()
-@property (weak, nonatomic) IBOutlet UITextField *textField;
-@property (weak, nonatomic) IBOutlet UIActivityIndicatorView *activityIndicatorView;
-@property (weak, nonatomic) IBOutlet UISegmentedControl *consentSegmentedControl;
-@property (weak, nonatomic) IBOutlet UITextField *externalIdTextField;
-
-@end
+#import "AppDelegate.h"
 
 @implementation ViewController
 
@@ -48,10 +39,18 @@
     
     self.activityIndicatorView.hidden = true;
     
-    self.consentSegmentedControl.selectedSegmentIndex = (NSInteger)![OneSignal requiresUserPrivacyConsent];
+    self.consentSegmentedControl.selectedSegmentIndex = (NSInteger) ![OneSignal requiresUserPrivacyConsent];
+
+    self.subscriptionSegmentedControl.selectedSegmentIndex = (NSInteger) OneSignal.getUserDevice.isSubscribed;
     
-    self.textField.delegate = self;
-    self.externalIdTextField.delegate = self;
+    self.locationSharedSegementedControl.selectedSegmentIndex = (NSInteger) OneSignal.isLocationShared;
+    
+    self.inAppMessagingSegmentedControl.selectedSegmentIndex = (NSInteger) ![OneSignal isInAppMessagingPaused];
+
+    self.appIdTextField.text = [AppDelegate getOneSignalAppId];
+
+    self.infoLabel.lineBreakMode = NSLineBreakByWordWrapping;
+    self.infoLabel.numberOfLines = 0;
 }
 
 - (void)changeAnimationState:(BOOL)animating {
@@ -59,17 +58,60 @@
     self.activityIndicatorView.hidden = !animating;
 }
 
-- (IBAction)sendTagButton:(id)sender {
-    //[self promptForNotificationsWithNativeiOS10Code];
-    
-    //[OneSignal registerForPushNotifications];
-    
-    [OneSignal promptForPushNotificationsWithUserResponse:^(BOOL accepted) {
-        NSLog(@"NEW SDK 2.5.0 METHDO: promptForPushNotificationsWithUserResponse: %d", accepted);
+- (IBAction)addTriggerAction:(id)sender {
+    NSString *key = [self.addTriggerKey text];
+    NSString *value = [self.addTriggerValue text];
+
+    if (key && value && [key length] && [value length]) {
+        [OneSignal addTrigger:key withValue:value];
+    }
+}
+
+- (IBAction)removeTriggerAction:(id)sender {
+    NSString *key = [self.removeTriggerKey text];
+
+    if (key && [key length]) {
+        [OneSignal removeTriggerForKey:key];
+    }
+}
+
+- (IBAction)getTriggersAction:(id)sender {
+    NSString *key = [self.getTriggerKey text];
+
+    if (key && [key length]) {
+        id value = [OneSignal getTriggerValueForKey:key];
+        self.infoLabel.text = [NSString stringWithFormat:@"Key: %@ Value: %@", key, value];
+    }
+}
+
+- (IBAction)setEmailButton:(id)sender {
+    NSString *email = self.emailTextField.text;
+    [OneSignal setEmail:email withSuccess:^{
+        NSLog(@"Set email successful with email: %@", email);
+    } withFailure:^(NSError *error) {
+        NSLog(@"Set email failed with code: %@ and message: %@", @(error.code), error.description);
+    }];
+}
+
+- (IBAction)logoutEmailButton:(id)sender {
+    [OneSignal logoutEmailWithSuccess:^{
+        NSLog(@"Email logout successful");
+    } withFailure:^(NSError *error) {
+        NSLog(@"Error logging out email with code: %@ and message: %@", @(error.code), error.description);
+    }];
+}
+
+- (IBAction)getTagsButton:(id)sender {
+    [OneSignal IdsAvailable:^(NSString *userId, NSString *pushToken) {
+        NSLog(@"IdsAvailable userId: %@, and pushToken: %@", userId, pushToken);
     }];
     
-    
-    
+    [OneSignal getTags:^(NSDictionary *result) {
+        NSLog(@"Tags: %@", result.description);
+    }];
+}
+
+- (IBAction)sendTagButton:(id)sender {
     [OneSignal sendTag:@"key1"
                  value:@"value1"
              onSuccess:^(NSDictionary *result) {
@@ -80,38 +122,19 @@
                  static int failures = 0;
                  NSLog(@"failures: %d", ++failures);
     }];
-    
-    [OneSignal IdsAvailable:^(NSString *userId, NSString *pushToken) {
-        NSLog(@"IdsAvailable Fired");
-    }];
-    
 }
 
-- (IBAction)setEmailButtonPressed:(UIButton *)sender
-{
-    [self changeAnimationState:true];
-    [OneSignal setEmail:self.textField.text withEmailAuthHashToken:@"aa3e3201f8f8bfd2fcbe8a899c161b7acb5a86545196c5465bef47fd757ca356" withSuccess:^{
-        NSLog(@"Successfully sent email");
-        dispatch_async(dispatch_get_main_queue(), ^{
-            [self changeAnimationState:false];
-        });
-    } withFailure:^(NSError *error) {
-        NSLog(@"Encountered error: %@", error);
-        dispatch_async(dispatch_get_main_queue(), ^{
-            [self changeAnimationState:false];
-        });
+- (IBAction)promptPushAction:(UIButton *)sender {
+    //    [self promptForNotificationsWithNativeiOS10Code];
+    //    [OneSignal registerForPushNotifications];
+    [OneSignal promptForPushNotificationsWithUserResponse:^(BOOL accepted) {
+        NSLog(@"OneSignal Demo App promptForPushNotificationsWithUserResponse: %d", accepted);
     }];
 }
 
-- (IBAction)logoutButtonPressed:(UIButton *)sender
-{
-    [OneSignal logoutEmailWithSuccess:^{
-        NSLog(@"Successfully logged out of email");
-    } withFailure:^(NSError *error) {
-        NSLog(@"Encountered error while logging out of email: %@", error);
-    }];
+- (IBAction)promptLocationAction:(UIButton *)sender {
+    [OneSignal promptLocation];
 }
-
 
 - (void)promptForNotificationsWithNativeiOS10Code {
     id responseBlock = ^(BOOL granted, NSError* error) {
@@ -129,22 +152,78 @@
 }
 
 - (IBAction)consentSegmentedControlValueChanged:(UISegmentedControl *)sender {
-    NSLog(@"View controller consent granted: %i", (int)sender.selectedSegmentIndex);
-    [OneSignal consentGranted:(bool)sender.selectedSegmentIndex];
+    NSLog(@"View controller consent granted: %i", (int) sender.selectedSegmentIndex);
+    [OneSignal consentGranted:(bool) sender.selectedSegmentIndex];
 }
 
-- (IBAction)setExternalIdButtonPressed:(UIButton *)sender {
-    [OneSignal setExternalUserId:self.externalIdTextField.text];
+- (IBAction)subscriptionSegmentedControlValueChanged:(UISegmentedControl *)sender {
+    NSLog(@"View controller subscription status: %i", (int) sender.selectedSegmentIndex);
+    [OneSignal setSubscription:(bool) sender.selectedSegmentIndex];
 }
 
-- (IBAction)removeExternalIdButtonPressed:(UIButton *)sender {
-    [OneSignal removeExternalUserId];
+- (IBAction)locationSharedSegmentedControlValueChanged:(UISegmentedControl *)sender {
+    NSLog(@"View controller location sharing status: %i", (int) sender.selectedSegmentIndex);
+    [OneSignal setLocationShared:(bool) sender.selectedSegmentIndex];
+}
+
+- (IBAction)inAppMessagingSegmentedControlValueChanged:(UISegmentedControl *)sender {
+    NSLog(@"View controller in app messaging paused: %i", (int) !sender.selectedSegmentIndex);
+    [OneSignal pauseInAppMessages:(bool) !sender.selectedSegmentIndex];
+}
+
+- (void)handleMessageAction:(NSString *)actionId {
+    NSLog(@"View controller did get action: %@", actionId);
+}
+
+- (IBAction)setExternalUserId:(UIButton *)sender {
+    NSString* externalUserId = self.externalUserIdTextField.text;
+    [OneSignal setExternalUserId:externalUserId withCompletion:^(NSDictionary *results) {
+        NSLog(@"External user id update complete with results: %@", results.description);
+    }];
+}
+
+- (IBAction)removeExternalUserId:(UIButton *)sender {
+    [OneSignal removeExternalUserId:^(NSDictionary *results) {
+        NSLog(@"External user id update complete with results: %@", results.description);
+    }];
 }
 
 #pragma mark UITextFieldDelegate Methods
 -(BOOL)textFieldShouldReturn:(UITextField *)textField {
     [textField resignFirstResponder];
     return false;
+}
+
+- (IBAction)sendTestOutcomeEvent:(UIButton *)sender {
+    [OneSignal sendOutcome:[_outcomeName text] onSuccess:^(OSOutcomeEvent *outcome) {
+        dispatch_async(dispatch_get_main_queue(), ^{
+            _result.text = [NSString stringWithFormat:@"sendTestOutcomeEvent success %@", outcome];
+            [self.view endEditing:YES];
+        });
+    }];
+}
+- (IBAction)sendValueOutcomeEvent:(id)sender {
+    if ([_outcomeValue text]) {
+        NSNumberFormatter *formatter = [[NSNumberFormatter alloc] init];
+        formatter.numberStyle = NSNumberFormatterDecimalStyle;
+        NSNumber *value = [formatter numberFromString:[_outcomeValue text]];
+        
+        [OneSignal sendOutcomeWithValue:[_outcomeValueName text] value:value onSuccess:^(OSOutcomeEvent *outcome) {
+            dispatch_async(dispatch_get_main_queue(), ^{
+                _result.text = [NSString stringWithFormat:@"sendValueOutcomeEvent success %@", outcome];
+                [self.view endEditing:YES];
+            });
+        }];
+    }
+}
+
+- (IBAction)sendUniqueOutcomeEvent:(id)sender {
+    [OneSignal sendUniqueOutcome:[_outcomeUniqueName text] onSuccess:^(OSOutcomeEvent *outcome) {
+        dispatch_async(dispatch_get_main_queue(), ^{
+            _result.text = [NSString stringWithFormat:@"sendUniqueOutcomeEvent success %@", outcome];
+            [self.view endEditing:YES];
+        });
+    }];
 }
 
 @end

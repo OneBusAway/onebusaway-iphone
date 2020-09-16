@@ -1,4 +1,59 @@
-## [3.5.2 - Xcode 10.1 on 15th, 2019](https://github.com/CocoaLumberjack/CocoaLumberjack/releases/tag/3.5.2)
+## [3.7.0 - Xcode 12 on ???, 2020](https://github.com/CocoaLumberjack/CocoaLumberjack/releases/tag/3.7.0)
+
+### Public
+
+- _PLEASE REPLACE WITH FIRST ENTRY_
+
+## [3.6.2 - Xcode 11.6 on July 31st, 2020](https://github.com/CocoaLumberjack/CocoaLumberjack/releases/tag/3.6.2)
+
+### Public
+- Fix warnings when building with SPM bundled with Swift 5.2 / Xcode 11.4 (#1132)
+- Added Swift name for DDQualityOfServiceName constants.
+- Don't localize timestamps in `DDefaultFileLogFormatter` (#1151)
+- Allow logging arbitrary objects via Swift log functions (#1146)
+
+### Repository
+- Switch from Travis to GitHub Actions (#1135, #1140, #1150, #1152)
+
+## [3.6.1 - Xcode 11.3.1 on Jan 25th, 2020](https://github.com/CocoaLumberjack/CocoaLumberjack/releases/tag/3.6.1)
+
+### Public
+- Improve error handling during log file creation in DDFileLogger & DDLogFileManager (#1103 / #1111)
+- Improve nullability annotations in public headers (#1111 / #1112 / #1119)
+- Added support for thread QOS in DDLogMessage class (#1124)
+
+### Internal
+- Fix rolling timer being rescheduled rapidly due to leeway (#1106 / #1107)
+- Fix -didArchiveLogFile: returning the file name instead of the file path (#1078)
+- Fix setxattr() function usage (#1118)
+- Fix NSDateFormatter thread safety (#1121)
+- Fix -lt_dataForMessage: duplicated code (#1122)
+
+## [3.6.0 - Xcode 11 on October 2nd, 2019](https://github.com/CocoaLumberjack/CocoaLumberjack/releases/tag/3.6.0)
+
+### Public
+- Swift Package Manager Support (#1083)
+- New `willLogMessage:` and `didLogMessage:` methods on `DDFileLogger` which provide access to the current log file info.
+
+### Internal
+- Fix issue with log archiving in the simulator (#1098)
+- Limit assertion to non-simulator build (#1100)
+
+## [3.5.3 - Xcode 10.2 on Apr 24th, 2019](https://github.com/CocoaLumberjack/CocoaLumberjack/releases/tag/3.5.3)
+
+### Public
+- Additional compatibility with Swift 5 (backwards compatible with Swift 4) (#1043)
+- Fix warning building with Xcode 10.2 (#1059)
+- Set Xcode 10.2 and Swift 5.0 as a default (#1064)
+- Fix format string crash (#1066)
+
+### Internal
+- Fix warning about syntax (#1054) (#1065)
+- Remove banned APIs (#1056) (#1057)
+- Add CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER & fix warnings (#1059)
+- Use LLONG_MAX instead of LONG_LONG_MAX (#1062)
+
+## [3.5.2 - Xcode 10.1 on Mar 15th, 2019](https://github.com/CocoaLumberjack/CocoaLumberjack/releases/tag/3.5.2)
 
 ### Public
 - Fix reusing of log files after rolling (#1042)

@@ -4,13 +4,16 @@
 // This setting is deprecated as of Xcode 8.3 and may not be supported in future versions. It is recommended that you disable the setting. If enabled, both `#include <header.h>`-style and `#include "header.h"`-style directives search the paths in `USER_HEADER_SEARCH_PATHS` before `HEADER_SEARCH_PATHS`
 ALWAYS_SEARCH_USER_PATHS = NO
 
+// Warn whn using non-localized strings.
+CLANG_ANALYZER_LOCALIZABILITY_NONLOCALIZED = YES;
+
 // Warn for missing nullability attributes
 CLANG_ANALYZER_NONNULL = YES
 
 // Warn when a number object, such as an instance of `NSNumber`, `CFNumberRef`, `OSNumber`, or `OSBoolean` is compared or converted to a primitive value instead of another object.
 CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE
 
-// Choose a standard or non-standard C++ language dialect. 
+// Choose a standard or non-standard C++ language dialect.
 CLANG_CXX_LANGUAGE_STANDARD = gnu++0x
 
 // Choose a version of the C++ standard library to use.
@@ -73,6 +76,9 @@ CLANG_WARN_OBJC_LITERAL_CONVERSION = YES
 // Warn about classes that unintentionally do not subclass a root class, such as `NSObject`.
 CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR
 
+// Warns when a quoted include is used instead of a framework style include in a framework header.
+CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES
+
 // Warn about ranged-based for loops.
 CLANG_WARN_RANGE_LOOP_ANALYSIS = YES
 
@@ -100,6 +106,9 @@ CURRENT_PROJECT_VERSION = 1
 // If enabled, the product will be treated as defining its own module. This enables automatic production of LLVM module map files when appropriate, and allows the product to be imported as a module.
 DEFINES_MODULE = YES
 
+// macOS Catalyst support
+DERIVE_MACCATALYST_PRODUCT_BUNDLE_IDENTIFIER = NO
+
 // Determines the compatibility version of the resulting library, bundle, or framework binary.
 DYLIB_COMPATIBILITY_VERSION = 1
 
@@ -111,6 +120,7 @@ DYLIB_INSTALL_NAME_BASE = @rpath
 
 // Activating this setting indicates that the target or project should generate bitcode during compilation for platforms and architectures that support it. For Archive builds, bitcode will be generated in the linked binary for submission to the App Store. For other builds, the compiler and linker will check whether the code complies with the requirements for bitcode generation, but will not generate actual bitcode.
 ENABLE_BITCODE = YES
+ENABLE_BITCODE[sdk=macosx*] = NO
 
 // Controls whether `objc_msgSend` calls must be cast to the appropriate function pointer type before being called.
 ENABLE_STRICT_OBJC_MSGSEND = YES
@@ -124,7 +134,7 @@ GCC_C_LANGUAGE_STANDARD = gnu99
 // Faster function calls for applications. Not appropriate for shared libraries, which need to be position-independent.
 GCC_DYNAMIC_NO_PIC = NO
 
-// In C, allocate even uninitialized global variables in the data section of the object file, rather than generating them as common blocks. 
+// In C, allocate even uninitialized global variables in the data section of the object file, rather than generating them as common blocks.
 GCC_NO_COMMON_BLOCKS = YES
 
 // When enabled, all symbols are declared `private extern` unless explicitly marked to be exported using `\_\_attribute\_\_((visibility("default")))` in code. If not enabled, all symbols are exported unless explicitly marked as `private extern`.
@@ -181,7 +191,7 @@ HEADER_SEARCH_PATHS = $(inherited)
 // Code will load on this and later versions of iOS. Framework APIs that are unavailable in earlier versions will be weak-linked; your code should check for null function pointers or specific system versions before calling newer APIs.
 IPHONEOS_DEPLOYMENT_TARGET = 8.0
 
-// This is a list of paths to be added to the `runpath` search path list for the image being created. At runtime, `dyld` uses the `runpath` when searching for dylibs whose load path begins with `@rpath/`. 
+// This is a list of paths to be added to the `runpath` search path list for the image being created. At runtime, `dyld` uses the `runpath` when searching for dylibs whose load path begins with `@rpath/`.
 LD_RUNPATH_SEARCH_PATHS = $(inherited) @executable_path/Frameworks @loader_path/Frameworks
 
 // This is a list of paths to folders to be searched by the linker for libraries used by the product. Paths are delimited by whitespace, so any paths with spaces in them need to be properly quoted.
@@ -189,6 +199,8 @@ LIBRARY_SEARCH_PATHS = $(inherited)
 
 // Code will load on this and later versions of macOS. Framework APIs that are unavailable in earlier versions will be weak-linked; your code should check for null function pointers or specific system versions before calling newer APIs.
 MACOSX_DEPLOYMENT_TARGET = 10.10
+
+MARKETING_VERSION = 3.6.2
 
 OTHER_C_FLAGS = -Wextra
 
@@ -217,8 +229,11 @@ SKIP_INSTALL = YES
 // The list of supported platforms from which a base SDK can be used. This setting is used if the product can be built for multiple platforms using different SDKs.
 SUPPORTED_PLATFORMS = macosx iphoneos iphonesimulator watchsimulator watchos appletvsimulator appletvos
 
+// macOS Catalyst support
+SUPPORTS_MACCATALYST = YES
+
 // Swift language version
-SWIFT_VERSION = 4.2
+SWIFT_VERSION = 5.0
 
 // The build system uses the selected device to set the correct value for the `UIDeviceFamily` key it adds to the target's `Info.plist` file. This also drives the --target-device flag to actool, which determines the idioms selected during catalog compilation for iOS platforms.
 TARGETED_DEVICE_FAMILY = 1,2,3,4

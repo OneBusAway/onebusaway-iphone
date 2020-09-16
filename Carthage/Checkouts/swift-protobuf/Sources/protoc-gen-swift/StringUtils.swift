@@ -9,6 +9,7 @@
 // -----------------------------------------------------------------------------
 
 import Foundation
+import SwiftProtobufPluginLibrary
 
 func splitPath(pathname: String) -> (dir:String, base:String, suffix:String) {
   var dir = ""
@@ -38,12 +39,8 @@ func partition(string: String, atFirstOccurrenceOf substring: String) -> (String
   guard let index = string.range(of: substring)?.lowerBound else {
     return (string, "")
   }
-  #if swift(>=4.0)
-    return (String(string[..<index]),
-            String(string[string.index(after: index)...]))
-  #else
-    return (string.substring(to: index), string.substring(from: string.index(after: index)))
-  #endif
+  return (String(string[..<index]),
+          String(string[string.index(after: index)...]))
 }
 
 func parseParameter(string: String?) -> [(key:String, value:String)] {
@@ -65,9 +62,9 @@ func trimWhitespace(_ s: String) -> String {
 ///  \n\r\t\\\'\" and three-digit octal escapes but nothing else.
 func escapedToDataLiteral(_ s: String) -> String {
   if s.isEmpty {
-    return "SwiftProtobuf.Internal.emptyData"
+    return "Data()"
   }
-  var out = "Data(bytes: ["
+  var out = "Data(["
   var separator = ""
   var escape = false
   var octal = 0

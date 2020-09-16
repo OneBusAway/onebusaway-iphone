@@ -25,9 +25,11 @@
  * THE SOFTWARE.
  */
 #import <Foundation/Foundation.h>
+#import "OSInfluence.h"
 
 @interface OneSignalTracker : NSObject
 
 + (void)onFocus:(BOOL)toBackground;
++ (void)onSessionEnded:(NSArray<OSInfluence *> *) lastInfluences;
 
 @end

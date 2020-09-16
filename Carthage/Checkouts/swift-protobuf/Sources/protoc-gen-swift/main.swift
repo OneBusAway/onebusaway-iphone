@@ -135,10 +135,7 @@ struct GeneratorPlugin {
   }
 
   private func generateFromStdin() -> Int32 {
-    guard let requestData = Stdin.readall() else {
-      Stderr.print("Failed to read request")
-      return 1
-    }
+    let requestData = FileHandle.standardInput.readDataToEndOfFile()
 
     // Support for loggin the request. Useful when protoc/protoc-gen-swift are
     // being invoked from some build system/script. protoc-gen-swift supports
@@ -242,7 +239,8 @@ struct GeneratorPlugin {
         Google_Protobuf_Compiler_CodeGeneratorResponse.File(name: fileGenerator.outputFilename,
                                                             content: printer.content))
     }
-    return Google_Protobuf_Compiler_CodeGeneratorResponse(files: responseFiles)
+    return Google_Protobuf_Compiler_CodeGeneratorResponse(files: responseFiles,
+                                                          supportedFeatures: [.proto3Optional])
   }
 
   private func auditProtoCVersion(request: Google_Protobuf_Compiler_CodeGeneratorRequest) {
@@ -263,7 +261,7 @@ struct GeneratorPlugin {
       Stderr.print("Failure while serializing response: \(e)")
       return false
     }
-    Stdout.write(bytes: serializedResponse)
+    FileHandle.standardOutput.write(serializedResponse)
     return true
   }
 

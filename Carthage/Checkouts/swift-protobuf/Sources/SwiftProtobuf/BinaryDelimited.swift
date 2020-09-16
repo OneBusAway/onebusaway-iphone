@@ -55,14 +55,22 @@ public enum BinaryDelimited {
     let serialized = try message.serializedData(partial: partial)
     let totalSize = Varint.encodedSize(of: UInt64(serialized.count)) + serialized.count
     var data = Data(count: totalSize)
-    data.withUnsafeMutableBytes { (pointer: UnsafeMutablePointer<UInt8>) in
-      var encoder = BinaryEncoder(forWritingInto: pointer)
-      encoder.putBytesValue(value: serialized)
+    data.withUnsafeMutableBytes { (body: UnsafeMutableRawBufferPointer) in
+      if let baseAddress = body.baseAddress, body.count > 0 {
+        var encoder = BinaryEncoder(forWritingInto: baseAddress)
+        encoder.putBytesValue(value: serialized)
+      }
     }
 
     var written: Int = 0
-    data.withUnsafeBytes { (pointer: UnsafePointer<UInt8>) in
-      written = stream.write(pointer, maxLength: totalSize)
+    data.withUnsafeBytes { (body: UnsafeRawBufferPointer) in
+      if let baseAddress = body.baseAddress, body.count > 0 {
+        // This assumingMemoryBound is technically unsafe, but without SR-11078
+        // (https://bugs.swift.org/browse/SR-11087) we don't have another option.
+        // It should be "safe enough".
+        let pointer = baseAddress.assumingMemoryBound(to: UInt8.self)
+        written = stream.write(pointer, maxLength: totalSize)
+      }
     }
 
     if written != totalSize {
@@ -154,8 +162,14 @@ public enum BinaryDelimited {
 
     var data = Data(count: length)
     var bytesRead: Int = 0
-    data.withUnsafeMutableBytes { (pointer: UnsafeMutablePointer<UInt8>) in
-      bytesRead = stream.read(pointer, maxLength: length)
+    data.withUnsafeMutableBytes { (body: UnsafeMutableRawBufferPointer) in
+      if let baseAddress = body.baseAddress, body.count > 0 {
+        // This assumingMemoryBound is technically unsafe, but without SR-11078
+        // (https://bugs.swift.org/browse/SR-11087) we don't have another option.
+        // It should be "safe enough".
+        let pointer = baseAddress.assumingMemoryBound(to: UInt8.self)
+        bytesRead = stream.read(pointer, maxLength: length)
+      }
     }
 
     if bytesRead != length {
@@ -181,7 +195,7 @@ public enum BinaryDelimited {
 internal func decodeVarint(_ stream: InputStream) throws -> UInt64 {
 
   // Buffer to reuse within nextByte.
-  var readBuffer = UnsafeMutablePointer<UInt8>.allocate(capacity: 1)
+  let readBuffer = UnsafeMutablePointer<UInt8>.allocate(capacity: 1)
   #if swift(>=4.1)
     defer { readBuffer.deallocate() }
   #else

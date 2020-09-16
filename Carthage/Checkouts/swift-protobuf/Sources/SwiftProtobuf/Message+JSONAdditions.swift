@@ -28,6 +28,9 @@ extension Message {
   public func jsonString(
     options: JSONEncodingOptions = JSONEncodingOptions()
   ) throws -> String {
+    if let m = self as? _CustomJSONCodable {
+      return try m.encodedJSONString(options: options)
+    }
     let data = try jsonUTF8Data(options: options)
     return String(data: data, encoding: String.Encoding.utf8)!
   }
@@ -49,8 +52,8 @@ extension Message {
       let data = string.data(using: String.Encoding.utf8)! // Cannot fail!
       return data
     }
-    var visitor = try JSONEncodingVisitor(message: self, options: options)
-    visitor.startObject()
+    var visitor = try JSONEncodingVisitor(type: Self.self, options: options)
+    visitor.startObject(message: self)
     try traverse(visitor: &visitor)
     visitor.endObject()
     return visitor.dataResult
@@ -62,15 +65,30 @@ extension Message {
   /// - Parameter jsonString: The JSON-formatted string to decode.
   /// - Parameter options: The JSONDecodingOptions to use.
   /// - Throws: `JSONDecodingError` if decoding fails.
+    public init(
+    jsonString: String,
+    options: JSONDecodingOptions = JSONDecodingOptions()
+  ) throws {
+    try self.init(jsonString: jsonString, extensions: nil, options: options)
+  }
+
+  /// Creates a new message by decoding the given string containing a
+  /// serialized message in JSON format.
+  ///
+  /// - Parameter jsonString: The JSON-formatted string to decode.
+  /// - Parameter extensions: An ExtensionMap for looking up extensions by name
+  /// - Parameter options: The JSONDecodingOptions to use.
+  /// - Throws: `JSONDecodingError` if decoding fails.
   public init(
     jsonString: String,
+    extensions: ExtensionMap? = nil,
     options: JSONDecodingOptions = JSONDecodingOptions()
   ) throws {
     if jsonString.isEmpty {
       throw JSONDecodingError.truncated
     }
     if let data = jsonString.data(using: String.Encoding.utf8) {
-      try self.init(jsonUTF8Data: data, options: options)
+      try self.init(jsonUTF8Data: data, extensions: extensions, options: options)
     } else {
       throw JSONDecodingError.truncated
     }
@@ -88,19 +106,40 @@ extension Message {
     jsonUTF8Data: Data,
     options: JSONDecodingOptions = JSONDecodingOptions()
   ) throws {
+    try self.init(jsonUTF8Data: jsonUTF8Data, extensions: nil, options: options)
+  }
+
+  /// Creates a new message by decoding the given `Data` containing a
+  /// serialized message in JSON format, interpreting the data as UTF-8 encoded
+  /// text.
+  ///
+  /// - Parameter jsonUTF8Data: The JSON-formatted data to decode, represented
+  ///   as UTF-8 encoded text.
+  /// - Parameter extensions: The extension map to use with this decode
+  /// - Parameter options: The JSONDecodingOptions to use.
+  /// - Throws: `JSONDecodingError` if decoding fails.
+  public init(
+    jsonUTF8Data: Data,
+    extensions: ExtensionMap? = nil,
+    options: JSONDecodingOptions = JSONDecodingOptions()
+  ) throws {
     self.init()
-    try jsonUTF8Data.withUnsafeBytes { (bytes:UnsafePointer<UInt8>) in
-      let buffer = UnsafeBufferPointer(start: bytes, count: jsonUTF8Data.count)
-      var decoder = JSONDecoder(source: buffer, options: options)
-      if !decoder.scanner.skipOptionalNull() {
-        try decoder.decodeFullObject(message: &self)
-      } else if Self.self is _CustomJSONCodable.Type {
-        if let message = try (Self.self as! _CustomJSONCodable.Type)
-          .decodedFromJSONNull() {
+    try jsonUTF8Data.withUnsafeBytes { (body: UnsafeRawBufferPointer) in
+      // Empty input is valid for binary, but not for JSON.
+      guard body.count > 0 else {
+        throw JSONDecodingError.truncated
+      }
+      var decoder = JSONDecoder(source: body, options: options,
+                                messageType: Self.self, extensions: extensions)
+      if decoder.scanner.skipOptionalNull() {
+        if let customCodable = Self.self as? _CustomJSONCodable.Type,
+           let message = try customCodable.decodedFromJSONNull() {
           self = message as! Self
         } else {
           throw JSONDecodingError.illegalNull
         }
+      } else {
+        try decoder.decodeFullObject(message: &self)
       }
       if !decoder.scanner.complete {
         throw JSONDecodingError.trailingGarbage

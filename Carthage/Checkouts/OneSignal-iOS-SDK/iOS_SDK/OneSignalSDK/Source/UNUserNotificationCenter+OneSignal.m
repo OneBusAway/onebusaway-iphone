@@ -37,9 +37,6 @@
 #import "UIApplicationDelegate+OneSignal.h"
 #import "OneSignalCommonDefines.h"
 
-
-#if XC8_AVAILABLE
-
 #pragma clang diagnostic push
 #pragma clang diagnostic ignored "-Wundeclared-selector"
 
@@ -47,7 +44,7 @@
 #pragma clang diagnostic ignored "-Wdeprecated-declarations"
 
 @interface OneSignal (UN_extra)
-+ (void)notificationReceived:(NSDictionary*)messageDict isActive:(BOOL)isActive wasOpened:(BOOL)opened;
++ (void)notificationReceived:(NSDictionary*)messageDict foreground:(BOOL)foreground isActive:(BOOL)isActive wasOpened:(BOOL)opened;
 + (BOOL)shouldLogMissingPrivacyConsentErrorWithMethodName:(NSString *)methodName;
 @end
 
@@ -172,21 +169,26 @@ static UNNotificationSettings* cachedUNNotificationSettings;
             completionHandler(7);
         return;
     }
-    
+
     [OneSignal onesignal_Log:ONE_S_LL_VERBOSE message:@"onesignalUserNotificationCenter:willPresentNotification:withCompletionHandler: Fired!"];
     
+    NSDictionary * userInfo = notification.request.content.userInfo;
+    OSNotificationPayload *payload = [OSNotificationPayload parseWithApns:userInfo];
+    NSString *uuid = [payload additionalData][ONESIGNAL_IAM_PREVIEW];
+
     NSUInteger completionHandlerOptions = 0;
-    switch (OneSignal.inFocusDisplayType) {
-        case OSNotificationDisplayTypeNone: completionHandlerOptions = 0; break; // Nothing
-        case OSNotificationDisplayTypeInAppAlert: completionHandlerOptions = 3; break; // Badge + Sound
-        case OSNotificationDisplayTypeNotification: completionHandlerOptions = 7; break; // Badge + Sound + Notification
-        default: break;
+    if (!uuid) {
+        switch (OneSignal.inFocusDisplayType) {
+            case OSNotificationDisplayTypeNone: completionHandlerOptions = 0; break; // Nothing
+            case OSNotificationDisplayTypeInAppAlert: completionHandlerOptions = 3; break; // Badge + Sound
+            case OSNotificationDisplayTypeNotification: completionHandlerOptions = 7; break; // Badge + Sound + Notification
+            default: break;
+        }
     }
-    
     let notShown = OneSignal.inFocusDisplayType == OSNotificationDisplayTypeNone && notification.request.content.body != nil;
     
     if ([OneSignal app_id])
-        [OneSignal notificationReceived:notification.request.content.userInfo isActive:YES wasOpened:notShown];
+        [OneSignal notificationReceived:userInfo foreground:YES isActive:YES wasOpened:notShown];
     
     // Call orginal selector if one was set.
     if ([self respondsToSelector:@selector(onesignalUserNotificationCenter:willPresentNotification:withCompletionHandler:)])
@@ -212,7 +214,6 @@ static UNNotificationSettings* cachedUNNotificationSettings;
 - (void)onesignalUserNotificationCenter:(UNUserNotificationCenter *)center
          didReceiveNotificationResponse:(UNNotificationResponse *)response
                   withCompletionHandler:(void(^)())completionHandler {
-    
     // return if the user has not granted privacy permissions or if not a OneSignal payload
     if ([OneSignal shouldLogMissingPrivacyConsentErrorWithMethodName:nil] || ![OneSignalHelper isOneSignalPayload:response.notification.request.content.userInfo]) {
         if ([self respondsToSelector:@selector(onesignalUserNotificationCenter:didReceiveNotificationResponse:withCompletionHandler:)])
@@ -264,9 +265,9 @@ static UNNotificationSettings* cachedUNNotificationSettings;
     
     let userInfo = [OneSignalHelper formatApsPayloadIntoStandard:response.notification.request.content.userInfo
                                                       identifier:response.actionIdentifier];
-    
-    [OneSignal notificationReceived:userInfo isActive:isActive wasOpened:YES];
-    
+    let isAppForeground = [[UIApplication sharedApplication] applicationState] == UIApplicationStateActive;
+
+    [OneSignal notificationReceived:userInfo foreground:isAppForeground isActive:isActive wasOpened:YES];
 }
 
 // Calls depercated pre-iOS 10 selector if one is set on the AppDelegate.
@@ -289,14 +290,12 @@ static UNNotificationSettings* cachedUNNotificationSettings;
     UIApplication *sharedApp = [UIApplication sharedApplication];
     
     /*
-        The iOS SDK used to call some local notification selectors (such as didReceiveLocalNotification)
-        as a convenience but has stopped due to concerns about private API usage
-        the SDK will now print warnings when a developer's app implements these selectors
-    */
+     The iOS SDK used to call some local notification selectors (such as didReceiveLocalNotification)
+     as a convenience but has stopped due to concerns about private API usage
+     the SDK will now print warnings when a developer's app implements these selectors
+     */
     BOOL isCustomAction = actionIdentifier && ![@"com.apple.UNNotificationDefaultActionIdentifier" isEqualToString:actionIdentifier];
     BOOL isRemote = [notification.request.trigger isKindOfClass:NSClassFromString(@"UNPushNotificationTrigger")];
-    
-    
     
     if (isRemote) {
         NSDictionary* remoteUserInfo = notification.request.content.userInfo;
@@ -335,5 +334,3 @@ static UNNotificationSettings* cachedUNNotificationSettings;
 
 #pragma clang diagnostic pop
 #pragma clang diagnostic pop
-
-#endif
