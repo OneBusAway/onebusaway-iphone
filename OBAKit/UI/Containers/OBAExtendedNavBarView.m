@@ -97,6 +97,12 @@
         _navBar.autoresizingMask = UIViewAutoresizingFlexibleWidth|UIViewAutoresizingFlexibleHeight;
         _navBar.translucent = NO;
         _navBar.userInteractionEnabled = NO;
+
+        if (@available(iOS 14, *)) {
+            _navBar.backgroundColor = UIColor.systemBackgroundColor;
+        } else {
+            // nop
+        }
     }
 
     return _navBar;

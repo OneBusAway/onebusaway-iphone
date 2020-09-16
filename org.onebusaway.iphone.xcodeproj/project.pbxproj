@@ -1954,6 +1954,7 @@
 				"$(SRCROOT)/Carthage/Build/iOS/SwiftEntryKit.framework",
 				"$(SRCROOT)/Carthage/Build/iOS/Hue.framework",
 				"$(SRCROOT)/Carthage/Build/iOS/PromiseKit.framework",
+				"$(SRCROOT)/Carthage/Build/iOS/IGListDiffKit.framework",
 			);
 			name = "Carthage Integration";
 			outputPaths = (
