@@ -249,6 +249,10 @@ NSInteger OBASortStopsByDistanceFromLocation(OBAStopV2 *stop1, OBAStopV2 *stop2,
     NSMutableArray *stopsInRange = [NSMutableArray array];
 
     for (OBAStopV2 *stop in stops) {
+        if (!stop.lat || !stop.lon) {
+            continue;
+        }
+
         CLLocation *location = [[CLLocation alloc] initWithLatitude:stop.lat longitude:stop.lon];
         CLLocationDistance d = [location distanceFromLocation:center];
 
