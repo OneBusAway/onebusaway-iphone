@@ -165,13 +165,23 @@ static NSString * appVersion = nil;
     
     if (@available(iOS 12.0, *)) {
         int cellProvidersIndex = 0;
-        for (CTCarrier* carrier in networkInfo.serviceSubscriberCellularProviders) {
-            [debuggingInfo addObject:@[[NSString stringWithFormat:@"Carrier %@ name: %@", @(cellProvidersIndex), carrier.carrierName]]];
+        for (id carrier in networkInfo.serviceSubscriberCellularProviders) {
+            CTCarrier* carrierInfo = [networkInfo.serviceSubscriberCellularProviders objectForKey:carrier];
+            NSString* stringName = [NSString stringWithFormat:@"Carrier %d Name", cellProvidersIndex];
+
+            // Cannot add a literal `nil` to the debugging info dictionary, so stringify it.
+            NSString* carrierName = @"nil";
+            if (carrierInfo.carrierName) {
+                carrierName = carrierInfo.carrierName;
+            }
+
+            [debuggingInfo addObject:@[stringName, carrierName]];
             cellProvidersIndex++;
         }
-        
-        if ([networkInfo.serviceCurrentRadioAccessTechnology count] > 0) {
-            [debuggingInfo addObject:@[@"Radio Technology", networkInfo.serviceCurrentRadioAccessTechnology]];
+
+        for (id technology in networkInfo.serviceCurrentRadioAccessTechnology) {
+            NSString* radioTechnology = [networkInfo.serviceCurrentRadioAccessTechnology objectForKey:technology];
+            [debuggingInfo addObject:@[@"Radio Technology(s)", radioTechnology]];
         }
     } else {
         if (networkInfo.subscriberCellularProvider.carrierName) {
